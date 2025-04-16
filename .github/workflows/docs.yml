@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: 设置 npm
-        uses: npm/action-setup@v4
+        uses: npm/action-setup@v3
           
       - name: 设置 Node.js
         uses: actions/setup-node@v4

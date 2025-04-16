@@ -1,0 +1,112 @@
+<template><div><h1 id="css变量-var" tabindex="-1"><a class="header-anchor" href="#css变量-var"><span>CSS变量 -- var()</span></a></h1>
+<h2 id="_1-css变量的基本使用" tabindex="-1"><a class="header-anchor" href="#_1-css变量的基本使用"><span>1 CSS变量的基本使用</span></a></h2>
+<h3 id="_1-1-变量定义" tabindex="-1"><a class="header-anchor" href="#_1-1-变量定义"><span>1.1 变量定义</span></a></h3>
+<p>CSS 变量名前面要加两根连词线 –</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">--color</span><span class="token punctuation">:</span> #E6E6FA<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">--height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-2-变量使用" tabindex="-1"><a class="header-anchor" href="#_1-2-变量使用"><span>1.2 变量使用</span></a></h3>
+<p>由 var() 函数来获取值，比如：</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--color<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--height<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>CSS 变量名不能包含<code v-pre>$</code>，<code v-pre>[</code>，<code v-pre>^</code>，<code v-pre>(</code>，<code v-pre>%</code>等字符，普通字符局限在只要是【数字[0-9]】【字母[a-zA-Z]】【下划线_】和【短横线-】这些组合</p>
+<h3 id="_1-3-全局-局部变量" tabindex="-1"><a class="header-anchor" href="#_1-3-全局-局部变量"><span>1.3 全局/局部变量</span></a></h3>
+<h4 id="全局变量" tabindex="-1"><a class="header-anchor" href="#全局变量"><span>全局变量</span></a></h4>
+<p><code v-pre>:root</code>
+<code v-pre>:root</code> 这个 CSS 伪类匹配文档树的根元素。对于 HTML 来说，<code v-pre>:root</code> 表示 <code v-pre>&lt;html&gt;</code> 元素
+在里面声明的变量，下面的所有选择器都可以拿到
+注：与 scope 冲突</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">:root</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">--color</span><span class="token punctuation">:</span> #E6E6FA<span class="token punctuation">;</span></span>
+<span class="line">  <span class="token property">--height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token selector">.header-container</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--color<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span><span class="token function">var</span><span class="token punctuation">(</span>--height<span class="token punctuation">)</span> * 1.5<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="局部变量" tabindex="-1"><a class="header-anchor" href="#局部变量"><span>局部变量</span></a></h4>
+<p>.header-container {
+--color: #E6E6FA;
+--height: 100px;
+background-color: var(--color);
+height: calc(var(--height) * 1.5);
+}</p>
+<h2 id="_2-css变量的参数" tabindex="-1"><a class="header-anchor" href="#_2-css变量的参数"><span>2 CSS变量的参数</span></a></h2>
+<p>var() 函数还可以使用第二个参数，表示变量的默认值。如果该变量不存在，就会使用这个默认值。</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--foo<span class="token punctuation">,</span> #7F583F<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_3-css变量的拼接和计算" tabindex="-1"><a class="header-anchor" href="#_3-css变量的拼接和计算"><span>3 CSS变量的拼接和计算</span></a></h2>
+<p>如果变量值是一个字符串，可以与其他字符串拼接；
+如果变量值是数值，可以进行计算;</p>
+<h3 id="_3-1-拼接" tabindex="-1"><a class="header-anchor" href="#_3-1-拼接"><span>3.1 拼接</span></a></h3>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">/* 字符串 */</span></span>
+<span class="line">    <span class="token property">--bar</span><span class="token punctuation">:</span> <span class="token string">'hello'</span><span class="token punctuation">;</span>   </span>
+<span class="line">    <span class="token property">--foo</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--bar<span class="token punctuation">)</span><span class="token string">' world'</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_3-2-计算" tabindex="-1"><a class="header-anchor" href="#_3-2-计算"><span>3.2 计算</span></a></h3>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">:root</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">--height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token selector">.header-container</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span><span class="token function">var</span><span class="token punctuation">(</span>--height<span class="token punctuation">)</span> * 1.5<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-js-修改-css变量" tabindex="-1"><a class="header-anchor" href="#_4-js-修改-css变量"><span>4 JS 修改 CSS变量</span></a></h2>
+<p>在开发过程中，有时候我们需要根据不同的条件来动态修改样式，这时候就需要使用JavaScript来实现。
+具体来说，我们可以通过 JavaScript 访问元素的 documentElement.style 属性，然后使用 setProperty 方法来更改 CSS 变量的值</p>
+<div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue" data-title="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>changeHeight<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Change Height<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line"><span class="token keyword">const</span> <span class="token function-variable function">changeHeight</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">  document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>style<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">'--height'</span><span class="token punctuation">,</span> <span class="token string">'200px'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
+<span class="line"><span class="token selector">:root</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">--height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token selector">.header-container</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--height<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span> </span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_5-js-css使用html标签上变量" tabindex="-1"><a class="header-anchor" href="#_5-js-css使用html标签上变量"><span>5 JS css使用html标签上变量</span></a></h2>
+<p>在开发过程中，有时候我们需要根据不同的条件来动态修改样式，这时候就需要使用JavaScript来实现。
+具体来说，我们可以通过 JavaScript 访问元素的 documentElement.style 属性，然后使用 setProperty 方法来更改 CSS 变量的值</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>wavy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>1</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>内<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>2</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>3</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>加<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>4</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>载<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>5</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>中<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>6</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>7</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">--i</span><span class="token punctuation">:</span>8</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.wavy span</span><span class="token punctuation">{</span></span>
+<span class="line">      <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span></span>
+<span class="line">      <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span></span>
+<span class="line">      <span class="token property">color</span><span class="token punctuation">:</span> #ffffff<span class="token punctuation">;</span></span>
+<span class="line">      <span class="token property">font-size</span><span class="token punctuation">:</span> 2em<span class="token punctuation">;</span></span>
+<span class="line">      <span class="token property">animation</span><span class="token punctuation">:</span> animate 1s ease-in-out infinite<span class="token punctuation">;</span></span>
+<span class="line">      <span class="token property">animation-delay</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span>.1s*<span class="token function">var</span><span class="token punctuation">(</span>--i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

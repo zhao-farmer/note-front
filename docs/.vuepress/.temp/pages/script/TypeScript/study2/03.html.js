@@ -1,0 +1,16 @@
+import comp from "E:/study/blog/note-front/docs/.vuepress/.temp/pages/script/TypeScript/study2/03.html.vue"
+const data = JSON.parse("{\"path\":\"/script/TypeScript/study2/03.html\",\"title\":\"三、TypeScript 基础数据类型\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[{\"level\":2,\"title\":\"3.1 基本类型\",\"slug\":\"_3-1-基本类型\",\"link\":\"#_3-1-基本类型\",\"children\":[{\"level\":3,\"title\":\"3.1.1 概述\",\"slug\":\"_3-1-1-概述\",\"link\":\"#_3-1-1-概述\",\"children\":[]},{\"level\":3,\"title\":\"3.1.2 boolean 类型\",\"slug\":\"_3-1-2-boolean-类型\",\"link\":\"#_3-1-2-boolean-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.3 string 类型\",\"slug\":\"_3-1-3-string-类型\",\"link\":\"#_3-1-3-string-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.4 number 类型\",\"slug\":\"_3-1-4-number-类型\",\"link\":\"#_3-1-4-number-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.5 bigint 类型\",\"slug\":\"_3-1-5-bigint-类型\",\"link\":\"#_3-1-5-bigint-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.6 symbol 类型\",\"slug\":\"_3-1-6-symbol-类型\",\"link\":\"#_3-1-6-symbol-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.7 object 类型\",\"slug\":\"_3-1-7-object-类型\",\"link\":\"#_3-1-7-object-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.1.8 undefined 类型，null 类型\",\"slug\":\"_3-1-8-undefined-类型-null-类型\",\"link\":\"#_3-1-8-undefined-类型-null-类型\",\"children\":[]}]},{\"level\":2,\"title\":\"3.2 包装对象类型\",\"slug\":\"_3-2-包装对象类型\",\"link\":\"#_3-2-包装对象类型\",\"children\":[{\"level\":3,\"title\":\"3.2.1 包装对象的概念\",\"slug\":\"_3-2-1-包装对象的概念\",\"link\":\"#_3-2-1-包装对象的概念\",\"children\":[]},{\"level\":3,\"title\":\"3.2.2 包装对象类型与字面量类型\",\"slug\":\"_3-2-2-包装对象类型与字面量类型\",\"link\":\"#_3-2-2-包装对象类型与字面量类型\",\"children\":[]}]},{\"level\":2,\"title\":\"3.3 Object 类型与 object 类型\",\"slug\":\"_3-3-object-类型与-object-类型\",\"link\":\"#_3-3-object-类型与-object-类型\",\"children\":[{\"level\":3,\"title\":\"3.3.1 Object 类型\",\"slug\":\"_3-3-1-object-类型\",\"link\":\"#_3-3-1-object-类型\",\"children\":[]},{\"level\":3,\"title\":\"3.3.2 object 类型\",\"slug\":\"_3-3-2-object-类型\",\"link\":\"#_3-3-2-object-类型\",\"children\":[]}]},{\"level\":2,\"title\":\"3.4 undefined 和 null 的特殊性\",\"slug\":\"_3-4-undefined-和-null-的特殊性\",\"link\":\"#_3-4-undefined-和-null-的特殊性\",\"children\":[]},{\"level\":2,\"title\":\"3.5 值类型\",\"slug\":\"_3-5-值类型\",\"link\":\"#_3-5-值类型\",\"children\":[]},{\"level\":2,\"title\":\"3.6 联合类型\",\"slug\":\"_3-6-联合类型\",\"link\":\"#_3-6-联合类型\",\"children\":[]},{\"level\":2,\"title\":\"3.7 交叉类型\",\"slug\":\"_3-7-交叉类型\",\"link\":\"#_3-7-交叉类型\",\"children\":[]},{\"level\":2,\"title\":\"3.8 type 命令\",\"slug\":\"_3-8-type-命令\",\"link\":\"#_3-8-type-命令\",\"children\":[]},{\"level\":2,\"title\":\"3.9 typeof 运算符\",\"slug\":\"_3-9-typeof-运算符\",\"link\":\"#_3-9-typeof-运算符\",\"children\":[]},{\"level\":2,\"title\":\"3.10 块级类型声明\",\"slug\":\"_3-10-块级类型声明\",\"link\":\"#_3-10-块级类型声明\",\"children\":[]},{\"level\":2,\"title\":\"3.11 类型的兼容\",\"slug\":\"_3-11-类型的兼容\",\"link\":\"#_3-11-类型的兼容\",\"children\":[]}],\"git\":{},\"filePathRelative\":\"script/TypeScript/study2/03.md\"}")
+export { comp, data }
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

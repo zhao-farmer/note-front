@@ -6,7 +6,7 @@ export default defineUserConfig({
     bundler: viteBundler(),
 
     // 部署站点的基础路径
-    base: "/",
+    base: "/note-front",
     // 站点的语言
     lang: "zh-CN",
     // 站点的标题

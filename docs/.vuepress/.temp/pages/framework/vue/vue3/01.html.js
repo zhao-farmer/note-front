@@ -1,5 +1,5 @@
 import comp from "E:/study/blog/note-front/docs/.vuepress/.temp/pages/framework/vue/vue3/01.html.vue"
-const data = JSON.parse("{\"path\":\"/framework/vue/vue3/01.html\",\"title\":\"一、 Vue3简介\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[],\"git\":{},\"filePathRelative\":\"framework/vue/vue3/01.md\"}")
+const data = JSON.parse("{\"path\":\"/framework/vue/vue3/01.html\",\"title\":\"一、 Vue3简介\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[],\"git\":{\"updatedTime\":1744806830000,\"contributors\":[{\"name\":\"zhao-farmer\",\"username\":\"zhao-farmer\",\"email\":\"857899180@qq.com\",\"commits\":1,\"url\":\"https://github.com/zhao-farmer\"}]},\"filePathRelative\":\"framework/vue/vue3/01.md\"}")
 export { comp, data }
 
 if (import.meta.webpackHot) {

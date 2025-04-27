@@ -1,5 +1,5 @@
 import comp from "E:/study/blog/note-front/docs/.vuepress/.temp/pages/other/document/Jekyll/03.html.vue"
-const data = JSON.parse("{\"path\":\"/other/document/Jekyll/03.html\",\"title\":\"三、命令与配置\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[{\"level\":2,\"title\":\"3.1 Jekyll CLI命令\",\"slug\":\"_3-1-jekyll-cli命令\",\"link\":\"#_3-1-jekyll-cli命令\",\"children\":[]},{\"level\":2,\"title\":\"3.2 Jekyll配置文件\",\"slug\":\"_3-2-jekyll配置文件\",\"link\":\"#_3-2-jekyll配置文件\",\"children\":[]}],\"git\":{},\"filePathRelative\":\"other/document/Jekyll/03.md\"}")
+const data = JSON.parse("{\"path\":\"/other/document/Jekyll/03.html\",\"title\":\"三、命令与配置\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[{\"level\":2,\"title\":\"3.1 Jekyll CLI命令\",\"slug\":\"_3-1-jekyll-cli命令\",\"link\":\"#_3-1-jekyll-cli命令\",\"children\":[]},{\"level\":2,\"title\":\"3.2 Jekyll配置文件\",\"slug\":\"_3-2-jekyll配置文件\",\"link\":\"#_3-2-jekyll配置文件\",\"children\":[]}],\"git\":{\"updatedTime\":1744806830000,\"contributors\":[{\"name\":\"zhao-farmer\",\"username\":\"zhao-farmer\",\"email\":\"857899180@qq.com\",\"commits\":1,\"url\":\"https://github.com/zhao-farmer\"}]},\"filePathRelative\":\"other/document/Jekyll/03.md\"}")
 export { comp, data }
 
 if (import.meta.webpackHot) {

@@ -1,5 +1,5 @@
 import comp from "E:/study/blog/note-front/docs/.vuepress/.temp/pages/other/version/svn/02.html.vue"
-const data = JSON.parse("{\"path\":\"/other/version/svn/02.html\",\"title\":\"\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[],\"git\":{},\"filePathRelative\":\"other/version/svn/02.md\"}")
+const data = JSON.parse("{\"path\":\"/other/version/svn/02.html\",\"title\":\"\",\"lang\":\"zh-CN\",\"frontmatter\":{},\"headers\":[],\"git\":{\"updatedTime\":1744806830000,\"contributors\":[{\"name\":\"zhao-farmer\",\"username\":\"zhao-farmer\",\"email\":\"857899180@qq.com\",\"commits\":1,\"url\":\"https://github.com/zhao-farmer\"}]},\"filePathRelative\":\"other/version/svn/02.md\"}")
 export { comp, data }
 
 if (import.meta.webpackHot) {

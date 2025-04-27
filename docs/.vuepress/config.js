@@ -177,14 +177,6 @@ export default defineUserConfig({
                         link: "/other/construct/",
                     },
                     {
-                        text: "版本控制管理",
-                        link: "/other/version/",
-                    },
-                    {
-                        text: "构建个人文档",
-                        link: "/other/document/",
-                    },
-                    {
                         text: "开发工具使用",
                         link: "/other/tool/",
                     },
@@ -704,58 +696,7 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
-            
-            "/other/version/": [
-                {
-                    text: "git工具",
-                    prefix: 'git/',
-                    children: ["01.md","02.md","03.md","04.md","05.md","06.md"],
-                },
-                {
-                    text: "github工具",
-                    prefix: 'github/',
-                    children: ["01.md","02.md","03.md"],
-                },
-                {
-                    text: "svn工具",
-                    prefix: 'svn/',
-                    children: ["01.md","02.md","03.md"],
-                },
-                {
-                    text: "版本控制工具日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
-             
-            "/other/document/": [
-                {
-                    text: "vuePress静态站点",
-                    prefix: 'vuePress/',
-                    children: ["01.md", "02.md","03.md","04.md","05.md","06.md","07.md"],
-                },
-                {
-                    text: "vitePress静态站点",
-                    prefix: 'vitePress/',
-                    children: ["01.md", "02.md","03.md","04.md"],
-                },
-                {
-                    text: "hugo静态站点",
-                    prefix: 'hugo/',
-                    children: ["01.md"],
-                },
-                {
-                    text: "Docusaurus静态站点",
-                    prefix: 'docusaurus/',
-                    children: ["01.md"],
-                },
-                {
-                    text: "Jekyll静态站点",
-                    prefix: 'Jekyll/',
-                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md"],
-                },
-               
-            ],
+
             "/other/tool/": [
                 {
                     text: "vscode使用记录",

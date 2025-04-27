@@ -1,0 +1,12 @@
+import{_ as n,c as e,b as a,o as l}from"./app-BmLMK3lt.js";const i={};function t(c,s){return l(),e("div",null,s[0]||(s[0]=[a(`<h1 id="三、注释" tabindex="-1"><a class="header-anchor" href="#三、注释"><span>三、注释</span></a></h1><p>块式注释和行内注释都可以使用：</p><p><strong>编译前LESS</strong></p><div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">/* One heck of a block</span>
+<span class="line"> * style comment! */</span></span>
+<span class="line"> <span class="token variable">@var<span class="token punctuation">:</span></span> red<span class="token punctuation">;</span></span>
+<span class="line"> <span class="token comment">// Get in line!</span></span>
+<span class="line"> <span class="token variable">@var<span class="token punctuation">:</span></span> white<span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p><div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">/* One heck of a block</span>
+<span class="line"> * style comment! */</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,6)]))}const r=n(i,[["render",t],["__file","03.html.vue"]]),o=JSON.parse('{"path":"/style/pre_compile_css/less/03.html","title":"三、注释","lang":"zh-CN","frontmatter":{},"headers":[],"git":{"updatedTime":1744806830000,"contributors":[{"name":"zhao-farmer","username":"zhao-farmer","email":"857899180@qq.com","commits":1,"url":"https://github.com/zhao-farmer"}]},"filePathRelative":"style/pre_compile_css/less/03.md"}');export{r as comp,o as data};

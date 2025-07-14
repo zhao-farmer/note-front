@@ -6,3 +6,5 @@ docs/.vuepress/.cache
 docs/.vuepress/dist
 # 不需要node_modules
 node_modules
+# 不需要 .vscode
+.vscode

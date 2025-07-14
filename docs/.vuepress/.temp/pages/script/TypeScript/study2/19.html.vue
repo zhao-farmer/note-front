@@ -2,7 +2,7 @@
 <h2 id="_19-1-简介" tabindex="-1"><a class="header-anchor" href="#_19-1-简介"><span>19.1 简介</span></a></h2>
 <p>映射（mapping）指的是，将一种类型按照映射规则，转换成另一种类型，通常用于对象类型。</p>
 <p>举例来说，现有一个类型<code v-pre>A</code>和另一个类型<code v-pre>B</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  foo<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  bar<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -14,7 +14,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，这两个类型的属性结构是一样的，但是属性的类型不一样。如果属性数量多的话，逐个写起来就很麻烦。</p>
 <p>使用类型映射，就可以从类型<code v-pre>A</code>得到类型<code v-pre>B</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  foo<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  bar<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -31,7 +31,7 @@
 <li><code v-pre>Keyof A</code>：返回类型<code v-pre>A</code>的每一个属性名，组成一个联合类型。</li>
 </ul>
 <p>下面是复制原始类型的例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  foo<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  bar<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -42,13 +42,13 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，类型<code v-pre>B</code>原样复制了类型<code v-pre>A</code>。</p>
 <p>为了增加代码复用性，可以把常用的映射写成泛型。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">ToBoolean<span class="token operator">&lt;</span>Type<span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">ToBoolean<span class="token operator">&lt;</span>Type<span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token punctuation">[</span>Property <span class="token keyword">in</span> <span class="token keyword">keyof</span> Type<span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，定义了一个泛型，可以将其他对象的所有属性值都改成 boolean 类型。</p>
 <p>下面是另一个例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -61,7 +61,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，联合类型<code v-pre>0|1|2</code>映射成了三个属性名。</p>
 <p>不使用联合类型，直接使用某种具体类型进行属性名映射，也是可以的。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token punctuation">[</span>p <span class="token keyword">in</span> <span class="token string">"foo"</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -72,7 +72,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，<code v-pre>p in 'foo'</code>可以看成只有一个成员的联合类型，因此得到了只有这一个属性的对象类型。</p>
 <p>甚至还可以写成<code v-pre>p in string</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token punctuation">[</span>p <span class="token keyword">in</span> <span class="token builtin">string</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -83,7 +83,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，<code v-pre>[p in string]</code>就是属性名索引形式<code v-pre>[p: string]</code>的映射写法。</p>
 <p>通过映射，可以某个对象的所有属性改成可选属性。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  a<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line">  b<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -95,13 +95,13 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，类型<code v-pre>B</code>在类型<code v-pre>A</code>的所有属性名后面添加问号，使得这些属性都变成了可选属性。</p>
 <p>事实上，TypeScript 的内置工具类型<code v-pre>Partial&lt;T&gt;</code>，就是这样实现的。</p>
 <p>TypeScript 内置的工具类型<code v-pre>Readonly&lt;T&gt;</code>可以将所有属性改为只读属性，实现也是通过映射。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 将 T 的所有属性改为只读属性</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 将 T 的所有属性改为只读属性</span></span>
 <span class="line"><span class="token keyword">type</span> <span class="token class-name">Readonly<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">readonly</span> <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>它的用法如下。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">T</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span> b<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">}</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">T</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span> b<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">type</span> <span class="token class-name">ReadonlyT</span> <span class="token operator">=</span> Readonly<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token comment">// {</span></span>
@@ -111,7 +111,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_19-2-映射修饰符" tabindex="-1"><a class="header-anchor" href="#_19-2-映射修饰符"><span>19.2 映射修饰符</span></a></h2>
 <p>映射会原样复制原始对象的可选属性和只读属性。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  a<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token keyword">readonly</span> b<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -133,7 +133,7 @@
 <li><code v-pre>–</code>修饰符：写成<code v-pre>-?</code>或<code v-pre>-readonly</code>，为映射属性移除<code v-pre>?</code>修饰符或<code v-pre>readonly</code>修饰符。</li>
 </ul>
 <p>下面是添加或移除可选属性的例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 添加可选属性</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 添加可选属性</span></span>
 <span class="line"><span class="token keyword">type</span> <span class="token class-name">Optional<span class="token operator">&lt;</span>Type<span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token punctuation">[</span>Prop <span class="token keyword">in</span> <span class="token keyword">keyof</span> Type<span class="token punctuation">]</span><span class="token operator">+</span><span class="token operator">?</span><span class="token operator">:</span> Type<span class="token punctuation">[</span>Prop<span class="token punctuation">]</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -145,7 +145,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意，<code v-pre>+?</code>或<code v-pre>-?</code>要写在属性名的后面。</p>
 <p>下面是添加或移除只读属性的例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 添加 readonly</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 添加 readonly</span></span>
 <span class="line"><span class="token keyword">type</span> <span class="token class-name">CreateImmutable<span class="token operator">&lt;</span>Type<span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token operator">+</span><span class="token keyword">readonly</span> <span class="token punctuation">[</span>Prop <span class="token keyword">in</span> <span class="token keyword">keyof</span> Type<span class="token punctuation">]</span><span class="token operator">:</span> Type<span class="token punctuation">[</span>Prop<span class="token punctuation">]</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -157,7 +157,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意，<code v-pre>+readonly</code>和<code v-pre>-readonly</code>要写在属性名的前面。</p>
 <p>如果同时增删<code v-pre>?</code>和<code v-pre>readonly</code>这两个修饰符，写成下面这样。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 增加</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 增加</span></span>
 <span class="line"><span class="token keyword">type</span> <span class="token class-name">MyObj<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token operator">+</span><span class="token keyword">readonly</span> <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -170,7 +170,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>TypeScript 原生的工具类型<code v-pre>Required&lt;T&gt;</code>专门移除可选属性，就是使用<code v-pre>-?</code>修饰符实现的。</p>
 <p>注意，<code v-pre>–?</code>修饰符移除了可选属性以后，该属性就不能等于<code v-pre>undefined</code>了，实际变成必选属性了。但是，这个修饰符不会移除<code v-pre>null</code>类型。</p>
 <p>另外，<code v-pre>+?</code>修饰符可以简写成<code v-pre>?</code>，<code v-pre>+readonly</code>修饰符可以简写成<code v-pre>readonly</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token operator">+</span><span class="token keyword">readonly</span> <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -182,7 +182,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_19-3-键名重映射" tabindex="-1"><a class="header-anchor" href="#_19-3-键名重映射"><span>19.3 键名重映射</span></a></h2>
 <h3 id="_19-3-1-语法" tabindex="-1"><a class="header-anchor" href="#_19-3-1-语法"><span>19.3.1 语法</span></a></h3>
 <p>TypeScript 4.1 引入了键名重映射（key remapping），允许改变键名。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">A</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  foo<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  bar<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -200,7 +200,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，类型<code v-pre>B</code>是类型<code v-pre>A</code>的映射，但在映射时把属性名改掉了，在原始属性名后面加上了字符串<code v-pre>ID</code>。</p>
 <p>可以看到，键名重映射的语法是在键名映射的后面加上<code v-pre>as + 新类型</code>子句。这里的“新类型”通常是一个模板字符串，里面可以对原始键名进行各种操作。</p>
 <p>下面是另一个例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">interface</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">interface</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line">  age<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  location<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
@@ -227,7 +227,7 @@
 </ul>
 <h3 id="_19-3-2-属性过滤" tabindex="-1"><a class="header-anchor" href="#_19-3-2-属性过滤"><span>19.3.2 属性过滤</span></a></h3>
 <p>键名重映射还可以过滤掉某些属性。下面的例子是只保留字符串属性。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">User</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name">User</span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line">  age<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -242,7 +242,7 @@
 <p>它的键名重映射<code v-pre>as T[K] extends string ? K : never]</code>，使用了条件运算符。如果属性值<code v-pre>T[K]</code>的类型是字符串，那么属性名不变，否则属性名类型改为<code v-pre>never</code>，即这个属性名不存在。这样就等于过滤了不符合条件的属性，只保留属性值为字符串的属性。</p>
 <h3 id="_19-3-3-联合类型的映射" tabindex="-1"><a class="header-anchor" href="#_19-3-3-联合类型的映射"><span>19.3.3 联合类型的映射</span></a></h3>
 <p>由于键名重映射可以修改键名类型，所以原始键名的类型不必是<code v-pre>string|number|symbol</code>，任意的联合类型都可以用来进行键名重映射。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">S</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">type</span> <span class="token class-name"><span class="token constant">S</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">  kind<span class="token operator">:</span> <span class="token string">"square"</span><span class="token punctuation">;</span></span>
 <span class="line">  x<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line">  y<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>

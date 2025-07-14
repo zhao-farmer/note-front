@@ -1,14 +1,14 @@
 <template><div><h1 id="五、组件与复用" tabindex="-1"><a class="header-anchor" href="#五、组件与复用"><span>五、组件与复用</span></a></h1>
 <h2 id="_5-1-创建可复用的组件" tabindex="-1"><a class="header-anchor" href="#_5-1-创建可复用的组件"><span>5.1 创建可复用的组件</span></a></h2>
 <p>在 Tailwind CSS 中，创建可复用的组件通常涉及将一组样式类应用于一个 HTML 元素，并将该元素保存为一个自定义组件。这可以通过创建一个 HTML 结构，并使用 Tailwind CSS 的原子类来定义其样式来实现。例如，创建一个按钮组件：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button Component --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button Component --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  Click me</span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>以下是一个简单的 Vue 组件示例，展示如何创建一个可复用的按钮组件。</p>
 <p>首先，创建一个名为 <code v-pre>Button.vue</code> 的组件文件：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button.vue --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button.vue --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">:class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>`bg-${color}-500 text-white font-bold py-2 px-4 rounded ${className}`<span class="token punctuation">"</span></span> <span class="token attr-name">:style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{ fontSize: size + 'px' }<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">    {{ text }}</span>
@@ -46,7 +46,7 @@
 <li><code v-pre>className</code>: 额外的类名，可以用来覆盖或添加样式。</li>
 </ul>
 <p>现在，你可以在你的 Vue 应用中使用这个组件：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- App.vue --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- App.vue --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-3xl font-bold mb-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Welcome to My App!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
@@ -76,7 +76,7 @@
 <li><strong>使用组件</strong>：在你的 Vue 组件中，你可以直接导入并使用 Tailwind UI 提供的组件。</li>
 </ol>
 <p>例如，如果你想要使用 Tailwind UI 提供的按钮组件，你可以在你的 Vue 组件中这样做：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- MyButton.vue --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- MyButton.vue --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token comment">&lt;!-- 使用 Tailwind UI 的按钮组件 --></span></span>
@@ -102,7 +102,7 @@
 <p>由于 Tailwind UI 是一个付费产品，我无法提供实际的组件代码。但是，一旦你有了 Tailwind UI 组件库，你可以按照其文档中的说明来使用和定制组件。</p>
 <h2 id="_5-3-组件状态和变体" tabindex="-1"><a class="header-anchor" href="#_5-3-组件状态和变体"><span>5.3 组件状态和变体</span></a></h2>
 <p>组件状态和变体是 Tailwind CSS 的一个强大功能，它允许你根据组件的不同状态（如悬停、焦点、活动等）或变体（如大小、颜色等）来应用不同的样式。例如，你可以创建一个按钮组件，它在悬停时改变背景颜色：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button with hover state --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- Button with hover state --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  Click me</span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>

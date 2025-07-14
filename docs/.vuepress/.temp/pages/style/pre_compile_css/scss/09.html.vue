@@ -12,32 +12,32 @@
 <li>@import 包含 media queries。</li>
 </ul>
 <p>如果不在上述情况内，文件的拓展名是 .scss 或 .sass，则导入成功。没有指定拓展名，Sass 将会试着寻找文件名相同，拓展名为 .scss 或 .sass 的文件并将其导入。</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">//导入scss</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">//导入scss</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token string">'./import/mainA.scss'</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token string">'./import/mainA'</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>都会导入文件 foo.scss，但是</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token keyword">@import</span> <span class="token string">"foo.css"</span><span class="token punctuation">;</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token keyword">@import</span> <span class="token string">"foo.css"</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token string">"foo"</span> screen<span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token string">"http://foo.com/bar"</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token url">url</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>编译为</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@import</span> <span class="token string">"foo.css"</span><span class="token punctuation">;</span></span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@import</span> <span class="token string">"foo.css"</span><span class="token punctuation">;</span></span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@import</span> <span class="token string">"foo"</span> screen<span class="token punctuation">;</span></span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@import</span> <span class="token string">"http://foo.com/bar"</span><span class="token punctuation">;</span></span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@import</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span></span><span class="token punctuation">;</span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Sass 允许同时导入多个文件，例如同时导入 rounded-corners 与 text-shadow 两个文件：</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token keyword">@import</span> <span class="token string">"rounded-corners"</span><span class="token punctuation">,</span> <span class="token string">"text-shadow"</span><span class="token punctuation">;</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token keyword">@import</span> <span class="token string">"rounded-corners"</span><span class="token punctuation">,</span> <span class="token string">"text-shadow"</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>导入文件也可以使用 #{ } 插值语句，但不是通过变量动态导入 Sass 文件，只能作用于 CSS 的 url() 导入方式：</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">//插值语法导入 </span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">//插值语法导入 </span></span>
 <span class="line"><span class="token property"><span class="token variable">$family</span></span><span class="token punctuation">:</span> <span class="token function">unquote</span><span class="token punctuation">(</span><span class="token string">"Droid+Sans"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">@import</span> <span class="token url">url</span><span class="token punctuation">(</span><span class="token string">"http://fonts.googleapis.com/css?family=\#{$family}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>编译为</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">@import <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"http://fonts.googleapis.com/css?family=#{$family}"</span><span class="token punctuation">)</span></span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">@import <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"http://fonts.googleapis.com/css?family=#{$family}"</span><span class="token punctuation">)</span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h3 id="_9-1-2-分音-partials" tabindex="-1"><a class="header-anchor" href="#_9-1-2-分音-partials"><span>9.1.2. 分音 (Partials)</span></a></h3>
 <p>如果需要导入 SCSS 或者 Sass 文件，但又不希望将其编译为 CSS，只需要在文件名前添加下划线，这样会告诉 Sass 不要编译这些文件，但导入语句中却不需要添加下划线。
@@ -48,7 +48,7 @@
 <h3 id="_9-1-3-嵌套-import" tabindex="-1"><a class="header-anchor" href="#_9-1-3-嵌套-import"><span>9.1.3. 嵌套 @import</span></a></h3>
 <p>大多数情况下，一般在文件的最外层（不在嵌套规则内）使用 @import，其实，也可以将 @import 嵌套进 CSS 样式或者 @media 中，与平时的用法效果相同，只是这样导入的样式只能出现在嵌套的层中。
 假设 example.scss 文件包含以下样式：</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token selector">span</span><span class="token punctuation">{</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token selector">span</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-size</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token selector">a</span><span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">font-size</span><span class="token punctuation">:</span> 14px<span class="token punctuation">;</span></span>
@@ -59,14 +59,14 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后导入到 #main 样式内</p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token property"><span class="token variable">$color</span></span><span class="token punctuation">:</span>#111<span class="token punctuation">;</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token property"><span class="token variable">$color</span></span><span class="token punctuation">:</span>#111<span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">.container </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">@import</span> <span class="token string">'./import/mainG.scss'</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token variable">$color</span><span class="token punctuation">;</span> </span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>将会被编译为</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> #111<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.container span</span> <span class="token punctuation">{</span></span>
@@ -87,7 +87,7 @@
 <p>Sass 中 @media 指令与 CSS 中用法一样，只是增加了一点额外的功能：允许其在 CSS 规则中嵌套。如果 @media 嵌套在 CSS 规则内，编译时，@media 将被编译到文件的最外层，包含嵌套的父选择器。这个功能让 @media 用起来更方便，不需要重复使用选择器，也不会打乱 CSS 的书写流程。</p>
 <p>@media 的 queries 允许互相嵌套使用，编译时，Sass 自动添加 and</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.sidebar01 </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token atrule"><span class="token rule">@media</span> screen <span class="token operator">and</span> <span class="token punctuation">(</span><span class="token property">orientation</span><span class="token punctuation">:</span> landscape<span class="token punctuation">)</span></span> <span class="token punctuation">{</span></span>
@@ -96,7 +96,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.sidebar01</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -108,7 +108,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>@media 甚至可以使用 SassScript（比如变量，函数，以及运算符）代替条件的名称或者值：</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@media</span> screen</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token selector">.sidebar02 </span><span class="token punctuation">{</span></span>
 <span class="line">        <span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">orientation</span><span class="token punctuation">:</span> landscape<span class="token punctuation">)</span></span> <span class="token punctuation">{</span></span>
@@ -118,7 +118,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">-webkit-min-device-pixel-ratio</span><span class="token punctuation">:</span> 1.5<span class="token punctuation">)</span></span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token selector">.sidebar03</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span></span>
@@ -129,7 +129,7 @@
 <h3 id="_9-3-1-基础-extend" tabindex="-1"><a class="header-anchor" href="#_9-3-1-基础-extend"><span>9.3.1 基础@extend</span></a></h3>
 <p>相当于css3中的并集选择器</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.error </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">border</span><span class="token punctuation">:</span> 1px #f00<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> #fdd<span class="token punctuation">;</span></span>
@@ -139,7 +139,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.error, .seriousError</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">border</span><span class="token punctuation">:</span> 1px #f00<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">background-color</span><span class="token punctuation">:</span> #fdd<span class="token punctuation">;</span></span>
@@ -151,7 +151,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_9-3-2-继承延伸" tabindex="-1"><a class="header-anchor" href="#_9-3-2-继承延伸"><span>9.3.2 继承延伸</span></a></h3>
 <p>@extend 的作用是将重复使用的样式 (.error) 延伸 (extend) 给需要包含这个样式的特殊样式（.seriousError）</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.error </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">border</span><span class="token punctuation">:</span> 1px #f00<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> #fdd<span class="token punctuation">;</span></span>
@@ -166,7 +166,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.error, .seriousError</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">border</span><span class="token punctuation">:</span> 1px #f00<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">background-color</span><span class="token punctuation">:</span> #fdd<span class="token punctuation">;</span></span>
@@ -182,7 +182,7 @@
 <p>指令下的css样式都处于第一层，不再被嵌套继承</p>
 <h3 id="_9-4-1正常使用" tabindex="-1"><a class="header-anchor" href="#_9-4-1正常使用"><span>9.4.1正常使用</span></a></h3>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.parent </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token atrule"><span class="token rule">@at-root</span></span> <span class="token punctuation">{</span></span>
@@ -193,7 +193,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -209,7 +209,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以代替前缀（BEM）</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.block</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span></span>
 <span class="line">    @at-root #<span class="token punctuation">{</span>&amp;<span class="token punctuation">}</span><span class="token selector">__element</span><span class="token punctuation">{</span></span>
@@ -224,7 +224,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.block</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">width</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -249,7 +249,7 @@
 <li>supports(表示supports)</li>
 </ol>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@media</span> print</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token selector">.page </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 8in<span class="token punctuation">;</span></span>
@@ -261,7 +261,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@media</span> print</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token selector">.page</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 8in<span class="token punctuation">;</span></span>

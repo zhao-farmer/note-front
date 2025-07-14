@@ -23,7 +23,7 @@
 <pre><code>//2.选择器变量 
 </code></pre>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@box<span class="token punctuation">:</span></span>#box<span class="token punctuation">;</span></span>
 <span class="line"><span class="token variable">@class<span class="token punctuation">:</span></span>.content<span class="token punctuation">;</span></span>
 <span class="line"><span class="token variable">@w<span class="token punctuation">:</span></span>20px<span class="token punctuation">;</span></span>
@@ -52,7 +52,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">#box</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>

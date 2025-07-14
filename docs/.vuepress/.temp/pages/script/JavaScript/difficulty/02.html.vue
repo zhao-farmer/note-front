@@ -14,7 +14,7 @@
 <p>一般情况下局部变量的值，不用了，会被自动回收掉</p>
 <p>内存泄漏：</p>
 <p>程序中分配的内存由于某种原因程序未释放或无法释放叫做内存泄漏</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 为变量分配内存</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 为变量分配内存</span></span>
 <span class="line"><span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 为对象分配内存</span></span>
@@ -55,7 +55,7 @@
 <li>那些无法由根部出发触及到的对象被标记为不再使用，稍后进行回收。</li>
 </ol>
 <p><img src="/script/JavaScript/difficulty/004.png" alt=""></p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// 函数中的两个对象，无法被外部的window，self 等顶层对象访问</span></span>
 <span class="line">    <span class="token comment">// 使用完成后，里面的内容全部清除掉</span></span>
 <span class="line">    <span class="token keyword">let</span> o1 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>

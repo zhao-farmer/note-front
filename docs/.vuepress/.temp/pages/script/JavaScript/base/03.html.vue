@@ -22,7 +22,7 @@
 <li>所以在JS中进行一些精度比较高的运算时要十分注意</li>
 <li>NaN 也是一个特殊的数值，表示非法的数值</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//Number</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token number">10.5</span><span class="token punctuation">;</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//Number</span></span>
@@ -46,7 +46,7 @@
 <li>大整数用来表示一些表较大的整数</li>
 <li>大整数使用n结尾，它可以表示的数字范围时无限大</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">    a <span class="token operator">=</span> <span class="token number">9999999999999999999999999999999999999999999999999999999999999999999999999999</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">    a <span class="token operator">=</span> <span class="token number">9999999999999999999999999999999999999999999999999999999999999999999999999999</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
 <li>其他进制的表示：</li>
@@ -56,7 +56,7 @@
 <li>八进制 0o</li>
 <li>十六进制 0x</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">a <span class="token operator">=</span> <span class="token number">0b1010</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">a <span class="token operator">=</span> <span class="token number">0b1010</span><span class="token punctuation">;</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//二进制转换为十进制 10</span></span>
 <span class="line"></span>
 <span class="line">a <span class="token operator">=</span> <span class="token number">0o10</span><span class="token punctuation">;</span></span>
@@ -71,7 +71,7 @@
 <li>typeof用来检查不通的值的类型</li>
 <li>它会根据不同的值返回不同的结果</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">let</span> b <span class="token operator">=</span> <span class="token number">10n</span><span class="token punctuation">;</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// number</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// bigint</span></span>
@@ -93,7 +93,7 @@
 </li>
 <li>使用typeof检查一个字符串会返回 string-</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token string">"你好"</span><span class="token punctuation">;</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//你好</span></span>
 <span class="line"></span>
@@ -147,7 +147,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">    <span class="token keyword">let</span> bool <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">    <span class="token keyword">let</span> bool <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bool<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//true</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> bool<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//boolean</span></span>
 <span class="line">    <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span></span>
@@ -187,7 +187,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">//"10"</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">//"10"</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment">//"true"</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token number">11n</span><span class="token punctuation">;</span>  <span class="token comment">//"11"</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> a<span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//bigint 11n</span></span>
@@ -242,7 +242,7 @@ true转换为1，false转换为0</li>
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'123'</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'123'</span><span class="token punctuation">;</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token string">'abc'</span> <span class="token comment">//NaN</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token string">'3.1415926'</span> <span class="token comment">//3.1415923</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token string">'11px'</span> <span class="token comment">//NaN</span></span>
@@ -298,7 +298,7 @@ true转换为1，false转换为0</li>
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//true</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//true</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>    <span class="token comment">//true</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//false</span></span>
 <span class="line">a <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token comment">//true</span></span>

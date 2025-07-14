@@ -65,7 +65,7 @@
 </ul>
 <h2 id="_15-6-flex-flow" tabindex="-1"><a class="header-anchor" href="#_15-6-flex-flow"><span>15.6 flex-flow</span></a></h2>
 <p>flex-flow 是一个复合属性，复合了 flex-direction 和 flex-wrap 两个属性。 值没有顺序要求。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">flex-flow</span><span class="token punctuation">:</span> row wrap；</span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -108,7 +108,7 @@
 <ul>
 <li>方法一：父容器开启 flex 布局，随后使用 justify-content 和 align-items 实现水平垂直居中</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.outer</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.outer</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> #888<span class="token punctuation">;</span></span>
@@ -125,7 +125,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>方法二：父容器开启 flex 布局，随后子元素 margin: auto</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.outer</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.outer</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> #888<span class="token punctuation">;</span></span>

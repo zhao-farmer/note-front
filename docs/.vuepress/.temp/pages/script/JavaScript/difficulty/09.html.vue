@@ -1,6 +1,6 @@
 <template><div><h1 id="九、深入对象" tabindex="-1"><a class="header-anchor" href="#九、深入对象"><span>九、深入对象</span></a></h1>
 <h2 id="_9-1-创建对象的三种形式" tabindex="-1"><a class="header-anchor" href="#_9-1-创建对象的三种形式"><span>9.1 创建对象的三种形式</span></a></h2>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.利用字面量创建对象</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.利用字面量创建对象</span></span>
 <span class="line"><span class="token keyword">const</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span><span class="token string">'佩奇'</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -20,9 +20,9 @@
 <p>目标:能够利用构造函数创建对象</p>
 <ul>
 <li>构造函数: 是一种特殊的函数，主要用来初始化对象</li>
-<li>使用场景: 常规的1)语法允许创建一个对象。比如我们创建了佩奇的对象，继续创建乔治的对象还需要重新写一遍，此时可以通过构造函数来快速创建多个类似的对象。</li>
+<li>使用场景: 常规的语法允许创建一个对象。比如我们创建了佩奇的对象，继续创建乔治的对象还需要重新写一遍，此时可以通过构造函数来快速创建多个类似的对象。</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 未使用构造函数</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 未使用构造函数</span></span>
 <span class="line"><span class="token keyword">const</span> Peppa <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"佩奇"</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation">,</span></span>
@@ -80,7 +80,7 @@
 <h2 id="_9-3-实例成员与静态成员" tabindex="-1"><a class="header-anchor" href="#_9-3-实例成员与静态成员"><span>9.3 实例成员与静态成员</span></a></h2>
 <h3 id="_9-3-1-实例成员" tabindex="-1"><a class="header-anchor" href="#_9-3-1-实例成员"><span>9.3.1 实例成员</span></a></h3>
 <p>通过构造函数创建的对象称为实例对象，实例对象中的属性和方法称为实例成员(实例属性和实例方法)</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 构造函数</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 构造函数</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// 构造函数内部的 this 就是实例对象</span></span>
 <span class="line">    <span class="token comment">// 实例对象中动态添加属性</span></span>
@@ -100,9 +100,9 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>说明:</p>
 <p>1.为构造函数传入参数，创建结构相同但值不同的对象2.构造函数创建的实例对象彼此独立互不影响</p>
-<h3 id="_9-3-2-静态成员" tabindex="-1"><a class="header-anchor" href="#_9-3-2-静态成员"><span>9.3.2 静态成员:</span></a></h3>
+<h3 id="_9-3-2-静态成员" tabindex="-1"><a class="header-anchor" href="#_9-3-2-静态成员"><span>9.3.2 静态成员</span></a></h3>
 <p>构造函数的属性和方法被称为静态成员(静态属性和静态方法)</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">Person2</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span>age</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">Person2</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span>age</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name</span>
 <span class="line">    <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age</span>
 <span class="line"><span class="token punctuation">}</span></span>

@@ -13,7 +13,7 @@
 <p>Jquery引入</p>
 </li>
 </ol>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../js/jquery.3.7.1.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../js/jquery.3.7.1.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_1-3-概述" tabindex="-1"><a class="header-anchor" href="#_1-3-概述"><span>1.3 概述</span></a></h2>
 <ol>
@@ -21,7 +21,7 @@
 <p>什么是jQuery？</p>
 <ul>
 <li>js文件，存了很多方法（函数），函数库</li>
-<li>$(&quot;&quot;)</li>
+<li><code v-pre>$(&quot;&quot;)</code></li>
 </ul>
 </li>
 <li>
@@ -29,7 +29,7 @@
 <ul>
 <li>要使用jQuery的时候，首先引入jQuery（）</li>
 </ul>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>box<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>box<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span></span>
 <span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span></span>
@@ -41,20 +41,20 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
-<p>$ 和 $()</p>
+<p><code v-pre>$</code> 和 <code v-pre>$()</code></p>
 <ul>
-<li>$：其实就是一个函数，返回jQuery对象，$===jQuery</li>
-<li>$()：调用函数</li>
+<li><code v-pre>$</code> ：其实就是一个函数，返回jQuery对象，<code v-pre>$===jQuery</code></li>
+<li><code v-pre>$()</code>：调用函数</li>
 </ul>
 </li>
 <li>
 <p>jQuery和原生js之间的相互转换</p>
 <ul>
 <li>jQuery =&gt; 原生节点
-<br>$(&quot;div&quot;)[0]  ----------原生js节点</li>
+<br> <code v-pre>$(&quot;div&quot;)[0]</code>  ----------原生js节点</li>
 <li>原生节点 =&gt; jQuery
-<br>let myP=document.getElementById(&quot;myP&quot;)
-<br>$(myP)</li>
+<br> <code v-pre>let myP=document.getElementById(&quot;myP&quot;)</code>
+<br> <code v-pre>$(myP)</code></li>
 </ul>
 </li>
 <li>

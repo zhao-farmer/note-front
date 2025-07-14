@@ -43,7 +43,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> five <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> five <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// 添加属性</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"王老五"</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">48</span><span class="token punctuation">,</span></span>
@@ -85,7 +85,7 @@
 <li>class 类名 {} //类名要使用大驼峰命名</li>
 <li>const 类名 = class {}</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用Object 并添加属性</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用Object 并添加属性</span></span>
 <span class="line"><span class="token keyword">const</span> five <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// 添加属性</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"王老五"</span><span class="token punctuation">,</span></span>
@@ -170,7 +170,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'孙悟空'</span></span>
 <span class="line">    age <span class="token operator">=</span> <span class="token number">18</span></span>
 <span class="line">    <span class="token keyword">static</span> weapon <span class="token operator">=</span> <span class="token string">"金箍棒"</span></span>
@@ -220,7 +220,7 @@ static 方法名(){}</li>
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">//定义类</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//定义类</span></span>
 <span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'孙悟空'</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">//添加方法的一种方式</span></span>
@@ -280,7 +280,7 @@ static 方法名(){}</li>
 </ol>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person1</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person1</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'孙悟空'</span></span>
 <span class="line">    age <span class="token operator">=</span> <span class="token number">18</span></span>
 <span class="line">    gender <span class="token operator">=</span> <span class="token string">"男"</span></span>
@@ -359,14 +359,14 @@ static 方法名(){}</li>
 </ol>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">get</span> <span class="token function">属性名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">get</span> <span class="token function">属性名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>#属性</span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">set</span> <span class="token function">属性名</span><span class="token punctuation">(</span><span class="token parameter">参数</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">this</span><span class="token punctuation">.</span>#属性 <span class="token operator">=</span> 参数</span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">    #address <span class="token operator">=</span> <span class="token string">"花果山"</span> <span class="token comment">//实例使用#开头就变成了私有属性，私有属性只能在类内部访问</span></span>
 <span class="line">    #name</span>
 <span class="line">    #age</span>
@@ -421,7 +421,7 @@ static 方法名(){}</li>
 <li>如果一个东西走路像鸭子，叫起来像鸭子，那么它就是鸭子</li>
 <li>多态为我们提供了灵活性</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">/*</span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">/*</span>
 <span class="line">    定义一个函数，这个函数将接收一个对象作为参数，他可以输出hello并打印对象的name属性</span>
 <span class="line">*/</span></span>
 <span class="line"></span>
@@ -454,7 +454,7 @@ static 方法名(){}</li>
 <p>当一个类继承另一个类时，就相当于将另一个类中的代码复制到了当前类中（简单理解）</p>
 <p>继承发生时，被继承的类称为父类（超类），继承的类称为 子类</p>
 <p>通过继承可以减少重复的代码,并且可以在不修改一个类的前提下对其进行扩展</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
@@ -488,7 +488,7 @@ static 方法名(){}</li>
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
@@ -551,7 +551,7 @@ static 方法名(){}</li>
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'孙悟空'</span></span>
 <span class="line">    <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello，我是"</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -594,7 +594,7 @@ static 方法名(){}</li>
 <li>作用域链，是找变量的链，找不到变量会报错</li>
 <li>原型链，是找属性链，找不到会返回undefined</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'孙悟空'</span></span>
 <span class="line">    age <span class="token operator">=</span> <span class="token number">18</span></span>
 <span class="line">    <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
@@ -616,7 +616,7 @@ static 方法名(){}</li>
 <p>可以将一个该类实例中，所有的公告属性（方法）同意存储到原型中 这样我们只需要创建一个属性，即可被所有实例访问</p>
 <p>JS中继承就是通过原型来实现的 当继承时，子类的原型就是一个父类的实例</p>
 <p>在对象中有些值是对象独有的，像属性（name,age,gender）每个对象都应该有自己的值,但是有些值对于每个对象来说都是一样的，各种方法，对于一样的值没必要重复的创建</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">    <span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">    <span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
 <span class="line">    <span class="token keyword">class</span> <span class="token class-name">Cat</span> <span class="token keyword">extends</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
@@ -655,7 +655,7 @@ static 方法名(){}</li>
 </ol>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person1</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Person1</span> <span class="token punctuation">{</span></span>
 <span class="line">    name <span class="token operator">=</span> <span class="token string">'测试通过对象修改原型'</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">class</span> <span class="token class-name">Person2</span> <span class="token punctuation">{</span></span>
@@ -713,7 +713,7 @@ instanceof 真正检查的是对象的原型链上是否有该类实例，只要
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">class</span> <span class="token class-name">Dog</span> <span class="token keyword">extends</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">const</span> dog <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dog</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line"><span class="token comment">/* </span>
@@ -752,7 +752,7 @@ instanceof 真正检查的是对象的原型链上是否有该类实例，只要
 <li>一个函数如果直接调用xxx() 那么这个函数就是一个普通函数</li>
 <li>一个函数如果通过new调用 new xxx() 那么这个函数就是一个构造函数</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> Person <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> Person <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> age</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token comment">//在构造函数中，this表示新建的对象</span></span>
 <span class="line">        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name</span>
@@ -803,7 +803,7 @@ instanceof 真正检查的是对象的原型链上是否有该类实例，只要
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">Myclass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">Myclass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">var</span> newInstance <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>
 <span class="line">    newInstance<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> <span class="token class-name">Myclass</span><span class="token punctuation">.</span>prototype</span>
 <span class="line">    <span class="token comment">// return { name: '孙悟空' }</span></span>

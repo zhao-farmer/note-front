@@ -9,7 +9,7 @@
 <li>变量提升出现在相同作用域当中</li>
 <li>实际开发中推荐先声明再访问变量</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.把所有var声明的变量提升到 当前作用域的最前面</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.把所有var声明的变量提升到 当前作用域的最前面</span></span>
 <span class="line"><span class="token comment">// 2.只提升声明，不提升赋值</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 全局作用域</span></span>

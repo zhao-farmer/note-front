@@ -58,7 +58,7 @@
 </tbody>
 </table>
 <p>媒体参与度比较高时，解除静音播放</p>
-<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre v-pre><code><span class="line">chrome://media-engagement/</span>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">chrome://media-engagement/</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_4-2-音频标签" tabindex="-1"><a class="header-anchor" href="#_4-2-音频标签"><span>4.2 音频标签</span></a></h2>
 <p><code v-pre>&lt;audio&gt;</code>标签用来定义音频，它是双标签。</p>

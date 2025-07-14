@@ -12,7 +12,7 @@
 <ol start="3">
 <li>通过正则的方式配置所有行首</li>
 </ol>
-<div class="language-markdown line-numbers-mode" data-highlighter="prismjs" data-ext="md" data-title="md"><pre v-pre><code><span class="line">ctrl + F 直接替换 ^ 表示行头 $ 表示行尾</span>
+<div class="language-markdown line-numbers-mode" data-highlighter="prismjs" data-ext="md"><pre v-pre><code><span class="line">ctrl + F 直接替换 ^ 表示行头 $ 表示行尾</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="4">
 <li>多行不同单词选中</li>

@@ -20,7 +20,7 @@
 <ol start="4">
 <li>自己的配置(工作区设置)</li>
 </ol>
-<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json" data-title="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">"liveSassCompile.settings.formats"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
 <span class="line">        <span class="token punctuation">{</span></span>
 <span class="line">            <span class="token comment">/*</span>

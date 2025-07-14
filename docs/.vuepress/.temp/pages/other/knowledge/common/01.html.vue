@@ -33,7 +33,7 @@
 <ol>
 <li>「创建 school.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'尚硅谷'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'尚硅谷'</span></span>
 <span class="line"><span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getTel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -52,7 +52,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>「创建 student.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line"><span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'相信明天会更好！'</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getTel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -71,7 +71,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>「创建 index.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入school模块暴露的所有内容</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入school模块暴露的所有内容</span></span>
 <span class="line"><span class="token keyword">const</span> school <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./school'</span><span class="token punctuation">)</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token comment">// 引入student模块暴露的所有内容</span></span>
@@ -83,7 +83,7 @@
 <li>第一种方式：module.exports = value</li>
 <li>第二种方式：exports.name = value</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出属性</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出属性</span></span>
 <span class="line">exports<span class="token punctuation">.</span>name <span class="token operator">=</span> name</span>
 <span class="line">exports<span class="token punctuation">.</span>slogan <span class="token operator">=</span> slogan</span>
 <span class="line"><span class="token comment">// 通过属性导出全部</span></span>
@@ -111,7 +111,7 @@
 </ol>
 <h3 id="_4-3-导入数据" tabindex="-1"><a class="header-anchor" href="#_4-3-导入数据"><span>4.3 导入数据</span></a></h3>
 <p>在CJS模块化标准中，使用内置的require函数进行导入数据</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 直接引入模块</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 直接引入模块</span></span>
 <span class="line"><span class="token keyword">const</span> school <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./school'</span><span class="token punctuation">)</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token comment">// 引入同时解构出要用的数据</span></span>
@@ -122,11 +122,11 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_4-4-扩展理解" tabindex="-1"><a class="header-anchor" href="#_4-4-扩展理解"><span>4.4 扩展理解</span></a></h3>
 <p>一个 JS 模块在执行时，是被包裹在一个内置函数中执行的，所以每个模块都有自己的作用域，我们可以通过如下方式验证这一说法：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arguments<span class="token punctuation">.</span>callee<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>内置函数的大致形式如下：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">exports<span class="token punctuation">,</span> require<span class="token punctuation">,</span> module<span class="token punctuation">,</span> __filename<span class="token punctuation">,</span> __dirname</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">exports<span class="token punctuation">,</span> require<span class="token punctuation">,</span> module<span class="token punctuation">,</span> __filename<span class="token punctuation">,</span> __dirname</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token doc-comment comment">/*********************/</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -134,10 +134,10 @@
 <p>Node.js 默认是支持 CommonJS 规范的，但浏览器端不支持，所以需要经过编译，步骤如下：</p>
 <ul>
 <li>第一步：全局安装 browserify ：npm i browserify -g</li>
-<li>第二步：编译<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">browserify index<span class="token punctuation">.</span>js <span class="token operator">-</span>o build<span class="token punctuation">.</span>js</span>
+<li>第二步：编译<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">browserify index<span class="token punctuation">.</span>js <span class="token operator">-</span>o build<span class="token punctuation">.</span>js</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div>备注：index.js 是源文件，build.js 是输出的目标文件</li>
-<li>第三步：页面中引入使用<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span> src<span class="token operator">=</span><span class="token string">"./build.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
+<li>第三步：页面中引入使用<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span> src<span class="token operator">=</span><span class="token string">"./build.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div>默认打印的数据</li>
 </ul>
@@ -148,7 +148,7 @@
 <ol>
 <li>「创建 school.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token comment">// 导出slogan</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
@@ -165,7 +165,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>「创建 student.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line"><span class="token comment">// 导出motto</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'相信明天会更好！'</span></span>
@@ -182,7 +182,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>「创建 index.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> student <span class="token keyword">from</span><span class="token string">'./student.js'</span></span>
 <span class="line"></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>school<span class="token punctuation">)</span></span>
@@ -191,13 +191,13 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
 <li>「页面中引入 index.js」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"module"</span> src<span class="token operator">=</span><span class="token string">"./index.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"module"</span> src<span class="token operator">=</span><span class="token string">"./index.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h4 id="_5-1-2-node直接使用" tabindex="-1"><a class="header-anchor" href="#_5-1-2-node直接使用"><span>5.1.2 node直接使用</span></a></h4>
 <ol>
 <li>「创建 school.mjs」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token comment">// 导出slogan</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
@@ -214,7 +214,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>「创建 student.mjs」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line"><span class="token comment">// 导出motto</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'相信明天会更好！'</span></span>
@@ -231,7 +231,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>「创建 index.mjs」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> student <span class="token keyword">from</span><span class="token string">'./student.js'</span></span>
 <span class="line"></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>school<span class="token punctuation">)</span></span>
@@ -249,7 +249,7 @@
 <li>「分别导出」</li>
 </ol>
 <p>备注：在上方【初步体验中】环节，我们使用的导出方式就是【分别导出】</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token comment">// 导出slogan</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
@@ -262,7 +262,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>「统一导出」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getTel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -279,7 +279,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>「默认导出」</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line"><span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'走自己的路，让别人五路可走！'</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getTel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -294,7 +294,7 @@
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>name<span class="token punctuation">,</span>motto<span class="token punctuation">,</span>getTel<span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>备注 :「上述多种导出方式，可以同时使用」</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name ———— 分别导出</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 导出name ———— 分别导出</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
 <span class="line"> </span>
@@ -317,13 +317,13 @@
 <li>「导入全部」(通用)</li>
 </ol>
 <p>可以将模块中的所有导出内容整合到一个对象中</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> school <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
 <li>「命名导入」(对应导出方式：分别导出、统一导出)</li>
 </ol>
 <p>导出数据的模块</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">//分别导出</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//分别导出</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span> </span>
 <span class="line"><span class="token comment">//分别导出</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span> </span>
@@ -342,13 +342,13 @@
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span>slogan<span class="token punctuation">,</span>getTel <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>通过as重命名:</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> name <span class="token keyword">as</span> myName<span class="token punctuation">,</span>slogan<span class="token punctuation">,</span>getTel <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> name <span class="token keyword">as</span> myName<span class="token punctuation">,</span>slogan<span class="token punctuation">,</span>getTel <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./school.js'</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
 <li>「默认导入」(对应导出方式：默认导出)</li>
 </ol>
 <p>导出数据的模块</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line"><span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'走自己的路，让别人五路可走！'</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getTel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -371,7 +371,7 @@
 <li>「命名导入 与 默认导入可以混合使用」</li>
 </ol>
 <p>导出数据的模块</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">//分别导出</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//分别导出</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token literal-property property">str</span><span class="token operator">:</span><span class="token string">'尚硅谷'</span><span class="token punctuation">}</span> </span>
 <span class="line"><span class="token comment">//分别导出</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> slogan <span class="token operator">=</span> <span class="token string">'让天下没有难学的技术！'</span></span>
@@ -393,10 +393,10 @@
 <li>「动态导入」(通用)</li>
 </ol>
 <p>html加入按钮</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>button id<span class="token operator">=</span><span class="token string">"btn"</span><span class="token operator">></span>导入模块<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>button id<span class="token operator">=</span><span class="token string">"btn"</span><span class="token operator">></span>导入模块<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>允许在运行时按需加载模块，返回值是一个 Promise。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'btn'</span><span class="token punctuation">)</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'btn'</span><span class="token punctuation">)</span></span>
 <span class="line">btn<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./school.js'</span><span class="token punctuation">)</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -406,12 +406,12 @@
 <li>import 可以不接收任何数据
 例如只是让 mock.js 参与运行</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token string">'./mock.js'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token string">'./mock.js'</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>此时，我们感受到模块化确实解决了：①全局污染问题、②依赖混乱问题、③数据安全问题。</p>
 <h3 id="_5-5-数据引用问题" tabindex="-1"><a class="header-anchor" href="#_5-5-数据引用问题"><span>5.5 数据引用问题</span></a></h3>
 <p>思考1： 如下代码的输出结果是什么？（不要想太多，不涉及模块化相关知识）</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token keyword">function</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">        sum <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
@@ -427,7 +427,7 @@
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//1</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>思考2：使用 CommonJS 规范，编写如下代码，输出结果是什么</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    sum <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -468,10 +468,10 @@
 <p>可进入这里面搜索</p>
 <p>https://www.jsdelivr.com/</p>
 <p>第二步：在index.html中配置main.js与require.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script data<span class="token operator">-</span>main<span class="token operator">=</span><span class="token string">"./js/main.js"</span> src<span class="token operator">=</span><span class="token string">"./libs/require.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span>script data<span class="token operator">-</span>main<span class="token operator">=</span><span class="token string">"./js/main.js"</span> src<span class="token operator">=</span><span class="token string">"./libs/require.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>第三步：在main.js中编写模块配置对象，注册所有模块。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">/*AMD_require.js模块化的入口文件，要编写配置对象，并且有固定的写法*/</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">/*AMD_require.js模块化的入口文件，要编写配置对象，并且有固定的写法*/</span></span>
 <span class="line">requirejs<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">//基本路径</span></span>
 <span class="line">    <span class="token literal-property property">baseUrl</span><span class="token operator">:</span> <span class="token string">"./js"</span><span class="token punctuation">,</span></span>
@@ -487,7 +487,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_6-2-导出数据" tabindex="-1"><a class="header-anchor" href="#_6-2-导出数据"><span>6.2 导出数据</span></a></h3>
 <p>AMD 规范使用define函数来定义模块和导出数据</p>
 <p>student.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line">    <span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'走自己的路，让别人五路可走！'</span></span>
 <span class="line">   </span>
@@ -505,7 +505,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_6-3-导入数据" tabindex="-1"><a class="header-anchor" href="#_6-3-导入数据"><span>6.3 导入数据</span></a></h3>
 <p>如需导入数据，则需要define传入两个参数，分别为：依赖项数组、回调函数</p>
 <p>school.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// ['welcome']表示当前模块要依赖的模块名字</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// ['welcome']表示当前模块要依赖的模块名字</span></span>
 <span class="line"><span class="token comment">// 回调接收到的welcome是模块导出的数据</span></span>
 <span class="line"> </span>
 <span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'welcome'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">welcome</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
@@ -524,11 +524,11 @@
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>welcome.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"欢迎使用require.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"欢迎使用require.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h3 id="_6-4-使用模块" tabindex="-1"><a class="header-anchor" href="#_6-4-使用模块"><span>6.4 使用模块</span></a></h3>
 <p>main.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token function">requirejs</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'school'</span><span class="token punctuation">,</span><span class="token string">'student'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">school<span class="token punctuation">,</span>student</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">requirejs</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'school'</span><span class="token punctuation">,</span><span class="token string">'student'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">school<span class="token punctuation">,</span>student</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'main'</span><span class="token punctuation">,</span>school<span class="token punctuation">)</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'main'</span><span class="token punctuation">,</span>student<span class="token punctuation">)</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
@@ -543,7 +543,7 @@
 </ol>
 <p>https://www.jsdelivr.com/?query=sea.js</p>
 <p>第二步：在index.html中配置main.js与sea.js</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./libs/sea.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>./libs/sea.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
 <span class="line"> </span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
 <span class="line">  seajs<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'./modules/main.js'</span><span class="token punctuation">)</span></span>
@@ -552,7 +552,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_7-2-导出数据" tabindex="-1"><a class="header-anchor" href="#_7-2-导出数据"><span>7.2 导出数据</span></a></h3>
 <p>CMD 中同样使用define函数定义模块并导出数据</p>
 <p>student.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">/* </span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">/* </span>
 <span class="line">  收到的三个参数分别为：require、exports、module</span>
 <span class="line">    1. require用于引入其他模块</span>
 <span class="line">    2. exports、module用于导出数据</span>
@@ -575,7 +575,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_7-3-导入数据" tabindex="-1"><a class="header-anchor" href="#_7-3-导入数据"><span>7.3 导入数据</span></a></h3>
 <p>CMD 规范中使用收到的require参数进行模块导入</p>
 <p>school.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">require<span class="token punctuation">,</span>exports<span class="token punctuation">,</span>module</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">require<span class="token punctuation">,</span>exports<span class="token punctuation">,</span>module</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'张三'</span></span>
 <span class="line">  <span class="token keyword">const</span> motto <span class="token operator">=</span> <span class="token string">'相信明天会更好！'</span></span>
 <span class="line"> </span>
@@ -596,10 +596,10 @@
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>welcome.js</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"欢迎使用sea.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"欢迎使用sea.js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h3 id="_7-4-使用模块" tabindex="-1"><a class="header-anchor" href="#_7-4-使用模块"><span>7.4 使用模块</span></a></h3>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">require</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">define</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">require</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">const</span> school <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./school'</span><span class="token punctuation">)</span></span>
 <span class="line">  <span class="token keyword">const</span> student <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./student'</span><span class="token punctuation">)</span></span>
 <span class="line"> </span>

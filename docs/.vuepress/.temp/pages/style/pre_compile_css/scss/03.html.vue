@@ -6,7 +6,7 @@
 <li>在多行注释中添加 “!”，则可保留这条注释到压缩文件中，此方法主要用于文件的版权声明；</li>
 <li>多行注释中可以添加插值语句 (interpolation)</li>
 </ol>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// 单行注释</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// 单行注释</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">/*</span>
 <span class="line"> * 多行注释 */</span></span>

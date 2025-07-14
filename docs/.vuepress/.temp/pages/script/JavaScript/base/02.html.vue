@@ -6,7 +6,7 @@
 <li>比如 1 2 3 4 100 'hello' true null ......</li>
 <li>在js中所有的字面量都可以直接使用，但是直接使用字面量并不方便</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token function">alert</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -18,7 +18,7 @@
 <li>并且变量中存储的字面量可以随意的修改</li>
 <li>通过变量可以对字面量进行描述，并且变量比较方便修改</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> x<span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> x<span class="token punctuation">;</span></span>
 <span class="line">x <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span></span>
 <span class="line">x <span class="token operator">=</span> <span class="token string">'哈哈'</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -32,7 +32,7 @@
 <li>变量赋值 -&gt; a = xx</li>
 <li>声明与赋值同时进行 let 变量名 = xx</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> abc<span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> abc<span class="token punctuation">;</span></span>
 <span class="line">abc <span class="token operator">=</span> <span class="token string">"黄金"</span><span class="token punctuation">;</span></span>
 <span class="line">abc <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -47,7 +47,7 @@
 <li>常量智能声明一次，重复赋值会报错</li>
 <li>一般常量都是用全大写</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token constant">PI</span> <span class="token operator">=</span> <span class="token number">3.11415926</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token constant">PI</span> <span class="token operator">=</span> <span class="token number">3.11415926</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_2-4-标识符" tabindex="-1"><a class="header-anchor" href="#_2-4-标识符"><span>2.4 标识符</span></a></h2>
 <ul>

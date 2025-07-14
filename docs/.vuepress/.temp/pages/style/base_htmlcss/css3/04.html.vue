@@ -50,7 +50,7 @@
 <h2 id="_4-3-box-shadow-盒子阴影" tabindex="-1"><a class="header-anchor" href="#_4-3-box-shadow-盒子阴影"><span>4.3. box-shadow 盒子阴影</span></a></h2>
 <p>使用 box-shadow 属性为盒子添加阴影。</p>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">box-shadow</span><span class="token punctuation">:</span> h-shadow v-shadow blur spread color inset<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -91,7 +91,7 @@
 </table>
 <p><strong>默认值</strong>： box-shadow:none 表示没有阴影</p>
 <p><strong>示例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 写两个值，含义：水平位置、垂直位置 */</span></span>
 <span class="line">    <span class="token property">box-shadow</span><span class="token punctuation">:</span> 10px 10px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 写三个值，含义：水平位置、垂直位置、颜色 */</span></span>

@@ -26,13 +26,13 @@
 <li>配置文件的基本格式
 所有 .npmrc 文件都是 key = value 格式的配置文件，遵循 ini 格式。配置项的值可以是字符串、布尔值或者数组。配置文件也支持通过 ${VARIABLE_NAME} 替换环境变量，方便动态设置。例如：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">prefix</span> <span class="token punctuation">=</span> <span class="token value attr-value">${HOME}/.npm-packages</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">prefix</span> <span class="token punctuation">=</span> <span class="token value attr-value">${HOME}/.npm-packages</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
 <li>数组值配置
 在 .npmrc 文件中，使用 key[] 来指定数组值。例如：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">key[]</span> <span class="token punctuation">=</span> <span class="token value attr-value">"<span class="token inner-value">first value</span>"</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">key[]</span> <span class="token punctuation">=</span> <span class="token value attr-value">"<span class="token inner-value">first value</span>"</span></span>
 <span class="line"><span class="token key attr-name">key[]</span> <span class="token punctuation">=</span> <span class="token value attr-value">"<span class="token inner-value">second value</span>"</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>这会将 key 配置为一个数组，包含多个值。</p>
@@ -40,7 +40,7 @@
 <li>注释</li>
 </ol>
 <p>如果行以 ; 或 # 字符开头，则该行被视为注释。npm/ini 会解析这些注释内容。例如：</p>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token comment"># last modified: 01 Jan 2016</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token comment"># last modified: 01 Jan 2016</span></span>
 <span class="line"><span class="token comment">; Set a new registry for a scoped package</span></span>
 <span class="line"><span class="token key attr-name">@myscope:registry</span><span class="token punctuation">=</span><span class="token value attr-value">https://mycustomregistry.example.org</span></span>
 <span class="line"></span></code></pre>
@@ -67,26 +67,26 @@
 <li>配置注册表（registry）
 默认情况下，npm 使用官方的 npm 注册表。你可以在 .npmrc 文件中指定自定义的注册表，以提高下载速度，尤其是在不同地区使用时。例如，使用国内镜像源：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">registry</span><span class="token punctuation">=</span><span class="token value attr-value">https://registry.npm.taobao.org</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">registry</span><span class="token punctuation">=</span><span class="token value attr-value">https://registry.npm.taobao.org</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
 <li>配置代理
 在某些网络环境下，可能需要使用代理服务器来访问 npm。在 .npmrc 中配置代理信息可以确保 npm 在受限网络下正常工作：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">proxy</span><span class="token punctuation">=</span><span class="token value attr-value">http://proxy.example.com:8080</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">proxy</span><span class="token punctuation">=</span><span class="token value attr-value">http://proxy.example.com:8080</span></span>
 <span class="line"><span class="token key attr-name">https-proxy</span><span class="token punctuation">=</span><span class="token value attr-value">http://proxy.example.com:8080</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>配置认证信息
 如果你需要发布包到私有注册表，可以在 .npmrc 文件中配置认证信息：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">//registry.npmjs.org/:_authToken</span><span class="token punctuation">=</span><span class="token value attr-value">YOUR_AUTH_TOKEN</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">//registry.npmjs.org/:_authToken</span><span class="token punctuation">=</span><span class="token value attr-value">YOUR_AUTH_TOKEN</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="4">
 <li>配置缓存目录
 npm 会默认使用某个目录来缓存安装的包。如果你希望修改缓存目录（不建议修改），可以通过 .npmrc 配置：</li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">cache</span><span class="token punctuation">=</span><span class="token value attr-value">/path/to/cache</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">cache</span><span class="token punctuation">=</span><span class="token value attr-value">/path/to/cache</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_5-注意事项" tabindex="-1"><a class="header-anchor" href="#_5-注意事项"><span>5. 注意事项</span></a></h2>
 <ol>
@@ -99,11 +99,11 @@ npm 会默认使用某个目录来缓存安装的包。如果你希望修改缓�
 通过环境变量可以动态配置 .npmrc 文件中的参数。例如：</p>
 </li>
 </ol>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">export HOME</span><span class="token punctuation">=</span><span class="token value attr-value">/path/to/your/directory</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token key attr-name">export HOME</span><span class="token punctuation">=</span><span class="token value attr-value">/path/to/your/directory</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>通过这种方式，你可以在不同环境中使用不同的 npm 配置文件。</p>
 <h2 id="_6-配置信息" tabindex="-1"><a class="header-anchor" href="#_6-配置信息"><span>6. 配置信息</span></a></h2>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"></span>
 <span class="line"><span class="token key attr-name">registry</span><span class="token punctuation">=</span><span class="token value attr-value">http://registry.npmjs.org/</span></span>
 <span class="line"><span class="token comment"># 定义npm的registry，即npm的包下载源</span></span>
 <span class="line"></span>

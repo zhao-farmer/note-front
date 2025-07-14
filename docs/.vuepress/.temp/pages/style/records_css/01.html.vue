@@ -61,7 +61,7 @@
 <li>mix-blend-mode: multiply;
 此属性值会将两个图层的颜色值相乘，产生一种暗色调的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -74,7 +74,7 @@
 <li>mix-blend-mode: screen;
 此属性值会将两个图层的颜色值进行屏幕混合，产生一种亮色调的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -87,7 +87,7 @@
 <li>mix-blend-mode: overlay;
 此属性值会将两个图层进行叠加混合，产生一种高亮度的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -100,7 +100,7 @@
 <li>mix-blend-mode: difference;
 此属性值会将两个图层的颜色值进行差值计算，产生一种反色效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -113,7 +113,7 @@
 <li>mix-blend-mode: hue;
 此属性值会将两个图层的色相进行混合，产生一种颜色平衡的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -126,7 +126,7 @@
 <li>mix-blend-mode: luminosity;
 此属性值会将两个图层的亮度进行混合，产生一种亮度平衡的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>
@@ -139,7 +139,7 @@
 <li>mix-blend-mode: color-dodge;
 此属性值会将两个图层的颜色值进行颜色减淡计算，产生一种颜色亮度较高的效果。以下是一个简单的例子：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.parent</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'background-image.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">.child</span> <span class="token punctuation">{</span></span>

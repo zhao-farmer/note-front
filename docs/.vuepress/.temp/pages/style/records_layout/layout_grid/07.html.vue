@@ -10,7 +10,7 @@
 <li>n &amp;&amp; 取所有名称为custom-ident的列的第n个作为起始值</li>
 <li>span &amp;&amp; [ n || ]为网格单元定义一个跨度，表示两个列之间的距离是n个单位单元列的宽度。 的值不能取span</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* Keyword value */</span></span>
 <span class="line">    <span class="token property">grid-column-start</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -38,7 +38,7 @@
 <p>grid-row-end CSS属性指定了一个网格项的行的结束位置， 下边框所在的垂直网格线
 和grid-column-end取值一样。</p>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>

@@ -2,7 +2,7 @@
 <h2 id="_8-1-逻辑函数" tabindex="-1"><a class="header-anchor" href="#_8-1-逻辑函数"><span>8.1 逻辑函数</span></a></h2>
 <h3 id="_8-1-1-if" tabindex="-1"><a class="header-anchor" href="#_8-1-1-if"><span>8.1.1 if</span></a></h3>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@some<span class="token punctuation">:</span></span> foo<span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token function">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>2 > 1<span class="token punctuation">)</span><span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 3px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -15,7 +15,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span></span>
@@ -30,7 +30,7 @@
 <p>评估为真或假</p>
 <p>你可以 &quot;store&quot; 布尔测试以供以后在守卫中进行评估或 if()。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@bg<span class="token punctuation">:</span></span> black<span class="token punctuation">;</span></span>
 <span class="line"><span class="token variable">@bg-light<span class="token punctuation">:</span></span> <span class="token function">boolean</span><span class="token punctuation">(</span><span class="token function">luma</span><span class="token punctuation">(</span><span class="token variable">@bg</span><span class="token punctuation">)</span> > 50%<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
@@ -39,7 +39,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">background</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> white<span class="token punctuation">;</span></span>
@@ -55,12 +55,12 @@
 <p>参数： string: 要转义的字符串。</p>
 <p>返回： 不带引号转义 string 内容。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"></span>
 <span class="line"><span class="token function">escape</span><span class="token punctuation">(</span><span class="token string">'a=1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"></span>
 <span class="line">a%3D1</span>
 <span class="line"></span></code></pre>
@@ -73,14 +73,14 @@
 <p>参数： string - 要转义的字符串。</p>
 <p>返回： string - 转义字符串，不带引号。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@mscode<span class="token punctuation">:</span></span> <span class="token string">"ms:alwaysHasItsOwnSyntax.For.Stuff()"</span> <span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">e</span><span class="token punctuation">(</span><span class="token variable">@mscode</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token property">ms</span><span class="token punctuation">:</span>alwaysHasItsOwnSyntax.For.<span class="token function">Stuff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -101,7 +101,7 @@
 </ul>
 <p>返回： 格式化 string。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">format-a-d</span><span class="token punctuation">:</span> %<span class="token punctuation">(</span><span class="token string">"repetitions: %a file: %d"</span><span class="token punctuation">,</span> 1 <span class="token operator">+</span> 2<span class="token punctuation">,</span> <span class="token string">"directory/file.less"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">format-a-d-upper</span><span class="token punctuation">:</span> %<span class="token punctuation">(</span><span class="token string">'repetitions: %A file: %D'</span><span class="token punctuation">,</span> 1 <span class="token operator">+</span> 2<span class="token punctuation">,</span> <span class="token string">"directory/file.less"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -110,7 +110,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">format-a-d</span><span class="token punctuation">:</span> <span class="token string">"repetitions: 3 file: "</span>directory/file.less<span class="token string">""</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">format-a-d-upper</span><span class="token punctuation">:</span> <span class="token string">'repetitions: 3 file: %22directory%2Ffile.less%22'</span><span class="token punctuation">;</span></span>
@@ -129,7 +129,7 @@
 </ul>
 <p>返回： 具有替换值的字符串。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"Hello, Mars?"</span><span class="token punctuation">,</span> <span class="token string">"Mars\?"</span><span class="token punctuation">,</span> <span class="token string">"Earth!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"One + one = 4"</span><span class="token punctuation">,</span> <span class="token string">"one"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"gi"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -138,7 +138,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"Hello, Earth!"</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"2 + 2 = 4"</span><span class="token punctuation">;</span></span>
@@ -150,7 +150,7 @@
 <h3 id="_8-3-1-length" tabindex="-1"><a class="header-anchor" href="#_8-3-1-length"><span>8.3.1 length</span></a></h3>
 <p>返回值列表中的元素数。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@list<span class="token punctuation">:</span></span> <span class="token string">"banana"</span><span class="token punctuation">,</span> <span class="token string">"tomato"</span><span class="token punctuation">,</span> <span class="token string">"potato"</span><span class="token punctuation">,</span> <span class="token string">"peach"</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token variable">@n<span class="token punctuation">:</span></span> <span class="token function">length</span><span class="token punctuation">(</span><span class="token variable">@list</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
@@ -158,7 +158,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 4<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -166,14 +166,14 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_8-3-2-extract" tabindex="-1"><a class="header-anchor" href="#_8-3-2-extract"><span>8.3.2 extract</span></a></h3>
 <p>返回列表中指定位置的值。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@list<span class="token punctuation">:</span></span> apple<span class="token punctuation">,</span> pear<span class="token punctuation">,</span> coconut<span class="token punctuation">,</span> orange<span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">extract</span><span class="token punctuation">(</span><span class="token variable">@list</span><span class="token punctuation">,</span> 3<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> coconut<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -187,7 +187,7 @@
 <li>step - （可选）增加的数量</li>
 </ul>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test1</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">range</span><span class="token punctuation">(</span>4<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -198,7 +198,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test1</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1 2 3 4<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -215,7 +215,7 @@
 <li>rules - 匿名规则集/混入</li>
 </ul>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token variable">@selectors<span class="token punctuation">:</span></span> blue<span class="token punctuation">,</span> green<span class="token punctuation">,</span> red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token function">each</span><span class="token punctuation">(</span><span class="token atrule">@selectors,</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token selector">.sel-@{value}</span> <span class="token punctuation">{</span></span>
@@ -224,7 +224,7 @@
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.sel-blue</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">a</span><span class="token punctuation">:</span> b<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -238,7 +238,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>默认情况下，每个规则集按列表成员绑定到 @value、@key 和 @index 变量。 对于大多数列表，@key 和 @index 将被分配相同的值（数字位置，从 1 开始）。 但是，你也可以将规则集本身用作结构化列表。 如：</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token atrule">@set<span class="token punctuation">:</span></span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">one</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">two</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span></span>
@@ -251,7 +251,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.set</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">one-1</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">two-2</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span></span>
@@ -263,7 +263,7 @@
 你不必在 each() 函数中使用 @value、@key 和 @index。 在 Less 3.7 中，通过 each() 函数，Less 引入了匿名混合的概念，以后可能会扩展到语法的其他部分。
 匿名混合使用 #() 或 .() 的形式，以 . 或 # 开头，就像常规混合一样。 在 each() 中，可以这样使用：</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.set-2()</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">one</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">two</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span></span>
@@ -278,7 +278,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.set-2</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">one-1</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">two-2</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span></span>
@@ -291,7 +291,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： integer</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content-1</span><span class="token punctuation">:</span><span class="token function">ceil</span><span class="token punctuation">(</span>2.3<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content-2</span><span class="token punctuation">:</span><span class="token function">ceil</span><span class="token punctuation">(</span>2.4<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -299,7 +299,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content-1</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content-2</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span></span>
@@ -311,7 +311,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： integer</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content-1</span><span class="token punctuation">:</span>  <span class="token function">floor</span><span class="token punctuation">(</span>2.3<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content-2</span><span class="token punctuation">:</span><span class="token function">floor</span><span class="token punctuation">(</span>2.4<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -319,7 +319,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content-1</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content-2</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span></span>
@@ -331,13 +331,13 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">percentage</span><span class="token punctuation">(</span>0.53<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 53%<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -351,14 +351,14 @@
 </ul>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">round</span><span class="token punctuation">(</span>1.67<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">round</span><span class="token punctuation">(</span>1.67<span class="token punctuation">,</span> 1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1.7<span class="token punctuation">;</span></span>
@@ -369,14 +369,14 @@
 <p>参数： number - 浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">sqrt</span><span class="token punctuation">(</span>25cm<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">sqrt</span><span class="token punctuation">(</span>18.6%<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 5cm<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 4.31277173%<span class="token punctuation">;</span></span>
@@ -387,14 +387,14 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">abs</span><span class="token punctuation">(</span>25cm<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">abs</span><span class="token punctuation">(</span><span class="token operator">-</span>18.6%<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 25cm<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 18.6%<span class="token punctuation">;</span></span>
@@ -406,7 +406,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">sin</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// sine of 1 radian</span></span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">sin</span><span class="token punctuation">(</span>1deg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// sine of 1 degree</span></span>
@@ -414,7 +414,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.84147098<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.01745241<span class="token punctuation">;</span></span>
@@ -427,7 +427,7 @@
 <p>参数： number - 来自 [-1, 1] 区间的浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">asin</span><span class="token punctuation">(</span><span class="token operator">-</span>0.8414709848078965<span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
 <span class="line">   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">asin</span><span class="token punctuation">(</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
@@ -435,7 +435,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> -1rad<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0rad<span class="token punctuation">;</span></span>
@@ -448,7 +448,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">cos</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// cosine of 1 radian</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">cos</span><span class="token punctuation">(</span>1deg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// cosine of 1 degree</span></span>
@@ -456,7 +456,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.54030231<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.9998477<span class="token punctuation">;</span></span>
@@ -469,7 +469,7 @@
 <p>参数： number - 来自 [-1, 1] 区间的浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">acos</span><span class="token punctuation">(</span>0.5403023058681398<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">acos</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -477,7 +477,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1rad<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0rad<span class="token punctuation">;</span></span>
@@ -491,7 +491,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">tan</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// tangent of 1 radian</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">tan</span><span class="token punctuation">(</span>1deg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// tangent of 1 degree</span></span>
@@ -499,7 +499,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1.55740772<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.01745506<span class="token punctuation">;</span></span>
@@ -512,7 +512,7 @@
 <p>参数： number - 一个浮点数。</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">atan</span><span class="token punctuation">(</span><span class="token operator">-</span>1.5574077246549023<span class="token punctuation">)</span><span class="token punctuation">;</span>  </span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">atan</span><span class="token punctuation">(</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
@@ -520,7 +520,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> -1rad<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0rad<span class="token punctuation">;</span></span>
@@ -532,7 +532,7 @@
 <p>参数： none</p>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">pi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> 2<span class="token operator">*</span><span class="token function">pi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -540,7 +540,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 3.14159265<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 6.28318531<span class="token punctuation">;</span></span>
@@ -557,7 +557,7 @@
 </ul>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">pow</span><span class="token punctuation">(</span>0cm<span class="token punctuation">,</span> 0px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">pow</span><span class="token punctuation">(</span>25<span class="token punctuation">,</span> <span class="token operator">-</span>2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -567,7 +567,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1cm<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.0016<span class="token punctuation">;</span></span>
@@ -584,7 +584,7 @@
 </ul>
 <p>返回： number</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">mod</span><span class="token punctuation">(</span>0.2cm<span class="token punctuation">,</span> 0.3px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">mod</span><span class="token punctuation">(</span>11cm<span class="token punctuation">,</span> 6px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -592,7 +592,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 0.2cm<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 5cm<span class="token punctuation">;</span></span>
@@ -604,14 +604,14 @@
 <p>参数： value1, ..., valueN - 要比较的一个或多个值。</p>
 <p>返回： 最低值。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">min</span><span class="token punctuation">(</span>5<span class="token punctuation">,</span> 10<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">min</span><span class="token punctuation">(</span>3px<span class="token punctuation">,</span> 42px<span class="token punctuation">,</span> 1px<span class="token punctuation">,</span> 16px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 5<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span></span>
@@ -622,14 +622,14 @@
 <p>参数： value1, ..., valueN - 要比较的一个或多个值。</p>
 <p>返回： 最高值。</p>
 <p><strong>编译前LESS</strong></p>
-<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less" data-title="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre v-pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
 <span class="line"><span class="token selector">.test</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">min</span><span class="token punctuation">(</span>5<span class="token punctuation">,</span> 10<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span>  <span class="token function">min</span><span class="token punctuation">(</span>3px<span class="token punctuation">,</span> 42px<span class="token punctuation">,</span> 1px<span class="token punctuation">,</span> 16px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.test</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 5<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span></span>

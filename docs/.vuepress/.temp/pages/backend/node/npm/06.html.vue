@@ -11,7 +11,7 @@
 <h2 id="_6-2-安装" tabindex="-1"><a class="header-anchor" href="#_6-2-安装"><span>6.2 安装</span></a></h2>
 <p><a href="https://pnpm.io/zh/installation" target="_blank" rel="noopener noreferrer">PNPM 官方文档</a></p>
 <p>当本机不存在 NPM 环境，可使用命令行直接安装</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># windows(powershell)</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># windows(powershell)</span></span>
 <span class="line">iwr https://get.pnpm.io/install.ps1 <span class="token parameter variable">-useb</span> <span class="token operator">|</span> iex</span>
 <span class="line"></span>
 <span class="line"><span class="token comment"># linux</span></span>
@@ -19,7 +19,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Windows 下，此方式安装的 pnpm.exe 默认安装路径一般为 <code v-pre>~\AppData\Local\pnpm</code> 中</p>
 <p>当本机存在 NPM 环境，可使用 npm 命令安装</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> <span class="token function">pnpm</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> <span class="token function">pnpm</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>Node 与 PNPM 版本兼容性表</p>
 <table>
@@ -68,13 +68,13 @@
 <h2 id="_6-3-配置" tabindex="-1"><a class="header-anchor" href="#_6-3-配置"><span>6.3 配置</span></a></h2>
 <p>路径相关配置</p>
 <p>PNPM 会使用 .npmrc 文件中的配置，同样也有自己全局的配置文件，默认位于</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># Windows</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># Windows</span></span>
 <span class="line">~/AppData/Local/pnpm/config/rc</span>
 <span class="line"><span class="token comment"># Linux</span></span>
 <span class="line">~/.config/pnpm/rc</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>可以在配置文件中通过key=value方式来配置</p>
-<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini" data-title="ini"><pre v-pre><code><span class="line"><span class="token comment"># pnpm</span></span>
+<div class="language-ini line-numbers-mode" data-highlighter="prismjs" data-ext="ini"><pre v-pre><code><span class="line"><span class="token comment"># pnpm</span></span>
 <span class="line"><span class="token key attr-name">global-bin-dir</span><span class="token punctuation">=</span><span class="token value attr-value">D:\lib\pnpm-store</span></span>
 <span class="line"><span class="token key attr-name">global-dir</span><span class="token punctuation">=</span><span class="token value attr-value">D:\lib\pnpm-store\global</span></span>
 <span class="line"><span class="token key attr-name">cache-dir</span><span class="token punctuation">=</span><span class="token value attr-value">D:\lib\pnpm-store\cache</span></span>
@@ -82,7 +82,7 @@
 <span class="line"><span class="token key attr-name">store-dir</span><span class="token punctuation">=</span><span class="token value attr-value">D:\lib\pnpm-store\store</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>也可以使用命令配置</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 基本目录、可执行文件目录</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 基本目录、可执行文件目录</span></span>
 <span class="line"><span class="token function">pnpm</span> config <span class="token builtin class-name">set</span> global-bin-dir<span class="token operator">=</span>D:<span class="token punctuation">\</span>lib<span class="token punctuation">\</span>pnpm-store</span>
 <span class="line"><span class="token comment"># 全局包目录</span></span>
 <span class="line"><span class="token function">pnpm</span> config <span class="token builtin class-name">set</span> global-dir<span class="token operator">=</span>D:<span class="token punctuation">\</span>lib<span class="token punctuation">\</span>pnpm-store<span class="token punctuation">\</span>global</span>
@@ -100,7 +100,7 @@
 <ol>
 <li>安装</li>
 </ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 默认安装</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 默认安装</span></span>
 <span class="line"><span class="token function">pnpm</span> i</span>
 <span class="line"><span class="token comment"># 从离线仓库安装</span></span>
 <span class="line"><span class="token function">pnpm</span> i <span class="token parameter variable">--offline</span></span>
@@ -114,7 +114,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>添加</li>
 </ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 保存到 dependencies</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 保存到 dependencies</span></span>
 <span class="line"><span class="token function">pnpm</span> <span class="token function">add</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
 <span class="line"><span class="token comment"># 保存到 devDependencies </span></span>
 <span class="line"><span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-D</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
@@ -130,7 +130,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
 <li>更新</li>
 </ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 遵循 package.json 指定的范围更新所有的依赖项</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 遵循 package.json 指定的范围更新所有的依赖项</span></span>
 <span class="line"><span class="token function">pnpm</span> up</span>
 <span class="line"><span class="token comment"># 更新所有依赖项，此操作会忽略 package.json 指定的范围</span></span>
 <span class="line"><span class="token function">pnpm</span> up <span class="token parameter variable">--latest</span>	</span>
@@ -142,7 +142,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
 <li>删除</li>
 </ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">pnpm</span> <span class="token function">rm</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">pnpm</span> <span class="token function">rm</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment"># 从全局删除一个依赖包</span></span>
 <span class="line"><span class="token function">pnpm</span> <span class="token function">rm</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span> --global, <span class="token parameter variable">-g</span></span>
@@ -155,7 +155,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-5-管理-node-版本" tabindex="-1"><a class="header-anchor" href="#_6-5-管理-node-版本"><span>6.5 管理 Node 版本</span></a></h2>
 <p>PNPM 提供了pnpm env命令，用于统一管理 Node 版本</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 安装 Node.js 的 LTS 版本</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 安装 Node.js 的 LTS 版本</span></span>
 <span class="line"><span class="token function">pnpm</span> <span class="token function">env</span> use <span class="token parameter variable">--global</span> lts</span>
 <span class="line"><span class="token comment"># 安装 Node.js v16</span></span>
 <span class="line"><span class="token function">pnpm</span> <span class="token function">env</span> use <span class="token parameter variable">--global</span> <span class="token number">16</span></span>

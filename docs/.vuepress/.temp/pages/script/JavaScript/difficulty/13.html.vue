@@ -1,6 +1,6 @@
 <template><div><h1 id="十三、深浅拷贝" tabindex="-1"><a class="header-anchor" href="#十三、深浅拷贝"><span>十三、深浅拷贝</span></a></h1>
 <p>开发中我们经常需要复制一个对象。如果直接用赋值会有下面问题：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 一个pink对象</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 一个pink对象</span></span>
 <span class="line"><span class="token keyword">const</span> pink <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"pink老师"</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span></span>
@@ -23,7 +23,7 @@
 <li>拷贝对象:0bject.assgin()/展开运算符{...obj} 拷贝对象</li>
 <li>拷贝数组:Array.prototype.concat()或者[...arr]</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 修改对象-浅拷贝</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 修改对象-浅拷贝</span></span>
 <span class="line"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">uname</span><span class="token operator">:</span><span class="token string">'pink'</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -50,7 +50,7 @@
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span>arr2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// [1, 2, 3]  [5, 2, 3]  </span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>浅拷贝的问题-修改深层对象 依然会修改原对象</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">uname</span><span class="token operator">:</span><span class="token string">'pink'</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span><span class="token number">18</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">family</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
@@ -81,7 +81,7 @@
 <li>递归函数的作用和循环效果类似</li>
 <li>由于递归很容易发生“栈溢出”错误(stackoverflow)，所以必须要加退出条件 return</li>
 </ul>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
 <span class="line">    <span class="token comment">// 1.递归基本使用</span></span>
 <span class="line">    <span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span>
@@ -106,7 +106,7 @@
 <span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_13-2-2-深拷贝-递归" tabindex="-1"><a class="header-anchor" href="#_13-2-2-深拷贝-递归"><span>13.2.2 深拷贝-递归</span></a></h3>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">uname</span><span class="token operator">:</span><span class="token string">'pink'</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span><span class="token number">18</span><span class="token punctuation">,</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -160,7 +160,7 @@
 <p>js库lodash里面cloneDeep内部实现了深拷贝 （四年未更新，不建议使用）</p>
 <p>文档：https://www.lodashjs.com/
 下载地址：https://github.com/lodash/lodash</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">uname</span><span class="token operator">:</span><span class="token string">'pink'</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span><span class="token number">18</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">hobby</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token string">'乒乓球'</span><span class="token punctuation">,</span><span class="token string">'足球'</span><span class="token punctuation">]</span><span class="token punctuation">,</span></span>

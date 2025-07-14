@@ -10,12 +10,12 @@
 <h3 id="_2-1-1-通配选择器" tabindex="-1"><a class="header-anchor" href="#_2-1-1-通配选择器"><span>2.1.1 通配选择器</span></a></h3>
 <p><strong>作用</strong>：可以选中所有的 HTML 元素。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">*</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">*</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">属性名</span><span class="token punctuation">:</span> 属性值<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有元素 */</span></span>
 <span class="line"><span class="token selector">*</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">font-size</span><span class="token punctuation">:</span> 40px<span class="token punctuation">;</span></span>
@@ -28,12 +28,12 @@
 <h3 id="_2-1-2-元素选择器" tabindex="-1"><a class="header-anchor" href="#_2-1-2-元素选择器"><span>2.1.2 元素选择器</span></a></h3>
 <p><strong>作用</strong>：为页面中 某种元素 统一设置样式。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">标签名</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">标签名</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">属性名</span><span class="token punctuation">:</span> 属性值<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有h1元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有h1元素 */</span></span>
 <span class="line"><span class="token selector">h1</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">font-size</span><span class="token punctuation">:</span> 40px<span class="token punctuation">;</span></span>
@@ -52,12 +52,12 @@
 <p><strong>作用</strong>：根据元素的 class 值，来选中某些元素。
 <em>class 翻译过来有：种类、类别的含义，所以 class 值，又称：类名。</em>
 <strong>语法</strong>:</p>
-<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre v-pre><code><span class="line">.类名 {</span>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">.类名 {</span>
 <span class="line">    属性名: 属性值;</span>
 <span class="line">}</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>举例：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有class值为speak的元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中所有class值为speak的元素 */</span></span>
 <span class="line"><span class="token selector">.speak</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -73,25 +73,25 @@
 <li>class 值，是我们自定义的，按照标准：不要使用纯数字、不要使用中文、尽量使用英文与数字的组合，若由多个单词组成，使用 - 做连接，例如： <code v-pre>left-menu</code> ，且命名要有意义，做到 “见名知意”。</li>
 <li>一个元素不能写多个 class 属性，下面是 错误示例：</li>
 </ol>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- 该写法错误，元素的属性不能重复，后写的会失效 --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- 该写法错误，元素的属性不能重复，后写的会失效 --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>speak<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>big<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>你好啊<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
 <li>一个元素的 class 属性，能写多个值，要用空格隔开，例如：</li>
 </ol>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- 该写法正确，class属性，能写多个值 --></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- 该写法正确，class属性，能写多个值 --></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>speak big<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>你好啊<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></blockquote>
 <h3 id="_2-1-4-id选择器" tabindex="-1"><a class="header-anchor" href="#_2-1-4-id选择器"><span>2.1.4 ID选择器</span></a></h3>
 <p><strong>作用</strong>：根据元素的 id 属性值，来精准的选中某个元素。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">    <span class="token selector">#id值</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">    <span class="token selector">#id值</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">属性名</span><span class="token punctuation">:</span> 属性值<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">    <span class="token comment">/* 选中id值为earthy的那个元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">    <span class="token comment">/* 选中id值为earthy的那个元素 */</span></span>
 <span class="line">    <span class="token selector">#earthy</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
 <span class="line">        <span class="token property">font-size</span><span class="token punctuation">:</span> 60px<span class="token punctuation">;</span></span>
@@ -158,10 +158,10 @@
 <h3 id="_2-2-1-交集选择器" tabindex="-1"><a class="header-anchor" href="#_2-2-1-交集选择器"><span>2.2.1 交集选择器</span></a></h3>
 <p><strong>作用</strong>：选中同时符合多个条件的元素。 交集有并且的含义（通俗理解：即......又...... 的意思），例如：年轻且长得帅。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.选择器1.选择器2.选择器3...选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.选择器1.选择器2.选择器3...选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中：类名为beauty的p元素，为此种写法用的非常多！！！！ */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中：类名为beauty的p元素，为此种写法用的非常多！！！！ */</span></span>
 <span class="line"><span class="token selector">p.beauty</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -183,11 +183,11 @@
 <p>作用：选中多个选择器对应的元素，又称：分组选择器。
 所谓并集就是或者的含义（通俗理解：要么......要么...... 的意思），例如：给我转10万块钱 或者我报警。
 语法：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1, 选择器2, 选择器3, ... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1, 选择器2, 选择器3, ... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>多个选择器通过 , 连接，此处 , 的含义就是：或。
 举例：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中id为peiqi，或类名为rich，或类名为beauty的元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中id为peiqi，或类名为rich，或类名为beauty的元素 */</span></span>
 <span class="line"><span class="token selector">#peiqi,</span>
 <span class="line">.rich,</span>
 <span class="line">.beauty</span> <span class="token punctuation">{</span></span>
@@ -236,11 +236,11 @@
 <h3 id="_2-2-4-后代选择器" tabindex="-1"><a class="header-anchor" href="#_2-2-4-后代选择器"><span>2.2.4 后代选择器</span></a></h3>
 <p><strong>作用</strong>：选中指定元素中，符合要求的后代元素。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">    <span class="token selector">选择器1 选择器2 选择器3 ...... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">    <span class="token selector">选择器1 选择器2 选择器3 ...... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>（先写祖先，再写后代） 选择器之间，用空格隔开，空格可以理解为：&quot; xxx 中的&quot;，其实就是后代的意思。 选择器 1234....n ，可以是我们之前学的任何一种选择器。
 <strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中ul中的所有li */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中ul中的所有li */</span></span>
 <span class="line"><span class="token selector">ul li</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -269,11 +269,11 @@
 <p><strong>作用</strong>：选中指定元素中，符合要求的子元素（儿子元素）。（先写父，再写子）
 子代选择器又称：子元素选择器、子选择器。
 <strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1 > 选择器2 > 选择器3 > ...... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1 > 选择器2 > 选择器3 > ...... 选择器n</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>选择器之间，用 &gt; 隔开， &gt; 可以理解为：&quot; xxx 的子代&quot;，其实就是儿子的意思。 选择器 1234....n ，可以是我们之前学的任何一种选择器。
 <strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* div中的子代a元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* div中的子代a元素 */</span></span>
 <span class="line"><span class="token selector">div>a</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -295,10 +295,10 @@
 <p><strong>作用</strong>：选中指定元素后，符合条件的相邻兄弟元素。
 所谓相邻，就是紧挨着他的下一个，简记：睡在我下铺的兄弟。</p>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1+选择器2</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1+选择器2</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><strong>示例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中div后相邻的兄弟p元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中div后相邻的兄弟p元素 */</span></span>
 <span class="line"><span class="token selector">div+p</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -307,10 +307,10 @@
 <p><strong>作用</strong>：选中指定元素后，符合条件的所有兄弟元素。
 （简记：睡在我下铺的所有兄弟）</p>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1~选择器2</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">选择器1~选择器2</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><strong>实例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中div后的所有的兄弟p元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中div后的所有的兄弟p元素 */</span></span>
 <span class="line"><span class="token selector">div~p</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -330,7 +330,7 @@
 <li>[属性名*=“值”] 选择包含某个属性，属性值包含指定值的元素。</li>
 </ol>
 <p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中具有title属性的元素 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 选中具有title属性的元素 */</span></span>
 <span class="line"><span class="token selector">div[title]</span><span class="token punctuation">{</span><span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span><span class="token punctuation">}</span></span>
 <span class="line"><span class="token comment">/* 选中title属性值为atguigu的元素 */</span></span>
 <span class="line"><span class="token selector">div[title="atguigu"]</span><span class="token punctuation">{</span><span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span><span class="token punctuation">}</span></span>

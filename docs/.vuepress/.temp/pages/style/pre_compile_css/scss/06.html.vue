@@ -2,7 +2,7 @@
 <h2 id="_6-1相等运算符" tabindex="-1"><a class="header-anchor" href="#_6-1相等运算符"><span>6.1相等运算符</span></a></h2>
 <p>所有数据类型都支持等号运算符，等于使用 “==” 表示，不等于使用 “!=” 表示</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token property"><span class="token variable">$number</span></span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">.container1 </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">@if</span> <span class="token selector"><span class="token variable">$number</span> == 1 </span><span class="token punctuation">{</span></span>
@@ -23,7 +23,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.container1</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -34,7 +34,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-2关系-比较-运算符" tabindex="-1"><a class="header-anchor" href="#_6-2关系-比较-运算符"><span>6.2关系（比较）运算符</span></a></h2>
 <p>关系运算符只支持数字，使用的符号分别是大于号 “&gt;”，小于号 “&lt;“，大于等于号 “&gt;=” 与小于等于号 “&lt;=” ，返回值 “true” 或 “false”，主要应用于条件判断</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.p</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'1>2'</span>  1>2<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'1&lt;2'</span>  1&lt;2<span class="token punctuation">;</span></span>
@@ -45,7 +45,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.p</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"1>2"</span> false<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"1&lt;2"</span> true<span class="token punctuation">;</span></span>
@@ -57,7 +57,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-3布尔运算符" tabindex="-1"><a class="header-anchor" href="#_6-3布尔运算符"><span>6.3布尔运算符</span></a></h2>
 <p>布尔运算符包含三种形式，分别是与 “and”、 或”or”、 非”not”。</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token property"><span class="token variable">$width</span></span><span class="token punctuation">:</span> 100<span class="token punctuation">;</span></span>
 <span class="line"><span class="token property"><span class="token variable">$height</span></span><span class="token punctuation">:</span> 200<span class="token punctuation">;</span></span>
 <span class="line"><span class="token property"><span class="token variable">$last</span></span><span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">;</span></span>
@@ -86,7 +86,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">font-size</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span></span>
@@ -98,7 +98,7 @@
 <p>数字运算符包含加”+”，减”-“，乘”*”，除”/”与取模”%”，取模即是两个数字相除取余数。</p>
 <h3 id="_6-4-1基本用法" tabindex="-1"><a class="header-anchor" href="#_6-4-1基本用法"><span>6.4.1基本用法</span></a></h3>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token comment">// 纯数字相加</span></span>
 <span class="line"><span class="token property"><span class="token variable">$plus1</span></span><span class="token punctuation">:</span> 30 <span class="token operator">+</span> 30<span class="token punctuation">;</span> <span class="token comment">//60</span></span>
 <span class="line"><span class="token property"><span class="token variable">$plus2</span></span><span class="token punctuation">:</span> 30px <span class="token operator">+</span> 30<span class="token punctuation">;</span> <span class="token comment">//60px</span></span>
@@ -151,7 +151,7 @@
 <span class="line"> <span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.plus</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> 60 60px 60% 70px 550px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -170,7 +170,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_6-4-2混合用法" tabindex="-1"><a class="header-anchor" href="#_6-4-2混合用法"><span>6.4.2混合用法</span></a></h3>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 数字，字符串相加</span></span>
 <span class="line"><span class="token property"><span class="token variable">$plus1</span></span><span class="token punctuation">:</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span> <span class="token comment">//ab</span></span>
@@ -201,7 +201,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"></span>
 <span class="line"><span class="token selector">.plus</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> ab <span class="token string">"ab"</span> <span class="token string">"ab"</span> <span class="token string">"ab"</span> ab <span class="token string">"a1"</span> <span class="token string">"1a"</span><span class="token punctuation">;</span></span>
@@ -220,7 +220,7 @@
 2. 如果值被圆括号包裹
 3. 如果值是算数表达式的一部分
 <strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token property"><span class="token variable">$width</span></span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token selector">div </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token variable">$width</span> <span class="token operator">/</span> 2<span class="token punctuation">;</span> <span class="token comment">//使用变量</span></span>
@@ -230,7 +230,7 @@
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">width</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">z-index</span><span class="token punctuation">:</span> 5<span class="token punctuation">;</span></span>
@@ -251,7 +251,7 @@
 <h2 id="_6-5字符串运算" tabindex="-1"><a class="header-anchor" href="#_6-5字符串运算"><span>6.5字符串运算</span></a></h2>
 <p>使用加号”+” 可连接字符串，如字符串前面带引号后面不带，编译出的结果会带引号，反之。</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">.container </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"Foo"</span> <span class="token operator">+</span> bar<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">font-family</span><span class="token punctuation">:</span> sans- <span class="token operator">+</span> <span class="token string">"serif"</span><span class="token punctuation">;</span></span>
@@ -259,7 +259,7 @@
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">"Foobar"</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">font-family</span><span class="token punctuation">:</span> sans-serif<span class="token punctuation">;</span></span>
@@ -268,13 +268,13 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-6-圆括号" tabindex="-1"><a class="header-anchor" href="#_6-6-圆括号"><span>6.6 圆括号</span></a></h2>
 <p>圆括号可以用来影响运算的顺序：</p>
 <p><strong>编译前SCSS</strong></p>
-<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss" data-title="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
+<div class="language-scss line-numbers-mode" data-highlighter="prismjs" data-ext="scss"><pre v-pre><code><span class="line"><span class="token comment">// scss 代码编辑</span></span>
 <span class="line"><span class="token selector">p </span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 1em <span class="token operator">+</span> <span class="token punctuation">(</span>2em <span class="token operator">*</span> 3<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
 <span class="line"><span class="token selector">p</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">width</span><span class="token punctuation">:</span> 7em<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>

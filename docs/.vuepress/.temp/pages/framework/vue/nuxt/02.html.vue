@@ -40,7 +40,7 @@
 </li>
 </ul>
 <h2 id="_2-2-创建初始化目录" tabindex="-1"><a class="header-anchor" href="#_2-2-创建初始化目录"><span>2.2 创建初始化目录</span></a></h2>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line">npx nuxi@latest init myNuxt</span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line">npx nuxi@latest init myNuxt</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></div></template>
 

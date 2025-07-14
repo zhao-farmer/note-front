@@ -119,7 +119,7 @@
 <ul>
 <li>方案一：</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">left</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">right</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">top</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span></span>
@@ -130,7 +130,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li>方案二：</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">top</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">margin-left</span><span class="token punctuation">:</span> 负的宽度一半<span class="token punctuation">;</span></span>

@@ -10,7 +10,7 @@
 <ol>
 <li>简单方式定义：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/*写法一*/</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/*写法一*/</span></span>
 <span class="line"><span class="token atrule"><span class="token rule">@keyframes</span> 动画名</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token selector">from</span> <span class="token punctuation">{</span></span>
 <span class="line">            <span class="token comment">/*property1:value1*/</span></span>
@@ -24,7 +24,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
 <li>完整方式定义：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@keyframes</span> 动画名</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@keyframes</span> 动画名</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token selector">0%</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token comment">/*property1:value1*/</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
@@ -53,7 +53,7 @@
 <li>animation-duration ：设置动画所需时间</li>
 <li>animation-delay ：设置动画延迟</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.box</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.box</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 指定动画 */</span></span>
 <span class="line">    <span class="token property">animation-name</span><span class="token punctuation">:</span> testKey<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 设置动画所需时间 */</span></span>
@@ -106,7 +106,7 @@
 </ul>
 <h2 id="_13-5-动画复合属性" tabindex="-1"><a class="header-anchor" href="#_13-5-动画复合属性"><span>13.5 动画复合属性</span></a></h2>
 <p>只设置一个时间表示 duration ，设置两个时间分别是： duration 和 delay ，其他属性没有数量和 顺序要求。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">animation</span><span class="token punctuation">:</span> atguigu 3s 0.5s linear 2 alternate-reverse forwards<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>

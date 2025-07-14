@@ -4,7 +4,7 @@
 <li>在 CSS3 中，使用 border-radius 属性可以将盒子变为圆角。</li>
 <li>同时设置四个角的圆角：</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">border-radius</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span> </span>
 <span class="line">    <span class="token property">border-radius</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -41,7 +41,7 @@
 <ul>
 <li>分开设置每个角的圆角，综合写法（几乎不用）：</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* border-raidus: 左上角x 右上角x 右下角x 左下角x / 左上y 右上y 右下y 左下y */</span></span>
 <span class="line">    <span class="token property">border-radius</span><span class="token punctuation">:</span> 100px 50px 20px 10px / 50px 20px 10px 5px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>

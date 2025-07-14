@@ -33,7 +33,7 @@
 <p><strong>格式为</strong>：# rrggbb</p>
 <p>每一位数字的取值范围是： 0 ~ f ，即：（ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f ）
 所以每一种光的最小值是： 00 ，最大值是： ff</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #ff0000<span class="token punctuation">;</span><span class="token comment">/* 红色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #00ff00<span class="token punctuation">;</span><span class="token comment">/* 绿色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #0000ff<span class="token punctuation">;</span><span class="token comment">/* 蓝色 */</span></span>

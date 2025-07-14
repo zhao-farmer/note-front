@@ -40,7 +40,7 @@
 <li>浏览器针对位移有优化，与定位相比，浏览器处理位移的效率更高。</li>
 <li>transform 可以链式编写，例如：</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">   <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>30px<span class="token punctuation">)</span> <span class="token function">translateY</span><span class="token punctuation">(</span>40px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -48,7 +48,7 @@
 <li>位移对行内元素无效。</li>
 <li>位移配合定位，可实现元素水平垂直居中</li>
 </ol>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.box</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.box</span> <span class="token punctuation">{</span></span>
 <span class="line">   <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span></span>
 <span class="line">   <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
 <span class="line">   <span class="token property">top</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
@@ -156,7 +156,7 @@
 </table>
 <h2 id="_10-5-多重变换" tabindex="-1"><a class="header-anchor" href="#_10-5-多重变换"><span>10.5 多重变换</span></a></h2>
 <p>多个变换，可以同时使用一个 transform 来编写。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translate</span><span class="token punctuation">(</span>-50%<span class="token punctuation">,</span> -50%<span class="token punctuation">)</span> <span class="token function">rotate</span><span class="token punctuation">(</span>45deg<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>

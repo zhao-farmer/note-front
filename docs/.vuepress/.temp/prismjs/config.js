@@ -4,6 +4,7 @@ import "E:/study/blog/note-front/node_modules/@vuepress/highlighter-helper/lib/c
 import "E:/study/blog/note-front/node_modules/@vuepress/highlighter-helper/lib/client/styles/notation-highlight.css"
 import "E:/study/blog/note-front/node_modules/@vuepress/highlighter-helper/lib/client/styles/collapsed-lines.css"
 import { setupCollapsedLines } from "E:/study/blog/note-front/node_modules/@vuepress/highlighter-helper/lib/client/index.js"
+import "E:/study/blog/note-front/node_modules/@vuepress/highlighter-helper/lib/client/styles/code-block-title.css"
 
 export default {
   setup() {

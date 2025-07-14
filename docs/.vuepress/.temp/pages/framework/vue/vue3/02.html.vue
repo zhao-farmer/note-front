@@ -2,7 +2,7 @@
 <h2 id="_3-1-【基于-vue-cli-创建】" tabindex="-1"><a class="header-anchor" href="#_3-1-【基于-vue-cli-创建】"><span>3.1 【基于 vue-cli 创建】</span></a></h2>
 <p>点击查看 <a href="https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create" target="_blank" rel="noopener noreferrer">官方文档</a></p>
 <p>备注：目前vue-cli已处于维护模式，官方推荐基于 Vite 创建项目。</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment">## 查看@vue/cli版本，确保@vue/cli版本在4.5.0以上</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment">## 查看@vue/cli版本，确保@vue/cli版本在4.5.0以上</span></span>
 <span class="line">vue <span class="token parameter variable">--version</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">## 安装或者升级你的@vue/cli </span></span>
@@ -33,7 +33,7 @@
 <ul>
 <li>具体操作如下（点击查看官方文档）</li>
 </ul>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line">    <span class="token comment">## 1.创建命令</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line">    <span class="token comment">## 1.创建命令</span></span>
 <span class="line">    <span class="token function">npm</span> create vue@latest</span>
 <span class="line">    </span>
 <span class="line">    <span class="token comment">## 2.具体配置</span></span>
@@ -81,7 +81,7 @@
 <ol start="2">
 <li>引入了main.ts</li>
 </ol>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/* 引入样式 */</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/* 引入样式 */</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token string">'./assets/main.css'</span></span>
 <span class="line"><span class="token comment">/* 创建应用方法 */</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span></span>

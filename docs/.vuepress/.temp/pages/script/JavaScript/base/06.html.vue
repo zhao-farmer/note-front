@@ -59,7 +59,7 @@
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"孙悟空"</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"孙悟空"</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>gender <span class="token operator">=</span> <span class="token string">"男"</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -114,7 +114,7 @@
 </ul>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"孙悟空"</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>if <span class="token operator">=</span> <span class="token string">"哈哈"</span><span class="token punctuation">;</span><span class="token comment">//不建议</span></span>
 <span class="line">obj<span class="token punctuation">.</span>let <span class="token operator">=</span> <span class="token string">"let"</span><span class="token punctuation">;</span><span class="token comment">//不建议</span></span>
@@ -155,12 +155,12 @@
 <li>使用{}所创建额对象，可以直接向对象中添加属性</li>
 <li>语法：</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">属性名</span><span class="token operator">:</span>属性值<span class="token punctuation">,</span></span>
 <span class="line">    <span class="token punctuation">[</span>属性值<span class="token punctuation">]</span><span class="token operator">:</span>属性值<span class="token punctuation">,</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">let</span> mySymbol <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">let</span> obj2 <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"孙悟空"</span><span class="token punctuation">,</span></span>
@@ -181,7 +181,7 @@
 <ul>
 <li>语法：</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> propName <span class="token keyword">in</span> 对象<span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> propName <span class="token keyword">in</span> 对象<span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    语句<span class="token operator">...</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -190,7 +190,7 @@
 每次执行时，都会将一个属性名赋值给我们所定义的变量</li>
 <li>注意：并不是所有的属性都可以枚举，比如 使用符号添加的属性</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"孙悟空"</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span></span>
 <span class="line">    <span class="token literal-property property">gender</span><span class="token operator">:</span> <span class="token string">"男"</span><span class="token punctuation">,</span></span>
@@ -225,7 +225,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line">obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"孙悟空"</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">let</span> obj2 <span class="token operator">=</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -248,7 +248,7 @@
 <li>注意：
 const指示进制变量被重新赋值，对对象的修改没有影响</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'孙悟空'</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">let</span> obj2 <span class="token operator">=</span> obj<span class="token punctuation">;</span></span>
@@ -270,7 +270,7 @@ const指示进制变量被重新赋值，对对象的修改没有影响</li>
 <li>当一个对象的属性指向一个函数,那么我们就成这个函数时该对象的方法</li>
 <li>调用函数就成为调用对象的方法</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>
 <span class="line">obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"孙悟空"</span><span class="token punctuation">;</span></span>
 <span class="line">obj<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token comment">// 函数也可以成为一个对象的属性</span></span>

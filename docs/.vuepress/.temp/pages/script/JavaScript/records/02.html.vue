@@ -1,18 +1,18 @@
-<template><div><h1 id="_02js中音频" tabindex="-1"><a class="header-anchor" href="#_02js中音频"><span>02JS中音频</span></a></h1>
+<template><div><h1 id="_02-js中音频" tabindex="-1"><a class="header-anchor" href="#_02-js中音频"><span>02 JS中音频</span></a></h1>
 <h2 id="_1-加载音频对象" tabindex="-1"><a class="header-anchor" href="#_1-加载音频对象"><span>1. 加载音频对象</span></a></h2>
 <p>方式一：获取标签中的对象</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> html中的标签 <span class="token operator">--</span><span class="token operator">></span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> html中的标签 <span class="token operator">--</span><span class="token operator">></span></span>
 <span class="line"><span class="token operator">&lt;</span>audio src<span class="token operator">=</span><span class="token string">"music.mp3"</span> <span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>audio<span class="token operator">></span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 获取对象</span></span>
 <span class="line"><span class="token keyword">let</span> audio <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"audio"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>方式二：使用JS新建对象</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">//创建对象</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//创建对象</span></span>
 <span class="line"><span class="token keyword">let</span> audio <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Audio</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_2-简单的使用" tabindex="-1"><a class="header-anchor" href="#_2-简单的使用"><span>2. 简单的使用</span></a></h2>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1. 播放音频：</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1. 播放音频：</span></span>
 <span class="line">audio<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 2. 暂停音频：</span></span>

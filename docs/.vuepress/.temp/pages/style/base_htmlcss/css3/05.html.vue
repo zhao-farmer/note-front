@@ -56,7 +56,7 @@
 </blockquote>
 <h2 id="_5-4-backgorund-复合属性" tabindex="-1"><a class="header-anchor" href="#_5-4-backgorund-复合属性"><span>5.4. backgorund 复合属性</span></a></h2>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* background: 背景颜色 背景url 是否重复 位置 / 大小 原点 裁剪方式; */</span></span>
 <span class="line">    <span class="token property">background</span><span class="token punctuation">:</span> color url repeat position / size origin clip<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -71,7 +71,7 @@
 </blockquote>
 <h2 id="_5-5-多背景图" tabindex="-1"><a class="header-anchor" href="#_5-5-多背景图"><span>5.5. 多背景图</span></a></h2>
 <p>CSS3 允许元素设置多个背景图片</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 添加多个背景图 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 添加多个背景图 */</span></span>
 <span class="line"><span class="token property">background</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>../images/bg-lt.png<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">,</span></span>
 <span class="line">            <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>../images/bg-rt.png<span class="token punctuation">)</span></span> no-repeat right top<span class="token punctuation">,</span></span>
 <span class="line">            <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>../images/bg-lb.png<span class="token punctuation">)</span></span> no-repeat left bottom<span class="token punctuation">,</span></span>

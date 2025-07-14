@@ -4,7 +4,7 @@
 <h2 id="_5-2【搭建-pinia-环境】" tabindex="-1"><a class="header-anchor" href="#_5-2【搭建-pinia-环境】"><span>5.2【搭建 pinia 环境】</span></a></h2>
 <p>第一步：<code v-pre>npm install pinia</code></p>
 <p>第二步：操作<code v-pre>src/main.ts</code></p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span></span>
 <span class="line"><span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">/* 引入createPinia，用于创建pinia */</span></span>
@@ -30,7 +30,7 @@
 </li>
 <li>
 <p>具体编码：<code v-pre>src/store/count.ts</code></p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 定义并暴露一个store</span></span>
@@ -50,7 +50,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>具体编码：<code v-pre>src/store/talk.ts</code></p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 定义并暴露一个store</span></span>
@@ -74,7 +74,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>组件中使用<code v-pre>state</code>中的数据</p>
-<div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue" data-title="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
+<div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>当前求和为：{{ sumStore.sum }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line"></span>
@@ -86,7 +86,7 @@
 <span class="line">  <span class="token keyword">const</span> sumStore <span class="token operator">=</span> <span class="token function">useSumStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue" data-title="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>talk in talkStore.talkList<span class="token punctuation">"</span></span> <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>talk.id<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">      {{ talk.content }}</span>
@@ -107,12 +107,12 @@
 <ol>
 <li>
 <p>第一种修改方式，直接修改</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line">countStore<span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token number">666</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line">countStore<span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token number">666</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
 <li>
 <p>第二种修改方式：批量修改</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line">countStore<span class="token punctuation">.</span><span class="token function">$patch</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line">countStore<span class="token punctuation">.</span><span class="token function">$patch</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
 <span class="line">  sum<span class="token operator">:</span><span class="token number">999</span><span class="token punctuation">,</span></span>
 <span class="line">  school<span class="token operator">:</span><span class="token string">'atguigu'</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
@@ -120,7 +120,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>第三种修改方式：借助<code v-pre>action</code>修改（<code v-pre>action</code>中可以编写一些业务逻辑）</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> defineStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> useCountStore <span class="token operator">=</span> <span class="token function">defineStore</span><span class="token punctuation">(</span><span class="token string">'count'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token doc-comment comment">/*************/</span></span>
@@ -145,7 +145,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>组件中调用<code v-pre>action</code>即可</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用countStore</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用countStore</span></span>
 <span class="line"><span class="token keyword">const</span> countStore <span class="token operator">=</span> <span class="token function">useCountStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 调用对应action</span></span>
@@ -158,7 +158,7 @@
 <li>借助<code v-pre>storeToRefs</code>将<code v-pre>store</code>中的数据转为<code v-pre>ref</code>对象，方便在模板中使用。</li>
 <li>注意：<code v-pre>pinia</code>提供的<code v-pre>storeToRefs</code>只会将数据做转换，而<code v-pre>Vue</code>的<code v-pre>toRefs</code>会转换<code v-pre>store</code>中数据。</li>
 </ul>
-<div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue" data-title="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
+<div class="language-vue line-numbers-mode" data-highlighter="prismjs" data-ext="vue"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span></span>
 <span class="line">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>count<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>当前求和为：{{sum}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></span>
 <span class="line">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></span>
@@ -183,7 +183,7 @@
 </li>
 <li>
 <p>追加<code v-pre>getters</code>配置。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 引入defineStore用于创建store</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 定义并暴露一个store</span></span>
@@ -211,20 +211,20 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
 <li>
 <p>组件中读取数据：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>increment<span class="token punctuation">,</span>decrement<span class="token punctuation">}</span> <span class="token operator">=</span> countStore</span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>increment<span class="token punctuation">,</span>decrement<span class="token punctuation">}</span> <span class="token operator">=</span> countStore</span>
 <span class="line"><span class="token keyword">let</span> <span class="token punctuation">{</span>sum<span class="token punctuation">,</span>school<span class="token punctuation">,</span>bigSum<span class="token punctuation">,</span>upperSchool<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">storeToRefs</span><span class="token punctuation">(</span>countStore<span class="token punctuation">)</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></li>
 </ol>
 <h2 id="_5-7-【-subscribe】" tabindex="-1"><a class="header-anchor" href="#_5-7-【-subscribe】"><span>5.7.【$subscribe】</span></a></h2>
 <p>通过 store 的 <code v-pre>$subscribe()</code> 方法侦听 <code v-pre>state</code> 及其变化</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line">talkStore<span class="token punctuation">.</span><span class="token function">$subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span>mutate<span class="token punctuation">,</span>state<span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line">talkStore<span class="token punctuation">.</span><span class="token function">$subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span>mutate<span class="token punctuation">,</span>state<span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'LoveTalk'</span><span class="token punctuation">,</span>mutate<span class="token punctuation">,</span>state<span class="token punctuation">)</span></span>
 <span class="line">  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'talk'</span><span class="token punctuation">,</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>talkList<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_5-8-【store组合式写法】" tabindex="-1"><a class="header-anchor" href="#_5-8-【store组合式写法】"><span>5.8. 【store组合式写法】</span></a></h2>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pinia'</span></span>
 <span class="line"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>nanoid<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nanoid'</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>reactive<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span></span>

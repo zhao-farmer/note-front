@@ -1,6 +1,6 @@
 <template><div><h1 id="十一、字符串常见方法" tabindex="-1"><a class="header-anchor" href="#十一、字符串常见方法"><span>十一、字符串常见方法</span></a></h1>
 <p>在javaScript中的字符串、数值、布尔值具有对象的使用特征，如具有属性和方法</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 字符串类型</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 字符串类型</span></span>
 <span class="line"><span class="token keyword">const</span> str <span class="token operator">=</span><span class="token string">'hello world!'</span></span>
 <span class="line"><span class="token comment">// 统计字符的长度(字符数量)</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span>length<span class="token punctuation">)</span></span>
@@ -24,7 +24,7 @@
 <li>实例方法 replace 用于替换字符串，支持正则匹配</li>
 <li>实例方法 match 用于查找字符串，支持正则匹配</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.实例属性 1ength </span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.实例属性 1ength </span></span>
 <span class="line"><span class="token keyword">const</span> str1 <span class="token operator">=</span> <span class="token string">'pink'</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>str1<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 4</span></span>
 <span class="line"></span>

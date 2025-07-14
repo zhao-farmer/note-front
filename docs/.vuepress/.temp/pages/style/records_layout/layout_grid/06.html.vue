@@ -6,101 +6,101 @@
 <h5 id="_1-none-表示不明确的网格-所有的行和其大小都将由grid-auto-rows-属性隐式的指定。" tabindex="-1"><a class="header-anchor" href="#_1-none-表示不明确的网格-所有的行和其大小都将由grid-auto-rows-属性隐式的指定。"><span>1. none：表示不明确的网格，所有的行和其大小都将由grid-auto-rows 属性隐式的指定。</span></a></h5>
 <h4 id="_6-1-1-2-数值" tabindex="-1"><a class="header-anchor" href="#_6-1-1-2-数值"><span>6.1.1.2 数值</span></a></h4>
 <h5 id="_1-非负值的长度大小-px-em-vw" tabindex="-1"><a class="header-anchor" href="#_1-非负值的长度大小-px-em-vw"><span>1.非负值的长度大小（px，em，vw）</span></a></h5>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/*下面代码指定了一个三行三列的网格，列宽和行高都是100px。*/</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> 100px 100px 100px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> 100px 100px 100px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/03.html" width="900" height="350"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/03.html" width="900" height="350"></iframe>
 <p>其他取值：</p>
 <h5 id="_2-非负值且相对于网格容器的百分比。" tabindex="-1"><a class="header-anchor" href="#_2-非负值且相对于网格容器的百分比。"><span>2.非负值且相对于网格容器的百分比。</span></a></h5>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/*下面代码指定了一个三行三列的网格，列宽和行高都是100px。*/</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> 30% 30% 30%<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> 30% 30% 30%<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/04.html" width="900" height="400"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/04.html" width="900" height="400"></iframe>
 <h4 id="_6-1-1-3-代替长度的单位" tabindex="-1"><a class="header-anchor" href="#_6-1-1-3-代替长度的单位"><span>6.1.1.3 代替长度的单位</span></a></h4>
 <h5 id="_1-fr字符串" tabindex="-1"><a class="header-anchor" href="#_1-fr字符串"><span>1.fr字符串</span></a></h5>
 <p>非负值，用单位 fr 来定义网格轨道大小的弹性系数。每个定义了 的网格轨道会按比例分配剩余的可用空间。</p>
 <p>为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为&quot;片段&quot;）。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span>grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/*两个相同宽度的列。*/</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> 1fr 1fr<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/05.html" width="900" height="550"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/05.html" width="900" height="550"></iframe>
 <p>fr可以与绝对长度的单位结合使用，这时会非常方便。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/*第一列的宽度为150像素，第二列的宽度是第三列的一半。*/</span></span>
 <span class="line">  <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> 150px 1fr 2fr<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/06.html" width="900" height="350"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/06.html" width="900" height="350"></iframe>
 <h5 id="_2-max-content-min-content字符串" tabindex="-1"><a class="header-anchor" href="#_2-max-content-min-content字符串"><span>2.max-content/min-content字符串</span></a></h5>
 <p>首先介绍一下，min-content和max-content尺寸是根据内容来的，min-content是最小内容尺寸，中文的最小内容单位是一个汉字，英文的最小内容单位是单词，因此min-content最终宽度是所有这些最小内容单元最长的那个单元宽度；max-content是最大内容宽度，可以理解为文本内容不换行时候的宽度。不过，min-content和max-content在实际开发的时候是不会相对于字符进行尺寸设定的，而是相对于图片或者内联性质的容器元素，比方说容器宽度不确定同时一行最多显示一个容器（min-content），或者所有元素在一行显示（max-content）。</p>
 <p>min-content 关键字可将轨道设置为与其最小内容一样宽或一样高。通常是单词间没有额外空间时的尺寸。如下图：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 根据内容确认大小 */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> max-content max-content  max-content <span class="token punctuation">;</span></span>
 <span class="line">    </span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/07.html" width="900" height="220"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/07.html" width="900" height="220"></iframe>
 <p>max-content 关键字的作用基本上与 min-content 相反：它根据网格单元格中最大的内容来确定轨道大小。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 根据内容确认大小 */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> min-content min-content  min-content <span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/08.html" width="900" height="180"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/08.html" width="900" height="180"></iframe>
 <h5 id="_3-auto字符串" tabindex="-1"><a class="header-anchor" href="#_3-auto字符串"><span>3.auto字符串</span></a></h5>
 <p>如果该网格轨道为最大时，该属性等同于 max-content ，为最小时，则等同于 min-content 。auto 只有在与其他值混合时才会出现上述行为。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 根据内容确认大小 */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> auto 1fr auto 1fr auto<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/09.html" width="900" height="180"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/09.html" width="900" height="180"></iframe>
 <h4 id="_6-1-1-4-作用于单个数值函数" tabindex="-1"><a class="header-anchor" href="#_6-1-1-4-作用于单个数值函数"><span>6.1.1.4 作用于单个数值函数</span></a></h4>
 <h5 id="_1-fit-content" tabindex="-1"><a class="header-anchor" href="#_1-fit-content"><span>1.fit-content()</span></a></h5>
 <p>只有一个参数，只能为长度或者百分值 。</p>
 <p>其底层原理不过多解释，效果可以描述为：“尺寸由内容决定，内容越多尺寸越大，最小为 min-content，最大不超过限定的尺寸”。</p>
 <p>默认是给的值，缩小后可以低于设定值</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token comment">/* 根据内容确认大小 */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token function">fit-content</span><span class="token punctuation">(</span>150px<span class="token punctuation">)</span> 100px <span class="token function">fit-content</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> 50px <span class="token function">fit-content</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/10.html" width="900" height="180"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/10.html" width="900" height="180"></iframe>
 <h5 id="_2-minmax-函数" tabindex="-1"><a class="header-anchor" href="#_2-minmax-函数"><span>2.minmax() 函数</span></a></h5>
 <p>minmax() 函数本身需要两个参数–最小值和最大值，中间用逗号隔开。因此，通过 minmax()，我们可以在灵活的环境中为轨道设置一系列可能的尺寸。</p>
 <p>例如，我们可以将一列设置为 minmax(40px, 100px)，这意味着其最小宽度为 40px，最大宽度为 100px。minmax() 的两个参数都可以使用长度值，如 fr、px、em、% 和 ch，以及 min-content、max-content 和 auto。不过，最好至少为一个参数使用长度值，因为关键字不应该同时作为两个参数工作 。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span><span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span>200px<span class="token punctuation">)</span> 120px 80px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> <span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span> auto<span class="token punctuation">)</span>  70px 130p<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/11.html" width="900" height="350"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/11.html" width="900" height="350"></iframe>
 <p>minmax() 函数的参数也可以是 min() 或 max() 函数。这两个函数都接收两个参数。min()函数应用两个值中较小的值，而 max() 函数应用较大的值。这在响应式环境中非常有用。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span><span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span>200px<span class="token punctuation">)</span> 120px 80px<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> <span class="token function">minmax</span><span class="token punctuation">(</span><span class="token function">min</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span> 8vw<span class="token punctuation">)</span><span class="token punctuation">,</span> 1fr<span class="token punctuation">)</span> 70px 130p<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/12.html" width="900" height="350"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/12.html" width="900" height="350"></iframe>
 <h4 id="_6-1-1-5-作用于整体数值函数" tabindex="-1"><a class="header-anchor" href="#_6-1-1-5-作用于整体数值函数"><span>6.1.1.5 作用于整体数值函数</span></a></h4>
 <h5 id="_1-repeat-函数" tabindex="-1"><a class="header-anchor" href="#_1-repeat-函数"><span>1.repeat()函数</span></a></h5>
 <p>repeat() 函数表示轨道列表的重复片段，允许以更紧凑的形式写入大量显示重复模式的列或行。如：grid-template-rows: repeat(3, 2fr 1fr)：重复“2fr 1fr”这两个模式三次，总共创建6行。</p>
@@ -121,32 +121,32 @@
 <li>fit-content()函数</li>
 <li>命名线</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token function">repeat</span><span class="token punctuation">(</span>3<span class="token punctuation">,</span> 100px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> <span class="token function">repeat</span><span class="token punctuation">(</span>3<span class="token punctuation">,</span> 100px<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/style/records_layout/layout_grid/html/13.html" width="900" height="350"></iframe>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><iframe src="/note-front/style/records_layout/layout_grid/html/13.html" width="900" height="350"></iframe>
 <ol>
 <li>关键字auto-fill</li>
 </ol>
 <p>自动填充行数或列数，当宽度或高度改变的时候，也会动态改变</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token function">repeat</span><span class="token punctuation">(</span>auto-fill<span class="token punctuation">,</span> <span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span> 1fr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="/style/records_layout/layout_grid/images/010.png" alt=""></p>
 <p>随着尺寸变小，列数会跟着动态变化，同时宽度自动填充Grid容器（因为设置了1fr）。弹性变化效果如图：</p>
 <p><img src="/style/records_layout/layout_grid/images/011.gif" alt=""></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 无效 */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token function">repeat</span><span class="token punctuation">(</span>auto-fill<span class="token punctuation">,</span> <span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span> 1fr<span class="token punctuation">)</span><span class="token punctuation">)</span> auto<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>但是可以和长度只和百分比值一起使用，例如：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 有效，最后一列的宽度始终为 20% */</span></span>
 <span class="line">    <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token function">repeat</span><span class="token punctuation">(</span>auto-fill<span class="token punctuation">,</span> <span class="token function">minmax</span><span class="token punctuation">(</span>100px<span class="token punctuation">,</span> 1fr<span class="token punctuation">)</span><span class="token punctuation">)</span> 20%<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -160,7 +160,7 @@
 <p><img src="/style/records_layout/layout_grid/images/013.png" alt=""></p>
 <h4 id="_6-网格线命名" tabindex="-1"><a class="header-anchor" href="#_6-网格线命名"><span>6.网格线命名</span></a></h4>
 <p>grid-template-columns属性和grid-template-rows属性里面，还可以使用方括号，指定每一根网格线的名字，方便以后的引用。</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.container</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> [c1] 100px [c2] 100px [c3] auto [c4]<span class="token punctuation">;</span></span>
 <span class="line">  <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> [r1] 100px [r2] 100px [r3] auto [r4]<span class="token punctuation">;</span></span>
@@ -175,7 +175,7 @@
 <li>空格分割后的每一个单词表示一个网格项，若单词相同表示这两个网格项表示为一个网格区块，存储一个元素即可，同时如果元素要放在该网格区块需要设置css的grid-area属性为该网格区块的表示单词。（注意：最后有几个网格块，该容器内就应该有几个元素）。</li>
 </ul>
 <p><strong>代码1</strong>：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">#page</span> <span class="token punctuation">{</span></span>
@@ -223,7 +223,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>运行结果</strong></p>
 <p><img src="/style/records_layout/layout_grid/images/014.png" alt=""></p>
 <p><strong>代码2</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -268,7 +268,7 @@
 <li>auto：根据内容大小设置行高。</li>
 </ul>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -299,7 +299,7 @@
 <p>grid-auto-columns：用于指定隐式创建的列轨道的大小。</p>
 <p>和grid-auto-rows的取值一致，但是auto属性表示不是根据内容展开，如果是块元素auto默认占据一行。</p>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -334,7 +334,7 @@
 </ul>
 <p>grid-auto-flow的取值可以是上述取值的一个或两个。</p>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -378,7 +378,7 @@
 <li>：用 （百分比）来定义列之间的间隔大小。</li>
 </ul>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -413,7 +413,7 @@
 <h3 id="_6-3-2-gap" tabindex="-1"><a class="header-anchor" href="#_6-3-2-gap"><span>6.3.2 gap</span></a></h3>
 <p>综合了 grid-column-gap/grid-row-gap</p>
 <p><strong>代码</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token selector">.wrapper</span> <span class="token punctuation">{</span></span>
@@ -448,7 +448,7 @@
 <h2 id="_6-4-排列方式属性" tabindex="-1"><a class="header-anchor" href="#_6-4-排列方式属性"><span>6.4 排列方式属性</span></a></h2>
 <h3 id="_6-4-1-justify-content" tabindex="-1"><a class="header-anchor" href="#_6-4-1-justify-content"><span>6.4.1 justify-content</span></a></h3>
 <p>justify-content属性是整个内容区域在容器里面的水平位置（左中右）。</p>
-<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre v-pre><code><span class="line">justify-content: start | end | center | stretch | space-around | space-between | space-evenly;</span>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">justify-content: start | end | center | stretch | space-around | space-between | space-evenly;</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol>
 <li>start - 对齐容器的起始边框</li>
@@ -480,7 +480,7 @@
 <p><img src="/style/records_layout/layout_grid/images/028.png" alt=""></p>
 <h3 id="_6-4-2-align-content" tabindex="-1"><a class="header-anchor" href="#_6-4-2-align-content"><span>6.4.2 align-content</span></a></h3>
 <p>align-content属性是整个内容区域的垂直位置（上中下）。</p>
-<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text" data-title="text"><pre v-pre><code><span class="line">align-content: start | end | center | stretch | space-around | space-between | space-evenly;  </span>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">align-content: start | end | center | stretch | space-around | space-between | space-evenly;  </span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>align-content属性的图完全一样，只是将水平方向改成垂直方向。</p>
 </div></template>

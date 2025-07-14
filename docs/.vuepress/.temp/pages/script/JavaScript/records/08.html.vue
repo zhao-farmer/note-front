@@ -11,7 +11,7 @@
 </ol>
 <p>localStorage 则提供了更持久的存储方式，除非网页被明确清除，否则数据会永久保存在浏览器中。它适用于长期存储数据，如用户的偏好设置、登录状态等。</p>
 <p>以下是一个简单的示例，展示了如何使用 sessionStorage 和 localStorage。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置sessionStorage和localStorage</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置sessionStorage和localStorage</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'sessionKey'</span><span class="token punctuation">,</span> <span class="token string">'sessionValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'localKey'</span><span class="token punctuation">,</span> <span class="token string">'localValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -43,7 +43,7 @@
 </ol>
 <p>sessionStorage 和 localStorage 都具有特定的作用域，它们只能被同源（相同的协议、域名和端口）下的页面访问。不过，sessionStorage 的数据仅在创建它的页面或标签页内可访问，而 localStorage 的数据可以被同一域下的所有页面访问。</p>
 <p>以下是一个示例，展示了如何设置和获取 sessionStorage 和 localStorage 中的数据，并演示了它们的生命周期特性。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置数据</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置数据</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'sessionKey'</span><span class="token punctuation">,</span> <span class="token string">'sessionValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'localKey'</span><span class="token punctuation">,</span> <span class="token string">'localValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -69,7 +69,7 @@
 </ol>
 <p>开发者可以使用 navigator.webkitPersistentStorage 或 navigator.webkitTemporaryStorage 的 queryUsageAndQuota 方法来检查当前的使用情况和配额（这些 API 通常是 Webkit 内核特有的，如 Chrome 和 Safari 浏览器）。</p>
 <p>以下是一个示例代码，展示了如何检查 localStorage 的使用情况：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">navigator<span class="token punctuation">.</span>webkitPersistentStorage<span class="token punctuation">.</span><span class="token function">queryUsageAndQuota</span><span class="token punctuation">(</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">navigator<span class="token punctuation">.</span>webkitPersistentStorage<span class="token punctuation">.</span><span class="token function">queryUsageAndQuota</span><span class="token punctuation">(</span></span>
 <span class="line">  <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">usage<span class="token punctuation">,</span> quota</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Used:'</span><span class="token punctuation">,</span> usage<span class="token punctuation">,</span> <span class="token string">'bytes'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Total quota:'</span><span class="token punctuation">,</span> quota<span class="token punctuation">,</span> <span class="token string">'bytes'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -103,7 +103,7 @@
 </ol>
 <p>与 sessionStorage 不同，localStorage 的数据可以被同一域下的所有页面访问。这意味着一旦数据被存储，任何同一域下的页面都可以读取和修改这些数据，这对于需要跨页面或标签页共享数据的应用程序来说非常有用。</p>
 <p>以下是一个示例，展示了 sessionStorage 和 localStorage 在访问权限上的差异：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 在页面A中设置sessionStorage和localStorage</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 在页面A中设置sessionStorage和localStorage</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'sessionKey'</span><span class="token punctuation">,</span> <span class="token string">'sessionValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'localKey'</span><span class="token punctuation">,</span> <span class="token string">'localValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -129,7 +129,7 @@
 <li>设置和获取数据</li>
 </ol>
 <p>sessionStorage 和 localStorage 都提供了 setItem 和 getItem 方法来设置和获取数据。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置数据</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 设置数据</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'sessionKey'</span><span class="token punctuation">,</span> <span class="token string">'sessionValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'localKey'</span><span class="token punctuation">,</span> <span class="token string">'localValue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -141,7 +141,7 @@
 <li>删除数据
 如果你需要删除特定的数据项，可以使用 removeItem 方法。</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 删除数据</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 删除数据</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'sessionKey'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'localKey'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
@@ -149,7 +149,7 @@
 <li>清除所有数据</li>
 </ol>
 <p>如果你需要清除所有的存储数据，可以使用 clear 方法。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 清除所有数据</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 清除所有数据</span></span>
 <span class="line">sessionStorage<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">localStorage<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
@@ -157,7 +157,7 @@
 <li>获取存储数据的长度
 你可以使用 length 属性来获取当前存储的数据项数量。</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 获取存储数据的长度</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 获取存储数据的长度</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sessionStorage<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出当前sessionStorage的数据项数量</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>localStorage<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出当前localStorage的数据项数量</span></span>
 <span class="line"></span></code></pre>
@@ -165,7 +165,7 @@
 <li>遍历存储数据</li>
 </ol>
 <p>虽然 sessionStorage 和 localStorage 没有直接提供遍历所有键值对的方法，但你可以使用 key 方法结合 length 属性来遍历所有的数据。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 遍历sessionStorage中的所有数据</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 遍历sessionStorage中的所有数据</span></span>
 <span class="line"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> sessionStorage<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">const</span> key <span class="token operator">=</span> sessionStorage<span class="token punctuation">.</span><span class="token function">key</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token keyword">const</span> value <span class="token operator">=</span> sessionStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
@@ -196,7 +196,7 @@
 以下是一个尝试跨域访问 localStorage 的示例代码，它会导致一个安全错误：</p>
 </li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 假设当前页面是 http://example.com</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 假设当前页面是 http://example.com</span></span>
 <span class="line"><span class="token comment">// 尝试从 http://another.com 访问 localStorage</span></span>
 <span class="line"><span class="token keyword">try</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token comment">// 这行代码将抛出一个安全错误</span></span>
@@ -233,7 +233,7 @@
 <li>处理存储异常</li>
 </ol>
 <p>捕获异常：当存储空间不足时，尝试写入数据会抛出 QuotaExceededError。开发者应该捕获这些异常，并给用户一个清晰的提示或者采取其他应对措施。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">try</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">try</span> <span class="token punctuation">{</span></span>
 <span class="line">  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'key'</span><span class="token punctuation">,</span> <span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'QuotaExceededError'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
@@ -255,7 +255,7 @@
 <li>兼容性考虑</li>
 </ol>
 <p>检查存储支持：在较旧的浏览器中，sessionStorage 和 localStorage 可能不受支持。开发者应该检查浏览器是否支持这些存储机制，并提供回退方案。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>Storage<span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token string">"undefined"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>Storage<span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token string">"undefined"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token comment">// 支持存储</span></span>
 <span class="line"><span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token comment">// 不支持存储，提供回退方案</span></span>

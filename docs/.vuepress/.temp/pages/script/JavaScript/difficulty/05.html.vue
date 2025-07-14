@@ -2,7 +2,7 @@
 <h2 id="_5-1-函数提升" tabindex="-1"><a class="header-anchor" href="#_5-1-函数提升"><span>5.1 函数提升</span></a></h2>
 <p>目标:能说出函数提升的过程</p>
 <p>函数提升与变量提升比较类似，是指函数在声明之前即可被调用</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.会把所有函数声明提升到当前作用域的最前面</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.会把所有函数声明提升到当前作用域的最前面</span></span>
 <span class="line"><span class="token comment">// 2.之提升函数声明，不提升函数调用</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 在执行代码fn()  function fn(){} 已经放到了最前面了</span></span>
@@ -29,7 +29,7 @@
 <h2 id="_5-2-函数参数" tabindex="-1"><a class="header-anchor" href="#_5-2-函数参数"><span>5.2 函数参数</span></a></h2>
 <h3 id="_5-2-1-动态参数" tabindex="-1"><a class="header-anchor" href="#_5-2-1-动态参数"><span>5.2.1 动态参数</span></a></h3>
 <p>arguments 是函数内部内置的伪数组变量，它包含了调用函数时传入的所有实参</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 求和函数，计算所有参数的和</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 求和函数，计算所有参数的和</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getSum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// arguments 动态参数 只存在于 函数里面</span></span>
 <span class="line">    <span class="token comment">// 是伪数组</span></span>
@@ -56,7 +56,7 @@
 <li>...是语法符号，置于最末函数形参之前，用于获取多余的实参</li>
 <li>借助 …. 获取的剩余实参，是个真数组</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 求和函数，计算所有参数的和</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 求和函数，计算所有参数的和</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getSum</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">0</span></span>
 <span class="line">    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> args<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
@@ -79,7 +79,7 @@
 <li>箭头函数函数体只有一行代码时可以省略花括号<code v-pre>{</code>，并自动做为返回值被返回</li>
 <li>加括号的函数体返回对象字面量表达式</li>
 </ol>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 初始函数</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 初始函数</span></span>
 <span class="line"><span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
@@ -111,7 +111,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_5-3-2-箭头函数参数" tabindex="-1"><a class="header-anchor" href="#_5-3-2-箭头函数参数"><span>5.3.2 箭头函数参数</span></a></h3>
 <p>普通函数有arguments 动态参数1.</p>
 <p>箭头函数没有 arguments 动态参数，但是有 剩余参数 …args</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 利用箭头函数来求和</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 利用箭头函数来求和</span></span>
 <span class="line"><span class="token keyword">const</span> <span class="token function-variable function">getSum</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>arr</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
@@ -128,7 +128,7 @@
 <li>箭头函数不会创建自己的this,它只会从自己的作用域链的上一层沿用this。</li>
 </ul>
 <p>在开发中【使用箭头函数前需要考虑函数中 this 的值】，事件回调函数使用箭头函数时，this 为全局的 window，因此DOM事件回调函数为了简便，还是不太推荐使用箭头函数</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.以前this的指向  谁调用的这个函数，this就指向谁</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 1.以前this的指向  谁调用的这个函数，this就指向谁</span></span>
 <span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//window</span></span>
 <span class="line"><span class="token comment">// 普通函数</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>

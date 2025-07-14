@@ -34,7 +34,7 @@
 <p>为声音定义声音精灵。偏移和持续时间以毫秒为单位定义。可选的第三个参数可用于设置精灵循环。使用audiosprite生成兼容的声音精灵是一个简单的方法。</p>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">new</span> <span class="token class-name">Howl</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">new</span> <span class="token class-name">Howl</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token literal-property property">sprite</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">key1</span><span class="token operator">:</span> <span class="token punctuation">[</span>offset<span class="token punctuation">,</span> duration<span class="token punctuation">,</span> <span class="token punctuation">(</span>loop<span class="token punctuation">)</span><span class="token punctuation">]</span></span>
 <span class="line">  <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
@@ -58,7 +58,7 @@
 <p>使用Web Audio时，howler.js使用XHR请求加载音频文件。如果您需要发送自定义头部，设置HTTP方法或启用withCredentials（参考），请使用此参数包含它们。每个都是可选的（方法默认为GET，头部默认为null，withCredentials默认为false）。例如：</p>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用每个属性。</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用每个属性。</span></span>
 <span class="line"><span class="token keyword">new</span> <span class="token class-name">Howl</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token literal-property property">xhr</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span></span>
@@ -69,7 +69,7 @@
 <span class="line">  <span class="token punctuation">}</span></span>
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">// 只更改方法。</span></span>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 只更改方法。</span></span>
 <span class="line"><span class="token keyword">new</span> <span class="token class-name">Howl</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token literal-property property">xhr</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span></span>

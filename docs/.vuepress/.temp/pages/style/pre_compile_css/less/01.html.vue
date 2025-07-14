@@ -20,7 +20,7 @@
 <ol start="3">
 <li>插件设置</li>
 </ol>
-<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json" data-title="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// Easy LESS配置</span></span>
 <span class="line">    <span class="token property">"less.compile"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">"compress"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><span class="token comment">//是否压缩</span></span>

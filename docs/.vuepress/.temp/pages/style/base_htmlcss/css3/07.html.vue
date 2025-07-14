@@ -2,7 +2,7 @@
 <h2 id="_7-1-文本阴影" tabindex="-1"><a class="header-anchor" href="#_7-1-文本阴影"><span>7.1 文本阴影</span></a></h2>
 <p>在 CSS3 中，我们可以使用 text-shadow 属性给文本添加阴影。
 语法：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">text-shadow</span><span class="token punctuation">:</span> h-shadow v-shadow blur color<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span> </span>
 <span class="line"></span></code></pre>

@@ -3,7 +3,7 @@
 <p>局部作于分为函数作用域和块作用域</p>
 <h3 id="_1-1-1-函数作用域" tabindex="-1"><a class="header-anchor" href="#_1-1-1-函数作用域"><span>1.1.1 函数作用域</span></a></h3>
 <p>在函数内部声明的遍历只能在函数内部访问，外部无法直接访问</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">getSum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">getSum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">// 函数内部是函数作用域 属于局部变量</span></span>
 <span class="line">    <span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">10</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -18,7 +18,7 @@
 </ol>
 <h3 id="_1-1-2-块级作用域" tabindex="-1"><a class="header-anchor" href="#_1-1-2-块级作用域"><span>1.1.2 块级作用域</span></a></h3>
 <p>在javascript中使用{}包裹的代码称为代码块，代码块内部声明的变量外部将[有可能]无法被访问</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line">    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> t <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> t <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span> t<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> t <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> t <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span> t<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line">      </span>
 <span class="line">    <span class="token punctuation">}</span></span>
@@ -34,7 +34,7 @@
 <h2 id="_1-2-全局作用域" tabindex="-1"><a class="header-anchor" href="#_1-2-全局作用域"><span>1.2 全局作用域</span></a></h2>
 <p><code v-pre>&lt;script&gt;</code>标签和.js文件的【最外层】就是所谓的全局作用域，在此声明的变量在函数内部也可以被访问
 全局作用域中声明的变量，任何其他作用域都可以访问</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
 <span class="line">    <span class="token comment">// 全局作用域</span></span>
 <span class="line">    <span class="token comment">// 全局作用域下声明了 num 变量</span></span>
 <span class="line">    <span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">10</span></span>
@@ -57,7 +57,7 @@
 <li>在函数被执行时，会优先查找当前函数作用域中查找变量</li>
 <li>如果当前作用域查找不到则会依次逐级查找父级作用域直到全局作用域</li>
 </ul>
-<div class="language-HTML line-numbers-mode" data-highlighter="prismjs" data-ext="HTML" data-title="HTML"><pre v-pre><code><span class="line">&lt;script&gt;</span>
+<div class="language-HTML line-numbers-mode" data-highlighter="prismjs" data-ext="HTML"><pre v-pre><code><span class="line">&lt;script&gt;</span>
 <span class="line">    // 全局作用域</span>
 <span class="line">    let a = 1</span>
 <span class="line">    let b = 2</span>

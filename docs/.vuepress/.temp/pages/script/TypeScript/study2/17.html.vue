@@ -3,7 +3,7 @@
 <p>单独使用的模块，一般会同时提供一个单独的类型声明文件（declaration file），把本模块的外部接口的所有类型都写在这个文件里面，便于模块使用者了解接口，也便于编译器检查使用者的用法是否正确。</p>
 <p>类型声明文件里面只有类型代码，没有具体的代码实现。它的文件名一般为<code v-pre>[模块名].d.ts</code>的形式，其中的<code v-pre>d</code>表示 declaration（声明）。</p>
 <p>举例来说，有一个模块的代码如下。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">const</span> maxInterval <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">const</span> maxInterval <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">getArrayLength</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">return</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span></span>
@@ -15,18 +15,18 @@
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>它的类型声明文件可以写成下面这样。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getArrayLength</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getArrayLength</span><span class="token punctuation">(</span>arr<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> maxInterval<span class="token operator">:</span> <span class="token number">12</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>类型声明文件也可以使用<code v-pre>export =</code>命令，输出对外接口。下面是 moment 模块的类型声明文件的例子。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"moment"</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"moment"</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">function</span> <span class="token function">moment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span></span>
 <span class="line">  <span class="token keyword">export</span> <span class="token operator">=</span> moment<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，模块<code v-pre>moment</code>内部有一个函数<code v-pre>moment()</code>，而<code v-pre>export =</code>表示<code v-pre>module.exports</code>输出的就是这个函数。</p>
 <p>除了使用<code v-pre>export =</code>，模块输出在类型声明文件中，也可以使用<code v-pre>export default</code>表示。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// 模块输出</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// 模块输出</span></span>
 <span class="line">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token number">3.142</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 类型输出文件</span></span>
@@ -40,14 +40,14 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，模块输出的是一个整数，那么可以用<code v-pre>export default</code>或<code v-pre>export =</code>表示输出这个值。</p>
 <p>下面是一个如何使用类型声明文件的简单例子。有一个类型声明文件<code v-pre>types.d.ts</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// types.d.ts</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// types.d.ts</span></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Character</span> <span class="token punctuation">{</span></span>
 <span class="line">  catchphrase<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line">  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>然后，就可以在 TypeScript 脚本里面导入该文件声明的类型。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">// index.ts</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">// index.ts</span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> Character <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./types"</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">const</span> character<span class="token operator">:</span> Character <span class="token operator">=</span> <span class="token punctuation">{</span></span>
@@ -56,7 +56,7 @@
 <span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>类型声明文件也可以包括在项目的 tsconfig.json 文件里面，这样的话，编译器打包项目时，会自动将类型声明文件加入编译，而不必在每个脚本里面加载类型声明文件。比如，moment 模块的类型声明文件是<code v-pre>moment.d.ts</code>，使用 moment 模块的项目可以将其加入项目的 tsconfig.json 文件。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token string-property property">"files"</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
 <span class="line">    <span class="token string">"src/index.ts"</span><span class="token punctuation">,</span></span>
@@ -74,7 +74,7 @@
 <h3 id="_17-2-1-自动生成" tabindex="-1"><a class="header-anchor" href="#_17-2-1-自动生成"><span>17.2.1 自动生成</span></a></h3>
 <p>只要使用编译选项<code v-pre>declaration</code>，编译器就会在编译时自动生成单独的类型声明文件。</p>
 <p>下面是在<code v-pre>tsconfig.json</code>文件里面，打开这个选项。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token string-property property">"declaration"</span><span class="token operator">:</span> <span class="token boolean">true</span></span>
 <span class="line">  <span class="token punctuation">}</span></span>
@@ -82,7 +82,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>你也可以在命令行打开这个选项。</p>
 <p>bash</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line">$ tsc <span class="token operator">--</span>declaration</span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line">$ tsc <span class="token operator">--</span>declaration</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h3 id="_17-2-2-内置声明文件" tabindex="-1"><a class="header-anchor" href="#_17-2-2-内置声明文件"><span>17.2.2 内置声明文件</span></a></h3>
 <p>安装 TypeScript 语言时，会同时安装一些内置的类型声明文件，主要是内置的全局对象（JavaScript 语言接口和运行环境 API）的类型声明。</p>
@@ -102,7 +102,7 @@
 <p>这些内置声明文件的文件名统一为“lib.[description].d.ts”的形式，其中<code v-pre>description</code>部分描述了文件内容。比如，<code v-pre>lib.dom.d.ts</code>这个文件就描述了 DOM 结构的类型。</p>
 <p>如果开发者想了解全局对象的类型接口（比如 ES6 全局对象的类型），那么就可以去查看这些内置声明文件。</p>
 <p>TypeScript 编译器会自动根据编译目标<code v-pre>target</code>的值，加载对应的内置声明文件，所以不需要特别的配置。但是，可以使用编译选项<code v-pre>lib</code>，指定加载哪些内置声明文件。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token string-property property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"dom"</span><span class="token punctuation">,</span> <span class="token string">"es2021"</span><span class="token punctuation">]</span></span>
 <span class="line">  <span class="token punctuation">}</span></span>
@@ -118,11 +118,11 @@
 <p>（2）这个库没有自带，但是可以找到社区制作的类型声明文件。</p>
 <p>第三方库如果没有提供类型声明文件，社区往往会提供。TypeScript 社区主要使用 <a href="https://github.com/DefinitelyTyped/DefinitelyTyped" target="_blank" rel="noopener noreferrer">DefinitelyTyped 仓库</a>，各种类型声明文件都会提交到那里，已经包含了几千个第三方库。</p>
 <p>这些声明文件都会作为一个单独的库，发布到 npm 的<code v-pre>@types</code>名称空间之下。比如，jQuery 的类型声明文件就发布成<code v-pre>@types/jquery</code>这个库，使用时安装这个库就可以了。</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line">$ <span class="token function">npm</span> <span class="token function">install</span> @types/jquery --save-dev</span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line">$ <span class="token function">npm</span> <span class="token function">install</span> @types/jquery --save-dev</span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>执行上面的命令，<code v-pre>@types/jquery</code>这个库就安装到项目的<code v-pre>node_modules/@types/jquery</code>目录，里面的<code v-pre>index.d.ts</code>文件就是 jQuery 的类型声明文件。如果类型声明文件不是<code v-pre>index.d.ts</code>，那么就需要在<code v-pre>package.json</code>的<code v-pre>types</code>或<code v-pre>typings</code>字段，指定类型声明文件的文件名。</p>
 <p>TypeScript 会自动加载<code v-pre>node_modules/@types</code>目录下的模块，但可以使用编译选项<code v-pre>typeRoots</code>改变这种行为。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token string-property property">"typeRoots"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./typings"</span><span class="token punctuation">,</span> <span class="token string">"./vendor/types"</span><span class="token punctuation">]</span></span>
 <span class="line">  <span class="token punctuation">}</span></span>
@@ -130,7 +130,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例表示，TypeScript 不再去<code v-pre>node_modules/@types</code>目录，而是去跟当前<code v-pre>tsconfig.json</code>同级的<code v-pre>typings</code>和<code v-pre>vendor/types</code>子目录，加载类型模块了。</p>
 <p>默认情况下，TypeScript 会自动加载<code v-pre>typeRoots</code>目录里的所有模块，编译选项<code v-pre>types</code>可以指定加载哪些模块。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token string-property property">"types"</span> <span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"jquery"</span><span class="token punctuation">]</span></span>
 <span class="line">  <span class="token punctuation">}</span></span>
@@ -139,7 +139,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面设置中，<code v-pre>types</code>属性是一个数组，成员是所要加载的类型模块，要加载几个模块，这个数组就有几个成员，每个类型模块在<code v-pre>typeRoots</code>目录下都有一个自己的子目录。这样的话，TypeScript 就会自动去<code v-pre>jquery</code>子目录，加载 jQuery 的类型声明文件。</p>
 <p>（3）找不到类型声明文件，需要自己写。</p>
 <p>有时实在没有第三方库的类型声明文件，又很难完整给出该库的类型描述，这时你可以告诉 TypeScript 相关对象的类型是<code v-pre>any</code>。比如，使用 jQuery 的脚本可以写成下面这样。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">var</span> $<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">var</span> $<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">// 或者</span></span>
 <span class="line"><span class="token keyword">declare</span> <span class="token keyword">type</span> <span class="token class-name">JQuery</span> <span class="token operator">=</span> <span class="token builtin">any</span><span class="token punctuation">;</span></span>
@@ -147,25 +147,25 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面代码表示，jQuery 的<code v-pre>$</code>对象是外部引入的，类型是<code v-pre>any</code>，也就是 TypeScript 不用对它进行类型检查。</p>
 <p>也可以采用下面的写法，将整个外部模块的类型设为<code v-pre>any</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"模块名"</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"模块名"</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>有了上面的命令，指定模块的所有接口都将视为<code v-pre>any</code>类型。</p>
 <h2 id="_17-3-declare-关键字" tabindex="-1"><a class="header-anchor" href="#_17-3-declare-关键字"><span>17.3 declare 关键字</span></a></h2>
 <p>类型声明文件只包含类型描述，不包含具体实现，所以非常适合使用 declare 语句来描述类型。declare 关键字的具体用法，详见《declare 关键字》一章，这里讲解如何在类型声明文件里面使用它。</p>
 <p>类型声明文件里面，变量的类型描述必须使用<code v-pre>declare</code>命令，否则会报错，因为变量声明语句是值相关代码。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">let</span> foo<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">let</span> foo<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>interface 类型有没有<code v-pre>declare</code>都可以，因为 interface 是完全的类型代码。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">interface</span> <span class="token class-name">Foo</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment">// 正确</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">interface</span> <span class="token class-name">Foo</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment">// 正确</span></span>
 <span class="line"><span class="token keyword">declare</span> <span class="token keyword">interface</span> <span class="token class-name">Foo</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment">// 正确</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>类型声明文件里面，顶层可以使用<code v-pre>export</code>命令，也可以不用，除非使用者脚本会显式使用<code v-pre>export</code>命令输入类型。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Data</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Data</span> <span class="token punctuation">{</span></span>
 <span class="line">  version<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>下面是类型声明文件的一些例子。先看 moment 模块的类型描述文件<code v-pre>moment.d.ts</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"moment"</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"moment"</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Moment</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token function">format</span><span class="token punctuation">(</span>format<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
@@ -181,7 +181,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，可以注意一下默认接口<code v-pre>moment()</code>的写法。</p>
 <p>下面是 D3 库的类型声明文件<code v-pre>D3.d.ts</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">namespace</span> <span class="token constant">D3</span> <span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">declare</span> <span class="token keyword">namespace</span> <span class="token constant">D3</span> <span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">Selectors</span> <span class="token punctuation">{</span></span>
 <span class="line">    select<span class="token operator">:</span> <span class="token punctuation">{</span></span>
 <span class="line">      <span class="token punctuation">(</span>selector<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> Selection<span class="token punctuation">;</span></span>
@@ -203,7 +203,7 @@
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_17-4-模块发布" tabindex="-1"><a class="header-anchor" href="#_17-4-模块发布"><span>17.4 模块发布</span></a></h2>
 <p>当前模块如果包含自己的类型声明文件，可以在 package.json 文件里面添加一个<code v-pre>types</code>字段或<code v-pre>typings</code>字段，指明类型声明文件的位置。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"name"</span><span class="token operator">:</span> <span class="token string">"awesome"</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token string-property property">"author"</span><span class="token operator">:</span> <span class="token string">"Vandelay Industries"</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token string-property property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span></span>
@@ -214,7 +214,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例中，<code v-pre>types</code>字段给出了类型声明文件的位置。</p>
 <p>注意，如果类型声明文件名为<code v-pre>index.d.ts</code>，且在项目的根目录中，那就不需要在<code v-pre>package.json</code>里面注明了。</p>
 <p>有时，类型声明文件会单独发布成一个 npm 模块，这时用户就必须同时加载该模块。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token string-property property">"name"</span><span class="token operator">:</span> <span class="token string">"browserify-typescript-extension"</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token string-property property">"author"</span><span class="token operator">:</span> <span class="token string">"Vandelay Industries"</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token string-property property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span></span>
@@ -231,7 +231,7 @@
 <h2 id="_17-5-三斜杠命令" tabindex="-1"><a class="header-anchor" href="#_17-5-三斜杠命令"><span>17.5 三斜杠命令</span></a></h2>
 <p>如果类型声明文件的内容非常多，可以拆分成多个文件，然后入口文件使用三斜杠命令，加载其他拆分后的文件。</p>
 <p>举例来说，入口文件是<code v-pre>main.d.ts</code>，里面的接口定义在<code v-pre>interfaces.d.ts</code>，函数定义在<code v-pre>functions.d.ts</code>。那么，<code v-pre>main.d.ts</code>里面可以用三斜杠命令，加载后面两个文件。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="./interfaces.d.ts" /></span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="./interfaces.d.ts" /></span></span>
 <span class="line"><span class="token comment">/// &lt;reference path="./functions.d.ts" /></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>三斜杠命令（<code v-pre>///</code>）是一个 TypeScript 编译器命令，用来指定编译器行为。它只能用在文件的头部，如果用在其他地方，会被当作普通的注释。另外，若一个文件中使用了三斜线命令，那么在三斜线命令之前只允许使用单行注释、多行注释和其他三斜线命令，否则三斜杠命令也会被当作普通的注释。</p>
@@ -245,13 +245,13 @@
 <p>下面依次进行讲解。</p>
 <h3 id="_17-5-1-reference-path" tabindex="-1"><a class="header-anchor" href="#_17-5-1-reference-path"><span>17.5.1  <code v-pre>/// &lt;reference path=&quot;&quot; /&gt;</code></span></a></h3>
 <p><code v-pre>/// &lt;reference path=&quot;&quot; /&gt;</code>是最常见的三斜杠命令，告诉编译器在编译时需要包括的文件，常用来声明当前脚本依赖的类型文件。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="./lib.ts" /></span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="./lib.ts" /></span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面示例表示，当前脚本依赖于<code v-pre>./lib.ts</code>，里面是<code v-pre>add()</code>的定义。编译当前脚本时，还会同时编译<code v-pre>./lib.ts</code>。编译产物会有两个 JS 文件，一个当前脚本，另一个就是<code v-pre>./lib.js</code>。</p>
 <p>下面的例子是当前脚本依赖于 Node.js 类型声明文件。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="node.d.ts"/></span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference path="node.d.ts"/></span></span>
 <span class="line"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> <span class="token constant">URL</span> <span class="token keyword">from</span> <span class="token string">"url"</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">let</span> myUrl <span class="token operator">=</span> <span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token string">"https://www.typescriptlang.org"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
@@ -267,7 +267,7 @@
 <h3 id="_17-5-2-reference-types" tabindex="-1"><a class="header-anchor" href="#_17-5-2-reference-types"><span>17.5.2 <code v-pre>/// &lt;reference types=&quot;&quot; /&gt;</code></span></a></h3>
 <p>types 参数用来告诉编译器当前脚本依赖某个 DefinitelyTyped 类型库，通常安装在<code v-pre>node_modules/@types</code>目录。</p>
 <p>types 参数的值是类型库的名称，也就是安装到<code v-pre>node_modules/@types</code>目录中的子目录的名字。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference types="node" /></span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference types="node" /></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>上面示例中，这个三斜杠命令表示编译时添加 Node.js 的类型库，实际添加的脚本是<code v-pre>node_modules</code>目录里面的<code v-pre>@types/node/index.d.ts</code>。</p>
 <p>可以看到，这个命令的作用类似于<code v-pre>import</code>命令。</p>
@@ -276,7 +276,7 @@
 <p><code v-pre>/// &lt;reference lib=&quot;...&quot; /&gt;</code>命令允许脚本文件显式包含内置 lib 库，等同于在<code v-pre>tsconfig.json</code>文件里面使用<code v-pre>lib</code>属性指定 lib 库。</p>
 <p>前文说过，安装 TypeScript 软件包时，会同时安装一些内置的类型声明文件，即内置的 lib 库。这些库文件位于 TypeScript 安装目录的<code v-pre>lib</code>文件夹中，它们描述了 JavaScript 语言和引擎的标准 API。</p>
 <p>库文件并不是固定的，会随着 TypeScript 版本的升级而更新。库文件统一使用“lib.[description].d.ts”的命名方式，而<code v-pre>/// &lt;reference lib=&quot;&quot; /&gt;</code>里面的<code v-pre>lib</code>属性的值就是库文件名的<code v-pre>description</code>部分，比如<code v-pre>lib=&quot;es2015&quot;</code>就表示加载库文件<code v-pre>lib.es2015.d.ts</code>。</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference lib="es2017.string" /></span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token comment">/// &lt;reference lib="es2017.string" /></span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>上面示例中，<code v-pre>es2017.string</code>对应的库文件就是<code v-pre>lib.es2017.string.d.ts</code>。</p>
 </div></template>

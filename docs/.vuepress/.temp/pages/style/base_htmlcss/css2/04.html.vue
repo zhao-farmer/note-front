@@ -34,7 +34,7 @@
 <li>a 表示 透明度
 <strong>举例</strong>：</li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 使用 0~255 之间的数字表示一种颜色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">/* 红色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">/* 绿色 */</span></span>
@@ -64,7 +64,7 @@
 格式为：# rrggbb</p>
 <p>每一位数字的取值范围是： 0 ~ f ，即：（ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f ）</p>
 <p>所以每一种光的最小值是： 00 ，最大值是： ff</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #ff0000<span class="token punctuation">;</span><span class="token comment">/* 红色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #00ff00<span class="token punctuation">;</span><span class="token comment">/* 绿色 */</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> #0000ff<span class="token punctuation">;</span><span class="token comment">/* 蓝色 */</span></span>
@@ -98,7 +98,7 @@
 <p><strong>属性名</strong>： font-size</p>
 <p><strong>作用</strong>：控制字体的大小。</p>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-size</span><span class="token punctuation">:</span> 40px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -115,7 +115,7 @@
 <p><strong>属性名</strong>： font-family</p>
 <p><strong>作用</strong>：控制字体类型。</p>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"STCaiyun"</span><span class="token punctuation">,</span><span class="token string">"Microsoft YaHei"</span><span class="token punctuation">,</span>sans-serif</span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -141,7 +141,7 @@
 实现斜体时，更推荐使用 italic 。</li>
 </ol>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span> </span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span> </span>
 <span class="line">    <span class="token property">font-style</span><span class="token punctuation">:</span> italic<span class="token punctuation">;</span> </span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -166,7 +166,7 @@
 </li>
 </ul>
 <p><strong>语法</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
@@ -198,7 +198,7 @@
 开发中常用的是： rgb/rgba 或 HEX/HEXA （十六进制）。</li>
 </ol>
 <p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>112<span class="token punctuation">,</span>45<span class="token punctuation">,</span>78<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -225,7 +225,7 @@
 <li>也可以指定颜色</li>
 </ol>
 <p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">a</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">a</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">text-decoration</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -234,7 +234,7 @@
 <p><strong>作用</strong>：控制文本首字母的缩进。</p>
 <p><strong>属性值</strong>： css 中的长度单位，</p>
 <p><strong>例如</strong>： px 举例：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">text-indent</span><span class="token punctuation">:</span>40px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -248,7 +248,7 @@
 <li>center ：居中对齐</li>
 </ol>
 <p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">    <span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">    <span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token punctuation">}</span></span>
 <span class="line"></span></code></pre>
@@ -272,7 +272,7 @@
 </ol>
 <p><strong>备注</strong>：由于字体设计原因，文字在一行中，并不是绝对垂直居中，若一行中都是文字，不会太影响 观感。</p>
 <p><strong>举例</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line">    <span class="token selector">div</span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line">    <span class="token selector">div</span> <span class="token punctuation">{</span></span>
 <span class="line">        <span class="token property">line-height</span><span class="token punctuation">:</span> 60px<span class="token punctuation">;</span></span>
 <span class="line">        <span class="token property">line-height</span><span class="token punctuation">:</span> 1.5<span class="token punctuation">;</span></span>
 <span class="line">        <span class="token property">line-height</span><span class="token punctuation">:</span> 150%<span class="token punctuation">;</span></span>
@@ -493,7 +493,7 @@
 </tbody>
 </table>
 <p><strong>扩展</strong>：自定义鼠标图标</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token comment">/* 自定义鼠标光标 */</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token comment">/* 自定义鼠标光标 */</span></span>
 <span class="line"><span class="token property">cursor</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"./arrow.png"</span><span class="token punctuation">)</span></span><span class="token punctuation">,</span>pointer<span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></div></template>

@@ -22,7 +22,7 @@
 </ul>
 </li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
 <span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出函数a中的this对象</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>
@@ -56,7 +56,7 @@
 <li>说明：如果 thisArg 不是一个有效的数组或者不是 arguments 对象，那么将导致一个 TypeError。</li>
 <li>如果没有提供 任何一个参数，那么 Global 对象将被用作 thisArg， 并且无法被传递任何参数。</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">//常用例子：</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//常用例子：</span></span>
 <span class="line"><span class="token keyword">const</span> obj<span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">   <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'Lucy'</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -79,7 +79,7 @@
 </li>
 <li>返回值：返回由指定的this值和初始化参数改造的原函数拷贝。</li>
 </ul>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">"The Window"</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">"The Window"</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">var</span> object <span class="token operator">=</span> <span class="token punctuation">{</span></span>
 <span class="line">   <span class="token literal-property property">name</span> <span class="token operator">:</span> <span class="token string">"My Object"</span><span class="token punctuation">,</span></span>
 <span class="line">   <span class="token function-variable function">getNameFunc</span> <span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>

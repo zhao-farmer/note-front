@@ -3,7 +3,7 @@
 <p>tsc 是 TypeScript 官方的命令行编译器，用来检查代码，并将其编译成 JavaScript 代码。</p>
 <p>tsc 默认使用当前目录下的配置文件<code v-pre>tsconfig.json</code>，但也可以接受独立的命令行参数。命令行参数会覆盖<code v-pre>tsconfig.json</code>，比如命令行指定了所要编译的文件，那么 tsc 就会忽略<code v-pre>tsconfig.json</code>的<code v-pre>files</code>属性。</p>
 <p>tsc 的基本用法如下。</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token comment"># 使用 tsconfig.json 的配置</span></span>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 使用 tsconfig.json 的配置</span></span>
 <span class="line">$ tsc</span>
 <span class="line"></span>
 <span class="line"><span class="token comment"># 只编译 index.ts</span></span>

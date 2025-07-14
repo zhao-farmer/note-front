@@ -26,7 +26,7 @@
 <h2 id="_11-3-透视点位置" tabindex="-1"><a class="header-anchor" href="#_11-3-透视点位置"><span>11.3 透视点位置</span></a></h2>
 <p><em>所谓透视点位置，就是观察者位置；默认的透视点在元素的中心。</em></p>
 <p><strong>使用 perspective-origin 设置观察者位置（透视点的位置），例如</strong>：</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/* 相对坐标轴往右偏移400px， 往下偏移300px（相当于人蹲下300像素，然后向右移动400像素看元素）*/</span></span>
 <span class="line">    <span class="token property">perspective-origin</span><span class="token punctuation">:</span> 400px 300px<span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -116,7 +116,7 @@
 </table>
 <h2 id="_11-7-多重变换" tabindex="-1"><a class="header-anchor" href="#_11-7-多重变换"><span>11.7 多重变换</span></a></h2>
 <p><em>多个变换，可以同时使用一个 transform 来编写。</em></p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">scaleZ</span><span class="token punctuation">(</span>3<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>40deg<span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
 <span class="line"><span class="token punctuation">}</span>    </span>
 <span class="line"></span></code></pre>

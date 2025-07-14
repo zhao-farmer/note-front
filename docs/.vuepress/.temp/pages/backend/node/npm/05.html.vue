@@ -1,325 +1,89 @@
-<template><div><h1 id="五、yarn" tabindex="-1"><a class="header-anchor" href="#五、yarn"><span>五、yarn</span></a></h1>
+<template><div><h1 id="五、搭建npm私服" tabindex="-1"><a class="header-anchor" href="#五、搭建npm私服"><span>五、搭建npm私服</span></a></h1>
+<h2 id="_5-1-verdaccio是什么" tabindex="-1"><a class="header-anchor" href="#_5-1-verdaccio是什么"><span>5.1 Verdaccio是什么？</span></a></h2>
 <blockquote>
-<p>Yarn是由Facebook推出的一个新的JavaScript包管理工具，解决了许多开发人员在使用npm时遇到的痛点。Yarn的出现大大提高了包管理的速度、安全性和可靠性。本篇博客将从Yarn的安装、配置到使用进行详细介绍，并通过实际案例帮助读者快速掌握Yarn的基本用法。</p>
+<p>Verdaccio是一个 Node.js创建的轻量的私有npm代理注册源（proxy registry）</p>
 </blockquote>
-<h2 id="_5-1-什么是yarn" tabindex="-1"><a class="header-anchor" href="#_5-1-什么是yarn"><span>5.1 什么是Yarn？</span></a></h2>
-<p>Yarn是一个由Facebook、Google、Exponent 和 Tilde 共同开发的新的包管理工具。它与npm相似，用于管理项目的依赖，但它在性能、安全性和一致性方面做了许多改进。</p>
-<h2 id="_5-2-yarn的优势" tabindex="-1"><a class="header-anchor" href="#_5-2-yarn的优势"><span>5.2 Yarn的优势</span></a></h2>
+<p>通过Verdaccio搭建私有npm服务器有着以下优势：</p>
 <ol>
-<li>速度快</li>
+<li>零配置：无需安装数据库，基于nodejs，安装及运行。</li>
+<li>使用方便：将内部高复用的代码进行提取，方便在多个项目中引用。</li>
+<li>安全性：仓库搭建在局域网内部，只针对内部人员使用。</li>
+<li>权限管理：对发布和下载npm包配置权限管理。</li>
+<li>加速包下载：将下载过的依赖包进行缓存，再次下载加快下载速度。</li>
 </ol>
-<p>Yarn通过并行化操作大大提升了依赖安装的速度。与npm串行安装不同，Yarn可以同时执行多个任务，从而更快速地完成依赖安装。</p>
+<p>Verdaccio是sinopia开源框架的一个fork，由于sinopia作者两年前就已经停止更新，坑比较多，因此Verdaccio是目前最好的选择</p>
+<h2 id="_5-2-安装verdaccio以及pm2" tabindex="-1"><a class="header-anchor" href="#_5-2-安装verdaccio以及pm2"><span>5.2 安装Verdaccio以及pm2</span></a></h2>
+<p>全局安装Verdaccio：</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 全局安装</span></span>
+<span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> verdaccio</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>通过命令行启动的话，如果终端停止了，那我们的服务器也就停止了，因此一般我们通过pm2启动守护进程</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> pm2</span>
+<span class="line">pm2 start verdaccio</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>启动成功可以进入http://localhost:4873/页面</p>
+<p>Verdaccio安装好后，我们可以更改npm源为本地地址：</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 设置npm使用的源为本地私服</span></span>
+<span class="line"><span class="token function">npm</span> <span class="token builtin class-name">set</span> registry http://localhost:4873/</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>或者针对某个依赖安装时选用自己的源地址（推荐）：</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 例如安装demo依赖</span></span>
+<span class="line"><span class="token function">npm</span> <span class="token function">install</span> demo <span class="token parameter variable">--registry</span> http://localhost:4873</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_5-3-nrm管理镜像源地址" tabindex="-1"><a class="header-anchor" href="#_5-3-nrm管理镜像源地址"><span>5.3 nrm管理镜像源地址</span></a></h2>
+<p>此时如果我们想再次切换到淘宝或者其他的镜像地址，来回切换过于麻烦</p>
+<p>我们可以通过nrm这个工具来管理我们的源地址，可以查看和切换地址</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> nrm</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>装后我们可以通过nrm add [name] [address]这个命令来新增一个源地址：</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 例如增加名为localnpm的源地址http://localhost:4873/</span></span>
+<span class="line">nrm <span class="token function">add</span> localnpm http://localhost:4873/</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>通过nrm use [name]来切换地址：</p>
+<h2 id="_5-4-注册与发包" tabindex="-1"><a class="header-anchor" href="#_5-4-注册与发包"><span>5.4 注册与发包</span></a></h2>
+<ol>
+<li>注册用户：</li>
+</ol>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> adduser <span class="token parameter variable">--registry</span> http://localhost:4873/</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>输入 username、password 以及 Email 即可</p>
 <ol start="2">
-<li>离线模式</li>
+<li>登录</li>
 </ol>
-<p>Yarn支持离线模式，即使在没有网络的情况下，也能安装依赖包。Yarn会缓存下载过的每一个包，下一次安装时直接从缓存中读取，大大提升了安装速度。</p>
-<ol start="3">
-<li>确定性</li>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> login <span class="token parameter variable">--registry</span> http://localhost:4873</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
+<li>上传私有包</li>
 </ol>
-<p>Yarn使用yarn.lock文件锁定依赖包的版本，确保每次安装的依赖包版本一致，避免了“今天能用明天不能用”的情况。</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token comment"># 在当前私有仓库下执行</span></span>
+<span class="line"><span class="token function">npm</span> publish <span class="token parameter variable">--registry</span> http://localhost:4873</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>注意：</p>
+<ul>
+<li>当前私有仓库必须包含 package.json 文件</li>
+<li>每次发布的时候，都需要使用npm version v1.x.x 更新版本，并且保证仓库是干净的</li>
+</ul>
 <ol start="4">
-<li>更好的语义化</li>
+<li>移除一个包</li>
 </ol>
-<p>Yarn的命令和输出信息更友好、更易读，方便开发人员理解和使用。</p>
-<h2 id="_5-3-安装yarn" tabindex="-1"><a class="header-anchor" href="#_5-3-安装yarn"><span>5.3 安装Yarn</span></a></h2>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line">// 删除特定版本</span>
+<span class="line"><span class="token function">npm</span> unpublish <span class="token operator">&lt;</span>package-name<span class="token operator">></span>@<span class="token operator">&lt;</span>version<span class="token operator">></span></span>
+<span class="line"></span>
+<span class="line">// 删除整个包（谨慎使用）：</span>
+<span class="line"><span class="token function">npm</span> unpublish <span class="token operator">&lt;</span>package-name<span class="token operator">></span> <span class="token parameter variable">--force</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>请注意，如果你要删除整个包，必须使用 --force 标志。</p>
+<h2 id="_5-5-包名规范" tabindex="-1"><a class="header-anchor" href="#_5-5-包名规范"><span>5.5 包名规范</span></a></h2>
+<p>在npm（Node Package Manager）中，包名前面带有@符号表示该包是一个范围包或者组织包。</p>
 <ol>
-<li>通过npm安装Yarn</li>
+<li>范围包（Scoped Packages）：</li>
 </ol>
-<p>如果已经安装了npm，可以通过以下命令安装Yarn：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> <span class="token function">yarn</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
-<li>通过Homebrew安装（适用于macOS）</li>
-</ol>
-<p>在macOS上，可以通过Homebrew安装Yarn：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line">brew <span class="token function">install</span> <span class="token function">yarn</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
-<li>通过Chocolatey安装（适用于Windows）
-在Windows上，可以通过Chocolatey安装Yarn：</li>
-</ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line">choco <span class="token function">install</span> <span class="token function">yarn</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="4">
-<li>验证安装</li>
-</ol>
-<p>安装完成后，可以通过以下命令验证Yarn是否安装成功：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token parameter variable">--version</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_5-4-yarn的基本命令" tabindex="-1"><a class="header-anchor" href="#_5-4-yarn的基本命令"><span>5.4 Yarn的基本命令</span></a></h2>
-<ol>
-<li>初始化项目</li>
-</ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> init</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>该命令会引导你创建一个package.json文件，用于描述项目的基本信息和依赖。</p>
+<p>当一个npm包以@scope/name的形式出现时，它标识这是一个有命名空间的包。scope是可选的命名空间前缀，用于区分不同组织、项目或个人的包。例如，@mycompany/my-package表明这个包属于mycompany这个组织或团队，并且包的实际名称是my-package。通过这种方式，可以避免全局包名空间中的命名冲突。</p>
 <ol start="2">
-<li>安装依赖</li>
+<li>组织包（Organization Packages）：</li>
 </ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>例如，安装lodash库：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> lodash</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
-<li>删除依赖</li>
-</ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> remove <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>例如，删除lodash库：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> remove lodash</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="4">
-<li>升级依赖</li>
-</ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> upgrade <span class="token punctuation">[</span>package<span class="token punctuation">]</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>例如，升级lodash库：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> upgrade lodash</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="5">
-<li>安装所有依赖</li>
-</ol>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">install</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>该命令会根据package.json和yarn.lock文件安装所有项目依赖。</p>
-<h2 id="_5-5-配置yarn" tabindex="-1"><a class="header-anchor" href="#_5-5-配置yarn"><span>5.5 配置Yarn</span></a></h2>
-<ol>
-<li>配置文件</li>
-</ol>
-<p>Yarn的配置文件位于用户目录下的.yarnrc和项目目录下的.yarnrc文件。可以通过以下命令设置全局配置：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> config <span class="token builtin class-name">set</span> <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>例如，设置全局的registry：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> config <span class="token builtin class-name">set</span> registry https://registry.npm.taobao.org</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
-<li>查看配置</li>
-</ol>
-<p>可以通过以下命令查看当前的Yarn配置：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> config list</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
-<li>配置镜像源</li>
-</ol>
-<p>为了提升下载速度，特别是在中国大陆，通常会配置淘宝的镜像源：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> config <span class="token builtin class-name">set</span> registry https://registry.npm.taobao.org</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_5-6-使用yarn进行依赖管理" tabindex="-1"><a class="header-anchor" href="#_5-6-使用yarn进行依赖管理"><span>5.6 使用Yarn进行依赖管理</span></a></h2>
-<ol>
-<li>添加依赖</li>
-</ol>
-<p>可以通过yarn add命令添加依赖包。默认情况下，添加的依赖会被写入dependencies字段。例如：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> react</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>如果需要将依赖添加到devDependencies字段，可以使用-D或--dev参数：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> jest <span class="token parameter variable">-D</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
-<li>移除依赖</li>
-</ol>
-<p>通过yarn remove命令可以移除依赖包。例如：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> remove react</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
-<li>升级依赖</li>
-</ol>
-<p>通过yarn upgrade命令可以升级依赖包。例如：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> upgrade react</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>如果需要升级所有的依赖包，可以使用：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> upgrade</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="4">
-<li>锁定依赖版本</li>
-</ol>
-<p>Yarn会生成一个yarn.lock文件，用于锁定依赖包的版本。每次安装依赖时，Yarn会参考该文件，确保安装的依赖版本一致。</p>
-<h2 id="_5-7-测试接口与详细解释" tabindex="-1"><a class="header-anchor" href="#_5-7-测试接口与详细解释"><span>5.7 测试接口与详细解释</span></a></h2>
-<p>在项目开发过程中，我们经常需要测试API接口。通过Yarn，我们可以安装和使用一些测试工具来完成这一任务。这里，我们以安装和使用axios和jest为例，进行API接口测试。</p>
-<ol>
-<li>安装axios和jest</li>
-</ol>
-<p>首先，通过Yarn安装axios和jest：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> axios</span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> jest <span class="token parameter variable">-D</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
-<li>创建API测试文件</li>
-</ol>
-<p>在项目根目录下创建一个api.test.js文件，用于编写测试代码。例如：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'fetches data from API'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/posts/1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toHaveProperty</span><span class="token punctuation">(</span><span class="token string">'id'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
-<li>配置jest</li>
-</ol>
-<p>在package.json文件中添加以下配置，以便使用jest运行测试：</p>
-<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json" data-title="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
-<span class="line">  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"jest"</span></span>
-<span class="line">  <span class="token punctuation">}</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
-<li>运行测试</li>
-</ol>
-<p>通过以下命令运行测试：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token builtin class-name">test</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>如果测试通过，终端会显示测试成功的信息。</p>
-<h2 id="_5-8-实践案例" tabindex="-1"><a class="header-anchor" href="#_5-8-实践案例"><span>5.8 实践案例</span></a></h2>
-<p>为了更好地理解Yarn的用法，我们将创建一个简单的项目，并使用Yarn进行依赖管理和测试。</p>
-<ol>
-<li>初始化项目</li>
-</ol>
-<p>在项目根目录下，通过以下命令初始化项目：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> init <span class="token parameter variable">-y</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
-<li>添加依赖</li>
-</ol>
-<p>安装express和axios：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> express axios</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>安装jest作为开发依赖：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token function">add</span> jest <span class="token parameter variable">-D</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="3">
-<li>创建项目文件</li>
-</ol>
-<p>创建一个server.js文件，内容如下：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line">app<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/data'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token keyword">try</span> <span class="token punctuation">{</span></span>
-<span class="line">        <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/posts/1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token punctuation">}</span></span>
-<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">const</span> <span class="token constant">PORT</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span> <span class="token operator">||</span> <span class="token number">3000</span><span class="token punctuation">;</span></span>
-<span class="line">app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token constant">PORT</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
-<span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server is running on port </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">PORT</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
-<li>创建测试文件</li>
-</ol>
-<p>创建一个server.test.js文件，内容如下：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token keyword">const</span> request <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'supertest'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">app<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/data'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token keyword">try</span> <span class="token punctuation">{</span></span>
-<span class="line">        <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/posts/1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">        res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token punctuation">}</span></span>
-<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'GET /data'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">request</span><span class="token punctuation">(</span>app<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/data'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line">    <span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toHaveProperty</span><span class="token punctuation">(</span><span class="token string">'id'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="5">
-<li>配置jest
-在package.json文件中添加以下配置，以便使用jest运行测试：</li>
-</ol>
-<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json" data-title="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
-<span class="line">  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
-<span class="line">    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"node server.js"</span><span class="token punctuation">,</span></span>
-<span class="line">    <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"jest"</span></span>
-<span class="line">  <span class="token punctuation">}</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="6">
-<li>运行项目和测试</li>
-</ol>
-<p>启动项目：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> start</span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>在浏览器中访问http://localhost:3000/data，应该会看到API返回的数据。</p>
-<p>运行测试：</p>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token function">yarn</span> <span class="token builtin class-name">test</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>如果测试通过，终端会显示测试成功的信息。</p>
-<h2 id="_5-9-总结" tabindex="-1"><a class="header-anchor" href="#_5-9-总结"><span>5.9 总结</span></a></h2>
-<p>我们详细了解了Yarn的安装、配置及其基本用法。Yarn作为一种新的包管理工具，凭借其快速、安全和一致性的优势，已经成为开发者管理JavaScript依赖包的首选工具之一。</p>
-<p>希望通过本文的介绍，大家能够快速上手并熟练使用Yarn，提高项目开发和管理的效率。在实际项目中，结合Yarn强大的功能和特性，我们可以更高效地进行依赖管理和测试，确保项目的稳定性和可靠性。</p>
-<h2 id="_5-10-yarn快速查询" tabindex="-1"><a class="header-anchor" href="#_5-10-yarn快速查询"><span>5.10 yarn快速查询</span></a></h2>
-<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh" data-title="sh"><pre v-pre><code><span class="line"><span class="token number">1</span>、安装yarn </span>
-<span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> <span class="token function">yarn</span></span>
-<span class="line"></span>
-<span class="line"><span class="token number">2</span>、安装成功后，查看版本号： </span>
-<span class="line"><span class="token function">yarn</span> <span class="token parameter variable">--version</span></span>
-<span class="line"></span>
-<span class="line"><span class="token number">3</span>、初始化项目 </span>
-<span class="line"><span class="token function">yarn</span> init <span class="token comment"># 同npm init，执行输入信息后，会生成package.json文件</span></span>
-<span class="line">yarn的配置项： </span>
-<span class="line"><span class="token function">yarn</span> config list <span class="token comment"># 显示所有配置项</span></span>
-<span class="line"><span class="token function">yarn</span> config get <span class="token operator">&lt;</span>key<span class="token operator">></span> <span class="token comment"># 显示某配置项</span></span>
-<span class="line"><span class="token function">yarn</span> config delete <span class="token operator">&lt;</span>key<span class="token operator">></span> <span class="token comment"># 删除某配置项</span></span>
-<span class="line"><span class="token function">yarn</span> config <span class="token builtin class-name">set</span> <span class="token operator">&lt;</span>key<span class="token operator">></span> <span class="token operator">&lt;</span>value<span class="token operator">></span> <span class="token punctuation">[</span>-g<span class="token operator">|</span>--global<span class="token punctuation">]</span> <span class="token comment">#设置配置项</span></span>
-<span class="line"><span class="token function">yarn</span> config <span class="token builtin class-name">set</span> registry https://registry.npmmirror.com <span class="token comment"># 添加淘宝源</span></span>
-<span class="line"></span>
-<span class="line"><span class="token number">4</span>、安装包： </span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> <span class="token comment"># 安装package.json里所有包，并将包及它的所有依赖项保存进yarn.lock</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> <span class="token parameter variable">--flat</span> <span class="token comment"># 安装一个包的单一版本</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> <span class="token parameter variable">--force</span> <span class="token comment"># 强制重新下载所有包</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> <span class="token parameter variable">--production</span> <span class="token comment"># 只安装dependencies里的包</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> --no-lockfile <span class="token comment"># 不读取或生成yarn.lock</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">install</span> --pure-lockfile <span class="token comment"># 不生成yarn.lock</span></span>
-<span class="line"></span>
-<span class="line"><span class="token number">5</span>、添加包（会更新package.json和yarn.lock）</span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span> <span class="token comment">#  在当前的项目中添加一个依赖包，会自动更新到package.json和yarn.lock文件中</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span>@<span class="token punctuation">[</span>version<span class="token punctuation">]</span> <span class="token comment">#  安装指定版本，这里指的是主要版本，如果需要精确到小版本，使用-E参数</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> <span class="token punctuation">[</span>package<span class="token punctuation">]</span>@<span class="token punctuation">[</span>tag<span class="token punctuation">]</span> <span class="token comment">#  安装某个tag（比如beta,next或者latest）</span></span>
-<span class="line"><span class="token comment"># 不指定依赖类型默认安装到dependencies里，你也可以指定依赖类型：</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> --dev/-D <span class="token comment">#  加到 devDependencies</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> --peer/-P <span class="token comment">#  加到 peerDependencies</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> --optional/-O <span class="token comment">#  加到 optionalDependencies</span></span>
-<span class="line"><span class="token comment"># 默认安装包的主要版本里的最新版本，下面两个命令可以指定版本：</span></span>
-<span class="line"><span class="token comment"># 安装包的精确版本。例如yarn add test@1.2.3会接受1.9.1版，但是yarn add test@1.2.3 --exact只会接受1.2.3版</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> --exact/-E </span>
-<span class="line"><span class="token comment">#  安装包的次要版本里的最新版。例如yarn add foo@1.2.3 --tilde会接受1.2.9，但不接受1.3.0</span></span>
-<span class="line"><span class="token function">yarn</span> <span class="token function">add</span> --tilde/-T </span>
-<span class="line"></span>
-<span class="line"><span class="token number">6</span>、发布包</span>
-<span class="line"><span class="token function">yarn</span> publish</span>
-<span class="line"></span>
-<span class="line"><span class="token number">7</span>、移除一个包 </span>
-<span class="line"><span class="token function">yarn</span> remove <span class="token operator">&lt;</span>packageName<span class="token operator">></span>：移除一个包，会自动更新package.json和yarn.lock</span>
-<span class="line"></span>
-<span class="line"><span class="token number">8</span>、更新一个依赖 </span>
-<span class="line"><span class="token function">yarn</span> upgrade 用于更新包到基于规范范围的最新版本</span>
-<span class="line"></span>
-<span class="line"><span class="token number">9</span>、运行脚本 </span>
-<span class="line"><span class="token function">yarn</span> run 用来执行在 package.json 中 scripts 属性下定义的脚本</span>
-<span class="line"></span>
-<span class="line"><span class="token number">10</span>、显示某个包的信息 </span>
-<span class="line"><span class="token function">yarn</span> info <span class="token operator">&lt;</span>packageName<span class="token operator">></span> 可以用来查看某个模块的最新版本信息</span>
-<span class="line"></span>
-<span class="line"><span class="token number">11</span>、缓存 </span>
-<span class="line"><span class="token function">yarn</span> cache </span>
-<span class="line"><span class="token function">yarn</span> cache list <span class="token comment"># 列出已缓存的每个包 </span></span>
-<span class="line"><span class="token function">yarn</span> cache <span class="token function">dir</span> <span class="token comment"># 返回 全局缓存位置 </span></span>
-<span class="line"><span class="token function">yarn</span> cache clean <span class="token comment"># 清除缓存</span></span>
-<span class="line"></span></code></pre>
-<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+<p>类似地，许多开源组织或公司在npm上拥有自己的组织账户，发布的包也会带有组织名作为前缀，比如 @angular/router 或 @vue/cli 等。这些包都是相应组织管理并发布的官方组件或工具。</p>
+<p>因此，@符号在npm中不仅用作版本控制时指定版本范围（如 npminstall react-router@2.8.1），还用来创建和管理具有特定命名空间的包。</p>
+</div></template>
 
 

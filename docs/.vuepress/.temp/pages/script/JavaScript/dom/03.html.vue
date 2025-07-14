@@ -1,4 +1,4 @@
-<template><div><h1 id="_03shadowdom" tabindex="-1"><a class="header-anchor" href="#_03shadowdom"><span>03shadowDOM</span></a></h1>
+<template><div><h1 id="_03-shadowdom" tabindex="-1"><a class="header-anchor" href="#_03-shadowdom"><span>03 shadowDOM</span></a></h1>
 <h2 id="什么是-shadow-dom" tabindex="-1"><a class="header-anchor" href="#什么是-shadow-dom"><span>什么是 Shadow DOM？</span></a></h2>
 <p>Shadow DOM 是 Web Components 技术的一部分，用于实现 DOM 树的封装，使组件的内部结构与外部代码隔离。通过 Shadow DOM，可以创建一个独立的 DOM 子树，这个子树的样式和行为不会影响外部的 DOM，也不会被外部的样式和行为所影响。</p>
 <p>下面就简单介绍一下Shadow DOM</p>
@@ -12,7 +12,7 @@
 <h2 id="创建和使用-shadow-dom" tabindex="-1"><a class="header-anchor" href="#创建和使用-shadow-dom"><span>创建和使用 Shadow DOM</span></a></h2>
 <p>要使用 Shadow DOM，首先需要创建一个 Shadow Root，然后将子元素附加到这个 Shadow Root 上。</p>
 <p>用法示例：</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
@@ -70,7 +70,7 @@
 <li>closed: 不允许外部 JavaScript 访问 Shadow DOM。</li>
 </ul>
 <p>例如，使用 closed 模式创建 Shadow Root 的代码如下：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> shadowRoot <span class="token operator">=</span> hostElement<span class="token punctuation">.</span><span class="token function">attachShadow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'closed'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> shadowRoot <span class="token operator">=</span> hostElement<span class="token punctuation">.</span><span class="token function">attachShadow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'closed'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token comment">//在这种模式下，shadowRoot 属性将返回 null。</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="shadow-dom-的优势" tabindex="-1"><a class="header-anchor" href="#shadow-dom-的优势"><span>Shadow DOM 的优势</span></a></h2>
@@ -81,7 +81,7 @@
 </ol>
 <p><strong>实际应用</strong></p>
 <p>创建一个自定义的 元素，并且这个按钮的样式和行为完全封装在组件内部</p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
 <span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>

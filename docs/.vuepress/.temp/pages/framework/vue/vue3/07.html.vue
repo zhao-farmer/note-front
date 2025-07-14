@@ -1,4 +1,4 @@
-<template><div><h1 id="_7-其它-api" tabindex="-1"><a class="header-anchor" href="#_7-其它-api"><span>7. 其它 API</span></a></h1>
+<template><div><h1 id="七、其它-api" tabindex="-1"><a class="header-anchor" href="#七、其它-api"><span>七、其它 API</span></a></h1>
 <h2 id="_7-1-【shallowref-与-shallowreactive-】" tabindex="-1"><a class="header-anchor" href="#_7-1-【shallowref-与-shallowreactive-】"><span>7.1.【shallowRef 与 shallowReactive 】</span></a></h2>
 <h3 id="shallowref" tabindex="-1"><a class="header-anchor" href="#shallowref"><span><code v-pre>shallowRef</code></span></a></h3>
 <ol>
@@ -7,7 +7,7 @@
 </li>
 <li>
 <p>用法：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> myVar <span class="token operator">=</span> <span class="token function">shallowRef</span><span class="token punctuation">(</span>initialValue<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">let</span> myVar <span class="token operator">=</span> <span class="token function">shallowRef</span><span class="token punctuation">(</span>initialValue<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
 <li>
@@ -21,7 +21,7 @@
 </li>
 <li>
 <p>用法：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> myObj <span class="token operator">=</span> <span class="token function">shallowReactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> myObj <span class="token operator">=</span> <span class="token function">shallowReactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
 <li>
@@ -40,7 +40,7 @@
 </li>
 <li>
 <p>用法：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> original <span class="token operator">=</span> <span class="token function">reactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> original <span class="token operator">=</span> <span class="token function">reactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">const</span> readOnlyCopy <span class="token operator">=</span> <span class="token function">readonly</span><span class="token punctuation">(</span>original<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></li>
@@ -66,7 +66,7 @@
 </li>
 <li>
 <p>用法：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> original <span class="token operator">=</span> <span class="token function">reactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> original <span class="token operator">=</span> <span class="token function">reactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">const</span> shallowReadOnlyCopy <span class="token operator">=</span> <span class="token function">shallowReadonly</span><span class="token punctuation">(</span>original<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
 <span class="line"></span></code></pre>
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></li>
@@ -96,7 +96,7 @@
 </li>
 <li>
 <p>具体编码：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> reactive<span class="token punctuation">,</span>toRaw<span class="token punctuation">,</span>markRaw<span class="token punctuation">,</span>isReactive <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> reactive<span class="token punctuation">,</span>toRaw<span class="token punctuation">,</span>markRaw<span class="token punctuation">,</span>isReactive <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment">/* toRaw */</span></span>
 <span class="line"><span class="token comment">// 响应式对象</span></span>
@@ -131,7 +131,7 @@
 </li>
 <li>
 <p>编码：</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token comment">/* markRaw */</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">/* markRaw */</span></span>
 <span class="line"><span class="token keyword">let</span> citys <span class="token operator">=</span> <span class="token function">markRaw</span><span class="token punctuation">(</span><span class="token punctuation">[</span></span>
 <span class="line">  <span class="token punctuation">{</span><span class="token literal-property property">id</span><span class="token operator">:</span><span class="token string">'asdda01'</span><span class="token punctuation">,</span><span class="token literal-property property">name</span><span class="token operator">:</span><span class="token string">'北京'</span><span class="token punctuation">}</span><span class="token punctuation">,</span></span>
 <span class="line">  <span class="token punctuation">{</span><span class="token literal-property property">id</span><span class="token operator">:</span><span class="token string">'asdda02'</span><span class="token punctuation">,</span><span class="token literal-property property">name</span><span class="token operator">:</span><span class="token string">'上海'</span><span class="token punctuation">}</span><span class="token punctuation">,</span></span>
@@ -146,7 +146,7 @@
 <h2 id="_7-4-【customref】" tabindex="-1"><a class="header-anchor" href="#_7-4-【customref】"><span>7.4.【customRef】</span></a></h2>
 <p>作用：创建一个自定义的<code v-pre>ref</code>，并对其依赖项跟踪和更新触发进行逻辑控制。</p>
 <p>实现防抖效果（<code v-pre>useSumRef.ts</code>）：</p>
-<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts" data-title="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>customRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span></span>
+<div class="language-typescript line-numbers-mode" data-highlighter="prismjs" data-ext="ts"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span>customRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span><span class="token punctuation">(</span>initValue<span class="token operator">:</span><span class="token builtin">string</span><span class="token punctuation">,</span>delay<span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
 <span class="line">  <span class="token keyword">let</span> msg <span class="token operator">=</span> <span class="token function">customRef</span><span class="token punctuation">(</span><span class="token punctuation">(</span>track<span class="token punctuation">,</span>trigger<span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>

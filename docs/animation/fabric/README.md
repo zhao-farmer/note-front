@@ -1,23 +1,11 @@
-# javaScript学习并记录
+# fabric.js 学习记录
 
-1. 学习课程
+- [fabric.js 学习](https://juejin.cn/post/7026941253845516324#heading-2)
 
+- 曾随着官网的文档写过一份案例，不过官网一把这列为旧的文档
 
-- 入门篇
+旧的代码示例：
 
-[禹神：三小时快速上手TypeScript，TS速通教程](https://www.bilibili.com/video/BV1wR4y1377K)
-
-
-- 基础篇
-
-[千锋教育前端TypeScript入门视频教程（顶配版TS入门教程）](https://www.bilibili.com/video/BV1H44y157gq)
+新的代码示例：
 
 
-- 高级篇
-
-还没有找到，后续可能自己总结
-
-
-2. 已练习完成的代码
-
-[代码练习](https://github.com/zhao-farmer/learning-script/tree/main/TypeScript)

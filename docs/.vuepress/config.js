@@ -1,8 +1,32 @@
 import { viteBundler } from "@vuepress/bundler-vite";
 import { defaultTheme } from "@vuepress/theme-default";
 import { defineUserConfig } from "vuepress";
+import { markdownMathPlugin } from '@vuepress/plugin-markdown-math'
+
+import  mermaidPlugin  from './client/mermaidPlugin'
+import { getDirname, path } from 'vuepress/utils'
+const __dirname = getDirname(import.meta.url)
+
 
 export default defineUserConfig({
+
+     // markdown-it配置
+     extendsMarkdown: (md) => {
+        md.use(mermaidPlugin)
+    },
+    
+    // 客户端配置
+    clientConfigFile: path.resolve(__dirname, './client/clientConfig.js'),
+
+    // 插件配置
+    plugins: [
+        // markdown 数学公司插件
+        markdownMathPlugin({
+            // 使用 KaTeX 启用 TeX 支持
+            type: 'katex'
+        }),
+    ],
+
     bundler: viteBundler(),
 
     // 部署站点的基础路径
@@ -88,14 +112,6 @@ export default defineUserConfig({
                         text: "Angular相关",
                         link: "/framework/angular/",
                     },
-                    {
-                        text: "uni-app",
-                        link: "/framework/uniapp/",
-                    },
-                    {
-                        text: "electron",
-                        link: "/framework/electron/",
-                    },
                 ],
             },
             {
@@ -118,8 +134,41 @@ export default defineUserConfig({
                         link: "/animation/pixi/",
                     },
                     {
+                        text: "Echats.js",
+                        link: "/animation/echats/",
+                    },
+                    {
+                        text: "antv",
+                        link: "/animation/antv/",
+                    },
+                    {
+                        text: "webgl",
+                        link: "/animation/webgl/",
+                    },
+                    {
                         text: "three.js",
                         link: "/animation/three/",
+                    },
+                ],
+            },
+            {
+                text: "前端应用",
+                children: [
+                    {
+                        text: "微信小程序",
+                        link: "/application/weixin/",
+                    },
+                    {
+                        text: "uni-app",
+                        link: "/application/uniapp/",
+                    },
+                    {
+                        text: "electron桌面",
+                        link: "/application/electron/",
+                    },
+                    {
+                        text: "cocos游戏",
+                        link: "/application/cocos/",
                     },
                 ],
             },
@@ -137,14 +186,6 @@ export default defineUserConfig({
                     {
                         text: "vant",
                         link: "/UILibrary/vant/",
-                    },
-                    {
-                        text: "Echats.js",
-                        link: "/UILibrary/echats/",
-                    },
-                    {
-                        text: "antv",
-                        link: "/UILibrary/antv/",
                     },
                 ],
             },
@@ -175,6 +216,10 @@ export default defineUserConfig({
                     {
                         text: "前端构建工具",
                         link: "/other/construct/",
+                    },
+                    {
+                        text: "其他标记语言",
+                        link: "/other/other/",
                     },
                     {
                         text: "开发工具使用",
@@ -304,7 +349,7 @@ export default defineUserConfig({
                 {
                     text: "JavaScript日常记录",
                     prefix: 'records/',
-                    children:["00.md","01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
+                    children:["00.md","01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md"],
                 },
                 {
                     text: "操作DOM记录",
@@ -437,83 +482,107 @@ export default defineUserConfig({
                 },
             ],
 
-            "/framework/uniapp/": [
-                {
-                    text: "uniapp",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "uniapp日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
-
-            "/framework/electron/": [
-                {
-                    text: "electron",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "electron日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
+            
 
             /* ==============================  动画相关  =============================== */
 
             
             "/animation/canvas/": [
                 {
-                    text: "canvas",
+                    text: "canvas基础",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
+                },
+                {
+                    text: "canvas进阶",
+                    prefix: 'senior/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md"],
                 },
                 {
                     text: "canvas日常记录",
                     prefix: 'records/',
-                    children:[],
+                    children:["01.md","02.md","03.md","04.md","05.md"],
                 },
             ],
 
                         
             "/animation/svg/": [
                 {
-                    text: "svg",
+                    text: "svg基础",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md"],
                 },
                 {
                     text: "svg日常记录",
                     prefix: 'records/',
-                    children:[],
+                    children:["01.md","02.md","03.md"],
                 },
             ],
 
             "/animation/fabric/": [
                 {
-                    text: "fabric",
+                    text: "fabric.js v6基础",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md","13.md","14.md","15.md"],
                 },
                 {
-                    text: "fabric日常记录",
-                    prefix: 'records/',
-                    children:[],
+                    text: "vue使用fabric.js",
+                    prefix: 'vue/',
+                    children:["01.md","02.md","03.md"],
                 },
             ],
 
             "/animation/pixi/": [
                 {
-                    text: "pixi",
+                    text: "pixi v7 学习",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md","02.md","03.md"],
+                },
+                {
+                    text: "pixi v8 官网教程",
+                    prefix: 'official/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md","13.md"],
+                },
+                {
+                    text: "pixi v8 官网实例",
+                    prefix: 'example/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md"],
                 },
                 {
                     text: "pixi日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
+            "/animation/echats/": [
+                {
+                    text: "Echats学习",
+                    prefix: 'base/',
+                    children: ["01.md","02.md"],
+                },
+                {
+                    text: "Echats日常记录",
+                    prefix: 'records/',
+                    children:["01.md","02.md","03.md"],
+                },
+            ],
+            "/animation/antv/": [
+                {
+                    text: "antv/S2",
+                    prefix: 'S2/',
+                    children: [],
+                },
+                {
+                    text: "antv/S6",
+                    prefix: 'S6/',
+                    children: [],
+                },
+                {
+                    text: "antv日常记录",
                     prefix: 'records/',
                     children:[],
                 },
@@ -530,7 +599,68 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
+           
+
+            /* ==============================  应用相关  =============================== */
+
+            "/application/weixin/": [
+                {
+                    text: "微信小程序学习",
+                    prefix: 'base/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md"
+                    ],
+                },
+                {
+                    text: "小程序日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
+
+            "/application/uniapp/": [
+                {
+                    text: "uniapp基础",
+                    prefix: 'base/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md"],
+                },
+                {
+                    text: "uniapp日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
+            "/application/electron/": [
+                {
+                    text: "electron学习",
+                    prefix: 'base/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md"],
+                },
+                {
+                    text: "electron快速入门",
+                    prefix: 'fast/',
+                    children: ["01.md"],
+                },
+                {
+                    text: "electron日常记录",
+                    prefix: 'records/',
+                    children:["01.md"],
+                },
+            ],
+            "/application/cocos/": [
+                {
+                    text: "cocos基础",
+                    prefix: 'base/',
+                    children: ["01.md","02.md","03.md"],
+                },
+                {
+                    text: "cocos日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
             
+
 
             /* ==============================  UI库相关  =============================== */
             "/UILibrary/element/": [
@@ -574,58 +704,36 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
-            "/UILibrary/Echats/": [
-                {
-                    text: "Echats",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "Element日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
-            "/UILibrary/antv/": [
-                {
-                    text: "antv/S2",
-                    prefix: 'S2/',
-                    children: [],
-                },
-                {
-                    text: "antv/S6",
-                    prefix: 'S6/',
-                    children: [],
-                },
-                {
-                    text: "antv日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
+            
             /* ==============================  JS后端  =============================== */
             "/backend/node/": [
                 {
                     text: "node基础",
                     prefix: 'base/',
-                    children: ["01.md", "02.md","03.md","04.md", "05.md","06.md","07.md"],
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md"],
                 },
                 {
-                    text: "npm指令安装",
+                    text: "npm使用",
                     prefix: 'npm/',
+                    children:["01.md", "02.md","03.md","04.md", "05.md"],
+                },
+                {
+                    text: "指令安装",
+                    prefix: 'command/',
                     children:["01.md", "02.md","03.md","04.md", "05.md","06.md","07.md"],
                 },
                 {
                     text: "node日常记录",
                     prefix: 'records/',
-                    children:["01.md", "02.md","03.md","04.md", "05.md","06.md","07.md"],
+                    children:["01.md", "02.md","03.md"],
                 },
             ],
             "/backend/senior/": [
                 {
                     text: "express",
                     prefix: 'express/',
-                    children: [],
+                    children: ["01.md", "02.md","03.md","04.md", "05.md","06.md","07.md","08.md"],
                 },
                 {
                     text: "koa2",
@@ -694,6 +802,21 @@ export default defineUserConfig({
                     text: "构建工具日常记录",
                     prefix: 'records/',
                     children:[],
+                },
+            ],
+
+            "/other/other/": [
+                {
+                    text: "markdown标记语言",
+                    prefix: 'markdown/',
+                    children: ["01.md", "02.md","03.md","04.md","05.md"],
+                },
+                {
+                    text: "mermaid图表",
+                    prefix: 'mermaid/',
+                    children: ["01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
+                        "11.md","12.md","13.md","14.md","15.md","16.md","17.md","18.md","19.md","20.md",
+                        "21.md","22.md"]
                 },
             ],
 

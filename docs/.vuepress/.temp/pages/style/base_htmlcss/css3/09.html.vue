@@ -4,7 +4,7 @@
 <ul>
 <li><strong>语法（简写方式）</strong></li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@font-face</span></span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@font-face</span></span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"情书字体"</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">src</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'./方正手迹.ttf'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
@@ -12,7 +12,7 @@
 <div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
 <li><strong>语法（高兼容性写法）</strong></li>
 </ul>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@font-face</span></span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@font-face</span></span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"atguigu"</span><span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">font-display</span><span class="token punctuation">:</span> swap<span class="token punctuation">;</span></span>
 <span class="line">    <span class="token property">src</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'webfont.eot'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span> <span class="token comment">/* IE9 */</span></span>

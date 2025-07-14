@@ -1,23 +1,14 @@
-<template><div><h1 id="javascript学习并记录" tabindex="-1"><a class="header-anchor" href="#javascript学习并记录"><span>javaScript学习并记录</span></a></h1>
-<ol>
-<li>学习课程</li>
-</ol>
+<template><div><h1 id="fabric-js-学习记录" tabindex="-1"><a class="header-anchor" href="#fabric-js-学习记录"><span>fabric.js 学习记录</span></a></h1>
 <ul>
-<li>入门篇</li>
+<li>
+<p><a href="https://juejin.cn/post/7026941253845516324#heading-2" target="_blank" rel="noopener noreferrer">fabric.js 学习</a></p>
+</li>
+<li>
+<p>曾随着官网的文档写过一份案例，不过官网一把这列为旧的文档</p>
+</li>
 </ul>
-<p><a href="https://www.bilibili.com/video/BV1wR4y1377K" target="_blank" rel="noopener noreferrer">禹神：三小时快速上手TypeScript，TS速通教程</a></p>
-<ul>
-<li>基础篇</li>
-</ul>
-<p><a href="https://www.bilibili.com/video/BV1H44y157gq" target="_blank" rel="noopener noreferrer">千锋教育前端TypeScript入门视频教程（顶配版TS入门教程）</a></p>
-<ul>
-<li>高级篇</li>
-</ul>
-<p>还没有找到，后续可能自己总结</p>
-<ol start="2">
-<li>已练习完成的代码</li>
-</ol>
-<p><a href="https://github.com/zhao-farmer/learning-script/tree/main/TypeScript" target="_blank" rel="noopener noreferrer">代码练习</a></p>
+<p>旧的代码示例：</p>
+<p>新的代码示例：</p>
 </div></template>
 
 

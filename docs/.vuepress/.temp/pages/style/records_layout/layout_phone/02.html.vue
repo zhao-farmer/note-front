@@ -10,7 +10,7 @@
 </li>
 </ul>
 <p><strong>代码示例</strong></p>
-<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html" data-title="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
 <span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
 <span class="line">    <span class="token comment">/* 设置根元素的字体大小为20px */</span></span>
@@ -49,7 +49,7 @@
 <p>因为rem的基准点是根元素html的字体大小，因此我们只需要设置不同屏幕的html的font-size大小不一样就可以达到不同屏幕的适配了。</p>
 <h3 id="_2-3-1-rem与媒体查询" tabindex="-1"><a class="header-anchor" href="#_2-3-1-rem与媒体查询"><span>2.3.1 rem与媒体查询</span></a></h3>
 <p>使用rem配合媒体查询可以适配多个终端</p>
-<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css" data-title="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span></span>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token selector">html</span> <span class="token punctuation">{</span></span>
 <span class="line">    <span class="token comment">/*font-size: 100/750 * 320px*/</span></span>
 <span class="line">    <span class="token property">font-size</span><span class="token punctuation">:</span> 42.67px<span class="token punctuation">;</span></span>
@@ -85,7 +85,7 @@
 <p>缺点：适配多个终端时，需要添加响应的代码</p>
 <h3 id="_2-3-2-rem与javascript" tabindex="-1"><a class="header-anchor" href="#_2-3-2-rem与javascript"><span>2.3.2 rem与javascript</span></a></h3>
 <p>通过javascript获取可视区的宽度，计算font-size的值，也可以适配多个终端。</p>
-<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js" data-title="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> base <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span></span>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">var</span> base <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span></span>
 <span class="line"><span class="token keyword">var</span> design <span class="token operator">=</span> <span class="token number">750</span><span class="token punctuation">;</span></span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">function</span> <span class="token function">responsive</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>

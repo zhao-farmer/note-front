@@ -1,0 +1,1293 @@
+<template><div><h1 id="九、滤镜" tabindex="-1"><a class="header-anchor" href="#九、滤镜"><span>九、滤镜</span></a></h1>
+<ol>
+<li>‌颜色混合滤镜‌：
+<ul>
+<li>BlendColor：将指定颜色与图像混合</li>
+<li>BlendImage：将另一张图像作为混合源</li>
+</ul>
+</li>
+<li>基础调整滤镜‌：
+<ul>
+<li>Brightness：亮度调整（-1到1）</li>
+<li>Contrast：对比度调整（0到1）</li>
+<li>Saturation：饱和度调整（-1到1）</li>
+<li>Vibrance：自然饱和度调整</li>
+</ul>
+</li>
+<li>‌颜色转换滤镜‌：
+<ul>
+<li>Grayscale：转换为灰度图</li>
+<li>HueRotation：色相旋转（0-360）</li>
+<li>Invert：颜色反相</li>
+<li>RemoveColor：移除指定颜色</li>
+</ul>
+</li>
+<li>特效滤镜‌：
+<ul>
+<li>Blur：高斯模糊</li>
+<li>Noise：添加噪点</li>
+<li>Pixelate：像素化效果</li>
+<li>Gamma：伽马校正</li>
+</ul>
+</li>
+<li>高级滤镜‌：
+<ul>
+<li>ColorMatrix：4x5颜色矩阵自定义效果</li>
+<li>Convolute：卷积核实现锐化/边缘检测</li>
+<li>Composed：组合多个滤镜</li>
+<li>Resize：图像尺寸调整</li>
+</ul>
+</li>
+</ol>
+<h2 id="_9-1-混合颜色-blendcolor" tabindex="-1"><a class="header-anchor" href="#_9-1-混合颜色-blendcolor"><span>9.1 混合颜色(BlendColor)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>BlendColor</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">color</span><span class="token operator">:</span> <span class="token string">'#000'</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'multiply'</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>color:混合的颜色</li>
+<li>multiply：混合的模式
+<ul>
+<li>基础混合模式‌：
+<ul>
+<li>multiply：正片叠底，使图像变暗</li>
+<li>add：像素值相加，产生更亮效果</li>
+<li>difference：取像素值差的绝对值</li>
+<li>screen：滤色模式，使图像变亮</li>
+</ul>
+</li>
+<li>对比调整模式‌：
+<ul>
+<li>darken：取两个图像中较暗的像素</li>
+<li>lighten：取两个图像中较亮的像素</li>
+<li>overlay：叠加模式，结合multiply和screen</li>
+</ul>
+</li>
+<li>特殊效果模式‌：
+<ul>
+<li>exclusion：类似difference但对比度更低</li>
+<li>tint：为图像添加色调</li>
+<li>subtract：从背景中减去前景像素值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>alpha: 混合图像的强度,一般配合着色(tint) 使用</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// '#6a0c0c' #e35d5d</span></span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>BlendColor</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">color</span><span class="token operator">:</span> <span class="token string">'#e35d5d'</span><span class="token punctuation">,</span>   <span class="token comment">// 红色</span></span>
+<span class="line">        <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'multiply'</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 混合类型</span></span>
+<span class="line">    <span class="token keyword">let</span> modeList <span class="token operator">=</span> <span class="token punctuation">[</span></span>
+<span class="line">        <span class="token string">"multiply"</span><span class="token punctuation">,</span>     <span class="token comment">//  乘</span></span>
+<span class="line">        <span class="token string">"add"</span><span class="token punctuation">,</span>          <span class="token comment">//  加</span></span>
+<span class="line">        <span class="token string">"difference"</span><span class="token punctuation">,</span>   <span class="token comment">//  差</span></span>
+<span class="line">        <span class="token string">"screen"</span><span class="token punctuation">,</span>       <span class="token comment">//  筛</span></span>
+<span class="line">        <span class="token string">"subtract"</span><span class="token punctuation">,</span>     <span class="token comment">//  减</span></span>
+<span class="line">        <span class="token string">"darken"</span><span class="token punctuation">,</span>       <span class="token comment">//  变暗</span></span>
+<span class="line">        <span class="token string">"lighten"</span><span class="token punctuation">,</span>      <span class="token comment">//  变亮</span></span>
+<span class="line">        <span class="token string">"overlay"</span><span class="token punctuation">,</span>      <span class="token comment">//  叠加</span></span>
+<span class="line">        <span class="token string">"exclusion"</span><span class="token punctuation">,</span>    <span class="token comment">//  排除</span></span>
+<span class="line">        <span class="token string">"tint"</span>          <span class="token comment">//  着色</span></span>
+<span class="line">    <span class="token punctuation">]</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> modeList<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">            filter<span class="token punctuation">.</span>mode <span class="token operator">=</span> modeList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">            <span class="token comment">// 混合强度</span></span>
+<span class="line">            <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">==</span>  modeList<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">                filter<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0.7</span><span class="token punctuation">;</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">            <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                    <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.2</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                    <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.2</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                    <span class="token literal-property property">left</span><span class="token operator">:</span> i <span class="token operator">&lt;</span> <span class="token number">5</span> <span class="token operator">?</span> i <span class="token operator">*</span> <span class="token number">150</span> <span class="token operator">:</span> <span class="token punctuation">(</span> i <span class="token operator">-</span> <span class="token number">5</span> <span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">150</span><span class="token punctuation">,</span></span>
+<span class="line">                    <span class="token literal-property property">top</span><span class="token operator">:</span> i <span class="token operator">&lt;</span> <span class="token number">5</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span>  <span class="token number">200</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token punctuation">}</span></span>
+<span class="line">            <span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">            canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/23.html" width="850" height="450"></iframe>
+<h2 id="_9-2-混合图片-blendimage" tabindex="-1"><a class="header-anchor" href="#_9-2-混合图片-blendimage"><span>9.2 混合图片(BlendImage)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>BlendImage</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">image</span><span class="token operator">:</span> fabricImageObject<span class="token punctuation">,</span></span>
+<span class="line">    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'multiply'</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>image： 使用FabricImage或Image 创建的图片</li>
+<li>mode: 混合类型
+<ul>
+<li>multiply(正片叠底)：将将滤波图像的每个通道（R、G、B和A）的值乘以 它们在基本图像中的对应值。</li>
+<li>mask(蒙版)：只会看 Alpha通道的过滤器图像，并将这些值应用到基础 图像的alpha通道。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 定义加载图片</span></span>
+<span class="line">    <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">loadImage</span><span class="token punctuation">(</span><span class="token parameter">url</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token keyword">const</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">resolve</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            img<span class="token punctuation">.</span>onerror <span class="token operator">=</span> reject<span class="token punctuation">;</span></span>
+<span class="line">            img<span class="token punctuation">.</span>src <span class="token operator">=</span> url<span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// 图片</span></span>
+<span class="line">        <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">loadImage</span><span class="token punctuation">(</span><span class="token string">"./assest/001.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token keyword">let</span> filterImg1 <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">loadImage</span><span class="token punctuation">(</span><span class="token string">"./assest/002.jpeg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token keyword">let</span> filterImg2 <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">loadImage</span><span class="token punctuation">(</span><span class="token string">"./assest/003.png"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricfilterImg1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>filterImg1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricfilterImg2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>filterImg2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>BlendImage</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">image</span><span class="token operator">:</span> fabricfilterImg1<span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">"multiply"</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">scaleX</span><span class="token operator">:</span> <span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token comment">// x轴比例</span></span>
+<span class="line">            <span class="token literal-property property">scaleY</span><span class="token operator">:</span> <span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token comment">// y轴比例</span></span>
+<span class="line">            <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        filter<span class="token punctuation">.</span>image <span class="token operator">=</span> fabricfilterImg2<span class="token punctuation">;</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>mode <span class="token operator">=</span> <span class="token string">"mask"</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">scaleX</span><span class="token operator">:</span> <span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token comment">// x轴比例</span></span>
+<span class="line">            <span class="token literal-property property">scaleY</span><span class="token operator">:</span> <span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token comment">// y轴比例</span></span>
+<span class="line">            <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 混合类型：正片叠底(multiply) 或 蒙版(mask)</span></span>
+<span class="line">        <span class="token comment">//  正片叠底：将将滤波图像的每个通道（R、G、B和A）的值乘以 它们在基本图像中的对应值。</span></span>
+<span class="line">        <span class="token comment">//  蒙版：只会看 Alpha通道的过滤器图像，并将这些值应用到基础 图像的alpha通道。</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/24.html" width="650" height="450"></iframe>
+<h2 id="_9-3-亮度-brightness" tabindex="-1"><a class="header-anchor" href="#_9-3-亮度-brightness"><span>9.3 亮度(Brightness)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Brightness</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">brightness</span><span class="token operator">:</span> <span class="token number">0.05</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>brightness：亮度值，从-1到1。 2d转换为-255到255 0.0039215686是1在2d中转换成1的部分</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Brightness</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">brightness</span><span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 亮度值，从-1到1。 2d转换为-255到255 0.0039215686是1在2d中转换成1的部分</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 变亮</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 变暗</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>brightness <span class="token operator">=</span> <span class="token operator">-</span> <span class="token number">0.25</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/25.html" width="650" height="450"></iframe>
+<h2 id="_9-4-对比度-contrast" tabindex="-1"><a class="header-anchor" href="#_9-4-对比度-contrast"><span>9.4 对比度(Contrast)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Contrast</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">contrast</span><span class="token operator">:</span> <span class="token number">0.05</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>contrast：对比值，取值范围为-1 ~ 1。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Contrast</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">contrast</span><span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 对比值，取值范围为-1 ~ 1。</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 正对比度</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 负对比度</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>contrast <span class="token operator">=</span> <span class="token operator">-</span> <span class="token number">0.25</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/27.html" width="650" height="450"></iframe>
+<h2 id="_9-5-饱和度-saturation" tabindex="-1"><a class="header-anchor" href="#_9-5-饱和度-saturation"><span>9.5 饱和度(Saturation)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Saturation</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">saturation</span><span class="token operator">:</span> <span class="token number">0.5</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>saturation：饱和度值，从-1到1。 增加/减少色彩饱和度。 值为0不起作用。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Saturation</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">saturation</span><span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 饱和度值，从-1到1。 增加/减少色彩饱和度。 值为0不起作用。</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 正饱和度</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 负饱和度</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>saturation <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">0.25</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/27.html" width="650" height="450"></iframe>
+<h2 id="_9-6-鲜艳度-vibrance" tabindex="-1"><a class="header-anchor" href="#_9-6-鲜艳度-vibrance"><span>9.6 鲜艳度(Vibrance)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Vibrance</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">vibrance</span><span class="token operator">:</span> <span class="token number">0.5</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>vibrance：鲜艳度，从-1到1。 增加/减少较柔和颜色的饱和度，对饱和颜色的影响较小。 值为0不起作用。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Vibrance</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">vibrance</span><span class="token operator">:</span> <span class="token number">0.7</span> <span class="token comment">// 鲜艳度，从-1到1。 值为0不起作用。</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 正鲜艳度</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 负鲜艳度</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>vibrance <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">0.7</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/28.html" width="650" height="450"></iframe>
+<h2 id="_9-7-转换为灰度图-grayscale" tabindex="-1"><a class="header-anchor" href="#_9-7-转换为灰度图-grayscale"><span>9.7 转换为灰度图(Grayscale)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Grayscale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Grayscale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 灰度图</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/29.html" width="350" height="450"></iframe>
+<h2 id="_9-8-色相旋转-huerotation" tabindex="-1"><a class="header-anchor" href="#_9-8-色相旋转-huerotation"><span>9.8 色相旋转(HueRotation)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span></span> <span class="token function">HueRotation</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">rotation</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">0.5</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>rotation：反转值，从-1到1。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>HueRotation</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">rotation</span><span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 反转值，从-1到1。</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 正反转值</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 负反转值</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>rotation <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">0.25</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/30.html" width="650" height="450"></iframe>
+<h2 id="_9-9-颜色反相-invert" tabindex="-1"><a class="header-anchor" href="#_9-9-颜色反相-invert"><span>9.9 颜色反相(Invert)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Invert</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Invert</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 颜色反转</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/31.html" width="350" height="450"></iframe>
+<h2 id="_9-10-移除指定颜色-removecolor" tabindex="-1"><a class="header-anchor" href="#_9-10-移除指定颜色-removecolor"><span>9.10 移除指定颜色(RemoveColor)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span></span> <span class="token function">HueRotation</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">rotation</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">0.5</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>color：移除的颜色。</li>
+<li>distance： 0.25 // 到实际颜色的距离，作为每个r，g，b的上下值 在0和1之间。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>RemoveColor</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">color</span><span class="token operator">:</span><span class="token string">"black"</span><span class="token punctuation">,</span>  <span class="token comment">// 移除的颜色</span></span>
+<span class="line">        <span class="token literal-property property">distance</span> <span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 到实际颜色的距离，作为每个r，g，b的上下值 在0和1之间。</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage1<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 移除黑色相近的</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage1<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage2<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token comment">// 移除白色相近的</span></span>
+<span class="line">        filter<span class="token punctuation">.</span>color <span class="token operator">=</span> <span class="token string">"white"</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage2<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/32.html" width="650" height="450"></iframe>
+<h2 id="_9-11-模糊-blur" tabindex="-1"><a class="header-anchor" href="#_9-11-模糊-blur"><span>9.11 模糊(Blur)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Blur</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">blur</span><span class="token operator">:</span> <span class="token number">0.5</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>blur：模糊值，以图像尺寸的百分比表示。 具体来说，在不同分辨率下保持图像模糊不变 取值范围为0到1。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Blur</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">blur</span><span class="token operator">:</span> <span class="token number">0.25</span> <span class="token comment">// 0-1 之间 模糊值越大越看不出是原图</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/33.html" width="350" height="450"></iframe>
+<h2 id="_9-12-添加噪点-noise" tabindex="-1"><a class="header-anchor" href="#_9-12-添加噪点-noise"><span>9.12 添加噪点(Noise)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Noise</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">noise</span><span class="token operator">:</span> <span class="token number">700</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>noise：噪声值，从 1 - ∞</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Noise</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">noise</span><span class="token operator">:</span> <span class="token number">100</span>  <span class="token comment">// 噪声值 1 - ∞</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/34.html" width="350" height="450"></iframe>
+<h2 id="_9-13-像素化效果-pixelate" tabindex="-1"><a class="header-anchor" href="#_9-13-像素化效果-pixelate"><span>9.13 像素化效果(Pixelate)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Pixelate</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">blocksize</span><span class="token operator">:</span> <span class="token number">8</span>    </span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>blocksize: 像素块大小</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Pixelate</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">blocksize</span><span class="token operator">:</span> <span class="token number">8</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/35.html" width="350" height="450"></iframe>
+<h2 id="_9-14-伽马校正-gamma" tabindex="-1"><a class="header-anchor" href="#_9-14-伽马校正-gamma"><span>9.14 伽马校正(Gamma)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>Gamma</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">gamma</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">2.1</span><span class="token punctuation">]</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>gamma: 伽马数组值，从0.01到2.2。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Gamma</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">gamma</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">2.1</span><span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/37.html" width="350" height="450"></iframe>
+<h2 id="_9-15-颜色矩阵-colormatrix" tabindex="-1"><a class="header-anchor" href="#_9-15-颜色矩阵-colormatrix"><span>9.15 颜色矩阵(ColorMatrix)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>核心原理‌</p>
+<ul>
+<li>基于 4x5 矩阵实现 RGBA 通道的线性变换，每个像素颜色值通过矩阵运算重新计算</li>
+<li>矩阵结构为 20 元素数组，按行优先顺序排列（RR/RG/RB/RA/ROffset 等）</li>
+</ul>
+</li>
+<li>
+<p>基础用法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>ColorMatrix</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">matrix</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">        <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment">// R通道</span></span>
+<span class="line">        <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment">// G通道</span></span>
+<span class="line">        <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment">// B通道</span></span>
+<span class="line">        <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span>   <span class="token comment">// A通道</span></span>
+<span class="line">    <span class="token punctuation">]</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>matrix: 像素的颜色矩阵。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>ColorMatrix</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">matrix</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">            <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0.25</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span></span>
+<span class="line">        <span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/37.html" width="350" height="450"></iframe>
+<h2 id="_9-16-图像卷积-convolute" tabindex="-1"><a class="header-anchor" href="#_9-16-图像卷积-convolute"><span>9.16 图像卷积(Convolute)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<ul>
+<li>
+<p>核心原理‌</p>
+<ul>
+<li>基于卷积核矩阵实现图像像素的加权计算</li>
+<li>支持自定义核矩阵尺寸（常见3x3或5x5）</li>
+<li>每个像素的新值由其周围像素与核矩阵的乘积和决定</li>
+</ul>
+</li>
+<li>
+<p>基础用法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">filters<span class="token punctuation">.</span>ColorMatrix</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">  <span class="token literal-property property">matrix</span><span class="token operator">:</span> <span class="token punctuation">[</span> </span>
+<span class="line">        <span class="token number">1</span><span class="token punctuation">,</span>   <span class="token number">1</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0.7</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span>  <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span> </span>
+<span class="line">   <span class="token punctuation">]</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>matrix: 卷积矩阵。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Convolute</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">matrix</span><span class="token operator">:</span> <span class="token punctuation">[</span> </span>
+<span class="line">            <span class="token number">1</span><span class="token punctuation">,</span>   <span class="token number">1</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0.7</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span>  <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span> </span>
+<span class="line">        <span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/38.html" width="350" height="450"></iframe>
+<h2 id="_9-17-组合多个滤镜-composed" tabindex="-1"><a class="header-anchor" href="#_9-17-组合多个滤镜-composed"><span>9.17 组合多个滤镜(Composed)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 噪声滤镜</span></span>
+<span class="line"><span class="token keyword">const</span> filter1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Noise</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">noise</span><span class="token operator">:</span> <span class="token number">100</span>  </span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 灰度滤镜</span></span>
+<span class="line"><span class="token keyword">const</span> filter2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Grayscale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Composed</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">subFilters</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">        filter1<span class="token punctuation">,</span> <span class="token comment">// 滤镜1</span></span>
+<span class="line">        filter2  <span class="token comment">// 滤镜2</span></span>
+<span class="line">    <span class="token punctuation">]</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>subFilters：滤镜组合</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// 噪声滤镜</span></span>
+<span class="line">    <span class="token keyword">const</span> filter1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Noise</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">noise</span><span class="token operator">:</span> <span class="token number">100</span>  </span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 灰度滤镜</span></span>
+<span class="line">    <span class="token keyword">const</span> filter2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Grayscale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">const</span> filter3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Composed</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">subFilters</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">            filter1<span class="token punctuation">,</span></span>
+<span class="line">            filter2</span>
+<span class="line">        <span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter3<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/39.html" width="350" height="450"></iframe>
+<h2 id="_9-18-图像质量调整-resize" tabindex="-1"><a class="header-anchor" href="#_9-18-图像质量调整-resize"><span>9.18 图像质量调整(Resize)</span></a></h2>
+<ul>
+<li>
+<p>语法</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">import</span> <span class="token punctuation">{</span> filters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"Frabric"</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Resize</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">scaleX</span><span class="token operator">:</span> <span class="token number">0.5</span> <span class="token punctuation">,</span></span>
+<span class="line">    <span class="token literal-property property">scaleY</span><span class="token operator">:</span> <span class="token number">0.5</span>  </span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">object<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>scaleX：x轴质量缩小比例</li>
+<li>scaleY：y轴质量缩小比例</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取静态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// 调整大小</span></span>
+<span class="line">    <span class="token keyword">const</span> filter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>filters<span class="token punctuation">.</span>Resize</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">scaleX</span><span class="token operator">:</span> <span class="token number">0.1</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">scaleY</span><span class="token operator">:</span> <span class="token number">0.1</span>  </span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 图片</span></span>
+<span class="line">    <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    img<span class="token punctuation">.</span>src<span class="token operator">=</span><span class="token string">"./assest/001.jpg"</span></span>
+<span class="line"></span>
+<span class="line">    img<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">let</span> fabricImage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>FabricImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">                <span class="token literal-property property">scaleX</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// x轴比例</span></span>
+<span class="line">                <span class="token literal-property property">scaleY</span><span class="token operator">:</span><span class="token number">0.4</span><span class="token punctuation">,</span>       <span class="token comment">// y轴比例</span></span>
+<span class="line">                <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token punctuation">}</span></span>
+<span class="line">        <span class="token punctuation">)</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>fabricImage<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span>filters<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>filter<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        fabricImage<span class="token punctuation">.</span><span class="token function">applyFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        canvas<span class="token punctuation">.</span><span class="token function">renderAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/40.html" width="350" height="450"></iframe>
+</div></template>
+
+

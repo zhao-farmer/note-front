@@ -1,0 +1,261 @@
+<template><div><h1 id="十一、开放能力" tabindex="-1"><a class="header-anchor" href="#十一、开放能力"><span>十一、开放能力</span></a></h1>
+<h2 id="_11-1-获取用户头像" tabindex="-1"><a class="header-anchor" href="#_11-1-获取用户头像"><span>11.1 获取用户头像</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>当小程序需要让用户完善个人资料时，我们可以通过微信提供的头像、昵称填写能力快速完善</p>
+<p>想使用微信提供的头像填写能力，需要两步：</p>
+<ol>
+<li>将 <code v-pre>button</code> 组件 <code v-pre>open-type</code> 的值设置为 <code v-pre>chooseAvatar</code></li>
+<li>通过 <code v-pre>bindchooseavatar</code> 事件回调获取到头像信息的临时路径。</li>
+</ol>
+</li>
+<li>
+<p>代码示例</p>
+<p>index.wxml</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn<span class="token punctuation">"</span></span> <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>chooseAvatar<span class="token punctuation">"</span></span> <span class="token attr-name">bindchooseavatar</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>chooseAvatar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>avatar<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{{ avatarUrl }}<span class="token punctuation">"</span></span> <span class="token attr-name">mode</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>index.wxss</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">.btn</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">background-color</span><span class="token punctuation">:</span> transparent<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token selector">.btn::after</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">border</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token selector">.avatar</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">width</span><span class="token punctuation">:</span> 200rpx<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">height</span><span class="token punctuation">:</span> 200rpx<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">border-radius</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>index.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">data</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">avatarUrl</span><span class="token operator">:</span><span class="token string">"../../assets/Jerry.png"</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token comment">// 用来获取微信头像</span></span>
+<span class="line">    <span class="token function">chooseAvatar</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// console.log(event);</span></span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 目前获取的微信头像是临时路径</span></span>
+<span class="line">        <span class="token comment">// 临时路径是有失效时间的，在实际开发中需要将临时路径上传到公司的服务器</span></span>
+<span class="line">        <span class="token keyword">const</span> <span class="token punctuation">{</span> avatarUrl <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">.</span>detail</span>
+<span class="line"></span>
+<span class="line">        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">            avatarUrl</span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>运行结果</p>
+<p><img src="/application/weixin/base/124.gif" alt=""></p>
+</li>
+</ol>
+<h2 id="_11-2-获取微信昵称" tabindex="-1"><a class="header-anchor" href="#_11-2-获取微信昵称"><span>11.2 获取微信昵称</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>当小程序需要让用户完善个人资料时，我们可以通过微信提供的头像、昵称填写能力快速完善</p>
+<p>想使用微信提供的昵称填写能力，需要三步:</p>
+<ol>
+<li>通过 form 组件中包裹住 input 以及 form-type 为 submit 的 button 组件</li>
+<li>需要将 input 组件 type 的值设置为 nickname，当用户输入框输入时键盘上方会展示微信昵称</li>
+<li>给 form 绑定 submit 事件，在事件处理函数中通过事件对象获取用户昵称</li>
+</ol>
+</li>
+<li>
+<p>代码示例</p>
+<p>index.wxml</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"></span>
+<span class="line"><span class="token comment">&lt;!-- 需要使用from组件包裹住 input 以及 button 组件 --></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">bindsubmit</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>onSubmit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token comment">&lt;!-- input 输入框组件的type属性设置为 nickname,用户点击输入框，键盘上方才会显示微信昵称 --></span></span>
+<span class="line">    <span class="token comment">&lt;!-- 如果添加了 name 属性，fom 组件就会自动收集带有 name 属性的表单元素的值 --></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nickname<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nickname<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>请输入昵称<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line">    <span class="token comment">&lt;!-- 如果将 from-type="submit",就将按钮变为提交按钮 --></span></span>
+<span class="line">    <span class="token comment">&lt;!-- 在点击提交按钮的时候，会触发 表单的 bindsubmit 提交事件 --></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>primary<span class="token punctuation">"</span></span> <span class="token attr-name">plain</span> <span class="token attr-name">form-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>点击获取昵称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>index.wxss</p>
+<div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre v-pre><code><span class="line"><span class="token selector">input</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #179c16<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">margin</span><span class="token punctuation">:</span> 20rpx<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">height</span><span class="token punctuation">:</span> 60rpx<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">border-radius</span><span class="token punctuation">:</span> 20rpx<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token property">padding-left</span><span class="token punctuation">:</span> 20rpx<span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>index.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 获取微信头像</span></span>
+<span class="line">    <span class="token function">onSubmit</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// console.log(event);</span></span>
+<span class="line">        <span class="token keyword">const</span> <span class="token punctuation">{</span>nickname<span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>value</span>
+<span class="line">        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>nickname<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>运行结果</p>
+<p><img src="/application/weixin/base/125.gif" alt=""></p>
+</li>
+</ol>
+<h2 id="_11-3-转发功能" tabindex="-1"><a class="header-anchor" href="#_11-3-转发功能"><span>11.3 转发功能</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>转发功能，主要帮助用户更流畅地与好友分享内容和服务</p>
+<p>想实现转发功能，有两种方式:</p>
+<ol>
+<li>
+<p>页面js 文件必须声明 <code v-pre>onShareAppMessage</code> 事件监听函数，并自定义转发内容只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮</p>
+</li>
+<li>
+<p>通过给 button 组件设置属性 <code v-pre>open-type=&quot;share&quot;</code>，可以在用户点击按钮后触发 <code v-pre>Page.onShareAppMessage</code> 事件监听函数</p>
+</li>
+</ol>
+</li>
+<li>
+<p>代码示例</p>
+<p>cate.wxml</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>share<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>转发<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>cate.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 监听页面按钮的转发 以及右上角转发按钮</span></span>
+<span class="line">    <span class="token function">onShareAppMessage</span><span class="token punctuation">(</span><span class="token parameter">obj</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token keyword">return</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">title</span><span class="token operator">:</span><span class="token string">'这是一个非常神奇的页面~~~'</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">path</span><span class="token operator">:</span><span class="token string">"/pages/cate/cate"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">imageUrl</span><span class="token operator">:</span><span class="token string">"../../assets/Jerry.png"</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>运行结果</p>
+<p><img src="/application/weixin/base/126.gif" alt=""></p>
+</li>
+</ol>
+<h2 id="_11-4-分享到朋友圈" tabindex="-1"><a class="header-anchor" href="#_11-4-分享到朋友圈"><span>11.4 分享到朋友圈</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>小程序页面默认不能被分享到朋友圈，开发者需主动设置“分享到朋友圈”才可以，实现分享到朋友圈需满足两个条件:</p>
+<ol>
+<li>页面 必须 设置允许“发送给朋友”，页面js 文件声明 <code v-pre>onShareAppMessage</code> 事件监听函数</li>
+<li>页面 必须 需设置允许“分享到朋友圈”，页面js 文件声明 <code v-pre>onShareTimeline</code> 事件监听函数</li>
+</ol>
+</li>
+<li>
+<p>代码示例</p>
+<p>cate.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 监听右上角 分享朋友圈 按钮</span></span>
+<span class="line">    <span class="token function">onShareTimeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">return</span> <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token string">"帮我砍一刀~~"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">query</span><span class="token operator">:</span><span class="token string">"id=1"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token literal-property property">imageUrl</span><span class="token operator">:</span><span class="token string">"../../assets/Jerry.png"</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+<h2 id="_11-5-手机号验证组件" tabindex="-1"><a class="header-anchor" href="#_11-5-手机号验证组件"><span>11.5 手机号验证组件</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>手机验证组件，用于帮助开发者向用户发起手机号申请，必须经过用户同意后，才能获得由平台验证后的手机号，进而为用户提供相应服务</p>
+<p>手机号验证组件分为两种:手机号快速验证组件 以及 手机号实时验证组件</p>
+<ol>
+<li>
+<p>手机号快速验证组件:平台会对号码进行验证，但不保证是实时验证</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getPhoneNumber<span class="token punctuation">"</span></span> <span class="token attr-name">bindgetphonenumber</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getPhoneNumber<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
+<li>
+<p>手机号实时验证组件:在每次请求时，平台均会对用户选择的手机号进行实时验证。</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getRealtimePhoneNumber<span class="token punctuation">"</span></span> <span class="token attr-name">bindgetrealtimephonenumber</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getrealtimephonenumber<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
+<li>
+<p>注意事项</p>
+<ol>
+<li>目前该接口针对非方发者，且完成了认证的小程序开放(不包含海外主体)</li>
+<li>两种验证组件需要付费使用，每个小程序账号将有1000次体验额度</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>代码示例</p>
+<p>cart.wxml</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> </span>
+<span class="line">    <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>primary<span class="token punctuation">"</span></span></span>
+<span class="line">    <span class="token attr-name">plain</span></span>
+<span class="line">    <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getPhoneNumber<span class="token punctuation">"</span></span></span>
+<span class="line">    <span class="token attr-name">bindgetphonenumber</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getphonenumber<span class="token punctuation">"</span></span></span>
+<span class="line"><span class="token punctuation">></span></span></span>
+<span class="line">    快速验证组件</span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> </span>
+<span class="line">    <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>warn<span class="token punctuation">"</span></span></span>
+<span class="line">    <span class="token attr-name">plain</span></span>
+<span class="line">    <span class="token attr-name">open-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getRealtimePhoneNumber<span class="token punctuation">"</span></span></span>
+<span class="line">    <span class="token attr-name">bindgetphonenumber</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getrealtimephonenumber<span class="token punctuation">"</span></span></span>
+<span class="line"><span class="token punctuation">></span></span></span>
+<span class="line">    快速验证组件</span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>cart.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 手机号快速验证</span></span>
+<span class="line">    <span class="token function">getphonenumber</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// 通过事件对象，可以看到，在 event.detail 中可以获取到code</span></span>
+<span class="line">        <span class="token comment">// code 动态令牌，可以使用 code 换取用户的手机号</span></span>
+<span class="line">        <span class="token comment">// 需要将 code 发送给后端，后端接受到 code 以后</span></span>
+<span class="line">        <span class="token comment">// 也需要调用API，换取用户的真正手机号</span></span>
+<span class="line">        <span class="token comment">// 在换取成功以后，会将手机号返回给前端</span></span>
+<span class="line">        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 手机号实时验证</span></span>
+<span class="line">    <span class="token function">getrealtimephonenumber</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+<h2 id="_11-6-客服功能" tabindex="-1"><a class="header-anchor" href="#_11-6-客服功能"><span>11.6 客服功能</span></a></h2>
+<ol>
+<li>
+<p>介绍
+小程序为开发者提供了客服能力，同时为客服人员提供移动端、网页端客服工作台便于及时处理消息使用方式:</p>
+<ol>
+<li>
+<p>需要将 button 组件 open-type 的值设置为 contact，当用户点击后就会进入客服会话</p>
+</li>
+<li>
+<p>在微信公众后台，绑定后的客服账号，可以登陆 网页端客服 或 移动端小程序 客服接收 发送客服消息</p>
+</li>
+</ol>
+</li>
+</ol>
+</div></template>
+
+

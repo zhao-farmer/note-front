@@ -1,0 +1,191 @@
+<template><div><h1 id="十、分包加载" tabindex="-1"><a class="header-anchor" href="#十、分包加载"><span>十、分包加载</span></a></h1>
+<h2 id="_10-1-分包加载介绍" tabindex="-1"><a class="header-anchor" href="#_10-1-分包加载介绍"><span>10.1 分包加载介绍</span></a></h2>
+<ol>
+<li>
+<p>分包与主包</p>
+<p>小程序的代码通常是由许多页面、组件以及资源等组成，随着小程序功能的增加，代码量也会逐渐增加，体积过大就会导致用户打开速度变慢，影响用户的使用体验。</p>
+<p>分包加载是一种小程序优化技术。将小程序不同功能的代码，分别打包成不同的子包，在构建时打包成不同的分包，用户在使用时按需进行加载，在构建小程序分包项目时，构建会输出一个或多个分包。每个使用分包小程序必定含有一个主包。</p>
+<ul>
+<li>
+<p>主包:包含默认启动页面/TabBar 页面 以及 所有分包都需用到公共资源的包</p>
+</li>
+<li>
+<p>分包:根据开发者的配置进行划分出来的子包</p>
+</li>
+</ul>
+<p><img src="/application/weixin/base/121.png" alt=""></p>
+</li>
+<li>
+<p>分包后加载顺序</p>
+<p>在小程序启动时，默认会下载主包并启动主包内页面，当用户进入分包内某个页面时，微信客户端会把对应分包下载下来，下载完成后再进行展示。</p>
+</li>
+<li>
+<p>目前小程序分包大小有以下限制</p>
+<ol>
+<li>整个小程序所有分包大小不超过 <code v-pre>20MB</code></li>
+<li>单个分包/主包大小不能超过 <code v-pre>2MB</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="_10-2-配置分包以及打包和引用原则" tabindex="-1"><a class="header-anchor" href="#_10-2-配置分包以及打包和引用原则"><span>10.2 配置分包以及打包和引用原则</span></a></h2>
+<ol>
+<li>
+<p>配置分包</p>
+<p>小程序如果需要进行分包加载，需要在 app.json 中，通过 subPackages 或者 subpackages 定义分包结构</p>
+<p>每个分包结构含三个常用字段:</p>
+<ol>
+<li>root:分包的根目录，该目录下的所有文件都会被打包成一个独立的包</li>
+<li>name:分包的别名，用于在代码中引用该分包</li>
+<li>pages:指定当前分包中包含哪些页面</li>
+</ol>
+<p>例:配置 商品模块 分包，分包包含:商品列表、商品详情两个页面</p>
+</li>
+<li>
+<p>代码示例</p>
+<ul>
+<li>
+<p>配置分包</p>
+<p>app.json</p>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token property">"subPackages"</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">    <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"root"</span><span class="token operator">:</span> <span class="token string">"modules/goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"pages"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">        <span class="token string">"pages/list/list"</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token string">"pages/detail/detail"</span></span>
+<span class="line">    <span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">]</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>目录结构</p>
+<p><img src="/application/weixin/base/122.png" alt=""></p>
+</li>
+<li>
+<p>跳转代码</p>
+<p>index.wxml</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token comment">&lt;!-- 如果需要跳转到分包页面，需要在路径之前添加上分包的根目录路径 root 路径才可以 --></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/modules/goodModule/pages/list/list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>跳转到商品列表页面<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>运行结果</p>
+<p><img src="/application/weixin/base/123.gif" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p>打包原则</p>
+<ol>
+<li>tabBar 页面必须在主包内</li>
+<li>最外层的 pages 字段，属于主包的包含的页面</li>
+<li>按 subpackages 配置路径进行打包，配置路径外的目录将被打包到主包中分包之间不能相互嵌套，subpackage 的根目录不能是另外一个subpackage 内的子目录</li>
+</ol>
+</li>
+<li>
+<p>引用原则</p>
+<ol>
+<li>主包不可以引用分包的资源，但分包可以使用主包的公共资源</li>
+<li>分包与分包之间资源无法相互引用，分包异步化时不受此条限制</li>
+</ol>
+</li>
+</ol>
+<h2 id="_10-3-独立分包" tabindex="-1"><a class="header-anchor" href="#_10-3-独立分包"><span>10.3 独立分包</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>独立分包:是指能够独立于主包和其他分包运行的包</p>
+<p>从独立分包中页面进入小程序时，不需要下载主包，当用户进入普通分包或主包内页面时，主包才会被下载</p>
+<p>开发者可以将功能相对独立的页面配置到独立分包中，因为独立分包不依赖主包就可以运行，可以很大程度上提升分包页面的启动速度。</p>
+<p>给 subPackages 定义的分包结构添加 independent 字段，即可声明对应分包为独立分包,</p>
+</li>
+<li>
+<p>代码示例</p>
+<p>app.json</p>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"subPackages"</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">        <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token property">"root"</span><span class="token operator">:</span> <span class="token string">"modules/goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"pages"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">                <span class="token string">"pages/list/list"</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token string">"pages/detail/detail"</span></span>
+<span class="line">            <span class="token punctuation">]</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">        <span class="token punctuation">{</span></span>
+<span class="line highlighted">            <span class="token property">"root"</span><span class="token operator">:</span><span class="token string">"modules/marketModule"</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">            <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"marketModule"</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">            <span class="token property">"pages"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line highlighted">                <span class="token string">"pages/market/market"</span></span>
+<span class="line highlighted">            <span class="token punctuation">]</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">            <span class="token property">"independent"</span><span class="token operator">:</span> <span class="token boolean">true</span></span>
+<span class="line highlighted">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">]</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+<li>
+<p>注意事项</p>
+<ol>
+<li>独立分包中不能依赖主包和其他分包中的资源</li>
+<li>主包中的 app.wxss 对独立分包无效</li>
+<li>App 只能在主包内定义，独立分包中不能定义ApP，会造成无法预期的行为</li>
+</ol>
+</li>
+</ol>
+<h2 id="_10-4-分包预下载" tabindex="-1"><a class="header-anchor" href="#_10-4-分包预下载"><span>10.4 分包预下载</span></a></h2>
+<ol>
+<li>
+<p>介绍</p>
+<p>分包预下载是指访问小程序某个页面时，预先下载其他分包中的代码和资源，当用户需要访问分包中的页面时，已经预先下载的代码和资源，因此可以直接使用，从而提高用户的使用体验。</p>
+<p>小程序的分包预下载需要在 app.json 中通过 preloadRule 字段设置预下载规则</p>
+<p>preloadRule 是一个对象，对象的 key 表示访问哪个路径时进行预加载，value 是进入此页面的预下载配置，具有两个配置项:</p>
+<ol>
+<li>packages:进入页面后预下载分包的root或name，_APP表示主包。</li>
+<li>network:在指定网络下预下载，可选值为:al(不限网络)、wif(仅wifi下预下载)</li>
+</ol>
+</li>
+<li>
+<p>配置项</p>
+<p>app.json</p>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">     <span class="token property">"subPackages"</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line">        <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token property">"root"</span><span class="token operator">:</span> <span class="token string">"modules/goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"goodModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"pages"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">                <span class="token string">"pages/list/list"</span><span class="token punctuation">,</span></span>
+<span class="line">                <span class="token string">"pages/detail/detail"</span></span>
+<span class="line">            <span class="token punctuation">]</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token property">"root"</span><span class="token operator">:</span><span class="token string">"modules/marketModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"marketModule"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"pages"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">                <span class="token string">"pages/market/market"</span></span>
+<span class="line">            <span class="token punctuation">]</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token property">"independent"</span><span class="token operator">:</span> <span class="token boolean">true</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">]</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">    <span class="token property">"preloadRule"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line highlighted">        <span class="token property">"pages/index/index"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line highlighted">            <span class="token property">"network"</span><span class="token operator">:</span> <span class="token string">"all"</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">            <span class="token property">"packages"</span><span class="token operator">:</span> <span class="token punctuation">[</span></span>
+<span class="line highlighted">                <span class="token string">"modules/marketModule"</span></span>
+<span class="line highlighted">            <span class="token punctuation">]</span></span>
+<span class="line highlighted">        <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">        <span class="token property">"modules/marketModule/pages/market/market"</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line highlighted">            <span class="token property">"network"</span><span class="token operator">:</span> <span class="token string">"all"</span><span class="token punctuation">,</span></span>
+<span class="line highlighted">            <span class="token property">"packages"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"__APP__"</span><span class="token punctuation">]</span></span>
+<span class="line highlighted">        <span class="token punctuation">}</span></span>
+<span class="line highlighted">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li>
+</ol>
+</div></template>
+
+

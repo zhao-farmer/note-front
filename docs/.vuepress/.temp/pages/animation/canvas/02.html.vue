@@ -1,0 +1,674 @@
+<template><div><h1 id="基础图形与坐标轴" tabindex="-1"><a class="header-anchor" href="#基础图形与坐标轴"><span>基础图形与坐标轴</span></a></h1>
+<h2 id="_1-坐标系" tabindex="-1"><a class="header-anchor" href="#_1-坐标系"><span>1. 坐标系</span></a></h2>
+<p>在绘制基础图形之前，需要先搞清除 Canvas 使用的坐标系。</p>
+<p>Canvas 使用的是 W3C 坐标系 ，也就是遵循我们屏幕、报纸的阅读习惯，从上往下，从左往右。</p>
+<p><img src="/animation/canvas/base/image/042.png" alt=""></p>
+<ul>
+<li>W3C 坐标系 和 数学直角坐标系 的 X轴 是一样的，只是 Y轴 的反向相反。</li>
+<li>W3C 坐标系 的 Y轴 正方向向下。</li>
+</ul>
+<h2 id="_2-直线" tabindex="-1"><a class="header-anchor" href="#_2-直线"><span>2. 直线</span></a></h2>
+<h3 id="_2-1-一条直线" tabindex="-1"><a class="header-anchor" href="#_2-1-一条直线"><span>2.1 一条直线</span></a></h3>
+<p>最简单的起步方式是画一条直线。这里所说的 <code v-pre>直线</code> 是几何学里的 <code v-pre>线段</code> 的意思。</p>
+<p>需要用到这3个方法：</p>
+<ol>
+<li>moveTo(x1, y1)：起点坐标 (x, y)</li>
+<li>lineTo(x2, y2)：下一个点的坐标 (x, y)</li>
+<li>stroke()：将所有坐标用一条线连起来</li>
+</ol>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 绘制直线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment">// 起点坐标</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span> <span class="token comment">// 下一个点的坐标</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 将上面的坐标用一条线连接起来</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/043.png" alt=""></p>
+<ul>
+<li>坐标轴解释</li>
+</ul>
+<p><img src="/animation/canvas/base/image/044.png" alt=""></p>
+<h3 id="_2-2-多条直线" tabindex="-1"><a class="header-anchor" href="#_2-2-多条直线"><span>2.2 多条直线</span></a></h3>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 获取canvas对象</span></span>
+<span class="line">    <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 第一条线</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 第二条线</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/045.png" alt=""></p>
+<p>仔细观察一下，为什么两条线的粗细不一样的？</p>
+<p>明明使用的方法都是一样的，只是第二条直线的 Y轴 的值是有小数点。</p>
+<p>答：默认情况下 canvas 会将线条的中心点和像素的底部对齐，所以会导致显示效果是 2px 和非纯黑色问题。</p>
+<p><img src="/animation/canvas/base/image/046.png" alt=""></p>
+<p>上图每个格子代表 1px。</p>
+<p>线的中心点会和画布像素点的底部对齐，所以会线中间是黑色的，但由于一个像素就不能再切割了，所以会有半个像素被染色，就变成了浅灰色。</p>
+<p>所以如果你设置的 Y轴 值是一个整数，就会出现上面那种情况。</p>
+<h3 id="_2-3-设置样式" tabindex="-1"><a class="header-anchor" href="#_2-3-设置样式"><span>2.3 设置样式</span></a></h3>
+<ul>
+<li>
+<p>样式设置</p>
+<ul>
+<li>lineWidth：线的粗细</li>
+<li>strokeStyle：线的颜色</li>
+<li>lineCap：线帽：
+<ul>
+<li>默认: butt;</li>
+<li>圆形: round;</li>
+<li>方形: square</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 绘制直线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 修改直线的宽度</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">20</span></span>
+<span class="line">  <span class="token comment">// 修改直线的颜色</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line"><span class="token comment">// 修改直线两端样式</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineCap <span class="token operator">=</span> <span class="token string">'round'</span> <span class="token comment">// 默认: butt; 圆形: round; 方形: square</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/047.png" alt=""></p>
+<h3 id="_2-4-新开路径" tabindex="-1"><a class="header-anchor" href="#_2-4-新开路径"><span>2.4 新开路径</span></a></h3>
+<ol>
+<li>开辟新路径的方法：beginPath()</li>
+</ol>
+<p>在绘制多条线段的同时，还要设置线段样式，通常需要开辟新路径。要不然样式之间会相互污染。</p>
+<ul>
+<li>比如这样</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 第一条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">10</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 第二条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/048.png" alt=""></p>
+<ul>
+<li>如果不想相互污染，需要做2件事：
+<ol>
+<li>使用 beginPath() 方法，重新开一个路径</li>
+<li>设置新线段的样式（必须项）</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>只使用 beginPath()</li>
+</ol>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 第一条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">10</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">   <span class="token comment">// 第二条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 重新开启一个路径</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/049.png" alt=""></p>
+<p>第一条线的样式会影响之后的线。</p>
+<p>但如果使用了 beginPath() ，后面的线段不会影响前面的线段。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 第一条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 第二条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 重新开启一个路径</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">4</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/050.png" alt=""></p>
+<ol start="3">
+<li>设置新线段的样式，没使用 beginPath() 的情况</li>
+</ol>
+<p>这个情况会反过来，后面的线能影响前面的线。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 第一条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">10</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">   <span class="token comment">// 第二条线</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">4</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/051.png" alt=""></p>
+<ol start="4">
+<li>正确的做法</li>
+</ol>
+<p>在设置 beginPath() 的同时，也各自设置样式。这样就能做到相互不影响了。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">10</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 重新开启一个路径</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120.5</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">4</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/052.png" alt=""></p>
+<h2 id="_3-折线" tabindex="-1"><a class="header-anchor" href="#_3-折线"><span>3. 折线</span></a></h2>
+<p>折线 和 直线 差不多，都是使用 moveTo() 、lineTo() 和 stroke() 方法可以绘制折线。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">250</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/053.png" alt=""></p>
+<p>画这种折线，最好在草稿纸上画一个坐标系，自己计算并描绘一下每个点大概在什么什么位置，最后在 canvas 中看看效果。</p>
+<h2 id="_4-矩形" tabindex="-1"><a class="header-anchor" href="#_4-矩形"><span>4. 矩形</span></a></h2>
+<p>根据前面的基础，我们可以 使用线段来描绘矩形，但 canvas 也提供了 rect() 等方法可以直接生成矩形。</p>
+<h3 id="_4-1-使用线段描绘矩形" tabindex="-1"><a class="header-anchor" href="#_4-1-使用线段描绘矩形"><span>4.1 使用线段描绘矩形</span></a></h3>
+<p>可以使用前面画线段的方法来绘制矩形</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 绘制矩形</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span> <span class="token comment">// 需要闭合，又或者使用 closePath() 方法进行闭合，推荐使用 closePath()</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas 图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/054.png" alt=""></p>
+<ul>
+<li>坐标轴</li>
+</ul>
+<p><img src="/animation/canvas/base/image/055.png" alt=""></p>
+<h3 id="_4-2-使用-strokerect-描边矩形" tabindex="-1"><a class="header-anchor" href="#_4-2-使用-strokerect-描边矩形"><span>4.2 使用 strokeRect() 描边矩形</span></a></h3>
+<ul>
+<li>
+<p>参数</p>
+<ul>
+<li>strokeStyle：设置描边的属性（颜色、渐变、图案）</li>
+<li>strokeRect(x, y, width, height)：描边矩形（x和y是矩形左上角起点；width 和 height 是矩形的宽高）</li>
+<li>strokeStyle 必须写在 strokeRect() 前面，不然样式不生效。</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// strokeStyle 属性</span></span>
+<span class="line">  <span class="token comment">// strokeRect(x, y, width, height) 方法</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">strokeRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/056.png" alt=""></p>
+<ul>
+<li>坐标轴</li>
+</ul>
+<p><img src="/animation/canvas/base/image/057.png" alt=""></p>
+<h3 id="_4-3-使用-fillrect-填充矩形" tabindex="-1"><a class="header-anchor" href="#_4-3-使用-fillrect-填充矩形"><span>4.3 使用 fillRect() 填充矩形</span></a></h3>
+<p>fillRect() 和 strokeRect() 方法差不多，但 fillRect() 的作用是填充。</p>
+<p>需要注意的是，fillStyle 必须写在 fillRect() 之前，不然样式不生效。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// fillStyle 属性</span></span>
+<span class="line">  <span class="token comment">// fillRect(x, y, width, height) 方法</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment">// fillRect(x, y, width, height)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/058.png" alt=""></p>
+<h3 id="_4-4-strokerect-fillrect" tabindex="-1"><a class="header-anchor" href="#_4-4-strokerect-fillrect"><span>4.4  strokeRect() + fillRect()</span></a></h3>
+<p>同时使用 strokeRect() 和 fillRect() 会产生描边和填充的效果</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">strokeRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment">// strokeRect(x, y, width, height)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'yellow'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment">// fillRect(x, y, width, height)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/059.png" alt=""></p>
+<h3 id="_4-5-使用-rect-生成矩形" tabindex="-1"><a class="header-anchor" href="#_4-5-使用-rect-生成矩形"><span>4.5 使用 rect() 生成矩形</span></a></h3>
+<p>rect() 和 fillRect() 、strokeRect() 的用法差不多，唯一的区别是：</p>
+<p>strokeRect() 和 fillRect() 这两个方法调用后会立即绘制；rect() 方法被调用后，不会立刻绘制矩形，而是需要调用 stroke() 或 fill() 辅助渲染。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'pink'</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">rect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment">// rect(x, y, width, height)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/060.png" alt=""></p>
+<h3 id="_4-6-等价公式" tabindex="-1"><a class="header-anchor" href="#_4-6-等价公式"><span>4.6 等价公式：</span></a></h3>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span><span class="token punctuation">,</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">rect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token comment">// 等价于</span></span>
+<span class="line">cxt<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'red'</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">strokerect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// -----------------------------</span></span>
+<span class="line"></span>
+<span class="line">cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'hotpink'</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">rect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token comment">// 等价于</span></span>
+<span class="line">cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'yellowgreen'</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_4-7-使用-clearrect-清空矩形" tabindex="-1"><a class="header-anchor" href="#_4-7-使用-clearrect-清空矩形"><span>4.7 使用 clearRect() 清空矩形</span></a></h3>
+<p>使用 clearRect() 方法可以清空指定区域。</p>
+<p>clearRect(x, y, width, height)</p>
+<p>其语法和创建 cxt.rect() 差不多。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'pink'</span> <span class="token comment">// 设置填充颜色</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span> <span class="token comment">// 填充矩形</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">180</span><span class="token punctuation">,</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token comment">// 清空矩形</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/061.png" alt=""></p>
+<h3 id="_4-8-清空画布" tabindex="-1"><a class="header-anchor" href="#_4-8-清空画布"><span>4.8 清空画布</span></a></h3>
+<p>canvas 画布元素是矩形，所以可以通过下面的代码把整个画布清空掉。</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 省略部分代码</span></span>
+<span class="line">cxt<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> cnv<span class="token punctuation">.</span>width<span class="token punctuation">,</span> cnv<span class="token punctuation">.</span>height<span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>要清空的区域：从画布左上角开始，直到画布的宽和画布的高为止。</p>
+<h2 id="_5-多边形" tabindex="-1"><a class="header-anchor" href="#_5-多边形"><span>5. 多边形</span></a></h2>
+<p>Canvas 要画多边形，需要使用 moveTo() 、 lineTo() 和 closePath() 。</p>
+<h3 id="_5-1-三角形" tabindex="-1"><a class="header-anchor" href="#_5-1-三角形"><span>5.1 三角形</span></a></h3>
+<p>虽然三角形是常见图形，但 canvas 并没有提供类似 rect() 的方法来绘制三角形。
+需要确定三角形3个点的坐标位置，然后使用 stroke() 或者 fill() 方法生成三角形。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span></span>
+<span class="line">        <span class="token comment">// 注意点：如果使用 lineTo 闭合图形，是不能很好闭合拐角位的。</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span> <span class="token comment">// 闭合</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/062.png" alt=""></p>
+<blockquote>
+<p>注意: 默认情况下不会自动从最后一个点连接到起点。最后一步需要设置一下 cxt.lineTo(50, 50) ，让它与 cxt.moveTo(50, 50) 一样。这样可以让路径回到起点，形成一个闭合效果。
+但这样做其实是有点问题的，而且也比较麻烦，要记住起始点坐标。
+上面的闭合操作，如果遇到设置了 lineWidth 或者 lineJoin 就会有问题，比如：</p>
+</blockquote>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 省略部分代码</span></span>
+<span class="line">cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">20</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/063.png" alt=""></p>
+<p>当线段变粗后，起始点和结束点的链接处，拐角就出现“不正常”现象。
+如果需要真正闭合，可以使用 closePath() 方法。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token comment">// 手动闭合</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span>lineJoin <span class="token operator">=</span> <span class="token string">'miter'</span> <span class="token comment">// 线条连接的样式。miter: 默认; bevel: 斜面; round: 圆角</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> <span class="token number">20</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/064.png" alt=""></p>
+<p>使用 cxt.closePath() 可以自动将终点和起始点连接起来，此时看上去就正常多了。</p>
+<h3 id="_5-2-菱形" tabindex="-1"><a class="header-anchor" href="#_5-2-菱形"><span>5.2 菱形</span></a></h3>
+<p>有一组邻边相等的平行四边形是菱形</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">250</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/065.png" alt=""></p>
+<p>要绘制直线类型的图形，在草稿纸上标记出起始点和每个拐角的点，然后再连线即可。相对曲线图形来说，直线图形是比较容易的。</p>
+<h2 id="_6-圆形" tabindex="-1"><a class="header-anchor" href="#_6-圆形"><span>6. 圆形</span></a></h2>
+<p>绘制圆形的方法是 arc()。</p>
+<ul>
+<li>语法：
+<ul>
+<li><code v-pre>arc(x, y, r, sAngle, eAngle，counterclockwise)</code></li>
+<li>x 和 y: 圆心坐标</li>
+<li>r: 半径</li>
+<li>sAngle: 开始角度</li>
+<li>eAngle: 结束角度</li>
+<li>counterclockwise: 绘制方向（true: 逆时针; false: 顺时针），默认 false</li>
+</ul>
+</li>
+</ul>
+<p><img src="/animation/canvas/base/image/066.png" alt=""></p>
+<p>开始角度和结束角度，都是以弧度为单位。例如 180°就写成 Math.PI ，360°写成 Math.PI * 2 ，以此类推。</p>
+<p>在实际开发中，为了让自己或者别的开发者更容易看懂弧度的数值，1°应该写成 Math.PI / 180。</p>
+<ul>
+<li>100°: 100 * Math.PI / 180</li>
+<li>110°: 110 * Math.PI / 180</li>
+<li>241°: 241 * Math.PI / 180</li>
+</ul>
+<blockquote>
+<p>注意：绘制圆形之前，必须先调用 beginPath() 方法！！！ 在绘制完成之后，还需要调用 closePath() 方法！！！</p>
+</blockquote>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">360</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/067.png" alt=""></p>
+<h2 id="_7-半圆" tabindex="-1"><a class="header-anchor" href="#_7-半圆"><span>7.半圆</span></a></h2>
+<p>如果使用 arc() 方法画圆时，没做到刚好绕完一周（360°）就直接闭合路径，就会出现半圆的状态。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">180</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span> <span class="token operator">/</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token comment">// 顺时针</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/068.png" alt=""></p>
+<p>上面的代码中，cxt.arc 最后一个参数没传，默认是 false ，所以是顺时针绘制。</p>
+<ul>
+<li>坐标轴</li>
+</ul>
+<p><img src="/animation/canvas/base/image/069.png" alt=""></p>
+<p>如果希望半圆的弧面在上方，可以将 cxt.arc 最后一个参数设置成 true</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">180</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span> <span class="token operator">/</span> <span class="token number">180</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">   cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/070.png" alt=""></p>
+<h2 id="_8-弧线" tabindex="-1"><a class="header-anchor" href="#_8-弧线"><span>8.弧线</span></a></h2>
+<p>使用 arc() 方法画半圆时，如果最后不调用 closePath() 方法，就不会出现闭合路径。也就是说，那是一条弧线。</p>
+<p>在 canvas 中，画弧线有2中方法：arc() 和 arcTo() 。</p>
+<h3 id="_8-1-arc-画弧线" tabindex="-1"><a class="header-anchor" href="#_8-1-arc-画弧线"><span>8.1 arc() 画弧线</span></a></h3>
+<p>如果想画一条 0° ~ 30° 的弧线，可以这样写</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">30</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span> <span class="token operator">/</span> <span class="token number">180</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>canvas图</li>
+</ul>
+<p><img src="/animation/canvas/base/image/071.png" alt=""></p>
+<ul>
+<li>坐标轴</li>
+</ul>
+<p>原理如下图所示，红线代表画出来的那条弧线。</p>
+<p><img src="/animation/canvas/base/image/072.png" alt=""></p>
+<h3 id="_8-2-arcto-画弧线" tabindex="-1"><a class="header-anchor" href="#_8-2-arcto-画弧线"><span>8.2 arcTo() 画弧线</span></a></h3>
+<p>arcTo() 的使用方法会更加复杂，如果初学看不太懂的话可以先跳过，看完后面的再回来补补。</p>
+<ul>
+<li>语法：<code v-pre>arcTo(cx, cy, x2, y2, radius)</code>
+<ul>
+<li>cx: 两切线交点的横坐标</li>
+<li>cy: 两切线交点的纵坐标</li>
+<li>x2: 结束点的横坐标</li>
+<li>y2: 结束点的纵坐标</li>
+<li>radius: 半径</li>
+</ul>
+</li>
+</ul>
+<p>其中，(cx, cy) 也叫控制点，(x2, y2) 也叫结束点。</p>
+<p>是不是有点奇怪，为什么没有 x1 和 y1 ？</p>
+<p>(x1, y1) 是开始点，通常是由 moveTo() 或者 lineTo() 提供。</p>
+<p>arcTo() 方法利用 开始点、控制点和结束点形成的家教，绘制一段与家教的两边相切并且半径为 radius 的圆弧。</p>
+<ul>
+<li>坐标轴</li>
+</ul>
+<p><img src="/animation/canvas/base/image/073.png" alt=""></p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> cnv <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span></span>
+<span class="line">  <span class="token keyword">const</span> cxt <span class="token operator">=</span> cnv<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span></span>
+<span class="line">    cxt<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">arcTo</span><span class="token punctuation">(</span><span class="token number">120</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">)</span></span>
+<span class="line">  cxt<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><img src="/animation/canvas/base/image/074.png" alt=""></p>
+</div></template>
+
+

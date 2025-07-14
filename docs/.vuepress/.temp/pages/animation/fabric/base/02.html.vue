@@ -1,0 +1,141 @@
+<template><div><h1 id="二、画布类型" tabindex="-1"><a class="header-anchor" href="#二、画布类型"><span>二、画布类型</span></a></h1>
+<p>在 Fabric.js 中，有fabric.Canvas 和 fabric.StaticCanvas 是两种核心画布类型</p>
+<h2 id="_2-1-canvas动态画布" tabindex="-1"><a class="header-anchor" href="#_2-1-canvas动态画布"><span>2.1 Canvas动态画布</span></a></h2>
+<ul>
+<li>
+<p>特点</p>
+<ul>
+<li>采用分层渲染机制：
+<ul>
+<li>动态层（上层）‌：处理交互逻辑（如鼠标事件、对象变换）</li>
+<li>静态层（下层）‌：负责最终图形渲染</li>
+</ul>
+</li>
+<li>使用场景
+<ul>
+<li>适用于需要用户交互的场景（如图形编辑器、流程图工具）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">'../index.min.mjs'</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 画布主要参数</span></span>
+<span class="line">    <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>    <span class="token comment">// 高度</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">300</span><span class="token punctuation">,</span>      <span class="token comment">// 宽度</span></span>
+<span class="line">        <span class="token literal-property property">backgroundColor</span><span class="token operator">:</span> <span class="token string">"#eee"</span><span class="token punctuation">,</span> <span class="token comment">// 画布背景色</span></span>
+<span class="line">        <span class="token literal-property property">backgroundVpt</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Canvas</span><span class="token punctuation">(</span><span class="token string">'c1'</span><span class="token punctuation">,</span>options<span class="token punctuation">)</span> <span class="token comment">// 这里传入的是canvas的id</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// 修改背景颜色</span></span>
+<span class="line">    canvas<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">"red"</span></span>
+<span class="line">    </span>
+<span class="line">        <span class="token comment">// 创建一个长方形</span></span>
+<span class="line">        <span class="token keyword">const</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 距离容器顶部 30px</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 距离容器左侧 30px</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 宽 100px</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token comment">// 高 60px</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    </span>
+<span class="line">    canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/02.html" width="330" height="330"></iframe>
+<h2 id="_2-2-staticcanvas画布" tabindex="-1"><a class="header-anchor" href="#_2-2-staticcanvas画布"><span>2.2 StaticCanvas画布</span></a></h2>
+<ul>
+<li>
+<p>特点</p>
+<ul>
+<li>渲染机制
+<ul>
+<li>仅有单层静态渲染，不能直接交互</li>
+</ul>
+</li>
+<li>使用场景
+<ul>
+<li>适用于纯展示场景（如生成静态图片、数据可视化看板）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>代码</p>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">'../index.min.mjs'</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>    <span class="token comment">// 高度</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">300</span><span class="token punctuation">,</span>      <span class="token comment">// 宽度</span></span>
+<span class="line">        <span class="token literal-property property">backgroundColor</span><span class="token operator">:</span> <span class="token string">"#eee"</span><span class="token punctuation">,</span> <span class="token comment">// 画布背景色</span></span>
+<span class="line">        <span class="token literal-property property">backgroundVpt</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>   </span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 使用 StaticCanvas 创建一个不可操作的画布</span></span>
+<span class="line">    <span class="token keyword">const</span> staticCanvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>StaticCanvas</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">,</span>options<span class="token punctuation">)</span> </span>
+<span class="line"></span>
+<span class="line">        <span class="token comment">// 创建一个长方形</span></span>
+<span class="line">        <span class="token keyword">const</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 距离容器顶部 30px</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 距离容器左侧 30px</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// 宽 100px</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token comment">// 高 60px</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 在canvas画布中加入矩形（rect）</span></span>
+<span class="line">    staticCanvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/03.html" width="330" height="330"></iframe>
+<h2 id="_2-3-hascontrols、hasborders-的区别" tabindex="-1"><a class="header-anchor" href="#_2-3-hascontrols、hasborders-的区别"><span>2.3 hasControls、hasBorders 的区别</span></a></h2>
+<p>hasControls 和 hasBorders 需要在图形元素上设置。</p>
+<p>将 hasControls 设置成 false 就会取消元素选中时的控制角。</p>
+<p>将 hasBorders 设置成 false 就会取消元素被选中时的控制边。</p>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">'../index.min.mjs'</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">let</span> canvas <span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Canvas</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">let</span> rect <span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span><span class="token number">60</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span><span class="token number">60</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">60</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">60</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">fill</span><span class="token operator">:</span><span class="token string">'#08d9d6'</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">hasControls</span><span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span><span class="token comment">// 取消控制角</span></span>
+<span class="line">        <span class="token literal-property property">hasBorders</span><span class="token operator">:</span><span class="token boolean">false</span><span class="token comment">// 取消控制边</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/04.html" width="330" height="330"></iframe>
+</div></template>
+
+

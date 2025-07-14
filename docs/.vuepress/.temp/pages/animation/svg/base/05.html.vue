@@ -1,0 +1,360 @@
+<template><div><h1 id="五、svg-文本" tabindex="-1"><a class="header-anchor" href="#五、svg-文本"><span>五、SVG 文本</span></a></h1>
+<h2 id="_5-1-text-和-tspan-标签" tabindex="-1"><a class="header-anchor" href="#_5-1-text-和-tspan-标签"><span>5.1 <code v-pre>&lt;text&gt;</code>和<code v-pre>&lt;tspan&gt;</code>标签</span></a></h2>
+<h3 id="_5-1-1-基础使用" tabindex="-1"><a class="header-anchor" href="#_5-1-1-基础使用"><span>5.1.1 基础使用</span></a></h3>
+<p><code v-pre>&lt;text&gt;</code>和<code v-pre>&lt;tspan&gt;</code>标签是定义文本的基本标签。</p>
+<ol>
+<li><code v-pre>&lt;text&gt;</code>标签</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>文本绘制x轴位置</td>
+<td>0</td>
+</tr>
+<tr>
+<td>y</td>
+<td>文本绘制y轴位置</td>
+<td>0</td>
+</tr>
+<tr>
+<td>dx</td>
+<td>每个字符相对前一个字符的偏移距离</td>
+<td>0</td>
+</tr>
+<tr>
+<td>dy</td>
+<td>每个字符相对前一个字符的偏移距离</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>例子：</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">dx</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>20 40 60 80<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:40px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">        我爱学习</span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>M100,0 V200 M0,100 H200<span class="token punctuation">"</span></span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>red<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>效果：</p>
+<svg width="600" height="200">
+    <text x="100" y="100" dx="20 40 60 80" fill="black" style="font-size:40px;">
+        我爱学习
+    </text>
+    <path d="M100,0 V200 M0,100 H200" stroke="red"/>
+</svg>
+<blockquote>
+<p>注意：文字并不是完全在左下角位置，而是在一个叫基线（baseline）的位置，所以文字会在哪个位置，还得看该字体的基线（关于基线的定义请自身查阅资料）。</p>
+</blockquote>
+<ol start="2">
+<li><code v-pre>&lt;tspan&gt;</code>标签</li>
+</ol>
+<p><code v-pre>&lt;tspan&gt;</code>标签是用在<code v-pre>&lt;text</code>&gt;标签里面的，也可嵌套使用。所有text标签可用的属性，tspan也都可以用。</p>
+<p>例子：</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">dy</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:40px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tspan</span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>blue<span class="token punctuation">"</span></span> <span class="token attr-name">dy</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>-20 10<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我爱<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tspan</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tspan</span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>red<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>学习<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tspan</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>M100,0 V200 M0,100 H200<span class="token punctuation">"</span></span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>red<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>效果：</p>
+<svg width="600" height="200">
+    <text x="100" y="100" dy="100" fill="black" style="font-size:40px;">
+            <tspan fill="blue" dy="-20 10">我爱</tspan><tspan fill="red">学习</tspan>
+    </text>
+    <path d="M100,0 V200 M0,100 H200" stroke="red"/>
+</svg>
+<ol start="3">
+<li>注意：
+<ol>
+<li>两个标签不支持自动换行。</li>
+<li>可以用style属性设置样式（基本支持大部分CSS属性）。</li>
+<li>可以通过程序计算dx、dy值来得到各自文字排版（像波浪形或一些函数曲线）。</li>
+<li>text和tspan标签设置的dx、dy属性是会往下传递的。也就是在没有设置情况下，后面字符会用沿用上一个字符的dx、dy值。</li>
+<li>如果tspan设置了dx、dy属性，就会覆盖text标签上的dx、dy值，而不是叠加计算。</li>
+</ol>
+</li>
+</ol>
+<h3 id="_5-1-2-文本水平垂直居中" tabindex="-1"><a class="header-anchor" href="#_5-1-2-文本水平垂直居中"><span>5.1.2 文本水平垂直居中</span></a></h3>
+<ol>
+<li>水平排列</li>
+</ol>
+<p>text-anchor属性可设置文本水平排列，有三个取值 <code v-pre>start</code> | <code v-pre>middle</code> | <code v-pre>end</code> 。</p>
+<p>例子：</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">text-anchor</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>start<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:40px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我爱学习<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">text-anchor</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>middle<span class="token punctuation">"</span></span>  <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:40px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我爱学习<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>150<span class="token punctuation">"</span></span> <span class="token attr-name">text-anchor</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>end<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:40px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我爱学习<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>M200,0 V200 M0,100 H400<span class="token punctuation">"</span></span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>red<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>效果：</p>
+<svg width="600" height="200">
+    <text x="200" y="50" text-anchor="start" fill="black" style="font-size:40px;">我爱学习</text>
+    <text x="200" y="100" text-anchor="middle"  fill="black" style="font-size:40px;">我爱学习</text>
+    <text x="200" y="150" text-anchor="end" fill="black" style="font-size:40px;">我爱学习</text>
+    <path d="M200,0 V200 M0,100 H400" stroke="red"/>
+</svg>
+<ol start="2">
+<li>垂直排列</li>
+</ol>
+<p>dominant-baseline属性可设置文本垂直排列。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto</td>
+<td>默认值，使用浏览器默认基线对齐规则</td>
+<td>当默认行为满足需求时</td>
+</tr>
+<tr>
+<td>middle</td>
+<td>将文本垂直居中，基线位于文本高度中点</td>
+<td>垂直居中对齐场景</td>
+</tr>
+<tr>
+<td>central</td>
+<td>基线位于字符整体高度中点(与middle有细微差异)</td>
+<td>精确的垂直居中控制</td>
+</tr>
+<tr>
+<td>alphabetic</td>
+<td>基线对齐拉丁字母基线(英文字母底部)</td>
+<td>英文文本对齐</td>
+</tr>
+<tr>
+<td>ideographic</td>
+<td>基线对齐表意文字基线(如汉字底部)</td>
+<td>东亚文字对齐</td>
+</tr>
+<tr>
+<td>hanging</td>
+<td>基线位于字符悬挂基线(常用于南亚文字)</td>
+<td>印度语系文字对齐</td>
+</tr>
+<tr>
+<td>mathematical</td>
+<td>基线对齐数学符号基线(如公式符号)</td>
+<td>数学公式排版</td>
+</tr>
+<tr>
+<td>text-after-edge</td>
+<td>对齐文本内容的下边缘</td>
+<td>特殊排版需求</td>
+</tr>
+<tr>
+<td>text-before-edge</td>
+<td>对齐文本内容的上边缘</td>
+<td>特殊排版需求</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>JS Bin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>green<span class="token punctuation">"</span></span> <span class="token attr-name">d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>M 0 100.5 500 100.5 M 140 0 v 200<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>140<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>red<span class="token punctuation">"</span></span> <span class="token attr-name">font-size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>学习<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rect</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rect<span class="token punctuation">"</span></span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>blue<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>none<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rect</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ta<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>start<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>start<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>end<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>end<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>middle<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>center<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></span>
+<span class="line"></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">        <span class="token keyword">const</span> valueData <span class="token operator">=</span> <span class="token punctuation">[</span></span>
+<span class="line">            <span class="token string">"auto"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"middle"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"central"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"alphabetic"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"ideographic"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"hanging"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"mathematical"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"text-after-edge"</span><span class="token punctuation">,</span></span>
+<span class="line">            <span class="token string">"text-before-edge"</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token punctuation">]</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">        valueData<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">            <span class="token keyword">var</span> opt <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"option"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            opt<span class="token punctuation">.</span>value <span class="token operator">=</span> opt<span class="token punctuation">.</span>textContent <span class="token operator">=</span> value<span class="token punctuation">;</span></span>
+<span class="line">            select<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>opt<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        select<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">            text<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"dominant-baseline"</span><span class="token punctuation">,</span> select<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            <span class="token keyword">var</span> box <span class="token operator">=</span> text<span class="token punctuation">.</span><span class="token function">getBBox</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            rect<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"x"</span><span class="token punctuation">,</span> box<span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            rect<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"y"</span><span class="token punctuation">,</span> box<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            rect<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"width"</span><span class="token punctuation">,</span> box<span class="token punctuation">.</span>width<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            rect<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"height"</span><span class="token punctuation">,</span> box<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">        ta<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">            text<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"text-anchor"</span><span class="token punctuation">,</span> ta<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/svg/base/html/01.html" width="650" height="450"></iframe>
+<ol start="3">
+<li>注意
+<ul>
+<li>可以从效果上看，这个属性还没有真正做到垂直居中。</li>
+<li>还有另一个做法，就是算出垂直居中的y值，进而模拟垂直居中效果。</li>
+</ul>
+</li>
+</ol>
+<h2 id="_5-2-textpath-标签" tabindex="-1"><a class="header-anchor" href="#_5-2-textpath-标签"><span>5.2 <code v-pre>&lt;textpath&gt;</code>标签</span></a></h2>
+<h3 id="_5-2-1-基础使用" tabindex="-1"><a class="header-anchor" href="#_5-2-1-基础使用"><span>5.2.1 基础使用</span></a></h3>
+<p><code v-pre>&lt;textpath&gt;</code>可以让文本在指定路径上排列 。</p>
+<p>例子：</p>
+<div class="language-xml line-numbers-mode" data-highlighter="prismjs" data-ext="xml"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>250<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p1<span class="token punctuation">"</span></span> <span class="token attr-name">d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>M100,100 Q200 50 250 150 T 500 100<span class="token punctuation">"</span></span> <span class="token attr-name">stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>green<span class="token punctuation">"</span></span> <span class="token attr-name">fill</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>none<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size:20px;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textPath</span> <span class="token attr-name"><span class="token namespace">xlink:</span>href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#p1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>落红不是无情物，一枝红杏出墙来，恰似一江清水向东流。<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textPath</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>效果：</p>
+<svg width="600" height="250">
+    <path id="p1" d="M100,100 Q200 50 250 150 T 500 100" stroke="green" fill="none"/>
+    <text style="font-size:20px;">
+            <textPath xlink:href="#p1">落红不是无情物，一枝红杏出墙来，恰似一江清水向东流。</textPath>
+    </text>
+</svg>
+<blockquote>
+<p>注意:超出Path的部分，浏览器不进行渲染。</p>
+</blockquote>
+<h3 id="_5-2-2-渲染原理" tabindex="-1"><a class="header-anchor" href="#_5-2-2-渲染原理"><span>5.2.2 渲染原理</span></a></h3>
+<p>如下图：</p>
+<p><img src="/animation/svg/base/image/034.png" alt=""></p>
+<ol>
+<li>浏览器会算出第一个字符的宽度。</li>
+<li>结合路径的起点得到另一个点。</li>
+<li>取得中间的那个点做一条的切线和法线。</li>
+<li>然后将该字符放到这个位置上。</li>
+<li>将上一个字符最后一个点作为下一个字符的起点。</li>
+<li>循环第1步，直到文本渲染完毕。</li>
+</ol>
+<h3 id="_5-2-3-文本在路径上的偏移" tabindex="-1"><a class="header-anchor" href="#_5-2-3-文本在路径上的偏移"><span>5.2.3 文本在路径上的偏移</span></a></h3>
+<p>文本在路径上的偏移可以用定位属性 x,y,dx,dy，text-anchor和startOffset属性。</p>
+<p><img src="/animation/svg/base/image/035.png" alt=""></p>
+<p>从上图可得到结论：</p>
+<ol>
+<li>x/dx/startOffset可以设置字符在路径上的渲染起点。</li>
+<li>y属性设置是没有任何效果的。</li>
+<li>dy可设置字符在法线上的偏移。</li>
+<li>text-anchor是设置文本水平排列效果。</li>
+</ol>
+<h2 id="_5-3-a-标签" tabindex="-1"><a class="header-anchor" href="#_5-3-a-标签"><span>5.3 <code v-pre>&lt;a&gt;</code>标签</span></a></h2>
+<p><code v-pre>&lt;a&gt;</code>标签可以添加到任意的图形上。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xlink:href</td>
+<td>指定链接地址</td>
+</tr>
+<tr>
+<td>xlink:title</td>
+<td>指定链接提示</td>
+</tr>
+<tr>
+<td>target</td>
+<td>指定打开目标</td>
+</tr>
+</tbody>
+</table>
+<p>例子：</p>
+<div class="language-XML line-numbers-mode" data-highlighter="prismjs" data-ext="XML"><pre v-pre><code><span class="line">&lt;svg width=&quot;600&quot; height=&quot;100&quot; &gt;</span>
+<span class="line">    &lt;a xlink:title=&quot;百度&quot;</span>
+<span class="line">            xlink:href=&quot;https://www.baidu.com&quot;</span>
+<span class="line">            target=&quot;_blank&quot;&gt;</span>
+<span class="line">        &lt;text  x=&quot;50&quot; y=&quot;50&quot; style=&quot;font-size:40px;&quot;&gt;点击进入百度&lt;/text&gt;</span>
+<span class="line">    &lt;/a&gt;</span>
+<span class="line">&lt;/svg&gt;</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>下面图形点击后跳转百度</p>
+<svg width="600" height="100" >
+    <a xlink:title="百度"
+            xlink:href="https://www.baidu.com"
+            target="_blank">
+        <text  x="50" y="50" style="font-size:40px;">点击进入百度</text>
+    </a>
+</svg>
+<h2 id="_5-4-选中文字数量" tabindex="-1"><a class="header-anchor" href="#_5-4-选中文字数量"><span>5.4 选中文字数量</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>svgSelect<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>30<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tspan</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>30<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>line1 第一行<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tspan</span><span class="token punctuation">></span></span></span>
+<span class="line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tspan</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>60<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>line2 第二行<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tspan</span><span class="token punctuation">></span></span></span>
+<span class="line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tspan</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>90<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>line3 第三行<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tspan</span><span class="token punctuation">></span></span></span>
+<span class="line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">        <span class="token keyword">let</span> svg <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'svgSelect'</span><span class="token punctuation">)</span></span>
+<span class="line">        svg<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseup'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token keyword">var</span> select <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getSelection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">起始行内容：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>select<span class="token punctuation">.</span>anchorNode<span class="token punctuation">.</span>nodeValue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">起始行开始位置：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>select<span class="token punctuation">.</span>anchorOffset<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">结束行内容：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>select<span class="token punctuation">.</span>focusNode<span class="token punctuation">.</span>nodeValue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">结束行开始位置：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>select<span class="token punctuation">.</span>focusOffset<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>效果</li>
+</ul>
+<p><img src="/animation/svg/base/image/036.png" alt=""></p>
+</div></template>
+
+

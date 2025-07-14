@@ -1,0 +1,110 @@
+<template><div><h1 id="十二、禁止部分操作" tabindex="-1"><a class="header-anchor" href="#十二、禁止部分操作"><span>十二、禁止部分操作</span></a></h1>
+<h2 id="_12-1-禁止操作" tabindex="-1"><a class="header-anchor" href="#_12-1-禁止操作"><span>12.1 禁止操作</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取动态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Canvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">const</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">fill</span><span class="token operator">:</span> <span class="token string">'#ffde7d'</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 不允许水平移动</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockMovementX <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 不允许垂直移动</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockMovementY <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 禁止旋转</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockRotation <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 禁止水平缩放</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockScalingX <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 禁止垂直缩放</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockScalingY <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/66.html" width="350" height="450"></iframe>
+<h2 id="_12-2-禁止设定操作" tabindex="-1"><a class="header-anchor" href="#_12-2-禁止设定操作"><span>12.2 禁止设定操作</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取动态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Canvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">const</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">fill</span><span class="token operator">:</span> <span class="token string">'#ffde7d'</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">flipX</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>         <span class="token comment">// 翻转</span></span>
+<span class="line">        <span class="token literal-property property">lockSkewingX</span><span class="token operator">:</span><span class="token number">30</span><span class="token punctuation">,</span>    <span class="token comment">// 拉伸</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 水平倾斜被锁定</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockSkewingX <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 垂直倾斜被锁定</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockSkewingY <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 禁止翻转</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>lockScalingFlip <span class="token operator">=</span> <span class="token boolean">true</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line">    canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/67.html" width="350" height="450"></iframe>
+<h2 id="_12-3-禁止选中" tabindex="-1"><a class="header-anchor" href="#_12-3-禁止选中"><span>12.3 禁止选中</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">    <span class="token comment">// 引入文件</span></span>
+<span class="line">    <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> fabric <span class="token keyword">from</span> <span class="token string">"../index.min.mjs"</span><span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 获取动态画布</span></span>
+<span class="line">    <span class="token keyword">const</span> canvas <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Canvas</span><span class="token punctuation">(</span><span class="token string">"c1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token keyword">const</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">fabric<span class="token punctuation">.</span>Rect</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">top</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">left</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">fill</span><span class="token operator">:</span> <span class="token string">'#ffde7d'</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">    <span class="token comment">// 元素禁止选中</span></span>
+<span class="line">    rect<span class="token punctuation">.</span>selectable <span class="token operator">=</span> <span class="token boolean">false</span></span>
+<span class="line"></span>
+<span class="line">    canvas<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>示例</li>
+</ul>
+<iframe src="/note-front/animation/fabric/html/68.html" width="350" height="450"></iframe>
+</div></template>
+
+

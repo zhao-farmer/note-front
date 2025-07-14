@@ -1,0 +1,255 @@
+<template><div><h1 id="一、开始" tabindex="-1"><a class="header-anchor" href="#一、开始"><span>一、开始</span></a></h1>
+<h2 id="_1-1-介绍" tabindex="-1"><a class="header-anchor" href="#_1-1-介绍"><span>1.1 介绍</span></a></h2>
+<ol>
+<li>功能</li>
+</ol>
+<blockquote>
+<p>下一代，最快的HTML5创建引擎的Web</p>
+</blockquote>
+<ul>
+<li>WebGL和WebGPU渲染器</li>
+<li>无与伦比的性能和速度</li>
+<li>易于使用，但功能强大的API</li>
+<li>资产加载器</li>
+<li>全鼠标和多点触控支持</li>
+<li>灵活的文本渲染</li>
+<li>通用原语和SVG绘图</li>
+<li>️动态纹理</li>
+<li>屏蔽</li>
+<li>强大的过滤器</li>
+<li>高级混合模式</li>
+</ul>
+<ol start="2">
+<li>什么是PixiJS？​</li>
+</ol>
+<p>PixiJS是一个先进的、开源的2D渲染引擎，专为在网络上创造令人惊叹的视觉体验而设计。它建立在WebGL和可选的WebGPU上，使开发人员能够制作高性能、视觉丰富的应用程序，这些应用程序可以无缝地在所有设备和平台上运行。无论您是构建游戏，互动广告，教育内容还是数据可视化，PixiJS都可以轻松地将您的创意愿景变为现实。</p>
+<ol start="3">
+<li>什么使PixiJS特别</li>
+</ol>
+<p>在其核心，PixiJS简化了渲染的复杂性，提供：</p>
+<ul>
+<li>一个健壮的场景图来管理和渲染对象的层次结构。</li>
+<li>支持点击和触摸交互，使开发人员能够创建完全交互式的应用程序。</li>
+<li>卓越的性能，使其成为现代web环境中要求苛刻，图形繁重的应用程序的理想选择。</li>
+<li>可以灵活地与诸如Tauri和Electron等技术集成，将其范围从浏览器扩展到移动和桌面应用程序。</li>
+</ul>
+<ol start="4">
+<li>为什么选择PixiJS？​</li>
+</ol>
+<p>PixiJS提供了速度、灵活性和简单性的强大组合。其无与伦比的性能使您可以毫不费力地处理复杂的场景和动画，而其用户友好的API使初学者和经验丰富的开发人员都可以访问它。</p>
+<ol start="5">
+<li>PixiJS是为谁设计的？​</li>
+</ol>
+<p>PixiJS是专为开发人员和设计师寻求：</p>
+<ul>
+<li>构建具有丰富图形和动画的基于浏览器的游戏。</li>
+<li>创建具有响应式触摸和点击支持的交互式web应用程序。</li>
+<li>使用像Tauri和Electron这样的工具开发跨平台应用程序。</li>
+<li>以独特和引人入胜的方式可视化数据。</li>
+<li>用创造性的视觉元素和效果增强网页内容。</li>
+</ul>
+<h2 id="_1-2-快速启动" tabindex="-1"><a class="header-anchor" href="#_1-2-快速启动"><span>1.2 快速启动</span></a></h2>
+<h3 id="_1-2-1-程序步骤" tabindex="-1"><a class="header-anchor" href="#_1-2-1-程序步骤"><span>1.2.1 程序步骤</span></a></h3>
+<p>编写PixiJS应用程序只需要几个步骤：</p>
+<ol>
+<li>创建HTML文件</li>
+<li>使用Web服务器提供文件</li>
+<li>加载PixiJS库</li>
+<li>创建应用程序</li>
+<li>将生成的视图添加到DOM</li>
+<li>将图像添加到舞台</li>
+<li>写一个更新循环</li>
+</ol>
+<h3 id="_1-2-2-实战操作" tabindex="-1"><a class="header-anchor" href="#_1-2-2-实战操作"><span>1.2.2 实战操作</span></a></h3>
+<ol>
+<li>创建html文件</li>
+</ol>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Hello PixiJS<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>使用web服务器</li>
+</ol>
+<p>开发工具 安装live server 生产环境可以使用nginx进行代理</p>
+<ol start="3">
+<li>加载pixi.js</li>
+</ol>
+<ul>
+<li>
+<p>远程调用</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://pixijs.download/release/pixi.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
+<li>
+<p>本地使用</p>
+<ul>
+<li>打开文件目标地址</li>
+<li>使用鼠标右键进行另存为</li>
+<li>放入工程目录下</li>
+<li>在文件中调用</li>
+</ul>
+</li>
+</ul>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../js/pixi.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Hello PixiJS<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="4">
+<li>创建应用程序</li>
+</ol>
+<p>我们在这里要做的是添加一个JavaScript代码块，并在该代码块中创建一个新的PIXI.Application实例。Application是一个帮助类，它简化了PixiJS的使用。 它创建渲染器、舞台，并启动一个用于更新的自动ticker(每一帧的回调)。 在生产环境中，您几乎肯定希望自己执行这些步骤，以增加自定义和控制-我们将在稍后的指南中介绍如何执行这些步骤。 目前，Application类是开始使用PixiJS的完美方式，而无需担心细节。Application类还有一个方法init，它将使用给定的选项初始化应用程序。这个方法是异步的，所以我们使用await关键字在promise完成后启动我们的逻辑。这是因为PixiJS使用WebGPU或WebGL，而前者的API是异步的。</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">  <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token keyword">await</span> app<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">640</span><span class="token punctuation">,</span> <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">360</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="5">
+<li>将画布添加到DOM
+当PIXI.Application类创建渲染器时，它将构建一个它将渲染到的Canvas元素。 为了查看我们用PixiJS绘制的内容，我们需要将这个Canvas元素添加到网页的DOM中。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>canvas<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="6">
+<li>创建Sprite</li>
+</ol>
+<p>在PixiJS中绘制图像的方法有很多，但最简单的是使用Sprite。</p>
+<p>Sprite是一种容器类型，它包装加载的图像资源以允许绘制、缩放和旋转图像资源等。</p>
+<p>在PixiJS可以渲染图像之前，它需要被加载。 就像任何网页一样，图像加载是异步发生的。</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 同步加载图片</span></span>
+<span class="line"><span class="token keyword">await</span> <span class="token constant">PIXI</span><span class="token punctuation">.</span>Assets<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'sample.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token comment">// 将图片赋予精灵</span></span>
+<span class="line"><span class="token keyword">let</span> sprite <span class="token operator">=</span> <span class="token constant">PIXI</span><span class="token punctuation">.</span>Sprite<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span><span class="token string">'sample.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="7">
+<li>Stage将Sprite添加到舞台</li>
+</ol>
+<p>最后，我们需要将新的精灵添加到舞台上。 舞台只是一个Container，它是场景图的根。 舞台容器的每个子级都将在每一帧中呈现。 通过将sprite添加到舞台上，我们告诉PixiJS的渲染器我们想要绘制它。</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>sprite<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="8">
+<li>编写更新循环</li>
+</ol>
+<p>虽然你可以将PixiJS用于静态内容，但对于大多数项目，你需要添加动画。 我们的示例应用程序实际上是在一秒钟内多次在同一个地方渲染同一个精灵。 要使图像移动，我们所要做的就是每帧更新一次其属性。 要做到这一点，我们需要挂钩到应用程序的代码。</p>
+<p>ticker是一个PixiJS对象，它在每一帧运行一个或多个回调。</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 添加一个变量来计算我们的演示运行的秒数</span></span>
+<span class="line"><span class="token keyword">let</span> elapsed <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token comment">// 告诉我们的应用程序的自动收报机每帧运行一个新的回调</span></span>
+<span class="line"><span class="token comment">// 从最后一个滴答开始</span></span>
+<span class="line">app<span class="token punctuation">.</span>ticker<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">ticker</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 将该时间添加到总运行时间中</span></span>
+<span class="line">    elapsed <span class="token operator">+=</span> ticker<span class="token punctuation">.</span>deltaTime<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token comment">// 根据我们经过的时间的余弦更新精灵的X位置。</span></span>
+<span class="line">    <span class="token comment">// 以50来放慢动画的速度</span></span>
+<span class="line">    sprite<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">100.0</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span>elapsed<span class="token operator">/</span><span class="token number">50.0</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100.0</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>你需要做的就是调用app.ticker.add(...)，传递一个回调函数，然后在该函数中更新你的场景。 它会在每一帧被调用，你可以移动，旋转等任何你想驱动你的项目的动画。</p>
+<ol start="9">
+<li>把他们都放一起</li>
+</ol>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../js/pixi8.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"></span>
+<span class="line">      <span class="token comment">// 创建应用程序助手并将其呈现目标添加到页面中</span></span>
+<span class="line">      <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">      <span class="token keyword">await</span> app<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">width</span><span class="token operator">:</span> <span class="token number">640</span><span class="token punctuation">,</span> <span class="token literal-property property">height</span><span class="token operator">:</span> <span class="token number">360</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">      document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>canvas<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">      <span class="token comment">// 创建精灵并将其添加到舞台</span></span>
+<span class="line">      <span class="token keyword">await</span> <span class="token constant">PIXI</span><span class="token punctuation">.</span>Assets<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"../assest/sample1.png"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">      <span class="token keyword">let</span> sprite <span class="token operator">=</span> <span class="token constant">PIXI</span><span class="token punctuation">.</span>Sprite<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span><span class="token string">"../assest/sample1.png"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">      app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>sprite<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">      <span class="token comment">//使用ticker回调以来回移动角色</span></span>
+<span class="line">      <span class="token keyword">let</span> elapsed <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span></span>
+<span class="line">      app<span class="token punctuation">.</span>ticker<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">ticker</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">        elapsed <span class="token operator">+=</span> ticker<span class="token punctuation">.</span>deltaTime<span class="token punctuation">;</span></span>
+<span class="line">        sprite<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">100.0</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span>elapsed <span class="token operator">/</span> <span class="token number">50.0</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100.0</span><span class="token punctuation">;</span></span>
+<span class="line">      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>
+<span class="line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="10">
+<li>展示图</li>
+</ol>
+<iframe src="/note-front/animation/pixi/official/html/01.html" width="700" height="400"></iframe>
+<h2 id="_1-3-生态系统" tabindex="-1"><a class="header-anchor" href="#_1-3-生态系统"><span>1.3 生态系统</span></a></h2>
+<p>PixiJS本身只是一个渲染引擎。然而，有一个健壮的库和工具生态系统的基础，可以增强和扩展其功能。这些工具与PixiJS无缝集成，使开发人员能够轻松创建更丰富，更具交互性的应用程序。</p>
+<ol>
+<li>PixiJS DevTools</li>
+</ol>
+<p>优化和调试您的PixiJS项目与DevTools。这个浏览器扩展提供实时洞察应用程序性能，渲染层次结构和纹理管理，确保您的项目顺利运行。</p>
+<p><img src="/animation/pixi/official/image/001.png" alt=""></p>
+<ol start="2">
+<li>react 集成</li>
+</ol>
+<blockquote>
+<p><code v-pre>PixiJS React</code>需要React 19或更高版本。</p>
+</blockquote>
+<p>使用Pixi-React库简化在React应用程序中使用PixiJS。该库提供了绑定，允许您将PixiJS组件管理为React元素，从而可以轻松地将强大的图形合并到React的声明式框架中。</p>
+<ol start="3">
+<li>Layout</li>
+</ol>
+<p>使用PixiJS布局库将flexbox样式的布局添加到PixiJS中，该库由Facebook的Yoga引擎提供支持。它引入了一种声明性的方法，使用熟悉的类css规则来控制PixiJS显示对象的定位、对齐和大小。</p>
+<ul>
+<li>主要特点包括：
+<ul>
+<li>建立在瑜伽标准化，可靠的布局</li>
+<li>完全可选：只在需要的地方应用布局</li>
+<li>任何PixiJS对象现在都可以是布局感知的</li>
+<li>支持PixiJS React</li>
+<li>新的网页风格的功能：objectFit， objectPosition，和溢出滚动</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>Spine 集成</li>
+</ol>
+<p>将动画与Spine-Pixi一起带入生活。这种集成结合了PixiJS和Spine（一种领先的动画工具）的强大功能，可以为游戏和交互式内容创建平滑的、基于骨骼的动画。</p>
+<ol start="5">
+<li>Filters</li>
+</ol>
+<p>转换您的视觉效果与PixiJS过滤器。这个广泛的高性能效果集合包括模糊，发光和颜色调整等选项，为您提供创建视觉上令人惊叹的图形的工具。</p>
+<ol start="6">
+<li>Sound</li>
+</ol>
+<p>添加音频到您的项目与PixiJS声音WebAudio API播放库，与过滤器。</p>
+<ol start="7">
+<li>UI</li>
+</ol>
+<p>使用PixiJS UI简化用户界面的创建。这个库提供了预构建的组件：</p>
+<ul>
+<li>Buttons(按钮)</li>
+<li>Sliders(滑块)</li>
+<li>Progress bars(进度条)</li>
+<li>Lists(列表)</li>
+<li>Scrollbox(滚动盒子)</li>
+<li>Radio Groups(单选组)</li>
+<li>Checkboxes(复选框)</li>
+<li>Switches(开关)</li>
+</ul>
+<p>在PixiJS中构建交互界面的所有要素。</p>
+<ol start="8">
+<li>AssetPack</li>
+</ol>
+<p>使用AssetPack简化资产管理。此工具有效地组织、打包和加载资产，减少加载时间并改进项目的资源处理。</p>
+<p><img src="/animation/pixi/official/image/002.png" alt=""></p>
+</div></template>
+
+

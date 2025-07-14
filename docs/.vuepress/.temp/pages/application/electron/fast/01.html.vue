@@ -1,0 +1,625 @@
+<template><div><h1 id="一、简单教程" tabindex="-1"><a class="header-anchor" href="#一、简单教程"><span>一、简单教程</span></a></h1>
+<h2 id="_1-1-electron是什么" tabindex="-1"><a class="header-anchor" href="#_1-1-electron是什么"><span>1.1 Electron是什么</span></a></h2>
+<p>简单的一句话，就是用html+css+js+nodejs+（Native Api）做兼容多个系统（Windows、Linux、Mac）的软件。</p>
+<p><strong>官网解释如下(有点像绕口令)</strong>：</p>
+<p>Electron是一个使用 JavaScript、HTML 和 CSS 构建桌面应用程序的框架。 嵌入 Chromium 和 Node.js 到 二进制的 Electron 允许您保持一个 JavaScript 代码代码库并创建 在Windows上运行的跨平台应用 macOS和Linux——不需要本地开发 经验。</p>
+<p><img src="/application/electron/fast/001.png" alt=""></p>
+<p><img src="/application/electron/fast/002.png" alt=""></p>
+<h2 id="_1-2-elemtron流程模型" tabindex="-1"><a class="header-anchor" href="#_1-2-elemtron流程模型"><span>1.2 Elemtron流程模型</span></a></h2>
+<p><img src="/application/electron/fast/003.png" alt=""></p>
+<h2 id="_1-3-创建应用程序" tabindex="-1"><a class="header-anchor" href="#_1-3-创建应用程序"><span>1.3 创建应用程序</span></a></h2>
+<ol>
+<li>创建应用程序</li>
+</ol>
+<p>Electron 应用程序遵循与其他 Node.js 项目相同的结构。 首先创建一个文件夹并初始化 npm 包。</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">mkdir</span> my-electron-app <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> my-electron-app</span>
+<span class="line"><span class="token function">npm</span> init</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>init初始化命令会提示您在项目初始化配置中设置一些值 为本教程的目的，有几条规则需要遵循：</p>
+<ul>
+<li>entry point 应为 main.js.</li>
+<li>author 与 description 可为任意值，但对于应用打包是必填项。</li>
+</ul>
+<p>你的 package.json 文件应该像这样：</p>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"my-electron-app"</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"main.js"</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span>
+<span class="line">  <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"zhao"</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>安装依赖</li>
+</ol>
+<p>然后，将 electron 包安装到应用的开发依赖中。</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> --save-dev electron</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>如果下载一直等待的解决方法：</p>
+<ul>
+<li>
+<p>第一步：在项目根目录下新增一个文件，命名为.npmrc。</p>
+</li>
+<li>
+<p>第二步：在新增的.npmrc文件中，输入以下内容以新增镜像：</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"> <span class="token constant">ELECTRON_MIRROR</span><span class="token operator">=</span><span class="token string">"https://npmmirror.com/mirrors/electron/"</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
+<li>
+<p>第三步：重新执行命令</p>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> electron --save-dev</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div></li>
+</ul>
+<ol start="3">
+<li>调整文件</li>
+</ol>
+<p>添加启动命令脚本</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token string-property property">"start"</span><span class="token operator">:</span> <span class="token string">"electron ."</span><span class="token punctuation">,</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><img src="/application/electron/fast/004.png" alt=""></p>
+<ol start="4">
+<li>
+<p>运行程序</p>
+<ul>
+<li>创建main.js</li>
+<li>通过npm start运行程序</li>
+</ul>
+<p><img src="/application/electron/fast/005.png" alt=""></p>
+</li>
+</ol>
+<h2 id="_1-4-简单程序制作" tabindex="-1"><a class="header-anchor" href="#_1-4-简单程序制作"><span>1.4 简单程序制作</span></a></h2>
+<ol>
+<li>展示网页信息</li>
+</ol>
+<p>如果只是框子 远程访问网站直接用这个</p>
+<p>mian.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ready'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 当app准备好后，执行createWindow创建窗口</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span><span class="token comment">//窗口宽度</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> <span class="token comment">//窗口高度</span></span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">// 自动隐藏菜单项</span></span>
+<span class="line">        <span class="token literal-property property">alwaysOnTop</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">//置顶 （点击其他程序，它依然在最顶部，不建议加此功能）</span></span>
+<span class="line">        <span class="token literal-property property">x</span><span class="token operator">:</span><span class="token number">0</span> <span class="token punctuation">,</span>   <span class="token comment">//窗口位置x坐标（相对于电脑屏幕）</span></span>
+<span class="line">        <span class="token literal-property property">y</span><span class="token operator">:</span><span class="token number">0</span>     <span class="token comment">//窗口位置y坐标（相对于电脑屏幕）</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 加载一个远程页面</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadURL</span><span class="token punctuation">(</span><span class="token string">'https://electron.nodejs.cn'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>更多配置请查询 <a href="https://www.electronjs.org/zh/docs/latest/api/base-window" target="_blank" rel="noopener noreferrer">BaseWindow | Electron</a></p>
+<ol start="2">
+<li>展示写入的网站</li>
+</ol>
+<p>./pages/index.html</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css"></span>
+<span class="line">        <span class="token selector">h1</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token property">background-color</span><span class="token punctuation">:</span> aquamarine <span class="token punctuation">;</span></span>
+<span class="line">            <span class="token property">color</span><span class="token punctuation">:</span> purple<span class="token punctuation">;</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>学习electron开发<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>main.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ready'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 当app准备好后，执行createWindow创建窗口</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span><span class="token comment">//窗口宽度</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> <span class="token comment">//窗口高度</span></span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">// 自动隐藏菜单项</span></span>
+<span class="line">        <span class="token literal-property property">alwaysOnTop</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">//置顶 （点击其他程序，它依然在最顶部，不建议加此功能）</span></span>
+<span class="line">        <span class="token literal-property property">x</span><span class="token operator">:</span><span class="token number">0</span> <span class="token punctuation">,</span>   <span class="token comment">//窗口位置x坐标（相对于电脑屏幕）</span></span>
+<span class="line">        <span class="token literal-property property">y</span><span class="token operator">:</span><span class="token number">0</span>     <span class="token comment">//窗口位置y坐标（相对于电脑屏幕）</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 加载一个远程页面</span></span>
+<span class="line">    <span class="token comment">// win.loadURL('https://electron.nodejs.cn')</span></span>
+<span class="line">    <span class="token comment">// 加载文件</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token string">'./pages/index.html'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_1-5-处理配置" tabindex="-1"><a class="header-anchor" href="#_1-5-处理配置"><span>1.5 处理配置</span></a></h2>
+<h3 id="_1-5-1-安全策略" tabindex="-1"><a class="header-anchor" href="#_1-5-1-安全策略"><span>1.5.1 安全策略</span></a></h3>
+<p>调用本地文件出现了安全策略</p>
+<p><img src="/application/electron/fast/006.png" alt=""></p>
+<p>出现警告​​​​内容安全策略（CSP）给html文件添加meta标签，配置CSP(Content-Security-Policy)</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Content-Security-Policy<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>default-src 'self'; script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' <span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><strong>部分配置说明</strong></p>
+<ol>
+<li>
+<p>default-src  'self'</p>
+<ul>
+<li>default-src：配置加载策略，适用于所有未在其它指令中明确指定的资源类型。</li>
+<li>self：仅允许从同源的资源加载，禁止从不受信任的外部来源加载，提高安全性。</li>
+</ul>
+</li>
+<li>
+<p>style-src  'self' ' unsafe-inline</p>
+<ul>
+<li>style-src：指定样式表(CSS)的加载策略。</li>
+<li>self：仅允许从同源的资源加载，禁止从不受信任的外部来源加载，提高安全性。</li>
+<li>unsafe-inline ：允许在HTML文档内使用内联样式。</li>
+</ul>
+</li>
+<li>
+<p>img-src  'self'  data:</p>
+<ul>
+<li>img-src：指定图像资源的加载策略。</li>
+<li>self：表示仅允许从同源加载图像。</li>
+<li>data:：允许使用data: URI来嵌入图像。这种URI模式允许将图像数据直接嵌入到HTML或CSS中，而不是通过外部链接引用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="_1-5-2-完善窗口行为" tabindex="-1"><a class="header-anchor" href="#_1-5-2-完善窗口行为"><span>1.5.2 完善窗口行为</span></a></h3>
+<ol>
+<li>Windows和Linux平台窗口特点是:关闭所有窗口时退出应用。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'window-all-closed'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token comment">//当所有窗口都关闭的时候</span></span>
+<span class="line">    <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">!==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span> app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//如果不是苹果系统Mac（darwin），退出应用</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>mac应用即使在没有打开任何窗口的情况下也继续运行，并且在没有窗口可用的情况下激活应用时会打开新的窗口。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//当app准备好后，执行createwindow创建窗口</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'ready'</span> <span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//当应用被激活时</span></span>
+<span class="line">    app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'activate'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token comment">//如果当前应用没有窗口，则创建一个新的窗口</span></span>
+<span class="line">            <span class="token keyword">if</span> <span class="token punctuation">(</span>BrowserWindow<span class="token punctuation">.</span><span class="token function">getAllwindows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>main.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 当app准备好后，执行createWindow创建窗口</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span><span class="token comment">//窗口宽度</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> <span class="token comment">//窗口高度</span></span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">// 自动隐藏菜单项</span></span>
+<span class="line">        <span class="token literal-property property">alwaysOnTop</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">//置顶 （点击其他程序，它依然在最顶部，不建议加此功能）</span></span>
+<span class="line">        <span class="token literal-property property">x</span><span class="token operator">:</span><span class="token number">0</span> <span class="token punctuation">,</span>   <span class="token comment">//窗口位置x坐标（相对于电脑屏幕）</span></span>
+<span class="line">        <span class="token literal-property property">y</span><span class="token operator">:</span><span class="token number">0</span>     <span class="token comment">//窗口位置y坐标（相对于电脑屏幕）</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 加载一个远程页面</span></span>
+<span class="line">    <span class="token comment">// win.loadURL('https://electron.nodejs.cn')</span></span>
+<span class="line">    <span class="token comment">// 加载文件</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token string">'./pages/index.html'</span><span class="token punctuation">)</span></span>
+<span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'应用启动完毕'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">    </span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token comment">//当app准备好后，执行createwindow创建窗口</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'ready'</span> <span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//当应用被激活时</span></span>
+<span class="line">    app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'activate'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">//如果当前应用没有窗口，则创建一个新的窗口</span></span>
+<span class="line">    <span class="token keyword">if</span> <span class="token punctuation">(</span>BrowserWindow<span class="token punctuation">.</span><span class="token function">getAllwindows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'window-all-closed'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token comment">//当所有窗口都关闭的时候</span></span>
+<span class="line">    <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">!==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span> app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//如果不是苹果系统Mac（darwin），退出应用</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-5-3-配置自动重启" tabindex="-1"><a class="header-anchor" href="#_1-5-3-配置自动重启"><span>1.5.3 配置自动重启</span></a></h3>
+<ol>
+<li>安装nodemon</li>
+</ol>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> i nodemon <span class="token parameter variable">-d</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
+<li>修改package.json配置</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token string-property property">"start"</span><span class="token operator">:</span> <span class="token string">"nodemon --exec electron ."</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p>此配置只实现了mian.js的修改触发自动重启，页面的修改不能实现自动重启</p>
+<ol start="3">
+<li>配置nodemon.json规则</li>
+</ol>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"'ignore"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">        <span class="token string">"node_modules"</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token string">"dist"</span></span>
+<span class="line">    <span class="token punctuation">]</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"restartable"</span><span class="token operator">:</span><span class="token string">"r"</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"watch"</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token string">"*.*"</span><span class="token punctuation">]</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"ext"</span><span class="token operator">:</span><span class="token string">"html,js,css"</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p>&quot;restartable&quot;:&quot;r&quot;,是配置短命令 ，在终端命令行中输入r实现程序自动重启</p>
+</blockquote>
+<p><img src="/application/electron/fast/007.png" alt=""></p>
+<ol start="4">
+<li>electron控制台打印中文出现乱码</li>
+</ol>
+<p><img src="/application/electron/fast/008.png" alt=""></p>
+<p>修改package.json文件</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token string-property property">"start"</span><span class="token operator">:</span> <span class="token string">"chcp 65001 &amp;&amp; nodemon --exec electron ."</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><p><img src="/application/electron/fast/009.png" alt=""></p>
+<h2 id="_1-6-主进程与渲染进程" tabindex="-1"><a class="header-anchor" href="#_1-6-主进程与渲染进程"><span>1.6 主进程与渲染进程</span></a></h2>
+<p><img src="/application/electron/fast/010.png" alt=""></p>
+<p>主进程与渲染进程个分隔开</p>
+<ul>
+<li>
+<p>主进程</p>
+<p>每个Electron应用都有一个唯一的主进程，作为应用程序的入口点（main.js）。主进程在Node.js环境中运行，它具有require模块和使用所有Node.js API的能力,主进程的核心就是:使用BrowserWindow来创建和管理窗口。无法访问浏览器函数。
+主进程（main.js）不能访问window、alert之类的</p>
+</li>
+<li>
+<p>渲染进程</p>
+<p>每个BrowserWindow实例都对应一个单独的渲染器进程（多个渲染进程），运行在渲染器进程中的代码，必须遵守网页标准，这也就意味着:渲染器进程无权直接访问require或使用任何Node.js的API。</p>
+</li>
+</ul>
+<h2 id="_1-7-preload脚本" tabindex="-1"><a class="header-anchor" href="#_1-7-preload脚本"><span>1.7 Preload脚本</span></a></h2>
+<p>预加载(Preload)脚本是运行在渲染进程中的，但它是在网页内容加载之前执行的，这意味着它具有比普通渲染器代码更高的权限，可以访问Node.js的 API，同时又可以与网页内容进行安全的交互。</p>
+<p>简单说:它是Node.js和Web APl的桥梁，Preload 脚本可以安全地将部分Node.js功能暴露给网页，从而减少安全风险。</p>
+<p>在渲染进程（浏览器环境）上运行</p>
+<p>需求:点击按钮后，在页面呈现当前的node版本。</p>
+<h3 id="_1-7-1-preload-js定义" tabindex="-1"><a class="header-anchor" href="#_1-7-1-preload-js定义"><span>1.7.1 preload.js定义</span></a></h3>
+<p>preload.js文件不能直接触发，需要在main.js中定义</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// 使用预加载脚本</span></span>
+<span class="line"><span class="token literal-property property">webPreferences</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">preload</span><span class="token operator">:</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span><span class="token string">'./preload.js'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>执行顺序：主进程 -&gt; 预加载脚本 -&gt; 渲染进程</p>
+<p><img src="/application/electron/fast/011.png" alt=""></p>
+<h3 id="_1-7-2-prload可访问api" tabindex="-1"><a class="header-anchor" href="#_1-7-2-prload可访问api"><span>1.7.2 prload可访问api</span></a></h3>
+<table>
+<thead>
+<tr>
+<th>可用的 API</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Electron 模块</td>
+<td>渲染进程模块</td>
+</tr>
+<tr>
+<td>Node.js 模块</td>
+<td>events、timers、url</td>
+</tr>
+<tr>
+<td>Polyfilled 的全局模块</td>
+<td>Buffer、process、clearImmediate、setImmediate</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_1-7-3-暴露electron-的-process-versions-对象给渲染器" tabindex="-1"><a class="header-anchor" href="#_1-7-3-暴露electron-的-process-versions-对象给渲染器"><span>1.7.3 暴露Electron 的 process.versions 对象给渲染器</span></a></h3>
+<ul>
+<li>主进程 main.js</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">//引入node中的path路径</span></span>
+<span class="line"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> </span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token comment">// 使用预加载脚本</span></span>
+<span class="line">        <span class="token literal-property property">webPreferences</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">preload</span><span class="token operator">:</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span><span class="token string">'./preload.js'</span><span class="token punctuation">)</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token string">'./pages/index.html'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">//当app准备好后，执行createwindow创建窗口</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'ready'</span> <span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//当应用被激活时</span></span>
+<span class="line">    app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'activate'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">//如果当前应用没有窗口，则创建一个新的窗口</span></span>
+<span class="line">        <span class="token keyword">if</span> <span class="token punctuation">(</span>BrowserWindow<span class="token punctuation">.</span><span class="token function">getAllwindows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'window-all-closed'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token comment">//当所有窗口都关闭的时候</span></span>
+<span class="line">    <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">!==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span> app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//如果不是苹果系统Mac（darwin），退出应用</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>预加载脚本 preload.js</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//桥梁上下文</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span> contextBridge <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'preload'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">contextBridge<span class="token punctuation">.</span><span class="token function">exposeInMainWorld</span><span class="token punctuation">(</span><span class="token string">'myAPI'</span><span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token literal-property property">version</span><span class="token operator">:</span>process<span class="token punctuation">.</span>version</span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>渲染进程render.js</li>
+</ul>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> btn1 <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'btn1'</span><span class="token punctuation">)</span></span>
+<span class="line">btn1<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">alert</span><span class="token punctuation">(</span>myAPI<span class="token punctuation">.</span>version<span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_1-8-进程之间通信-ipc" tabindex="-1"><a class="header-anchor" href="#_1-8-进程之间通信-ipc"><span>1.8 进程之间通信(IPC)</span></a></h2>
+<h3 id="_1-8-1-渲染进程-主进程-单向" tabindex="-1"><a class="header-anchor" href="#_1-8-1-渲染进程-主进程-单向"><span>1.8.1 渲染进程-&gt;主进程(单向)</span></a></h3>
+<ul>
+<li>概述:在渲染器进程中ipcRenderer.send发送消息在主进程中使用ipcMain.on接收消息。</li>
+<li>常用于:在 Web中调用主进程的API，例如下面的这个需求:
+<ul>
+<li>需求:点击按钮后，在用户的D盘创建一个hello.txt文件，文件内容来自于用户输入。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>页面中添加相关元素，render.js中添加对应脚本</li>
+</ol>
+<p>index.html</p>
+<div class="language-html line-numbers-mode" data-highlighter="prismjs" data-ext="html"><pre v-pre><code><span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></span>
+<span class="line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> 向d盘写入hello.txt<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><p>render.js</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> btn2 <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"btn2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">const</span> input <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"input"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line">btn2<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">    toRenderVersions<span class="token punctuation">.</span><span class="token function">saveFile</span><span class="token punctuation">(</span>input<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>preload.js 中使用ipcRenderer.invoke('信道',参数) 发送消息，与主进程通信。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">//预加载脚本</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span> contextBridge <span class="token punctuation">,</span>ipcRenderer <span class="token punctuation">}</span> <span class="token operator">=</span><span class="token function">require</span> <span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span> </span>
+<span class="line"> </span>
+<span class="line">contextBridge<span class="token punctuation">.</span><span class="token function">exposeInMainWorld</span><span class="token punctuation">(</span><span class="token string">'toRenderVersions'</span><span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function-variable function">saveFile</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// 传入参数：信道，数据</span></span>
+<span class="line">        ipcRenderer<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'file-save'</span><span class="token punctuation">,</span>data<span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
+<li>主进程main.js使用ipcMain.on('信道',()=&gt;{})收到消息，触发函数执行</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">,</span> ipcMain<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span> writeFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">//引入node中的path路径</span></span>
+<span class="line"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 第一个参数event用不到 直接用—__省略</span></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">writeFile</span><span class="token punctuation">(</span><span class="token parameter">__<span class="token punctuation">,</span>data</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 写在固定磁盘目录下</span></span>
+<span class="line">    <span class="token function">writeFileSync</span><span class="token punctuation">(</span><span class="token string">'D:/hello.txt'</span><span class="token punctuation">,</span>data<span class="token punctuation">)</span></span>
+<span class="line">    </span>
+<span class="line">    <span class="token comment">// writeFileSync('./hello.txt',data)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> </span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token comment">// 使用预加载脚本</span></span>
+<span class="line">        <span class="token literal-property property">webPreferences</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">preload</span><span class="token operator">:</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span><span class="token string">'./preload.js'</span><span class="token punctuation">)</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">//通过ipc绑定事件 提供给预加载脚本使用</span></span>
+<span class="line">    ipcMain<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'file-save'</span><span class="token punctuation">,</span>writeFile<span class="token punctuation">)</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token string">'./pages/index.html'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token comment">//当app准备好后，执行createwindow创建窗口</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'ready'</span> <span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'应用加载完成'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-8-2-主进程与渲染进程的双向通信" tabindex="-1"><a class="header-anchor" href="#_1-8-2-主进程与渲染进程的双向通信"><span>1.8.2 主进程与渲染进程的双向通信</span></a></h3>
+<ul>
+<li>概述：渲染进程通过ipcRenderer.invoke 发送消停，主进程使用ipcMain.handle接收并处理消息。</li>
+<li>备注:ipcRender.invoke的返回值是Promise实例</li>
+<li>常用于:从渲染器进程调用主进程方法并等待结果，例如下面的这个需求:
+<ul>
+<li>需求:点击按钮从D盘读取hello.txt中的内容，并将结果呈现在页面上。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>页面中添加相关元素，render.js中添加对应脚本</li>
+</ol>
+<p>index.html</p>
+<p>···html
+<button id="btn3">读取D盘中的hello.txt</button></p>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line"></span>
+<span class="line">render.js</span>
+<span class="line"></span>
+<span class="line">```js</span>
+<span class="line">const btn3 = document.getElementById('btn3')</span>
+<span class="line"></span>
+<span class="line">// 异步类型不能使用 onclick 使用绑定事件</span>
+<span class="line">btn3.addEventListener('click',async()=>{</span>
+<span class="line">    let data = await toRenderVersions.readFile('D://hello.txt')</span>
+<span class="line">    document.body.innerHTML += `&lt;h2>${data}&lt;/h2>`</span>
+<span class="line">})</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>preload.js中使用ipcRenderer.invoke( '信道',参数)发送消息，与主进程通信。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">contextBridge<span class="token punctuation">.</span><span class="token function">exposeInMainWorld</span><span class="token punctuation">(</span><span class="token string">'toRenderVersions'</span><span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">readFile</span><span class="token punctuation">(</span><span class="token parameter">path</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">//传入参数： 信道，(数据)</span></span>
+<span class="line">        <span class="token keyword">return</span> ipcRenderer<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span><span class="token string">'file-read'</span><span class="token punctuation">,</span>path<span class="token punctuation">)</span> <span class="token comment">//调用，渲染进程与主进程的双向通道</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
+<li>主进程main.js使用ipcMain.handle('信道',()=&gt;{})接收消息，并执行函数返回数据</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span>app<span class="token punctuation">,</span>BrowserWindow<span class="token punctuation">,</span> ipcMain<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token punctuation">{</span> readFileSync <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token comment">//引入node中的path路径</span></span>
+<span class="line"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">readFile</span><span class="token punctuation">(</span><span class="token parameter">event<span class="token punctuation">,</span>path</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token keyword">return</span> <span class="token function">readFileSync</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token keyword">const</span> win <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token literal-property property">width</span><span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token literal-property property">height</span><span class="token operator">:</span><span class="token number">600</span><span class="token punctuation">,</span> </span>
+<span class="line">        <span class="token literal-property property">autoHideMenuBar</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span></span>
+<span class="line">        <span class="token comment">// 使用预加载脚本</span></span>
+<span class="line">        <span class="token literal-property property">webPreferences</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">            <span class="token literal-property property">preload</span><span class="token operator">:</span>path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span><span class="token string">'./preload.js'</span><span class="token punctuation">)</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line">    <span class="token comment">// 有返回值的绑定</span></span>
+<span class="line">    ipcMain<span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span><span class="token string">'file-read'</span><span class="token punctuation">,</span>readFile<span class="token punctuation">)</span></span>
+<span class="line">    win<span class="token punctuation">.</span><span class="token function">loadFile</span><span class="token punctuation">(</span><span class="token string">'./pages/index.html'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"><span class="token comment">//当app准备好后，执行createwindow创建窗口</span></span>
+<span class="line">app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span> <span class="token string">'ready'</span> <span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">createwindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
+<span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'应用加载完成'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_1-8-3-主进程-渲染进程-单项通信" tabindex="-1"><a class="header-anchor" href="#_1-8-3-主进程-渲染进程-单项通信"><span>1.8.3 主进程-&gt;渲染进程（单项通信）</span></a></h3>
+<ul>
+<li>概述:主进程使用win.webContents.send发送消息，渲染进程通过ipcRenderer.on处理消息，</li>
+<li>常用于:从主进程主动发送消息给渲染进程，例如下面的这个需求:
+<ul>
+<li>需求:应用加载6秒钟后，主动给渲染进程发送一个消息，内容是:你好啊!</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>render.js 中添加对应脚本</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// window 绑定事件</span></span>
+<span class="line">window<span class="token punctuation">.</span><span class="token function-variable function">onload</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    toRenderVersions<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span>logMessage<span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 绑定的回调函数</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token function-variable function">logMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">event<span class="token punctuation">,</span>str</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span>str<span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="2">
+<li>preload.js中使用ipcRenderer.on('信道'，回调)接收消息，并配置回调函数.</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line">contextBridge<span class="token punctuation">.</span><span class="token function">exposeInMainWorld</span><span class="token punctuation">(</span><span class="token string">'toRenderVersions'</span><span class="token punctuation">,</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 由渲染页面传入回调函数</span></span>
+<span class="line">    <span class="token function-variable function">getMessage</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">{</span></span>
+<span class="line">        <span class="token comment">// 绑定回调函数 提供给主进程调用</span></span>
+<span class="line">        <span class="token keyword">return</span> ipcRenderer<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span>callback<span class="token punctuation">)</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">)</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
+<li>主进程中，在合适的时候，使用win.webContents.send('信道',数据)发送消息。</li>
+</ol>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// 调用预加载文件中 message 方法</span></span>
+<span class="line">    win<span class="token punctuation">.</span>webContents<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span><span class="token string">'你好啊'</span><span class="token punctuation">)</span></span>
+<span class="line"><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">6000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_1-9-打包应用" tabindex="-1"><a class="header-anchor" href="#_1-9-打包应用"><span>1.9 打包应用</span></a></h2>
+<p>使用electron-builder打包应用</p>
+<ol>
+<li>安装electron-builder :</li>
+</ol>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> <span class="token function">install</span> electron-builder <span class="token parameter variable">-D</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><ol start="2">
+<li>在package.json中进行相关配置，具体配置如下</li>
+</ol>
+<p>备注:json文件不支持注释，使用时请去掉所有注释。</p>
+<div class="language-json line-numbers-mode" data-highlighter="prismjs" data-ext="json"><pre v-pre><code><span class="line"><span class="token punctuation">{</span></span>
+<span class="line">  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"my-electron-app"</span><span class="token punctuation">,</span><span class="token comment">//应用程序的名称</span></span>
+<span class="line">  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span><span class="token comment">//应用程序的版本</span></span>
+<span class="line">  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"my first electron app"</span><span class="token punctuation">,</span><span class="token comment">//应用程序的描述</span></span>
+<span class="line">  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"main.js"</span><span class="token punctuation">,</span><span class="token comment">//应用程序入口文件</span></span>
+<span class="line">  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"chcp 65001 &amp;&amp; nodemon --exec electron ."</span><span class="token punctuation">,</span><span class="token comment">//使用`electron .`命令启动应用程序</span></span>
+<span class="line">    <span class="token property">"build"</span><span class="token operator">:</span><span class="token string">"electron-builder"</span><span class="token comment">//使用`electron-builder`打包应用程序，生成安装包</span></span>
+<span class="line">  <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"build"</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"appId"</span><span class="token operator">:</span><span class="token string">"com.ylx.hahaha"</span><span class="token punctuation">,</span><span class="token comment">//应用程序唯一标识符</span></span>
+<span class="line">    <span class="token comment">//打包windows平台安装包的具体配置</span></span>
+<span class="line">    <span class="token property">"win"</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">      <span class="token property">"icon"</span><span class="token operator">:</span><span class="token string">"./logo.ico"</span><span class="token punctuation">,</span><span class="token comment">//应用图标</span></span>
+<span class="line">      <span class="token property">"target"</span><span class="token operator">:</span><span class="token punctuation">[</span></span>
+<span class="line">        <span class="token punctuation">{</span></span>
+<span class="line">          <span class="token property">"target"</span><span class="token operator">:</span><span class="token string">"nsis"</span><span class="token punctuation">,</span><span class="token comment">//指定使用 NSIS 作为安装程序格式(.exe安装包文件)</span></span>
+<span class="line">          <span class="token property">"arch"</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token string">"x64"</span><span class="token punctuation">]</span><span class="token comment">//生成64 位安装包</span></span>
+<span class="line">        <span class="token punctuation">}</span></span>
+<span class="line">      <span class="token punctuation">]</span></span>
+<span class="line">    <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">    <span class="token property">"nsis"</span><span class="token operator">:</span><span class="token punctuation">{</span></span>
+<span class="line">      <span class="token property">"oneClick"</span><span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span><span class="token comment">//设置为`false`使安装程序显示安装向导界面，而不是一键安装</span></span>
+<span class="line">      <span class="token property">"perMachine"</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">//允许每台机器安装一次，而不是每个用户都安装</span></span>
+<span class="line">      <span class="token property">"allowToChangeInstallationDirectory"</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token comment">//允许用户在安装过程中选择安装目录</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line">  <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"ylx"</span><span class="token punctuation">,</span><span class="token comment">//作者信息</span></span>
+<span class="line">  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span><span class="token comment">//许可证信息</span></span>
+<span class="line">  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"electron"</span><span class="token operator">:</span> <span class="token string">"^32.0.1"</span><span class="token punctuation">,</span><span class="token comment">//开发依赖中的Electron版本</span></span>
+<span class="line">    <span class="token property">"electron-builder"</span><span class="token operator">:</span> <span class="token string">"^24.13.3"</span><span class="token comment">//开发依赖中的‘electron-builder’版本</span></span>
+<span class="line">  <span class="token punctuation">}</span><span class="token punctuation">,</span></span>
+<span class="line">  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token property">"nodemon"</span><span class="token operator">:</span> <span class="token string">"^3.1.4"</span></span>
+<span class="line">  <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ol start="3">
+<li>执行打包命令：</li>
+</ol>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre v-pre><code><span class="line"><span class="token function">npm</span> run build</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div></div></div><h2 id="_1-10-electron-vite" tabindex="-1"><a class="header-anchor" href="#_1-10-electron-vite"><span>1.10 electron-vite</span></a></h2>
+<p>electron-vite 是一个新型构建工具，旨在为 Electron 提供更快、更精简的开发体验。它主要由五部分组成：</p>
+<ol>
+<li>
+<p>一套构建指令，它使用 Vite 打包你的代码，并且它能够处理 Electron 的独特环境，包括 Node.js 和浏览器环境。</p>
+</li>
+<li>
+<p>集中配置主进程、渲染器和预加载脚本的 Vite 配置，并针对 Electron 的独特环境进行预配置。</p>
+</li>
+<li>
+<p>为渲染器提供快速模块热替换（HMR）支持，为主进程和预加载脚本提供热重载支持，极大地提高了开发效率。</p>
+</li>
+<li>
+<p>优化 Electron 主进程资源处理。</p>
+</li>
+<li>
+<p>使用 V8 字节码保护源代码。</p>
+</li>
+</ol>
+</div></template>
+
+

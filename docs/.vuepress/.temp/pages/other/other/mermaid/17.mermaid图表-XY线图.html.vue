@@ -1,0 +1,306 @@
+<template><div><h1 id="十六、xy图表" tabindex="-1"><a class="header-anchor" href="#十六、xy图表"><span>十六、XY图表</span></a></h1>
+<blockquote>
+<p>在mermaid-js上下文中，XY图表是一个综合的图表模块，它包含各种类型的图表，这些图表利用x轴和y轴来表示数据。目前，它包括两种基本的图表类型：条形图和折线图。这些图表旨在直观地显示和分析涉及两个数值变量的数据。</p>
+</blockquote>
+<blockquote>
+<p>需要注意的是，虽然当前的mermaid-js实现包括这两种图表类型，但该框架的设计是动态的和可适应的。因此，它具有扩展和在未来包含其他图表类型的能力。这意味着用户可以期望在XY图表模块中有一套不断发展的图表选项，随着时间的推移引入新的图表类型，满足各种数据可视化需求。</p>
+</blockquote>
+<h2 id="_16-1-例子" tabindex="-1"><a class="header-anchor" href="#_16-1-例子"><span>16.1 例子</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">xychart-beta</span>
+<span class="line">    title "Sales Revenue"</span>
+<span class="line">    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]</span>
+<span class="line">    y-axis "Revenue (in $)" 4000 --> 11000</span>
+<span class="line">    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]</span>
+<span class="line">    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>展示图</li>
+</ul>
+
+          <pre class="mermaid" id="mermaid-sakz0z1">
+            xychart-beta
+    title "Sales Revenue"
+    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+    y-axis "Revenue (in $)" 4000 --> 11000
+    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+
+          </pre>
+        <h2 id="_16-2-语法" tabindex="-1"><a class="header-anchor" href="#_16-2-语法"><span>16.2 语法</span></a></h2>
+<p>信息</p>
+<p>所有只包含一个单词的文本值都可以不写入 <code v-pre>&quot;</code> 。如果文本值中包含多个单词，特别是包含空格，则将该值括在 <code v-pre>&quot;</code>中</p>
+<h3 id="_16-2-1-指引" tabindex="-1"><a class="header-anchor" href="#_16-2-1-指引"><span>16.2.1 指引</span></a></h3>
+<p>图表可以水平或垂直绘制，默认值为垂直。</p>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">xychart-beta horizontal</span>
+<span class="line">...</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_16-2-2-标题" tabindex="-1"><a class="header-anchor" href="#_16-2-2-标题"><span>16.2.2 标题</span></a></h3>
+<p>标题是图表的简短描述，它将始终呈现在图表的顶部。</p>
+<ul>
+<li>例子</li>
+</ul>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">xychart-beta</span>
+<span class="line">    title "This is a simple example"</span>
+<span class="line">    ...</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote>
+<p>如果标题是单个单词，则不需要使用 <code v-pre>&quot;</code> ，但如果它有空格 <code v-pre>&quot;</code> 则需要</p>
+</blockquote>
+<h3 id="_16-2-3-x轴" tabindex="-1"><a class="header-anchor" href="#_16-2-3-x轴"><span>16.2.3 x轴</span></a></h3>
+<p>x轴主要用作分类值，但在需要时也可以用作数值范围值。</p>
+<ol>
+<li><code v-pre>x-axis title min --&gt; max</code>  x轴将作为给定范围的数字</li>
+<li><code v-pre>x-axis &quot;title with space&quot; [cat1, &quot;cat2 with space&quot;, cat3]</code>  x轴如果分类，分类是文本类型</li>
+</ol>
+<h3 id="_16-2-4-y轴" tabindex="-1"><a class="header-anchor" href="#_16-2-4-y轴"><span>16.2.4 y轴</span></a></h3>
+<p>y轴用于表示数值范围值，它不能具有分类值。</p>
+<ol>
+<li><code v-pre>y-axis title min --&gt; max</code></li>
+<li><code v-pre>y-axis title</code> 它将只添加标题，范围将自动从数据生成。</li>
+</ol>
+<blockquote>
+<p>x和y轴都是可选的，如果没有提供，我们将尝试创建范围</p>
+</blockquote>
+<h3 id="_16-2-5-折线图" tabindex="-1"><a class="header-anchor" href="#_16-2-5-折线图"><span>16.2.5 折线图</span></a></h3>
+<p>折线图提供了图形化描绘线条的能力。</p>
+<ol>
+<li><code v-pre>line [2.3, 45, .98, -3.4]</code> 它可以包含所有有效的数值。</li>
+</ol>
+<h3 id="_16-2-6-条形图" tabindex="-1"><a class="header-anchor" href="#_16-2-6-条形图"><span>16.2.6 条形图</span></a></h3>
+<p>条形图提供了图形化描述条形图的功能。</p>
+<ol>
+<li><code v-pre>bar [2.3, 45, .98, -3.4]</code> 它可以包含所有有效的数值。</li>
+</ol>
+<p>只需要两个东西：图表名称（ <code v-pre>xychart-beta</code> ）和一个数据集。因此，您将能够用简单的配置绘制图表，例如</p>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">xychart-beta</span>
+<span class="line">    line [+1.3, .6, 2.4, -.34]</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_16-3-图配置" tabindex="-1"><a class="header-anchor" href="#_16-3-图配置"><span>16.3 图配置</span></a></h2>
+<h3 id="_16-3-1-基础配置" tabindex="-1"><a class="header-anchor" href="#_16-3-1-基础配置"><span>16.3.1 基础配置</span></a></h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>宽度</td>
+<td>图表宽度</td>
+<td>700</td>
+</tr>
+<tr>
+<td>高度</td>
+<td>图表高度</td>
+<td>500</td>
+</tr>
+<tr>
+<td>titlePadding</td>
+<td>标题的顶部和底部填充</td>
+<td>10</td>
+</tr>
+<tr>
+<td>titleFontSize</td>
+<td>标题字体大小</td>
+<td>20</td>
+</tr>
+<tr>
+<td>showTitle</td>
+<td>是否显示标题</td>
+<td>true</td>
+</tr>
+<tr>
+<td>xAxis</td>
+<td>xAxis配置</td>
+<td>AxisConfig</td>
+</tr>
+<tr>
+<td>yAxis</td>
+<td>yAxis配置</td>
+<td>AxisConfig</td>
+</tr>
+<tr>
+<td>chartOrientation</td>
+<td>'vertical' or 'horizontal'</td>
+<td>'vertical'</td>
+</tr>
+<tr>
+<td>plotReservedSpacePercent</td>
+<td>最小的空间图将占用内部的图表</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_16-3-2-axisconfig-配置" tabindex="-1"><a class="header-anchor" href="#_16-3-2-axisconfig-配置"><span>16.3.2 AxisConfig 配置</span></a></h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>showLabel</td>
+<td>显示轴标签或刻度值</td>
+<td>true</td>
+</tr>
+<tr>
+<td>labelFontSize</td>
+<td>要绘制的标签的字体大小</td>
+<td>14</td>
+</tr>
+<tr>
+<td>labelPadding</td>
+<td>标签的顶部和底部填充</td>
+<td>5</td>
+</tr>
+<tr>
+<td>showTitle</td>
+<td>轴标题是否显示</td>
+<td>true</td>
+</tr>
+<tr>
+<td>titleFontSize</td>
+<td>轴标题字体大小</td>
+<td>16</td>
+</tr>
+<tr>
+<td>titlePadding</td>
+<td>轴标题的上下填充</td>
+<td>5</td>
+</tr>
+<tr>
+<td>showTick</td>
+<td>勾选是否显示</td>
+<td>true</td>
+</tr>
+<tr>
+<td>tickLength</td>
+<td>滴答声会持续多久</td>
+<td>5</td>
+</tr>
+<tr>
+<td>tickWidth</td>
+<td>刻度的宽度是多少</td>
+<td>2</td>
+</tr>
+<tr>
+<td>showAxisLine</td>
+<td>是否显示中轴线</td>
+<td>true</td>
+</tr>
+<tr>
+<td>axisLineWidth</td>
+<td>轴线的厚度</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_16-4-图表主题变量" tabindex="-1"><a class="header-anchor" href="#_16-4-图表主题变量"><span>16.4 图表主题变量</span></a></h2>
+<p>xychart的主题位于xychart属性中，因此要设置变量，请使用此语法 <code v-pre>%%{init: {&quot; themeVariables&quot;: {&quot; xychart &quot;: {&quot;titleColor&quot;: &quot;#ff0000&quot;}}}}%%</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>写成backgroundColor</td>
+<td>整个图表的背景色</td>
+</tr>
+<tr>
+<td>titleColor</td>
+<td>标题文本的颜色</td>
+</tr>
+<tr>
+<td>xAxisLabelColor</td>
+<td>x轴标签的颜色</td>
+</tr>
+<tr>
+<td>xAxisTitleColor</td>
+<td>x轴标题的颜色</td>
+</tr>
+<tr>
+<td>xAxisTickColor</td>
+<td>x轴刻度的颜色</td>
+</tr>
+<tr>
+<td>xAxisLineColor</td>
+<td>x轴的颜色</td>
+</tr>
+<tr>
+<td>yAxisLabelColor</td>
+<td>y轴标签的颜色</td>
+</tr>
+<tr>
+<td>yAxisTitleColor</td>
+<td>y轴标题的颜色</td>
+</tr>
+<tr>
+<td>yAxisTickColor</td>
+<td>y轴刻度的颜色</td>
+</tr>
+<tr>
+<td>yAxisLineColor</td>
+<td>y轴的颜色</td>
+</tr>
+<tr>
+<td>plotColorPalette</td>
+<td>用逗号分隔的一串颜色。<code v-pre>#f3456, #43445</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_16-5-关于配置和主题的示例" tabindex="-1"><a class="header-anchor" href="#_16-5-关于配置和主题的示例"><span>16.5 关于配置和主题的示例</span></a></h2>
+<ul>
+<li>代码</li>
+</ul>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre v-pre><code><span class="line">---</span>
+<span class="line">config:</span>
+<span class="line">    xyChart:</span>
+<span class="line">        width: 900</span>
+<span class="line">        height: 600</span>
+<span class="line">    themeVariables:</span>
+<span class="line">        xyChart:</span>
+<span class="line">            titleColor: "#ff0000"</span>
+<span class="line">---</span>
+<span class="line">xychart-beta</span>
+<span class="line">    title "Sales Revenue"</span>
+<span class="line">    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]</span>
+<span class="line">    y-axis "Revenue (in $)" 4000 --> 11000</span>
+<span class="line">    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]</span>
+<span class="line">    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><ul>
+<li>展示图</li>
+</ul>
+
+          <pre class="mermaid" id="mermaid-gphv0ug">
+            ---
+config:
+    xyChart:
+        width: 900
+        height: 600
+    themeVariables:
+        xyChart:
+            titleColor: "#ff0000"
+---
+xychart-beta
+    title "Sales Revenue"
+    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+    y-axis "Revenue (in $)" 4000 --> 11000
+    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+
+          </pre>
+        </div></template>
+
+

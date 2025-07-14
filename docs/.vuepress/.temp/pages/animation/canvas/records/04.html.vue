@@ -1,0 +1,241 @@
+<template><div><h1 id="坐标与象限" tabindex="-1"><a class="header-anchor" href="#坐标与象限"><span>坐标与象限</span></a></h1>
+<p><strong>前言</strong></p>
+<p>在进行canvas绘图的过程中我遇到了一个问题：我想将圆心与圆的边线上的某个点进行连线，我需要基于圆心坐标、圆半径和连线的角度去计算圆边点的坐标，这实际就是测量学中的坐标正算。</p>
+<h2 id="_1-坐标正算介绍" tabindex="-1"><a class="header-anchor" href="#_1-坐标正算介绍"><span>1.坐标正算介绍</span></a></h2>
+<p>坐标正算的概念如下:</p>
+<blockquote>
+<p>根据直线起点的坐标、直线的水平距离及其坐标方位角来计算直线终点的坐标，称为坐标正算。</p>
+</blockquote>
+<p>坐标正算的计算公式 如下：</p>
+<p><img src="/animation/canvas/records/001.png" alt=""></p>
+<p><img src="/animation/canvas/records/002.png" alt=""></p>
+<h2 id="_2-坐标正算的原理" tabindex="-1"><a class="header-anchor" href="#_2-坐标正算的原理"><span>2.坐标正算的原理</span></a></h2>
+<p><img src="/animation/canvas/records/003.png" alt=""></p>
+<p>在上图中，已知A点的坐标，要求B点的坐标。可以看出用A点的坐标减去∆x、∆y这两个值就可以算出B点的坐标；而∆x、∆y这两个值都可以用三角函数<code v-pre>sin(R)</code>和<code v-pre>cos(R)</code>算出 ；R是直线AB的象限角，可以通过方位角αAB计算出象限角R。</p>
+<p>因此坐标正算的步骤如下：</p>
+<p>第一步，根据方位角计算出象限角</p>
+<p>第二步，使用三角函数计算出坐标增量</p>
+<p>第三步，用起始点坐标加减坐标增量得到未知的结束点坐标</p>
+<h2 id="_3-坐标方位角与象限角" tabindex="-1"><a class="header-anchor" href="#_3-坐标方位角与象限角"><span>3.坐标方位角与象限角</span></a></h2>
+<p>我们先了解一下测量学中坐标方位角和象限角的概念：</p>
+<blockquote>
+<p>坐标方位角是平面直角坐标系中某一直线与坐标主轴（X轴正北向）之间的夹角，从主轴起算，顺时针方向旋转。</p>
+</blockquote>
+<blockquote>
+<p>以基本方向的北端或南段算起，顺时针或逆时针方向量至直线的水平角，称为象限角。</p>
+</blockquote>
+<p>但是注意canvas坐标系与测量学的平面直角坐标系是有区别的，</p>
+<ul>
+<li>canvas坐标系中向右为x轴正方向，向下为y轴正方向</li>
+<li>测量平面直角坐标系中向上为x轴正方向，向右为y轴正方向</li>
+</ul>
+<p>因此在canvas当中<strong>坐标方位角</strong>为从x轴正方向开始顺时针旋转到某一直线的角度；<strong>象限角</strong>为某一直线沿顺时针或逆时针到x轴的角度。</p>
+<p><img src="/animation/canvas/records/004.png" alt=""></p>
+<p>象限角与坐标方位角的转换方式如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>坐标方位角及其所在的象限</strong></td>
+<td><strong>方位角转象限角</strong></td>
+<td><strong>象限角转方位角</strong></td>
+</tr>
+<tr>
+<td>0° ~ 90° （第一象限）</td>
+<td>R = α</td>
+<td>α = R</td>
+</tr>
+<tr>
+<td>90° ~ 180° （第二象限）</td>
+<td>R = 180° - α</td>
+<td>α = 180° - R</td>
+</tr>
+<tr>
+<td>180° ~ 270° （第三象限）</td>
+<td>R = α - 180°</td>
+<td>α = R + 180°</td>
+</tr>
+<tr>
+<td>270° ~ 360° （第四象限）</td>
+<td>R = 360° - α</td>
+<td>α = 360° - R</td>
+</tr>
+</tbody>
+</table>
+<p>转换成代码就是：</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"></span>
+<span class="line">  <span class="token keyword">if</span> <span class="token punctuation">(</span> α <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> α <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">R</span> <span class="token operator">=</span> α</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>α <span class="token operator">>=</span> <span class="token number">90</span> <span class="token operator">&amp;&amp;</span> α <span class="token operator">&lt;</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">R</span> <span class="token operator">=</span> <span class="token number">180</span> <span class="token operator">-</span> angle</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>α <span class="token operator">>=</span> <span class="token number">180</span> <span class="token operator">&amp;&amp;</span> α <span class="token operator">&lt;</span> <span class="token number">270</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">R</span> <span class="token operator">=</span>  α <span class="token operator">-</span> <span class="token number">180</span></span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">R</span> <span class="token operator">=</span>  <span class="token number">360</span> <span class="token operator">-</span>  α</span>
+<span class="line">  <span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_4-通过三角函数求坐标增量" tabindex="-1"><a class="header-anchor" href="#_4-通过三角函数求坐标增量"><span>4.通过三角函数求坐标增量</span></a></h2>
+<p>坐标增量∆x和∆y可以通过三角函数计算出来，公式如下：</p>
+<p>∆x = cos(θ) * L</p>
+<p>∆y = sin(θ) * L</p>
+<p>公式的推导过程如下：</p>
+<p>下图中的三角形ABa是一个直角三角形所以可以使用三角函数。因为<code v-pre>sin() = 对边/斜边``cos() = 临边/斜边</code>，所以<code v-pre>sin(R) = ∆y / L</code> <code v-pre>cos(R) = ∆x / L</code>。最后就可以推导出 <code v-pre>∆x = cos(θ) * 300</code> <code v-pre>∆y = sin(θ) * 300</code>。</p>
+<p><img src="/animation/canvas/records/005.png" alt=""></p>
+<p>上面的公式可以用如下的代码表示:</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token comment">// l是线段的长度</span></span>
+<span class="line">∆x <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span><span class="token constant">R</span> <span class="token operator">*</span> <span class="token number">180</span> <span class="token operator">/</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token constant">L</span></span>
+<span class="line">∆y <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">sin</span><span class="token punctuation">(</span><span class="token constant">R</span> <span class="token operator">*</span> <span class="token number">180</span> <span class="token operator">/</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token constant">L</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>注意：JS的<code v-pre>Math.cos()</code>和<code v-pre>Math.sin()</code>方法都只接收弧度制角度作为参数 ，所以普通角度要先乘以 π / 180° 转换为弧度制。</p>
+<h2 id="_5-起始点坐标加减坐标增量" tabindex="-1"><a class="header-anchor" href="#_5-起始点坐标加减坐标增量"><span>5. 起始点坐标加减坐标增量</span></a></h2>
+<p>在上一节中我们计算出了坐标增量，现在只需要用起始点A的坐标减去坐标增量就可以求出B点的坐标。</p>
+<p><img src="/animation/canvas/records/005.png" alt=""></p>
+<p>由于在上图中B点位于A点的左上方，而在canvas坐标系中越往左x坐标越小，越往上y坐标越小，所以这里要用B点的坐标减坐标增量。</p>
+<p>XB = XA - ∆x</p>
+<p>YB = YA - ∆y</p>
+<p>但是难道所有情况下都是这样计算吗？答案显然是否定的。例如下面的例子中B点就在A点的右上方，因此根据canvas坐标系的规则此时的计算方式就应该是：</p>
+<p>XB = XA + ∆x</p>
+<p>YB = YA - ∆y</p>
+<p><img src="/animation/canvas/records/006.png" alt=""></p>
+<p>实际上对于坐标增量有如下的两种解释：</p>
+<p><strong>（1）坐标增量绝对值说</strong></p>
+<p>这种理解的核心观点是：“坐标增量∆x、∆y代表两条线段的长度，所以它们都是正数”。但是与此同时在根据线段的坐标方位角不同，未知点的计算方式也不同，可能是已知点坐标减坐标增量，也可能是已知点坐标加坐标增量。所以计算公式如：</p>
+<p>XB = XA ± ∆x</p>
+<p>YB = YA ± ∆y</p>
+<p>方位角与计算方式的关系如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>坐标方位角及其所在的象限</strong></td>
+<td><strong>未知点的计算方式</strong></td>
+</tr>
+<tr>
+<td>0° ~ 90° （第一象限）</td>
+<td>XB = XA + ∆x<br><br>YB = YA + ∆y</td>
+</tr>
+<tr>
+<td>90° ~ 180° （第二象限）</td>
+<td>XB = XA - ∆x<br><br>YB = YA + ∆y</td>
+</tr>
+<tr>
+<td>180° ~ 270° （第三象限）</td>
+<td>XB = XA - ∆x<br><br>YB = YA - ∆y</td>
+</tr>
+<tr>
+<td>270° ~ 360° （第四象限）</td>
+<td>XB = XA + ∆x<br><br>YB = YA - ∆y</td>
+</tr>
+</tbody>
+</table>
+<p><strong>（2）坐标增量有符号说</strong></p>
+<p>这种解释的核心是“坐标增量是线段两点的坐标差值，因此坐标增量有正有负”。所以计算公式为：</p>
+<p>XB = XA + ∆x</p>
+<p>YB = YA + ∆y</p>
+<p>而坐标增量的符号与坐标方位角有关，它们的关系如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>坐标方位角及其所在的象限</strong></td>
+<td><strong>∆x的符号</strong></td>
+<td><strong>∆y的符号</strong></td>
+</tr>
+<tr>
+<td>0° ~ 90° （第一象限）</td>
+<td>+</td>
+<td>+</td>
+</tr>
+<tr>
+<td>90° ~ 180° （第二象限）</td>
+<td>-</td>
+<td>+</td>
+</tr>
+<tr>
+<td>180° ~ 270° （第三象限）</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>270° ~ 360° （第四象限）</td>
+<td>+</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>当然无论基于上面的那种解释，最后实际上都是殊途同归，上面的公式可以转换为如下的代码：</p>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"></span>
+<span class="line">  <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">XB</span>  <span class="token operator">=</span> <span class="token constant">XA</span> <span class="token operator">+</span> ∆x</span>
+<span class="line">    <span class="token constant">YB</span>  <span class="token operator">=</span> <span class="token constant">YA</span> <span class="token operator">+</span> ∆y</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">90</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">XB</span>  <span class="token operator">=</span> <span class="token constant">XA</span> <span class="token operator">-</span> ∆x</span>
+<span class="line">    <span class="token constant">YB</span>  <span class="token operator">=</span> <span class="token constant">YA</span> <span class="token operator">+</span> ∆y</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">180</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">270</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">XB</span>  <span class="token operator">=</span> <span class="token constant">XA</span> <span class="token operator">-</span> ∆x</span>
+<span class="line">    <span class="token constant">YB</span>  <span class="token operator">=</span> <span class="token constant">YA</span> <span class="token operator">-</span> ∆y</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token constant">XB</span>  <span class="token operator">=</span> <span class="token constant">XA</span> <span class="token operator">+</span> ∆x</span>
+<span class="line">    <span class="token constant">YB</span>  <span class="token operator">=</span> <span class="token constant">YA</span> <span class="token operator">-</span> ∆y</span>
+<span class="line">  <span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_6-封装坐标正算的方法" tabindex="-1"><a class="header-anchor" href="#_6-封装坐标正算的方法"><span>6.封装坐标正算的方法</span></a></h2>
+<div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre v-pre><code><span class="line"><span class="token doc-comment comment">/**</span>
+<span class="line"> *</span>
+<span class="line"> * <span class="token keyword">@param</span> <span class="token class-name"><span class="token punctuation">{</span>Array<span class="token punctuation">}</span></span> <span class="token parameter">startPoint</span> 起始点坐标</span>
+<span class="line"> * <span class="token keyword">@param</span> <span class="token class-name"><span class="token punctuation">{</span>number<span class="token punctuation">}</span></span> <span class="token parameter">length</span> 线段长度</span>
+<span class="line"> * <span class="token keyword">@param</span> <span class="token class-name"><span class="token punctuation">{</span>number<span class="token punctuation">}</span></span> <span class="token parameter">angle</span> 坐标方位角</span>
+<span class="line"> */</span></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">calcCoordinate</span><span class="token punctuation">(</span><span class="token parameter">startPoint<span class="token punctuation">,</span> length<span class="token punctuation">,</span> angle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">  <span class="token comment">// 第一步:计算象限角</span></span>
+<span class="line">  <span class="token keyword">let</span> qAngle <span class="token comment">// 象限角</span></span>
+<span class="line">  <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    qAngle <span class="token operator">=</span> angle</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">90</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    qAngle <span class="token operator">=</span> <span class="token number">180</span> <span class="token operator">-</span> angle</span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">180</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">270</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    qAngle <span class="token operator">=</span> angle <span class="token operator">-</span> <span class="token number">180</span></span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span></span>
+<span class="line">    qAngle <span class="token operator">=</span> <span class="token number">360</span> <span class="token operator">-</span> angle</span>
+<span class="line">  <span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line">  <span class="token comment">// 第二步:计算坐标增量</span></span>
+<span class="line">  <span class="token keyword">const</span> _x <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span><span class="token punctuation">(</span>qAngle <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token operator">*</span> length</span>
+<span class="line">  <span class="token keyword">const</span> _y <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">sin</span><span class="token punctuation">(</span><span class="token punctuation">(</span>qAngle <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token constant">PI</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token operator">*</span> length</span>
+<span class="line"></span>
+<span class="line">  <span class="token comment">// 第三步:求未知点坐标</span></span>
+<span class="line">  <span class="token keyword">let</span> result</span>
+<span class="line">  <span class="token keyword">const</span> <span class="token punctuation">[</span>x<span class="token punctuation">,</span> y<span class="token punctuation">]</span> <span class="token operator">=</span> startPoint</span>
+<span class="line">  <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    result <span class="token operator">=</span> <span class="token punctuation">[</span>x <span class="token operator">+</span> _x<span class="token punctuation">,</span> y <span class="token operator">+</span> _y<span class="token punctuation">]</span></span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">90</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">180</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    result <span class="token operator">=</span> <span class="token punctuation">[</span>x <span class="token operator">-</span> _x<span class="token punctuation">,</span> y <span class="token operator">+</span> _y<span class="token punctuation">]</span></span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>angle <span class="token operator">>=</span> <span class="token number">180</span> <span class="token operator">&amp;&amp;</span> angle <span class="token operator">&lt;</span> <span class="token number">270</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    result <span class="token operator">=</span> <span class="token punctuation">[</span>x <span class="token operator">-</span> _x<span class="token punctuation">,</span> y <span class="token operator">-</span> _y<span class="token punctuation">]</span></span>
+<span class="line">  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span></span>
+<span class="line">    result <span class="token operator">=</span> <span class="token punctuation">[</span>x <span class="token operator">+</span> _x<span class="token punctuation">,</span> y <span class="token operator">-</span> _y<span class="token punctuation">]</span></span>
+<span class="line">  <span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line">  <span class="token keyword">return</span> result</span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></template>
+
+

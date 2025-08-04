@@ -37,7 +37,10 @@ export default defineUserConfig({
     title: "赵建辉的前端笔记整理",
     // 站点的描述
     description: "前端的基础的html,css,js,进阶的ts,es,sass,less,也有vue,react等框架,也包含node.js后端处理",
+    
 
+    // dev配置项
+    port:8008,
  
     // 主题配置
     theme: defaultTheme({
@@ -173,23 +176,6 @@ export default defineUserConfig({
                 ],
             },
             {
-                text: "UI库",
-                children: [
-                    {
-                        text: "Element",
-                        link: "/UILibrary/element/",
-                    },
-                    {
-                        text: "Ant Design",
-                        link: "/UILibrary/ant/",
-                    },
-                    {
-                        text: "vant",
-                        link: "/UILibrary/vant/",
-                    },
-                ],
-            },
-            {
                 text: "JS后端",
                 children: [
                     {
@@ -201,7 +187,7 @@ export default defineUserConfig({
                         link: "/backend/senior/",
                     },
                     {
-                        text: "引用包记录",
+                        text: "依赖包记录",
                         link: "/backend/quote/",
                     },
                 ],
@@ -397,7 +383,7 @@ export default defineUserConfig({
                 {
                     text: "promise学习",
                     prefix: 'promise/',
-                    children:["01.md", "02.md","03.md","04.md"],
+                    children:["01.md", "02.md","03.md","04.md","05.md"],
                 },
             ],
             "/script/plugin/": [
@@ -651,7 +637,7 @@ export default defineUserConfig({
                 {
                     text: "cocos基础",
                     prefix: 'base/',
-                    children: ["01.md","02.md","03.md"],
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md"],
                 },
                 {
                     text: "cocos日常记录",
@@ -660,58 +646,13 @@ export default defineUserConfig({
                 },
             ],
             
-
-
-            /* ==============================  UI库相关  =============================== */
-            "/UILibrary/element/": [
-                {
-                    text: "ElementUI(VueUI库)",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "ElementUI-plus",
-                    prefix: 'plus/',
-                    children: [],
-                },
-                {
-                    text: "Element日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
-            "/UILibrary/ant/": [
-                {
-                    text: "Ant Design(ReactUI库)",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "Ant Design日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
-            "/UILibrary/vant/": [
-                {
-                    text: "vant(移动端UI库)",
-                    prefix: 'base/',
-                    children: [],
-                },
-                {
-                    text: "Element日常记录",
-                    prefix: 'records/',
-                    children:[],
-                },
-            ],
             
             /* ==============================  JS后端  =============================== */
             "/backend/node/": [
                 {
                     text: "node基础",
                     prefix: 'base/',
-                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md",
-                        "11.md","12.md"],
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md","10.md"],
                 },
                 {
                     text: "npm使用",
@@ -731,25 +672,16 @@ export default defineUserConfig({
             ],
             "/backend/senior/": [
                 {
-                    text: "express",
-                    prefix: 'express/',
-                    children: ["01.md", "02.md","03.md","04.md", "05.md","06.md","07.md","08.md"],
-                },
-                {
-                    text: "koa2",
-                    prefix: 'koa/',
-                    children:[],
+                    text: "egg.js",
+                    prefix: 'egg/',
+                    children: ["01.md","02.md","03.md","04.md","05.md"],
                 },
                 {
                     text: "nest.js",
                     prefix: 'nest/',
-                    children: [],
+                    children: ["01.md","02.md","03.md"],
                 },
-                {
-                    text: "egg.js",
-                    prefix: 'egg/',
-                    children: [],
-                },
+               
                 {
                     text: "框架日常记录",
                     prefix: 'records/',
@@ -758,14 +690,19 @@ export default defineUserConfig({
             ],
             "/backend/quote/": [
                 {
-                    text: "测试框架",
+                    text: "测试依赖",
                     prefix: 'test/',
                     children: ["01.md", "02.md"],
                 },
                 {
-                    text: "爬虫框架",
+                    text: "爬虫依赖",
                     prefix: 'crawler/',
                     children: ["01.md", "02.md"],
+                },
+                {
+                    text: "接口依赖",
+                    prefix: 'api/',
+                    children: ["01.md"],
                 },
             ],
             

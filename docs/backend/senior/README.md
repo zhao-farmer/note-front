@@ -1,11 +1,7 @@
 # node.js web框架 
 
-- 基础学习笔记
+1. 学习课程
 
-[千锋教育前端Node.JS全套视频教程，快速入门nodejs教程完整版](https://www.bilibili.com/video/BV1rA4y1Z7fd)
+    - egg: 没有好的课程， 跟着官网辅助ai进行学习
 
-## express
-## koa
-## egg
-## nest
-## 其他
+    - nest: [Nestjs 全家桶系列](https://www.bilibili.com/video/BV1NG41187Bs)

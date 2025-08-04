@@ -1,23 +1,15 @@
-# javaScript学习并记录
+# react学习并记录
 
 1. 学习课程
 
 
 - 入门篇
 
-[禹神：三小时快速上手TypeScript，TS速通教程](https://www.bilibili.com/video/BV1wR4y1377K)
+[尚硅谷React教程](https://www.bilibili.com/video/BV1wy4y1D7JT)
 
 
-- 基础篇
+- 进阶篇
 
-[千锋教育前端TypeScript入门视频教程（顶配版TS入门教程）](https://www.bilibili.com/video/BV1H44y157gq)
-
-
-- 高级篇
-
-还没有找到，后续可能自己总结
+[千锋教育前端React全家桶视频教程_react零基础入门到项目实战完整版](https://www.bilibili.com/video/BV1dP4y1c7qd)
 
 
-2. 已练习完成的代码
-
-[代码练习](https://github.com/zhao-farmer/learning-script/tree/main/TypeScript)

@@ -376,22 +376,27 @@ export default defineUserConfig({
             ],
             "/script/other/": [
                 {
-                    text: "ajax学习",
+                    text: "网络交互 ajax",
                     prefix: 'ajax/',
                     children:["01.md", "02.md","03.md","04.md"],
                 },
                 {
-                    text: "promise学习",
+                    text: "异步编程 promise",
                     prefix: 'promise/',
                     children:["01.md", "02.md","03.md","04.md","05.md"],
                 },
-            ],
-            "/script/plugin/": [
                 {
                     text: "增强JS Jquery.js",
                     prefix: 'JqueryJs/',
                     children: ["01.md", "02.md","03.md","04.md","05.md"],
                 },
+                {
+                    text: "响应式编程 RxJs",
+                    prefix: 'rxjs/',
+                    children: ["01.md", "02.md","03.md"],
+                },
+            ],
+            "/script/plugin/": [
                 {
                     text: "音频处理 Howler.js",
                     prefix: 'HowlerJs/',
@@ -439,9 +444,14 @@ export default defineUserConfig({
 
             "/framework/react/": [
                 {
-                    text: "react",
+                    text: "react-基础",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md", "02.md"],
+                },
+                {
+                    text: "react-进阶",
+                    prefix: 'advanced/',
+                    children: ["01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
                 },
                 {
                     text: "next.js",
@@ -457,14 +467,19 @@ export default defineUserConfig({
 
             "/framework/angular/": [
                 {
-                    text: "angular",
-                    prefix: 'base/',
-                    children: [],
+                    text: "angular v16",
+                    prefix: 'base16/',
+                    children:["01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
+                },
+                {
+                    text: "angular v20",
+                    prefix: 'base20/',
+                    children:["01.md"],
                 },
                 {
                     text: "angular日常记录",
                     prefix: 'records/',
-                    children:[],
+                    children:["01.md"],
                 },
             ],
 
@@ -679,7 +694,7 @@ export default defineUserConfig({
                 {
                     text: "nest.js",
                     prefix: 'nest/',
-                    children: ["01.md","02.md","03.md"],
+                    children: ["01.md","02.md","03.md","04.md"],
                 },
                
                 {

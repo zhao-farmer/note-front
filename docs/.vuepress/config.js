@@ -433,30 +433,30 @@ export default defineUserConfig({
                 {
                     text: "nuxt",
                     prefix: 'nuxt/',
-                    children:["01.md", "02.md","03.md","04.md","05.md","06.md"],
+                    children:["01.md", "02.md","03.md"],
                 },
                 {
                     text: "vue日常记录",
                     prefix: 'records/',
-                    children:[],
+                    children:["01.md"],
                 },
             ],
 
             "/framework/react/": [
                 {
-                    text: "react-基础",
-                    prefix: 'base/',
-                    children: ["01.md", "02.md"],
+                    text: "react18_基础",
+                    prefix: 'react18Class/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md"],
                 },
                 {
-                    text: "react-进阶",
-                    prefix: 'advanced/',
-                    children: ["01.md", "02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
+                    text: "react19+vite",
+                    prefix: 'react19/',
+                    children: [],
                 },
                 {
-                    text: "next.js",
-                    prefix: 'next/',
-                    children:[],
+                    text: "react框架扩展",
+                    prefix: 'expand/',
+                    children:["01.md","02.md","03.md"],
                 },
                 {
                     text: "react日常记录",
@@ -735,7 +735,7 @@ export default defineUserConfig({
                 {
                     text: "JavaScript相关",
                     prefix: 'javascript/',
-                    children: ["01.md", "02.md"],
+                    children: ["01.md", "02.md","03.md"],
                 },
             ],
 
@@ -743,12 +743,22 @@ export default defineUserConfig({
                 {
                     text: "webpack构建工具",
                     prefix: 'webpack/',
-                    children: [],
+                    children: ["01.md", "02.md","03.md", "04.md"],
                 },
                 {
                     text: "vite构建工具",
                     prefix: 'vite/',
-                    children: [],
+                    children: ["01.md", "02.md","03.md"],
+                },
+                {
+                    text: "rollup",
+                    prefix: 'rollup/',
+                    children: ["01.md", "02.md"],
+                },
+                {
+                    text: "esbuild",
+                    prefix: 'esbuild/',
+                    children: ["01.md"],
                 },
                 {
                     text: "构建工具日常记录",

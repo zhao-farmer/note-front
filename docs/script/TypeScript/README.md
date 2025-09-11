@@ -13,11 +13,3 @@
 [千锋教育前端TypeScript入门视频教程（顶配版TS入门教程）](https://www.bilibili.com/video/BV1H44y157gq)
 
 
-- 高级篇
-
-还没有找到，后续可能自己总结
-
-
-2. 已练习完成的代码
-
-[代码练习](https://github.com/zhao-farmer/learning-front-script/tree/main/TypeScript)

@@ -1,14 +1,8 @@
-# 其他JS相关的学习
+# 一些插件
 
-1. 学习课程
+1. HowlerJs 音频播放插件
 
-- jquery
+2. WavesurferJs 音频波浪插件
 
-[JavaScript核心基础_讲师（李立超）_JS教程](https://www.bilibili.com/video/BV1mG411h7aD) Jquery篇
+3. TuiImageEditor 前端画图插件
 
-
-
-
-2. 已练习完成的代码
-
-[代码练习](https://github.com/zhao-farmer/learning-script/tree/main/ECMAScript)

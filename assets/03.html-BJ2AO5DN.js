@@ -1,0 +1,12 @@
+import{aq as n,ar as a,as as e,at as l}from"./app-Cok9BT0p.js";const i={};function c(t,s){return l(),a("div",null,s[0]||(s[0]=[e(`<h1 id="三、注释" tabindex="-1"><a class="header-anchor" href="#三、注释"><span>三、注释</span></a></h1><p>块式注释和行内注释都可以使用：</p><p><strong>编译前LESS</strong></p><div class="language-less line-numbers-mode" data-highlighter="prismjs" data-ext="less"><pre><code><span class="line"><span class="token comment">// less 代码编辑</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">/* One heck of a block</span>
+<span class="line"> * style comment! */</span></span>
+<span class="line"> <span class="token variable">@var<span class="token punctuation">:</span></span> red<span class="token punctuation">;</span></span>
+<span class="line"> <span class="token comment">// Get in line!</span></span>
+<span class="line"> <span class="token variable">@var<span class="token punctuation">:</span></span> white<span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>编译后CSS</strong></p><div class="language-css line-numbers-mode" data-highlighter="prismjs" data-ext="css"><pre><code><span class="line"><span class="token comment">/* 编译后的 css */</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">/* One heck of a block</span>
+<span class="line"> * style comment! */</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,6)]))}const r=n(i,[["render",c]]),o=JSON.parse('{"path":"/style/pre_compile_css/less/03.html","title":"三、注释","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1744806830000,"contributors":[{"name":"zhao-farmer","username":"zhao-farmer","email":"857899180@qq.com","commits":1,"url":"https://github.com/zhao-farmer"}],"changelog":[{"hash":"c70b07d347b059fbe78c7770e7fa611a62f92633","time":1744806830000,"email":"857899180@qq.com","author":"zhao-farmer","message":"前端笔记提交"}]},"filePathRelative":"style/pre_compile_css/less/03.md"}');export{r as comp,o as data};

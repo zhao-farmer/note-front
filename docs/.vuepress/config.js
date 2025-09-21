@@ -34,7 +34,7 @@ export default defineUserConfig({
     // 站点的语言
     lang: "zh-CN",
     // 站点的标题
-    title: "赵建辉的前端笔记整理",
+    title: "赵建辉的前端知识库",
     // 站点的描述
     description: "前端的基础的html,css,js,进阶的ts,es,sass,less,也有vue,react等框架,也包含node.js后端处理",
     
@@ -198,6 +198,10 @@ export default defineUserConfig({
                     {
                         text: "前端常识记录",
                         link: "/other/knowledge/",
+                    },
+                    {
+                        text: "插件开发",
+                        link: "/other/plugin/",
                     },
                     {
                         text: "前端构建工具",
@@ -631,6 +635,18 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
+            "/application/reactNative/": [
+                {
+                    text: "react native基础",
+                    prefix: 'base/',
+                    children: [],
+                },
+                {
+                    text: "react native日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
             "/application/electron/": [
                 {
                     text: "electron学习",
@@ -712,7 +728,7 @@ export default defineUserConfig({
                 {
                     text: "爬虫依赖",
                     prefix: 'crawler/',
-                    children: ["01.md", "02.md"],
+                    children: ["01.md", "02.md","03.md"],
                 },
                 {
                     text: "接口依赖",
@@ -730,15 +746,27 @@ export default defineUserConfig({
                 {
                     text: "前端公共规范",
                     prefix: 'common/',
-                    children: ["01.md", "02.md"],
-                },
-                {
-                    text: "JavaScript相关",
-                    prefix: 'javascript/',
                     children: ["01.md", "02.md","03.md"],
                 },
+                {
+                    text: "JavaScript特性",
+                    prefix: 'javascript/',
+                    children: ["01.md", "02.md","03.md"],
+                }, 
             ],
 
+            "/other/plugin/": [
+                {
+                    text: "chrome插件",
+                    prefix: 'chrome/',
+                    children: ["01.md", "02.md","03.md", "04.md","05.md"],
+                },
+                {
+                    text: "vscode插件",
+                    prefix: 'vscode/',
+                    children: ["01.md", "02.md"],
+                }, 
+            ],
             "/other/construct/": [
                 {
                     text: "webpack构建工具",
@@ -759,11 +787,6 @@ export default defineUserConfig({
                     text: "esbuild",
                     prefix: 'esbuild/',
                     children: ["01.md"],
-                },
-                {
-                    text: "构建工具日常记录",
-                    prefix: 'records/',
-                    children:[],
                 },
             ],
 

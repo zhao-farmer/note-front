@@ -7,7 +7,3 @@
 
 
 [2023黑马前端JavaScript进阶ES6进阶到JS高级，构造函数&ES6+函数_js深入面向对象](https://www.bilibili.com/video/BV1VL411h72F)
-
-2. 已练习完成的代码
-
-[代码练习](https://github.com/zhao-farmer/learning-front-script/tree/main/javascript)

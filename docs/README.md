@@ -9,5 +9,5 @@
 
 ## 学习笔记对应代码
 
-[笔记对应代码](https://github.com/zhao-farmer/learning-front)
+[https://github.com/zhao-farmer/learning-front](https://github.com/zhao-farmer/learning-front)
 

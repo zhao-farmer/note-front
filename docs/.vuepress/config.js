@@ -169,6 +169,10 @@ export default defineUserConfig({
                         text: "electron桌面",
                         link: "/application/electron/",
                     },
+                      {
+                        text: "react-native",
+                        link: "/application/react-native/",
+                    },
                     {
                         text: "cocos游戏",
                         link: "/application/cocos/",
@@ -449,13 +453,13 @@ export default defineUserConfig({
             "/framework/react/": [
                 {
                     text: "react18_基础",
-                    prefix: 'react18Class/',
+                    prefix: 'react18/',
                     children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md"],
                 },
                 {
-                    text: "react19+vite",
+                    text: "react19+ts+vite",
                     prefix: 'react19/',
-                    children: [],
+                    children: ["01.md","02.md","03.md","04.md","05.md"],
                 },
                 {
                     text: "react框架扩展",
@@ -635,14 +639,19 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
-            "/application/reactNative/": [
+            "/application/react-native/": [
                 {
                     text: "react native基础",
                     prefix: 'base/',
-                    children: [],
+                    children: ["01.md","02.md","03.md","04.md"],
                 },
                 {
-                    text: "react native日常记录",
+                    text: "expo-创建",
+                    prefix: 'expo/',
+                    children: ["01.md"],
+                },
+                {
+                    text: "RN日常记录",
                     prefix: 'records/',
                     children:[],
                 },

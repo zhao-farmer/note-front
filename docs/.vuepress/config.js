@@ -7,7 +7,6 @@ import  mermaidPlugin  from './client/mermaidPlugin'
 import { getDirname, path } from 'vuepress/utils'
 const __dirname = getDirname(import.meta.url)
 
-
 export default defineUserConfig({
 
      // markdown-it配置
@@ -25,6 +24,7 @@ export default defineUserConfig({
             // 使用 KaTeX 启用 TeX 支持
             type: 'katex'
         }),
+        
     ],
 
     bundler: viteBundler(),
@@ -91,12 +91,12 @@ export default defineUserConfig({
                         link: "/script/TypeScript/",
                     },
                     {
-                        text: "其他相关",
+                        text: "JS增强",
                         link: "/script/other/",
                     },
                     {
-                        text: "插件相关",
-                        link: "/script/plugin/",
+                        text: "JS记录",
+                        link: "/script/record/",
                     },
                 ],
             },
@@ -104,16 +104,24 @@ export default defineUserConfig({
                 text: "前端框架",
                 children: [
                     {
-                        text: "Vue相关",
+                        text: "Vue框架",
                         link: "/framework/vue/",
                     },
                     {
-                        text: "React相关",
+                        text: "React框架",
                         link: "/framework/react/",
                     },
                     {
-                        text: "Angular相关",
+                        text: "Angular框架",
                         link: "/framework/angular/",
+                    },
+                    {
+                        text: "Svelte框架",
+                        link: "/framework/svelte/",
+                    },
+                    {
+                        text: "Solid框架",
+                        link: "/framework/solid/",
                     },
                 ],
             },
@@ -155,6 +163,23 @@ export default defineUserConfig({
                 ],
             },
             {
+                text: "UI相关",
+                children: [
+                    {
+                        text: "icon图标",
+                        link: "/ui/icon/",
+                    },
+                    {
+                        text: "UI框架",
+                        link: "/ui/framework/",
+                    },
+                    {
+                        text: "web字体",
+                        link: "/ui/font/",
+                    },
+                ],
+            },
+            {
                 text: "前端应用",
                 children: [
                     {
@@ -169,7 +194,11 @@ export default defineUserConfig({
                         text: "electron桌面",
                         link: "/application/electron/",
                     },
-                      {
+                    {
+                        text: "flutter",
+                        link: "/application/flutter/",
+                    },
+                    {
                         text: "react-native",
                         link: "/application/react-native/",
                     },
@@ -180,7 +209,7 @@ export default defineUserConfig({
                 ],
             },
             {
-                text: "JS后端",
+                text: "node后端",
                 children: [
                     {
                         text: "node基础",
@@ -191,8 +220,12 @@ export default defineUserConfig({
                         link: "/backend/senior/",
                     },
                     {
-                        text: "依赖包记录",
+                        text: "web依赖",
                         link: "/backend/quote/",
+                    },
+                    {
+                        text: "node工具",
+                        link: "/backend/tool/",
                     },
                 ],
             },
@@ -202,6 +235,10 @@ export default defineUserConfig({
                     {
                         text: "前端常识记录",
                         link: "/other/knowledge/",
+                    },
+                    {
+                        text: "微前端",
+                        link: "/other/microFront/",
                     },
                     {
                         text: "插件开发",
@@ -404,26 +441,18 @@ export default defineUserConfig({
                     children: ["01.md", "02.md","03.md"],
                 },
             ],
-            "/script/plugin/": [
+            "/script/record/":[
                 {
-                    text: "音频处理 Howler.js",
-                    prefix: 'HowlerJs/',
+                    text: "工具类",
+                    prefix: 'tool/',
                     children:["01.md", "02.md","03.md","04.md"],
                 },
                 {
-                    text: "音频波浪 Wavesurfer.js",
-                    prefix: 'WavesurferJs/',
-                    children:["01.md", "02.md","03.md","04.md"],
+                    text: "实现功能",
+                    prefix: 'work/',
+                    children:["01.md", "02.md","03.md"],
                 },
-                {
-                    text: "图片编辑 tui.image-editor",
-                    prefix: 'TuiImageEditor/',
-                    children:["01.md", "02.md"],
-                },
-                
             ],
-            
-
 
             /* ==============================  框架相关  =============================== */
 
@@ -441,7 +470,7 @@ export default defineUserConfig({
                 {
                     text: "nuxt",
                     prefix: 'nuxt/',
-                    children:["01.md", "02.md","03.md"],
+                    children:["01.md", "02.md","03.md","04.md"],
                 },
                 {
                     text: "vue日常记录",
@@ -462,14 +491,14 @@ export default defineUserConfig({
                     children: ["01.md","02.md","03.md","04.md","05.md"],
                 },
                 {
-                    text: "react框架扩展",
-                    prefix: 'expand/',
+                    text: "next.js框架",
+                    prefix: 'next/',
                     children:["01.md","02.md","03.md"],
                 },
                 {
                     text: "react日常记录",
                     prefix: 'records/',
-                    children:[],
+                    children:["01.md","02.md","03.md"],
                 },
             ],
 
@@ -482,7 +511,7 @@ export default defineUserConfig({
                 {
                     text: "angular v20",
                     prefix: 'base20/',
-                    children:["01.md"],
+                    children:["01.md", "02.md"],
                 },
                 {
                     text: "angular日常记录",
@@ -490,12 +519,48 @@ export default defineUserConfig({
                     children:["01.md"],
                 },
             ],
-
+            "/framework/svelte/": [
+                {
+                    text: "svelte4",
+                    prefix: 'base4/',
+                    children:["01.md","02.md","03.md","04.md","05.md"],
+                },
+                {
+                    text: "svelte5",
+                    prefix: 'base5/',
+                    children:["01.md","02.md","03.md","04.md"],
+                },
+                {
+                    text: "svelteKit",
+                    prefix: 'svelteKit/',
+                    children:["01.md","02.md","03.md","04.md"],
+                },
+                {
+                    text: "svelte日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
+            "/framework/solid/": [
+                {
+                    text: "solid基础",
+                    prefix: 'base/',
+                    children:["01.md","02.md","03.md","04.md","05.md"],
+                },
+                {
+                    text: "solid Start",
+                    prefix: 'solidStart/',
+                    children:["01.md","02.md","03.md","04.md"],
+                },
+                {
+                    text: "solid日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
             
 
             /* ==============================  动画相关  =============================== */
-
-            
             "/animation/canvas/": [
                 {
                     text: "canvas基础",
@@ -608,8 +673,47 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
-           
-
+            /* ==============================  UI相关  =============================== */
+            "/ui/icon/": [
+                {
+                    text: "图标库",
+                    prefix: 'library/',
+                    children: ["01.md","02.md","03.md"],
+                },
+                {
+                    text: "图标框架",
+                    prefix: 'component/',
+                    children:["01.md","02.md","03.md","04.md"],
+                },
+            ],
+            "/ui/framework/": [
+                {
+                    text: "Vue-UI",
+                    prefix: 'vue/',
+                    children: ["01.md","02.md","03.md"],
+                },
+                {
+                    text: "React-UI",
+                    prefix: 'react/',
+                    children:["01.md","02.md","03.md"],
+                },
+                {
+                    text: "其他UI",
+                    prefix: 'other/',
+                    children:["01.md","02.md","03.md"],
+                },
+                {
+                    text: "移动端UI",
+                    prefix: 'mobile/',
+                    children:["01.md","02.md","03.md"],
+                },
+            ],
+            "/ui/font/": [
+                {
+                    text: "web字体",
+                    children: ["01.md","02.md"],
+                },
+            ],
             /* ==============================  应用相关  =============================== */
 
             "/application/weixin/": [
@@ -639,6 +743,19 @@ export default defineUserConfig({
                     children:[],
                 },
             ],
+            "/application/flutter/": [
+                {
+                    text: "flutter基础",
+                    prefix: 'base/',
+                    children: ["01.md","02.md","03.md"],
+                },
+                {
+                    text: "flutter日常记录",
+                    prefix: 'records/',
+                    children:[],
+                },
+            ],
+            
             "/application/react-native/": [
                 {
                     text: "react native基础",
@@ -730,18 +847,41 @@ export default defineUserConfig({
             ],
             "/backend/quote/": [
                 {
-                    text: "测试依赖",
+                    text: "前端依赖",
+                    prefix: 'front/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md","09.md"],
+                },
+                {
+                    text: "后端依赖",
+                    prefix: 'backend/',
+                    children: ["01.md","02.md","03.md","04.md","05.md","06.md","07.md","08.md"],
+                },
+                {
+                    text: "公共依赖",
+                    prefix: 'common/',
+                    children: ["01.md","02.md","03.md"],
+                },
+            ],
+
+            "/backend/tool/": [
+                {
+                    text: "测试相关",
                     prefix: 'test/',
                     children: ["01.md", "02.md"],
                 },
                 {
-                    text: "爬虫依赖",
+                    text: "爬虫相关",
                     prefix: 'crawler/',
                     children: ["01.md", "02.md","03.md"],
                 },
                 {
-                    text: "接口依赖",
+                    text: "服务器相关",
                     prefix: 'api/',
+                    children: ["01.md","03.md"],
+                },
+                {
+                    text: "系统相关",
+                    prefix: 'system/',
                     children: ["01.md"],
                 },
             ],
@@ -758,8 +898,20 @@ export default defineUserConfig({
                     children: ["01.md", "02.md","03.md"],
                 },
                 {
-                    text: "JavaScript特性",
-                    prefix: 'javascript/',
+                    text: "web新特性",
+                    prefix: 'new/',
+                    children: ["01.md", "02.md","03.md","04.md"],
+                }, 
+            ],
+            "/other/microFront/":[
+                {
+                    text: "微前端原理",
+                    prefix: 'base/',
+                    children: ["01.md", "02.md","03.md"],
+                },
+                {
+                    text: "微前端框架",
+                    prefix: 'framework/',
                     children: ["01.md", "02.md","03.md"],
                 }, 
             ],

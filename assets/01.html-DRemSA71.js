@@ -1,0 +1,10 @@
+import{ar as n,as as a,at as e,au as l}from"./app-5nod3Nrs.js";const i={};function r(m,s){return l(),a("div",null,[...s[0]||(s[0]=[e(`<h1 id="一、处理系统的npm插件" tabindex="-1"><a class="header-anchor" href="#一、处理系统的npm插件"><span>一、处理系统的npm插件</span></a></h1><h2 id="解决无法删除node-modules的问题" tabindex="-1"><a class="header-anchor" href="#解决无法删除node-modules的问题"><span>解决无法删除node_modules的问题</span></a></h2><div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 使用 rimraf（Node.js 工具）</span></span>
+<span class="line">npx rimraf node_modules</span>
+<span class="line"><span class="token comment"># 或先安装</span></span>
+<span class="line"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> rimraf</span>
+<span class="line">rimraf node_modules</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 使用 nuke（更强大）</span></span>
+<span class="line">npx npkill</span>
+<span class="line"><span class="token comment"># 然后选择要删除的 node_modules</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,3)])])}const c=n(i,[["render",r]]),d=JSON.parse('{"path":"/backend/tool/system/01.html","title":"一、处理系统的npm插件","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1771996569000,"contributors":[{"name":"zhao-farmer","username":"zhao-farmer","email":"857899180@qq.com","commits":1,"url":"https://github.com/zhao-farmer"}],"changelog":[{"hash":"6456dcf1fd45f82d71ce5dfe3954468d5bf78145","time":1771996569000,"email":"857899180@qq.com","author":"zhao-farmer","message":"新提交"}]},"filePathRelative":"backend/tool/system/01.md"}');export{c as comp,d as data};

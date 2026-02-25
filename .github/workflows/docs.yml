@@ -27,11 +27,14 @@ jobs:
           cache: npm
           
       - name: 安装依赖
-        run: npm install --frozen-lockfile && export NODE_OPTIONS=--max_old_space_size=4096
+        run: npm install --frozen-lockfile
 
       # 运行构建脚本
       - name: 构建 VuePress 站点
         run: npm run docs:build
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192  # 关键：分配 8GB 内存
+
 
       # 查看 workflow 的文档来获取更多信息
       # @see https://github.com/crazy-max/ghaction-github-pages

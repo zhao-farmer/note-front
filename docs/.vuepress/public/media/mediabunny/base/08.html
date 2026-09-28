@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Source 配置项</title>
+</head>
+
+<body>
+  <audio id="player" controls style="margin-top:20px"></audio>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      AudioSampleSink,
+      Output,
+      Mp4OutputFormat,
+      AudioSampleSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试音频（可以是视频，会自动提取音频）
+    const AUDIO_URL = "../media/01.mp4";
+
+    (async () => {
+      try {
+        log("1. 创建 音频编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加音频轨道（全配置项 AudioEncodingConfig）");
+        
+        // ==============================================
+        // 官方文档所有音频配置项 完整使用
+        // ==============================================
+        const audioSampleSource = new AudioSampleSource({
+          // 必选
+          codec: "aac",
+          bitrate: 128000, // 128 kbps
+
+          // 码率模式
+          bitrateMode: 'variable',
+
+          // 完整编码字符串（自动生成可不填）
+          fullCodecString: 'mp4a.40.2',
+
+          // 音频变换：声道、采样率、自定义处理
+          transform: {
+            numberOfChannels: 2,      // 输出双声道
+            sampleRate: 44100,         // 采样率 44100Hz
+            process: (sample) => {    // 自定义音频处理
+              return sample;          // 可修改/过滤/拆分音频帧
+            }
+          },
+
+          // 编码后数据包回调
+          onEncodedPacket: (packet, meta) => {
+            // console.log('音频已编码:', packet);
+          },
+
+          // 编码器底层配置回调
+          onEncoderConfig: (config) => {
+            // console.log('音频编码器配置:', config);
+          }
+        });
+
+        // 添加音频轨道
+        output.addAudioTrack(audioSampleSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入音频采样（使用 add() 方法）");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(AUDIO_URL)
+        });
+        const audioTrack = await input.getPrimaryAudioTrack();
+        const audioSink = new AudioSampleSink(audioTrack);
+
+        // 循环读取音频帧并 add 到编码器
+        for await (const sample of audioSink.samples()) {
+          await audioSampleSource.add(sample);
+          sample.close();
+        }
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 生成音频预览");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "audio/mp4" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`音频加载成功！时长: ${player.duration.toFixed(2)}s`);
+          log(`所有 AudioEncodingConfig 配置项已启用`);
+        });
+
+        log("\n全部流程执行完成！");
+        input.dispose();
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

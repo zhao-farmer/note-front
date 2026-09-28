@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <button id="seekBtn">跳转到0.7s并手动更新</button>
+  <script>
+    const box = document.querySelector(".box");
+    // 创建暂停的动画
+    const anim = gsap.to(box, {
+      x: 250,
+      duration: 1,
+      paused: true,
+      id: "boxAnim"
+    });
+
+    document.querySelector("#seekBtn").onclick = () => {
+      anim.seek(0.7);
+      // 强制更新渲染，马上看到结果
+      gsap.updateRoot(true);
+    }
+  </script>
+</body>
+
+</html>

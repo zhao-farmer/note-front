@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Effects Simple Demo</title>
+  
+    <style>
+        /* 基础样式重置与布局 */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Signika', sans-serif; /* 应用引入的字体 */
+            background-color: #f0f0f0;
+        }
+
+        /* 文本样式 */
+        h1 { font-size: 36px; }
+        h2 { 
+            font-size: 30px; 
+            text-align: center; 
+            margin-bottom: 20px;
+        }
+        h3 { font-size: 24px; }
+        p { 
+            line-height: 22px; 
+            margin-bottom: 16px; 
+            width: 650px; 
+        }
+
+        /* 演示容器 */
+        #demo {
+            height: 100%;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* 方块基础样式 */
+        .box {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            border-radius: 6px;
+            margin: 4px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* 方块颜色 */
+        .green { background-color: #4CAF50; }
+        .purple { background-color: #9C27B0; }
+        .orange { background-color: #FF9800; }
+    </style>
+</head>
+<body>
+
+    <div id="demo">
+        <h2>GSAP Effects Simple Demo</h2>
+        <div class="box green"></div>
+        <div class="box purple"></div>
+        <div class="box orange"></div>
+        <div class="box green"></div>
+        <div class="box purple"></div>
+        <div class="box orange"></div>
+        <div class="box green"></div>
+        <div class="box purple"></div>
+    </div>
+
+    <!-- 引入 GSAP 库 (CDN) -->
+    <script src="../js/gsap.min.js"></script>
+
+    <script>
+        // 注册 GSAP 效果
+        gsap.registerEffect({
+            name: "fade",
+            defaults: {duration: 2}, // 默认配置
+            effect: (targets, config) => {
+                return gsap.to(targets, {duration: config.duration, opacity: 0});
+            }
+        });
+
+        // 添加交互事件
+        document.querySelectorAll(".box").forEach(function(box) {
+            box.addEventListener("mouseenter", function() {
+                // 鼠标移入时触发淡出效果
+                gsap.effects.fade(this);
+            });
+        });
+    </script>
+
+</body>
+</html>

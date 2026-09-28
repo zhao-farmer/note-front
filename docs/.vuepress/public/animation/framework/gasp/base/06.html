@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="../js/gsap.min.js"></script>
+  <style>
+    #box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box"></div>
+  <span id="frame"></span>
+  <script>
+    const box = document.getElementById("box");
+    // 使用 deltaRatio 保证匀速移动，不受帧率影响
+    gsap.ticker.add((time, deltaTime, frame) => {
+      box.style.left = `${100 + time * 50}px`;
+      box.style.top = `${100 + Math.sin(time) * 80}px`;
+    });
+
+    // 读取帧信息
+    gsap.ticker.add(() => {
+      document.getElementById("frame").innerHTML = "当前帧：" + gsap.ticker.frame;
+    })
+  </script>
+</body>
+
+</html>

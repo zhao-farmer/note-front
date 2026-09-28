@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PIXI8 GIF 帧展示 + 随机下载</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/packages/gif.js"></script>
+
+</head>
+
+<body>
+  <div style="position:fixed; top:10px; left:10px;">
+    <button onclick="doDownload()">随机下载</button>
+  </div>
+  <script>
+    (async () => {
+      // 1. 初始化 PIXI
+      const app = new PIXI.Application();
+      await app.init({
+        width: 600,
+        height: 200,
+        backgroundColor: 0x222222
+      });
+      document.body.appendChild(app.canvas);
+
+      // 2. 加载gif文件
+      const gif = await PIXI.Assets.load('./img/demo.gif');
+      let gifHeight = gif.height;
+      let gifWidth = gif.width;
+
+      // 3. 获取所有纹理
+      const frames = gif.frames;
+      for (let i = 0; i < frames.length; i++) {
+        const texture = frames[i].texture;
+        const sprite = new PIXI.Sprite({
+          texture,
+          x: i * 120,
+          y: 50,
+          scale: (120 / gifWidth),
+        });
+        app.stage.addChild(sprite);
+      }
+
+      // 开始随机下载
+      window.doDownload = async function () {
+        const randomIndex = Math.floor(Math.random() * frames.length);
+        const randomFrame = frames[randomIndex];
+        
+        // 创建临时精灵，使用原始纹理大小
+        const tempSprite = new PIXI.Sprite(randomFrame);
+        tempSprite.x = -1000; // 移出可视区域
+        tempSprite.y = -1000;
+        app.stage.addChild(tempSprite);
+        
+        // 下载原始大小的图片
+        app.renderer.extract.download({
+            target: tempSprite,
+            filename: `${Date.now()}-${randomIndex}.png`
+        });
+        
+        // 移除临时精灵
+        app.stage.removeChild(tempSprite);
+        tempSprite.destroy(); // 销毁自身
+      };
+    })();
+  </script>
+</body>
+
+</html>

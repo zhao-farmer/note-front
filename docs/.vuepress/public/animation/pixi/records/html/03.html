@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BlurFilter 演示</title>
+  <script src="./js/pixi.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 16px;
+      padding: 10px;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 240px;
+    }
+
+    .item {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 90px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 40px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasBox"></div>
+    <div class="panel">
+      <div class="item">
+        <label>blur 模糊</label>
+        <input type="range" min="0" max="30" step="1" data-key="blur">
+        <span class="val">8</span>
+      </div>
+      <div class="item">
+        <label>quality 质量</label>
+        <input type="range" min="1" max="8" step="1" data-key="quality">
+        <span class="val">4</span>
+      </div>
+      <div class="item">
+        <label>kernelSize</label>
+        <input type="range" min="5" max="11" step="2" data-key="kernelSize">
+        <span class="val">5</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 250 });
+    document.querySelector('#canvasBox').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const blurFilter = new PIXI.BlurFilter({
+      blur: 8,
+      quality: 4,
+      kernelSize: 5
+    });
+    sprite.filters = [blurFilter];
+
+    document.querySelectorAll('.panel input').forEach(input => {
+      const k = input.dataset.key;
+      input.value = blurFilter[k];
+      input.parentElement.querySelector('.val').textContent = blurFilter[k];
+      input.oninput = () => {
+        const v = Number(input.value);
+        blurFilter[k] = v;
+        input.parentElement.querySelector('.val').textContent = v;
+      }
+    })
+  </script>
+</body>
+
+</html>

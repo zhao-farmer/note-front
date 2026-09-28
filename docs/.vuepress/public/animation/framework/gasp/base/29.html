@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <button id="setBtn">执行gsap.set设置</button>
+  <button id="animBtn">播放入场动画</button>
+  <script>
+    const box = document.querySelector(".box");
+
+    document.querySelector("#setBtn").onclick = () => {
+      gsap.set(box, { opacity: 0, y: 60 });
+    }
+    document.querySelector("#animBtn").onclick = () => {
+      gsap.to(box, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+    }
+  </script>
+</body>
+
+</html>

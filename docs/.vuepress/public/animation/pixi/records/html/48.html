@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html,
+    body {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/spine-pixi-v8.js"></script>
+</head>
+<body>
+  <script>
+    const animationMap = {
+      idle: {
+        name: 'idle',
+        loop: true,
+      },
+      walk: {
+        name: 'walk',
+        loop: true,
+      },
+      run: {
+        name: 'run',
+        loop: true,
+      },
+      jump: {
+        name: 'jump',
+        timeScale: 1.5,
+      },
+      hover: {
+        name: 'hoverboard',
+        loop: true,
+      },
+      spawn: {
+        name: 'portal',
+      },
+    };
+
+    class SpineBoy {
+      constructor() {
+        this.state = {
+          walk: false,
+          run: false,
+          hover: false,
+          jump: false,
+        };
+        this.view = new PIXI.Container();
+        this.directionalView = new PIXI.Container();
+        this.spine = spine.Spine.from({
+          skeleton: 'spineSkeleton',
+          atlas: 'spineAtlas',
+        });
+        this.directionalView.addChild(this.spine);
+        this.view.addChild(this.directionalView);
+        this.spine.state.data.defaultMix = 0.2;
+      }
+
+      spawn() {
+        this.spine.state.setAnimation(0, animationMap.spawn.name);
+      }
+
+      playAnimation({ name, loop = false, timeScale = 1 }) {
+        if (this.currentAnimationName === name) return;
+        const trackEntry = this.spine.state.setAnimation(0, name, loop);
+        trackEntry.timeScale = timeScale;
+      }
+
+      update() {
+        if (this.state.jump) this.playAnimation(animationMap.jump);
+        if (this.isAnimationPlaying(animationMap.jump)) return;
+        if (this.state.hover) this.playAnimation(animationMap.hover);
+        else if (this.state.run) this.playAnimation(animationMap.run);
+        else if (this.state.walk) this.playAnimation(animationMap.walk);
+        else this.playAnimation(animationMap.idle);
+      }
+
+      isSpawning() {
+        return this.isAnimationPlaying(animationMap.spawn);
+      }
+
+      isAnimationPlaying({ name }) {
+        return this.currentAnimationName === name && !this.spine.state.getTrack(0).isComplete();
+      }
+
+      get currentAnimationName() {
+        return this.spine.state.getTrack(0)?.animation.name;
+      }
+
+      get direction() {
+        return this.directionalView.scale.x > 0 ? 1 : -1;
+      }
+
+      set direction(value) {
+        this.directionalView.scale.x = value;
+      }
+    }
+
+    const keyMap = {
+      Space: 'space',
+      KeyW: 'up',
+      ArrowUp: 'up',
+      KeyA: 'left',
+      ArrowLeft: 'left',
+      KeyS: 'down',
+      ArrowDown: 'down',
+      KeyD: 'right',
+      ArrowRight: 'right',
+    };
+
+    class Controller {
+      constructor() {
+        this.keys = {
+          up: { pressed: false, doubleTap: false, timestamp: 0 },
+          left: { pressed: false, doubleTap: false, timestamp: 0 },
+          down: { pressed: false, doubleTap: false, timestamp: 0 },
+          right: { pressed: false, doubleTap: false, timestamp: 0 },
+          space: { pressed: false, doubleTap: false, timestamp: 0 },
+        };
+        window.addEventListener('keydown', (event) => this.keydownHandler(event));
+        window.addEventListener('keyup', (event) => this.keyupHandler(event));
+      }
+
+      keydownHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = true;
+        this.keys[key].doubleTap = this.keys[key].doubleTap || now - this.keys[key].timestamp < 300;
+      }
+
+      keyupHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = false;
+        if (this.keys[key].doubleTap) this.keys[key].doubleTap = false;
+        else this.keys[key].timestamp = now;
+      }
+    }
+
+    class Scene {
+      constructor(width, height) {
+
+        this.view = new PIXI.Container();
+        this.sky = PIXI.Sprite.from('sky');
+        this.sky.anchor.set(0, 1);
+        this.sky.width = width;
+        this.sky.height = height;
+        
+        const backgroundTexture = PIXI.Texture.from('background');
+        const midgroundTexture = PIXI.Texture.from('midground');
+        const platformTexture = PIXI.Texture.from('platform');
+        
+        const maxPlatformHeight = platformTexture.height;
+        const platformHeight = Math.min(maxPlatformHeight, height * 0.4);
+        const scale = (this.scale = platformHeight / maxPlatformHeight);
+        
+        const baseOptions = {
+          tileScale: { x: scale, y: scale },
+          anchor: { x: 0, y: 1 },
+          applyAnchorToTexture: true,
+        };
+        
+        this.background = new PIXI.TilingSprite({
+          texture: backgroundTexture,
+          width,
+          height: backgroundTexture.height * scale,
+          ...baseOptions,
+        });
+        
+        this.midground = new PIXI.TilingSprite({
+          texture: midgroundTexture,
+          width,
+          height: midgroundTexture.height * scale,
+          ...baseOptions,
+        });
+        
+        this.platform = new PIXI.TilingSprite({
+          texture: platformTexture,
+          width,
+          height: platformHeight,
+          ...baseOptions,
+        });
+        
+        this.floorHeight = platformHeight * 0.43;
+        this.background.y = this.midground.y = -this.floorHeight;
+        this.view.addChild(this.sky, this.background, this.midground, this.platform);
+      }
+
+      // 将平台的水平位置作为场景的基准位置
+      get positionX() {
+        return this.platform.tilePosition.x;
+      }
+      // 设置平台图层的水平位置，同时给远景图层应用视差滚动效果
+      set positionX(value) {
+        this.background.tilePosition.x = value * 0.1;
+        this.midground.tilePosition.x = value * 0.25;
+        this.platform.tilePosition.x = value;
+      }
+
+    }
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({ background: '#1099bb', resizeTo: window });
+      document.body.appendChild(app.canvas);
+      
+      await PIXI.Assets.load([
+        {
+          alias: 'spineSkeleton',
+          src: './assets/spineboy-pro.skel',
+        },
+        {
+          alias: 'spineAtlas',
+          src: './assets/spineboy-pma.atlas',
+        },
+        {
+          alias: 'sky',
+          src: './assets/sky.png',
+        },
+        {
+          alias: 'background',
+          src: './assets/background.png',
+        },
+        {
+          alias: 'midground',
+          src: './assets/midground.png',
+        },
+        {
+          alias: 'platform',
+          src: './assets/platform.png',
+        },
+      ]);
+      
+      const controller = new Controller();
+      const spineBoy = new SpineBoy();
+      const scene = new Scene(app.screen.width, app.screen.height);
+      
+      scene.view.y = app.screen.height;
+      spineBoy.view.x = app.screen.width / 2;
+      spineBoy.view.y = app.screen.height - scene.floorHeight;
+      spineBoy.spine.scale.set(scene.scale * 0.32);
+      
+      app.stage.addChild(scene.view, spineBoy.view);
+      
+      spineBoy.spawn();
+      
+      app.ticker.add(() => {
+        if (spineBoy.isSpawning()) return;
+        spineBoy.state.walk = controller.keys.left.pressed || controller.keys.right.pressed;
+
+        if (spineBoy.state.run && spineBoy.state.walk) spineBoy.state.run = true;
+        else spineBoy.state.run = controller.keys.left.doubleTap || controller.keys.right.doubleTap;
+        
+        spineBoy.state.hover = controller.keys.down.pressed;
+
+        if (controller.keys.left.pressed) spineBoy.direction = -1;
+        else if (controller.keys.right.pressed) spineBoy.direction = 1;
+        
+        spineBoy.state.jump = controller.keys.space.pressed;
+        spineBoy.update();
+
+        // 更新速度
+        let speed = 1.25; // 不同走路
+        if (spineBoy.state.hover) speed = 7.5;  // 飞起来
+        else if (spineBoy.state.run) speed = 3.75; // 排布
+
+        // 更新场景位置
+        if (spineBoy.state.walk) {
+          scene.positionX -= speed * scene.scale * spineBoy.direction;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Source 配置项</title>
+</head>
+
+<body>
+  <audio id="player" controls style="margin-top:20px"></audio>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      AudioSample,
+      AudioBufferSink,
+      Output,
+      AdtsOutputFormat,
+      AudioBufferSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试音频（可以是视频，会自动提取音频）
+   
+
+    (async () => {
+      try {
+        log("1. 创建 音频编码器");
+        const output = new Output({
+          format: new AdtsOutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加音频轨道");
+        
+     
+        const audioBufferSource = new AudioBufferSource({
+          // 必选
+          codec: "aac",
+          bitrate: 128000, // 128 kbps
+        });
+
+        // 添加音频轨道
+        output.addAudioTrack(audioBufferSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入音频采样 - audioBufferSource.add(audioBuffer)");
+        const res = await fetch("../media/03.wav");
+        const audioArrayBuffer = await res.arrayBuffer();
+        const actx = new AudioContext();
+        const audioBuffer = await actx.decodeAudioData(audioArrayBuffer);
+        await audioBufferSource.add(audioBuffer);
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 生成音频预览");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "audio/aac" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`音频加载成功！时长: ${player.duration.toFixed(2)}s`);
+          log(`所有 AudioEncodingConfig 配置项已启用`);
+        });
+
+        log("\n全部流程执行完成！");
+       
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

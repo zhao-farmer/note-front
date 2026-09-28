@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>TiltShiftFilter 移轴模糊滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>blur 模糊强度</label>
+        <input type="range" min="0" max="200" step="1" id="inpBlur">
+        <span class="val">100.00</span>
+      </div>
+      <div class="row">
+        <label>gradientBlur 渐变范围</label>
+        <input type="range" min="0" max="600" step="1" id="inpGradientBlur">
+        <span class="val">600.00</span>
+      </div>
+      <div class="row">
+        <label>startX 起始X</label>
+        <input type="range" min="0" max="345" step="1" id="inpStartX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>startY 清晰起始Y</label>
+        <input type="range" min="0" max="460" step="0.5" id="inpStartY">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>endX 结束X</label>
+        <input type="range" min="0" max="345" step="1" id="inpEndX">
+        <span class="val">345.00</span>
+      </div>
+      <div class="row">
+        <label>endY 清晰结束Y</label>
+        <input type="range" min="0" max="460" step="0.5" id="inpEndY">
+        <span class="val">460.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        TiltShiftFilter：模拟移轴/浅景深效果；中间相对清晰，上下区域按渐变模糊
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0x000000
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const tiltShiftFilter = new PIXI.filters.TiltShiftFilter({
+      blur: 100,
+      gradientBlur: 300,
+      startX: 0,
+      startY: 0,
+      endX: 345,
+      endY: 460
+    });
+    sprite.filters = [tiltShiftFilter];
+
+    const inpBlur = document.getElementById("inpBlur");
+    const inpGradientBlur = document.getElementById("inpGradientBlur");
+    const inpStartX = document.getElementById("inpStartX");
+    const inpStartY = document.getElementById("inpStartY");
+    const inpEndX = document.getElementById("inpEndX");
+    const inpEndY = document.getElementById("inpEndY");
+
+    const valBlur = inpBlur.nextElementSibling;
+    const valGradientBlur = inpGradientBlur.nextElementSibling;
+    const valStartX = inpStartX.nextElementSibling;
+    const valStartY = inpStartY.nextElementSibling;
+    const valEndX = inpEndX.nextElementSibling;
+    const valEndY = inpEndY.nextElementSibling;
+
+    inpBlur.value = tiltShiftFilter.blur;
+    valBlur.textContent = tiltShiftFilter.blur.toFixed(2);
+
+    inpGradientBlur.value = tiltShiftFilter.gradientBlur;
+    valGradientBlur.textContent = tiltShiftFilter.gradientBlur.toFixed(2);
+
+    inpStartX.value = tiltShiftFilter.startX;
+    valStartX.textContent = tiltShiftFilter.startX.toFixed(2);
+
+    inpStartY.value = tiltShiftFilter.startY;
+    valStartY.textContent = tiltShiftFilter.startY.toFixed(2);
+
+    inpEndX.value = tiltShiftFilter.endX;
+    valEndX.textContent = tiltShiftFilter.endX.toFixed(2);
+
+    inpEndY.value = tiltShiftFilter.endY;
+    valEndY.textContent = tiltShiftFilter.endY.toFixed(2);
+
+    inpBlur.oninput = () => {
+      tiltShiftFilter.blur = Number(inpBlur.value);
+      valBlur.textContent = Number(inpBlur.value).toFixed(2);
+    };
+
+    inpGradientBlur.oninput = () => {
+      tiltShiftFilter.gradientBlur = Number(inpGradientBlur.value);
+      valGradientBlur.textContent = Number(inpGradientBlur.value).toFixed(2);
+    };
+
+    inpStartX.oninput = () => {
+      tiltShiftFilter.startX = Number(inpStartX.value);
+      valStartX.textContent = Number(inpStartX.value).toFixed(2);
+    };
+
+    inpStartY.oninput = () => {
+      tiltShiftFilter.startY = Number(inpStartY.value);
+      valStartY.textContent = Number(inpStartY.value).toFixed(2);
+    };
+
+    inpEndX.oninput = () => {
+      tiltShiftFilter.endX = Number(inpEndX.value);
+      valEndX.textContent = Number(inpEndX.value).toFixed(2);
+    };
+
+    inpEndY.oninput = () => {
+      tiltShiftFilter.endY = Number(inpEndY.value);
+      valEndY.textContent = Number(inpEndY.value).toFixed(2);
+    };
+  </script>
+</body>
+</html>

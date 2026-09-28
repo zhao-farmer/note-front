@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GSAP autoAlpha clearProps autoRound 演示</title>
+  <style>
+    .box {
+      width: 140px;
+      height: 140px;
+      background: #3498db;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .btns {
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 4px;
+    }
+    #tip {
+      text-align: center;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="btns">
+    <button id="btnAutoAlpha">autoAlpha 淡入淡出</button>
+    <button id="btnClearProps">clearProps 清除行内样式</button>
+    <button id="btnAutoRound">autoRound 关闭像素取整</button>
+  </div>
+  <div class="box">演示方块</div>
+  <p id="tip">状态提示</p>
+
+  <script>
+    const box = document.querySelector('.box');
+    const tip = document.getElementById('tip');
+    let tween = gsap.to({}, {});
+
+    // autoAlpha
+    document.getElementById('btnAutoAlpha').onclick = () => {
+      tween.kill();
+      tween = gsap.to(box, {
+        duration: 2,
+        autoAlpha: 0,
+        onComplete: () => {
+          tip.textContent = '已隐藏，鼠标无法点击方块';
+          gsap.to(box, { duration: 2, autoAlpha: 1, delay: 1, onComplete: () => tip.textContent = '已恢复可见' })
+        }
+      })
+    }
+
+    // clearProps
+    document.getElementById('btnClearProps').onclick = () => {
+      tween.kill();
+      tween = gsap.from(box, {
+        duration: 3,
+        scale: 0,
+        left: 200,
+        backgroundColor: "red",
+        clearProps: "scale,left",
+        onComplete: () => {
+          tip.textContent = '动画结束，已清除 scale、left 的行内样式';
+        }
+      })
+    }
+
+    // autoRound
+    document.getElementById('btnAutoRound').onclick = () => {
+      tween.kill();
+      tween = gsap.to(box, {
+        duration: 2,
+        x: 123.45,
+        autoRound: false,
+        onComplete: () => {
+          tip.textContent = 'x 保留小数 123.45px，未自动取整';
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

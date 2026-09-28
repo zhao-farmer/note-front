@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>内环柱状图 </title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="barCanvas" width="400" height="400"></canvas>
+
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const barCanvas = document.getElementById('barCanvas');
+    const barCtx = barCanvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+    const BAR_COUNT = 128;
+
+    // RMS 平滑计算相关变量
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+
+    // 定义内外半径
+    const OUTER_RADIUS = 180;
+    const MAX_BAR_LENGTH = 140;
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8;
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isAudioContextReady = true;
+      }
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. 计算 RMS 分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 绘制内环频谱
+      const centerX = barCanvas.width / 2;
+      const centerY = barCanvas.height / 2;
+
+      barCtx.fillStyle = '#000';
+      barCtx.fillRect(0, 0, barCanvas.width, barCanvas.height);
+
+      // 绘制外环基准线
+      barCtx.beginPath();
+      barCtx.arc(centerX, centerY, OUTER_RADIUS, 0, Math.PI * 2);
+      barCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      barCtx.lineWidth = 2;
+      barCtx.stroke();
+
+      const step = Math.floor(fftBinCount / BAR_COUNT);
+      const angleStep = (Math.PI * 2) / BAR_COUNT;
+      const startOffset = -Math.PI / 2; // 从正上方开始
+
+      for (let i = 0; i < BAR_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < step; j++) {
+          sum += dataArray[i * step + j];
+        }
+        const avgVal = sum / step;
+
+        const barLength = (avgVal / 255) * MAX_BAR_LENGTH;
+        const innerR = Math.max(OUTER_RADIUS - barLength, 10);
+
+        const hue = 120 - (i / BAR_COUNT) * 120;
+        barCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+
+        const startAngle = startOffset + (i * angleStep);
+        const endAngle = startAngle + angleStep;
+
+        barCtx.beginPath();
+        barCtx.moveTo(centerX + OUTER_RADIUS * Math.cos(startAngle), centerY + OUTER_RADIUS * Math.sin(startAngle));
+        barCtx.arc(centerX, centerY, OUTER_RADIUS, startAngle, endAngle);
+        barCtx.lineTo(centerX + innerR * Math.cos(endAngle), centerY + innerR * Math.sin(endAngle));
+        barCtx.arc(centerX, centerY, innerR, endAngle, startAngle, true);
+        barCtx.closePath();
+        barCtx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

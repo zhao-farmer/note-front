@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pixi 线条 鼠标靠近显示</title>
+  <script src="./js/pixi.js"></script>
+</head>
+<body>
+
+  <script type="module">
+    // 1. 创建应用
+    const app = new PIXI.Application();
+    await app.init({ width: 600, height: 400, background: '#111' });
+    document.body.appendChild(app.view);
+    // 2. 画线
+    const line = new PIXI.Graphics();
+
+    // 线条起点终点
+    const x1 = 200, y1 = 200;
+    const x2 = 400, y2 = 200;
+
+    // 默认隐藏（alpha=0）
+    line.alpha = 0;
+
+    // 绘制线条（白色）
+    line.moveTo(x1, y1);
+    line.lineTo(x2, y2);
+    line.stroke({ width: 10, color: 0xffffff });
+
+    app.stage.addChild(line);
+
+    // 3. 鼠标靠近检测（每帧判断）
+    app.ticker.add(() => {
+      const mouse = app.renderer.events.pointer.global;
+
+      // 计算鼠标到线段的距离
+      const dist = distanceToLineSegment(
+        mouse.x, mouse.y,
+        x1, y1,
+        x2, y2
+      );
+
+      // 距离 < 30 像素 → 显示
+      if (dist < 30) {
+        line.alpha = 1;
+      } else {
+        line.alpha = 0;
+      }
+    });
+
+    // 工具函数：计算点到线段的距离
+    function distanceToLineSegment(px, py, x1, y1, x2, y2) {
+      const A = px - x1;
+      const B = py - y1;
+      const C = x2 - x1;
+      const D = y2 - y1;
+
+      const dot = A * C + B * D;
+      const lenSq = C * C + D * D;
+      let param = -1;
+
+      if (lenSq !== 0) param = dot / lenSq;
+
+      let xx, yy;
+      if (param < 0) { xx = x1; yy = y1; }
+      else if (param > 1) { xx = x2; yy = y2; }
+      else { xx = x1 + param * C; yy = y1 + param * D; }
+
+      const dx = px - xx;
+      const dy = py - yy;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+  </script>
+</body>
+
+</html>

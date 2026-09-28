@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        .box {
+            width: 80px;
+            height: 80px;
+            background: #4285f4;
+            margin: 10px;
+        }
+        .container {
+            width: 900px;
+        }
+        .container.small {
+            width: 600px;
+        }
+    </style>
+    <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="box"></div>
+    </div>
+    <button id="toggleBtn">切换容器宽度</button>
+    <button id="refreshBtn">手动执行 matchMediaRefresh</button>
+    <script>
+        const mm = gsap.matchMedia();
+        const container = document.querySelector("#container");
+
+        mm.add("(min-width:700px)", context => {
+            context.add(() => {
+                gsap.to(".box", { x: 320, rotation: 360, duration: 2, repeat: -1, yoyo: true });
+            });
+        });
+        mm.add("(max-width:699px)", context => {
+            context.add(() => {
+                gsap.to(".box", { y: 150, scale: 0.8, duration: 2, repeat: -1, yoyo: true });
+            });
+        });
+
+        document.querySelector("#toggleBtn").onclick = () => {
+            container.classList.toggle("small");
+            // 容器宽度变化，但窗口大小没变，matchMedia不会自动触发
+        };
+        document.querySelector("#refreshBtn").onclick = () => {
+            gsap.matchMediaRefresh();
+        };
+    </script>
+</body>
+</html>

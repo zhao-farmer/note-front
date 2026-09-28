@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="../js/gsap.min.js"></script>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: #4285f4;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    // 全局配置，修改left/top默认单位为%
+    gsap.config({
+      units: {
+        left: "%",
+        top: "%"
+      }
+    });
+
+    // left:50 会自动解析为 left:50%
+    gsap.to(".box", {
+      left: 50,
+      duration: 2
+    });
+  </script>
+</body>
+
+</html>

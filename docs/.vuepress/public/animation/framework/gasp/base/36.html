@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>GSAP CSSPlugin Demo</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: #3388ff;
+      margin: 30px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">测试盒子</div>
+  <button id="runBtn">执行动画</button>
+
+  <script src="../js/gsap.min.js"></script>
+  <script>
+    const box = document.querySelector('.box');
+    const runBtn = document.querySelector('#runBtn');
+
+    runBtn.addEventListener('click', () => {
+      gsap.to(box, {
+        // 1. 普通CSS属性，小驼峰命名，不需要 css:{}
+        backgroundColor: "red",
+        fontSize: 12,
+        boxShadow: "0px 0px 20px 20px red",
+        borderRadius: "50% 50%",
+        height: "auto", // auto 和 px 之间动画
+
+        // 2. 带不同单位，GSAP自动单位换算
+        width: "200px",
+        x: "10vw", // 自定义单位
+        rotation: "1.25rad",
+
+        // 3. 不可插值属性（无中间过渡，直接赋值）
+        position: "absolute", // 动画开始瞬间生效
+        // borderStyle: "solid",
+
+        // 4. display: none 动画结束瞬间才生效
+        // display: "none",
+
+        duration: 2,
+        ease: "power2.out"
+      })
+    })
+  </script>
+</body>
+</html>

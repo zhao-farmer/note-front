@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>CrossHatchFilter 交叉阴影滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>启用 CrossHatchFilter</label>
+        <input type="checkbox" id="chkEnable">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        CrossHatchFilter：素描交叉排线<br/>
+        该滤镜无配置参数，勾选开启，取消显示原图
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const hatchFilter = new PIXI.filters.CrossHatchFilter();
+
+    const chkEnable = document.getElementById('chkEnable');
+    chkEnable.onchange = ()=>{
+      sprite.filters = chkEnable.checked ? [hatchFilter] : [];
+    };
+  </script>
+</body>
+</html>

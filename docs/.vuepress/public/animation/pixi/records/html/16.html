@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ColorMapFilter 颜色映射滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 50px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>mix 混合强度</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpMix">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>nearest 最近邻采样</label>
+        <input type="checkbox" id="inpNearest">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        colorMap为一维LUT色带纹理(宽256×高1px)<br />
+        nearest开启会产生色彩断层硬边缘<br />
+        mix=0完全显示原图，mix=1完全映射颜色
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 385, height: 480 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    // 原图
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    sprite.x = 10;
+    sprite.y = 10;
+    app.stage.addChild(sprite);
+
+    // ----------------------
+    // 构造一维LUT色带 256x3 纹理
+    const lutCanvas = document.createElement('canvas');
+    lutCanvas.width = 256;
+    lutCanvas.height = 3;
+    const ctx = lutCanvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 256, 0);
+    grad.addColorStop(0, "#ff0000");
+    grad.addColorStop(0.25, "#ff00ff");
+    grad.addColorStop(0.5, "#0000ff");
+    grad.addColorStop(0.75, "#00ffff");
+    grad.addColorStop(1, "#ffffff");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 1);
+    const colorMapTex = PIXI.Texture.from(lutCanvas);
+    // ----------------------
+
+    const colorMapFilter = new PIXI.filters.ColorMapFilter({
+      colorMap: colorMapTex,
+      mix: 1.0,
+      nearest: false
+    });
+    sprite.filters = [colorMapFilter];
+
+    const inpMix = document.getElementById('inpMix');
+    const inpNearest = document.getElementById('inpNearest');
+
+    inpMix.value = 1.00;
+    inpNearest.checked = false;
+
+    inpMix.oninput = () => {
+      const v = Number(inpMix.value);
+      colorMapFilter.mix = v;
+      inpMix.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpNearest.onchange = () => {
+      colorMapFilter.nearest = inpNearest.checked;
+    };
+  </script>
+</body>
+
+</html>

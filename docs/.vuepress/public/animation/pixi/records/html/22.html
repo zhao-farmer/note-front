@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>DotFilter 网点滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex:1;
+    }
+    .val{
+      width:60px;
+      text-align:right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>scale 网点缩放</label>
+        <input type="range" min="0.5" max="8" step="0.1" id="inpScale">
+        <span class="val">1</span>
+      </div>
+      <div class="row">
+        <label>angle 旋转弧度</label>
+        <input type="range" min="0" max="6.28" step="0.05" id="inpAngle">
+        <span class="val">5</span>
+      </div>
+      <div class="row">
+        <label>grayscale 灰度网点</label>
+        <input type="checkbox" id="chkGrayscale">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        DotFilter：半色调印刷网点滤镜<br/>
+        scale控制网点颗粒大小，angle控制网屏旋转，grayscale切换彩色/黑白网点
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const dotFilter = new PIXI.filters.DotFilter({
+      scale:1,
+      angle:5,
+      grayscale:false
+    });
+
+    sprite.filters = [dotFilter];
+
+    const inpScale = document.getElementById('inpScale');
+    const inpAngle = document.getElementById('inpAngle');
+    const chkGrayscale = document.getElementById('chkGrayscale');
+    const valScale = inpScale.nextElementSibling;
+    const valAngle = inpAngle.nextElementSibling;
+
+    // 初始化控件值
+    inpScale.value = dotFilter.scale;
+    valScale.textContent = dotFilter.scale;
+    inpAngle.value = dotFilter.angle;
+    valAngle.textContent = dotFilter.angle;
+    chkGrayscale.checked = dotFilter.grayscale;
+
+
+
+    inpScale.oninput = ()=>{
+      dotFilter.scale = Number(inpScale.value);
+      valScale.textContent = dotFilter.scale.toFixed(2);
+    };
+
+    inpAngle.oninput = ()=>{
+      dotFilter.angle = Number(inpAngle.value);
+      valAngle.textContent = dotFilter.angle.toFixed(2);
+    };
+
+    chkGrayscale.onchange = ()=>{
+      dotFilter.grayscale = chkGrayscale.checked;
+    };
+  </script>
+</body>
+</html>

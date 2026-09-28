@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <button id="playBtn">播放动画</button>
+  <button id="pauseAllBtn">暂停box全部动画</button>
+  <button id="killAllBtn">销毁box全部动画</button>
+  <script>
+    const box = document.querySelector(".box");
+
+    document.querySelector("#playBtn").onclick = () => {
+      gsap.to(box, { x: 250, duration: 2, repeat: -1, yoyo: true });
+      gsap.to(box, { rotation: 360, duration: 4, repeat: -1 });
+    }
+
+    document.querySelector("#pauseAllBtn").onclick = () => {
+      const tweens = gsap.getTweensOf(box);
+      tweens.forEach(t => t.pause());
+    }
+
+    document.querySelector("#killAllBtn").onclick = () => {
+      const tweens = gsap.getTweensOf(box);
+      tweens.forEach(t => t.kill());
+    }
+  </script>
+</body>
+
+</html>

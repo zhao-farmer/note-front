@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 10px;
+    }
+    .panel {
+      width: 260px;
+      display: flex;
+      flex-direction: column;
+      gap:12px;
+    }
+    .item {
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .item label {
+      width:80px;
+      font-size:14px;
+    }
+    .item input[type="range"] {
+      flex:1;
+    }
+    .item .val {
+      width:45px;
+      font-size:13px;
+      text-align:right;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="canvas-wrap"></div>
+  <div class="panel">
+    <div class="item">
+      <label>伽马</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="gamma">
+      <span class="val">1.0</span>
+    </div>
+    <div class="item">
+      <label>对比度</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="contrast">
+      <span class="val">1.0</span>
+    </div>
+    <div class="item">
+      <label>饱和度</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="saturation">
+      <span class="val">0.5</span>
+    </div>
+    <div class="item">
+      <label>亮度</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="brightness">
+      <span class="val">0.9</span>
+    </div>
+    <div class="item">
+      <label>红色通道</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="red">
+      <span class="val">1.0</span>
+    </div>
+    <div class="item">
+      <label>绿色通道</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="green">
+      <span class="val">1.0</span>
+    </div>
+    <div class="item">
+      <label>蓝色通道</label>
+      <input type="range" min="0" max="3" step="0.01" data-key="blue">
+      <span class="val">1.0</span>
+    </div>
+    <div class="item">
+      <label>透明度</label>
+      <input type="range" min="0" max="1" step="0.01" data-key="alpha">
+      <span class="val">1.0</span>
+    </div>
+  </div>
+</div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width:345, height:460 });
+    document.querySelector('.canvas-wrap').appendChild(app.canvas);
+    
+    const texture = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(texture);
+    app.stage.addChild(sprite);
+    sprite.scale.set(0.5);
+
+    const adjustFilter = new PIXI.filters.AdjustmentFilter({
+        gamma: 1.0,
+        contrast: 1.0,
+        saturation: 0.5,
+        brightness: 0.9,
+        red: 1.0,
+        green: 1.0,
+        blue: 1.0,
+        alpha: 1.0
+    });
+    sprite.filters = [adjustFilter];
+
+    // 绑定滑块
+    const inputs = document.querySelectorAll('.panel input[type="range"]');
+    inputs.forEach(input=>{
+      const key = input.dataset.key;
+      // 初始值回显
+      input.value = adjustFilter[key];
+      input.parentElement.querySelector('.val').textContent = adjustFilter[key].toFixed(2);
+
+      input.addEventListener('input',()=>{
+        const v = Number(input.value);
+        adjustFilter[key] = v;
+        input.parentElement.querySelector('.val').textContent = v.toFixed(2);
+      })
+    })
+  </script>
+</body>
+</html>

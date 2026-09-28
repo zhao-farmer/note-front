@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny 快速转换</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      Output,
+      WebMOutputFormat,
+      BufferTarget,
+      Conversion,
+      UrlSource,
+      ALL_FORMATS
+    } from "../js/mediabunny.1.42.mjs";
+
+    const player = document.getElementById('player');
+    // 日志
+    const outputEl = document.getElementById('output');
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+    }
+
+    const VIDEO_URL = "../media/01.mp4";
+    (async () => {
+      try {
+    
+        log("1. 创建输入源...");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+ 
+        log("2. 创建输出（WebM）...");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget()
+        });
+
+        log("3. 初始化转换任务...");
+        const conversion = await Conversion.init({ input, output });
+        if (!conversion.isValid) {
+          log("转换无效：" + conversion.discardedTracks.length);
+          return
+        }
+
+        log("4. 正在转换...");
+        await conversion.execute();
+
+        log("5. 加载webm效果...");
+        const blob = new Blob([output.target.buffer], { type: 'video/webm' });
+        player.src = URL.createObjectURL(blob);
+
+      } catch (err) {
+        log("转换失败：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

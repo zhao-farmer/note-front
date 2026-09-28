@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh‑CN">
+
+<head>
+  <meta charset="UTF‑8">
+  <title>NoiseFilter 噪点滤镜 Demo</title>
+  <script src="./js/pixi.js"></script>
+
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex‑start;
+    }
+
+    .panel {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 90px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 45px;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>noise 噪点强度</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpNoise">
+        <span class="val">0.10</span>
+      </div>
+      <div class="row">
+        <label>动态闪烁</label>
+        <input type="checkbox" id="chkAnimate">
+        <span style="font-size:12px;">每帧更新seed，模拟雪花闪烁</span>
+      </div>
+      <div class="row">
+        <button id="btnNewSeed">刷新静态噪点图案</button>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        noise：0无噪点，1最强雪花<br />
+        seed：随机种子，改变噪点排布
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    // 噪点滤镜
+    const noiseFilter = new PIXI.NoiseFilter(0.10);
+    sprite.filters = [noiseFilter];
+
+    const inpNoise = document.getElementById('inpNoise');
+    const chkAnimate = document.getElementById('chkAnimate');
+    const btnNewSeed = document.getElementById('btnNewSeed');
+
+    inpNoise.value = 0.10;
+    inpNoise.oninput = () => {
+      const v = Number(inpNoise.value);
+      noiseFilter.noise = v;
+      inpNoise.nextElementSibling.textContent = v.toFixed(2);
+    };
+
+    btnNewSeed.onclick = () => {
+      noiseFilter.seed = Math.random();
+    };
+
+    app.ticker.add(() => {
+      if (chkAnimate.checked) {
+        noiseFilter.seed = Math.random();
+      }
+    });
+  </script>
+</body>
+
+</html>

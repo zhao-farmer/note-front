@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>OutlineFilter 描边滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas{
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex:1;
+    }
+    .val{
+      width:60px;
+      text-align:right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>color 描边颜色</label>
+        <input type="color" id="inpColor" value="#000000">
+      </div>
+      <div class="row">
+        <label>thickness 描边粗细</label>
+        <input type="range" min="0" max="20" step="0.1" id="inpThickness">
+        <span class="val">5.29</span>
+      </div>
+      <div class="row">
+        <label>alpha 描边透明度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpAlpha">
+        <span class="val">1.000</span>
+      </div>
+      <div class="row">
+        <label>knockout 内部镂空</label>
+        <input type="checkbox" id="chkKnockout">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        OutlineFilter：描边滤镜<br/>
+        thickness控制边框粗细；color设置描边颜色；alpha控制透明度；knockout开启内部镂空；使用基础图形：矩形、圆形、三角形、五角星
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0xffffff
+    });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const container = new PIXI.Container();
+    app.stage.addChild(container);
+    //绘制基础图形：矩形、圆形、三角形、五角星
+    const rectGfx = new PIXI.Graphics();
+    rectGfx.rect(0,0,80,60).fill(0x3388dd);
+    rectGfx.position.set(40,40);
+    container.addChild(rectGfx);
+    const circleGfx = new PIXI.Graphics();
+    circleGfx.circle(0,0,35).fill(0xdd6644);
+    circleGfx.position.set(180,70);
+    container.addChild(circleGfx);
+    const triGfx = new PIXI.Graphics();
+    triGfx.moveTo(0,-40).lineTo(35,32).lineTo(-35,32).closePath().fill(0x22bb66);
+    triGfx.position.set(70,180);
+    container.addChild(triGfx);
+    const starGfx = new PIXI.Graphics();
+    const starR = 40;
+    starGfx.moveTo(0,-starR);
+    for(let i=1;i<10;i++){
+      const r = i%2===1 ? starR : starR*0.4;
+      const angle = (Math.PI*2*i)/10 - Math.PI/2;
+      starGfx.lineTo(Math.cos(angle)*r, Math.sin(angle)*r);
+    }
+    starGfx.closePath().fill(0xccaa22);
+    starGfx.position.set(200,220);
+    container.addChild(starGfx);
+
+    const outlineFilter = new PIXI.filters.OutlineFilter({
+      thickness:5.29,
+      color:0x000000,
+      alpha:1,
+      knockout:false
+    });
+    container.filters = [outlineFilter];
+
+    const inpColor = document.getElementById('inpColor');
+    const inpThickness = document.getElementById('inpThickness');
+    const inpAlpha = document.getElementById('inpAlpha');
+    const chkKnockout = document.getElementById('chkKnockout');
+
+    const valThickness = inpThickness.nextElementSibling;
+    const valAlpha = inpAlpha.nextElementSibling;
+
+    //初始化控件
+    inpColor.value = '#' + outlineFilter.color.toString(16).padStart(6,'0');
+    inpThickness.value = outlineFilter.thickness;
+    valThickness.textContent = outlineFilter.thickness.toFixed(2);
+    inpAlpha.value = outlineFilter.alpha;
+    valAlpha.textContent = outlineFilter.alpha.toFixed(3);
+    chkKnockout.checked = outlineFilter.knockout;
+
+    inpColor.oninput = ()=>{
+      const hex = inpColor.value.replace('#','');
+      outlineFilter.color = parseInt(hex,16);
+    };
+    inpThickness.oninput = ()=>{
+      outlineFilter.thickness = Number(inpThickness.value);
+      valThickness.textContent = outlineFilter.thickness.toFixed(2);
+    };
+    inpAlpha.oninput = ()=>{
+      outlineFilter.alpha = Number(inpAlpha.value);
+      valAlpha.textContent = outlineFilter.alpha.toFixed(3);
+    };
+    chkKnockout.onchange = ()=>{
+      outlineFilter.knockout = chkKnockout.checked;
+    };
+  </script>
+</body>
+</html>

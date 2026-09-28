@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Output 6大核心步骤</title>
+</head>
+
+<body>
+  <video id="player" controls height="320" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSampleSink,
+      Output,
+      Mp4OutputFormat,
+      VideoSampleSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试视频
+    const VIDEO_URL = "../media/04.mp4";
+
+    (async () => {
+      try {
+        log("1. 创建 编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道");
+        const videoSampleSource = new VideoSampleSource({ 
+          codec: "avc", 
+          bitrate: 1e6, // 1 Mbps	
+        });
+        output.addVideoTrack(videoSampleSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入数据包");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+        const videoTrack = await input.getPrimaryVideoTrack();
+        const videoSink = new VideoSampleSink(videoTrack);
+        for await (const sample of videoSink.samples()) {
+          await videoSampleSource.add(sample);
+          sample.close();
+        }
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 资源使用\n");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/mp4" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`播放器加载成功！视频时长: ${player.duration.toFixed(2)}s`);
+        });
+
+        log("全部流程执行完成！");
+
+        // 释放input
+        input.dispose();
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

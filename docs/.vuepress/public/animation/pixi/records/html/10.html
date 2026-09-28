@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>AdvancedBloomFilter 高级辉光滤镜(含quality)</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 110px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 45px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>threshold 亮度阈值</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpThreshold">
+        <span class="val">0.50</span>
+      </div>
+      <div class="row">
+        <label>bloomScale 辉光强度</label>
+        <input type="range" min="0" max="3" step="0.05" id="inpBloomScale">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>brightness 发光亮度</label>
+        <input type="range" min="0" max="2.5" step="0.05" id="inpBrightness">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>blur 光晕模糊半径</label>
+        <input type="range" min="0" max="30" step="1" id="inpBlur">
+        <span class="val">8</span>
+      </div>
+      <div class="row">
+        <label>quality 迭代质量</label>
+        <input type="range" min="1" max="10" step="1" id="inpQuality">
+        <span class="val">4</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        threshold：只有亮度超过该值才产生光晕<br />
+        quality：Kawase模糊迭代次数，越高光晕越平滑<br />
+        padding已开启，防止光晕边缘裁切<br />
+        想要强辉光，原图需要存在高亮像素
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 385, height: 500 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    sprite.x = 20;
+    sprite.y = 20;
+    app.stage.addChild(sprite);
+
+    // 高级辉光滤镜，构造传入quality
+    const bloomFilter = new PIXI.filters.AdvancedBloomFilter({
+      threshold: 0.5,
+      bloomScale: 1.0,
+      brightness: 1.0,
+      blur: 8,
+      quality: 4
+    });
+    bloomFilter.padding = 40;
+    sprite.filters = [bloomFilter];
+
+    // UI绑定
+    const inpThreshold = document.getElementById('inpThreshold');
+    const inpBloomScale = document.getElementById('inpBloomScale');
+    const inpBrightness = document.getElementById('inpBrightness');
+    const inpBlur = document.getElementById('inpBlur');
+    const inpQuality = document.getElementById('inpQuality');
+
+    inpThreshold.value = 0.50;
+    inpBloomScale.value = 1.00;
+    inpBrightness.value = 1.00;
+    inpBlur.value = 8;
+    inpQuality.value = 4;
+
+    inpThreshold.oninput = () => {
+      const v = Number(inpThreshold.value);
+      bloomFilter.threshold = v;
+      inpThreshold.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpBloomScale.oninput = () => {
+      const v = Number(inpBloomScale.value);
+      bloomFilter.bloomScale = v;
+      inpBloomScale.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpBrightness.oninput = () => {
+      const v = Number(inpBrightness.value);
+      bloomFilter.brightness = v;
+      inpBrightness.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpBlur.oninput = () => {
+      const v = Number(inpBlur.value);
+      bloomFilter.blur = v;
+      inpBlur.nextElementSibling.textContent = String(v);
+    };
+    // quality滑块事件
+    inpQuality.oninput = () => {
+      const v = Number(inpQuality.value);
+      bloomFilter.quality = v;
+      inpQuality.nextElementSibling.textContent = String(v);
+    };
+  </script>
+</body>
+
+</html>

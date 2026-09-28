@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny 转换 + 进度条 + 取消 + 文件大小</title>
+  <style>
+    #progressBar {
+      width: 230px;
+      height: 15px;
+      background: #eee;
+      margin: 10px 0;
+      display: none;
+    }
+    #progressBar .fill {
+      height: 100%;
+      background: #42b983;
+      width: 0%;
+      transition: width 0.1s;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  
+  <div>
+    <button id="startBtn">开始转换</button>
+    <button id="cancelBtn" disabled>取消转换</button>
+  </div>
+  <div id="progressBar">
+    <div class="fill"></div>
+  </div>
+
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      Output,
+      WebMOutputFormat,
+      BufferTarget,
+      Conversion,
+      ConversionCanceledError,
+      UrlSource,
+      ALL_FORMATS
+    } from "../js/mediabunny.1.42.mjs";
+
+    // 页面元素
+    const outputEl = document.getElementById('output');
+    const player = document.getElementById('player');
+    const startBtn = document.getElementById('startBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = progressBar.querySelector('.fill');
+
+    // 视频源
+    const VIDEO_URL = "../media/01.mp4";
+
+    // 全局实例
+    let currentConversion = null;
+    let lastProgressLine = -1;
+    let currentFileSize = 0; // 文件大小
+
+    // 清空日志
+    function clearLog() {
+      outputEl.textContent = '';
+      lastProgressLine = -1;
+      currentFileSize = 0;
+    }
+
+    // 普通日志
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+    }
+
+    // 统一更新：进度 + 文件大小
+    function updateProgress(p) {
+      const mb = (currentFileSize / 1024 / 1024).toFixed(2);
+      const text = outputEl.textContent;
+      const lines = text.split('\n');
+
+      const info = `转换进度：${p}%  |  已输出：${mb} MB`;
+
+      if (lastProgressLine === -1) {
+        lastProgressLine = lines.length;
+        lines.push(info);
+      } else {
+        lines[lastProgressLine] = info;
+      }
+
+      outputEl.textContent = lines.join('\n');
+      progressFill.style.width = p + '%';
+    }
+
+    // 重置 UI
+    function resetUI() {
+      startBtn.disabled = false;
+      cancelBtn.disabled = true;
+      progressBar.style.display = 'none';
+      progressFill.style.width = '0%';
+      currentConversion = null;
+    }
+
+    // 开始转换
+    async function startConversion() {
+      player.src = '';
+      clearLog();
+      resetUI();
+
+      startBtn.disabled = true;
+      cancelBtn.disabled = false;
+      progressBar.style.display = 'block';
+      log("=== 开始媒体转换 ===");
+
+      try {
+        log("1. 创建输入源...");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+
+        log("2. 创建输出（WebM）...");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget()
+        });
+
+        // ========== 【新增】监听写入字节大小 ==========
+        output.target.on('write', ({ end }) => {
+          currentFileSize = Math.max(currentFileSize, end);
+        });
+
+        log("3. 初始化转换任务...");
+        const conversion = await Conversion.init({ input, output });
+        currentConversion = conversion;
+
+        if (!conversion.isValid) {
+          log("转换无效：" + conversion.discardedTracks.length);
+          resetUI();
+          return;
+        }
+
+        log("4. 正在转换...");
+        conversion.onProgress = (progress) => {
+          const p = (progress * 100).toFixed(1);
+          updateProgress(p);
+        };
+
+        await conversion.execute();
+        updateProgress("100");
+        log("转换完成！");
+
+        const blob = new Blob([output.target.buffer], { type: 'video/webm' });
+        player.src = URL.createObjectURL(blob);
+
+      } catch (err) {
+        if (err instanceof ConversionCanceledError) {
+          log("转换已取消");
+        } else {
+          log("转换失败：" + err.message);
+          console.error(err);
+        }
+      } finally {
+        resetUI();
+      }
+    }
+
+    // 取消转换
+    async function cancelConversion() {
+      if (currentConversion) {
+        await currentConversion.cancel();
+        progressFill.style.width = '0%';
+        updateProgress(0);
+      }
+    }
+
+    // 绑定事件
+    startBtn.addEventListener('click', startConversion);
+    cancelBtn.addEventListener('click', cancelConversion);
+
+    log("准备就绪，点击【开始转换】");
+  </script>
+</body>
+
+</html>

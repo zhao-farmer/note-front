@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    .box {
+        width: 80px;
+        height: 80px;
+        background: #4285f4;
+        margin: 10px;
+    }
+    </style>
+    <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+    <div class="box"></div>
+    <div>缩放窗口查看动画变化</div>
+    <script>
+    const mm = gsap.matchMedia();
+
+    // 桌面 >=768px
+    mm.add("(min-width:768px)", (context) => {
+        context.add(() => {
+            gsap.to(".box", { x: 350, rotation: 360, duration: 2, repeat: -1, yoyo:true });
+        });
+    });
+
+    // 移动端 <768px
+    mm.add("(max-width:767px)", (context) => {
+        context.add(() => {
+            gsap.to(".box", { y: 220, scale:0.7, duration: 2, repeat: -1, yoyo:true });
+        });
+    });
+    </script>
+</body>
+</html>

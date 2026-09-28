@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GSAP directionalRotation 旋转方向演示</title>
+
+  <style>
+    .box {
+      width: 140px;
+      height: 140px;
+      background: #2596be;
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .btns {
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 14px;
+      margin: 4px;
+    }
+
+    #codeInfo {
+      text-align: center;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="btns">
+    <button id="btnShort">最短路径 _short</button>
+    <button id="btnCw">顺时针 _cw</button>
+    <button id="btnCcw">逆时针 _ccw</button>
+  </div>
+  <div class="box">测试方块</div>
+  <p id="codeInfo">当前动画：</p>
+
+  <script>
+    const box = document.querySelector('.box');
+    const codeInfo = document.getElementById('codeInfo');
+    let tween = gsap.to({}, {});
+
+    // 最短路径 _short
+    document.getElementById('btnShort').onclick = () => {
+      tween.kill();
+      tween = gsap.to(box, {
+        duration: 2,
+        rotation: "-170_short",
+        rotationY: "90_short",
+        ease: "power2.out"
+      })
+      codeInfo.textContent = '当前动画：rotation:"-170_short", rotationY:"90_short"';
+    }
+
+    // 顺时针 _cw
+    document.getElementById('btnCw').onclick = () => {
+      tween.kill();
+      tween = gsap.to(box, {
+        duration: 2,
+        rotation: "-=30_cw",
+        rotationX: "60_cw",
+        ease: "power2.out"
+      })
+      codeInfo.textContent = '当前动画：rotation:"-=30_cw", rotationX:"60_cw"';
+    }
+
+    // 逆时针 _ccw
+    document.getElementById('btnCcw').onclick = () => {
+      tween.kill();
+      tween = gsap.to(box, {
+        duration: 2,
+        rotation: "1.5rad_ccw",
+        rotationY: "120_ccw",
+        ease: "power2.out"
+      })
+      codeInfo.textContent = '当前动画：rotation:"1.5rad_ccw", rotationY:"120_ccw"';
+    }
+  </script>
+</body>
+
+</html>

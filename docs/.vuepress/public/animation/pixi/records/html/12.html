@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BackdropBlurFilter 完整属性</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 110px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 45px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>blur 总模糊强度</label>
+        <input type="range" min="0" max="30" step="1" id="inpBlur">
+        <span class="val">8</span>
+      </div>
+      <div class="row">
+        <label>blurX X轴模糊</label>
+        <input type="range" min="0" max="30" step="1" id="inpBlurX">
+        <span class="val">8</span>
+      </div>
+      <div class="row">
+        <label>blurY Y轴模糊</label>
+        <input type="range" min="0" max="30" step="1" id="inpBlurY">
+        <span class="val">8</span>
+      </div>
+      <div class="row">
+        <label>quality 模糊质量</label>
+        <input type="range" min="1" max="10" step="1" id="inpQuality">
+        <span class="val">4</span>
+      </div>
+      <div class="row">
+        <label>resolution 渲染分辨率</label>
+        <input type="range" min="0.2" max="2" step="0.1" id="inpResolution">
+        <span class="val">1.0</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        useBackBuffer:true 必须开启<br />
+        容器外扩图形内缩规避黑边<br />
+        BackdropBlurFilter 禁止设置padding
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 325,
+      height: 460,
+      useBackBuffer: true
+    });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    // 底层背景图
+    const bgTex = await PIXI.Assets.load('./image/01.jpg');
+    const bgSprite = PIXI.Sprite.from(bgTex);
+    bgSprite.scale.set(0.5);
+    app.stage.addChild(bgSprite);
+
+    const baseBlur = 8;
+    const panelW = 300;
+    const panelH = 220;
+    // 容器向外预留采样空间，防止黑边
+    const glassPanel = new PIXI.Container();
+    glassPanel.x = 10 - baseBlur;
+    glassPanel.y = 120 - baseBlur;
+    glassPanel.width = panelW + baseBlur * 2;
+    glassPanel.height = panelH + baseBlur * 2;
+
+    // 图形向内收缩
+    const glassBg = new PIXI.Graphics();
+    glassBg.roundRect(baseBlur, baseBlur, panelW, panelH, 12).fill({ r: 255, g: 255, b: 255, a: 0.25 });
+    glassPanel.addChild(glassBg);
+    app.stage.addChild(glassPanel);
+
+    // BackdropBlurFilter 全部完整参数
+    const backdropBlur = new PIXI.filters.BackdropBlurFilter({
+      blur: 8,
+      blurX: 8,
+      blurY: 8,
+      quality: 4,
+      resolution: 1.0
+    });
+    glassPanel.filters = [backdropBlur];
+
+    // UI绑定
+    const inpBlur = document.getElementById('inpBlur');
+    const inpBlurX = document.getElementById('inpBlurX');
+    const inpBlurY = document.getElementById('inpBlurY');
+    const inpQuality = document.getElementById('inpQuality');
+    const inpResolution = document.getElementById('inpResolution');
+
+    inpBlur.value = 8;
+    inpBlurX.value = 8;
+    inpBlurY.value = 8;
+    inpQuality.value = 4;
+    inpResolution.value = 1.0;
+
+    inpBlur.oninput = () => {
+      const v = Number(inpBlur.value);
+      backdropBlur.blur = v;
+      inpBlur.nextElementSibling.textContent = String(v);
+    };
+    inpBlurX.oninput = () => {
+      const v = Number(inpBlurX.value);
+      backdropBlur.blurX = v;
+      inpBlurX.nextElementSibling.textContent = String(v);
+    };
+    inpBlurY.oninput = () => {
+      const v = Number(inpBlurY.value);
+      backdropBlur.blurY = v;
+      inpBlurY.nextElementSibling.textContent = String(v);
+    };
+    inpQuality.oninput = () => {
+      const v = Number(inpQuality.value);
+      backdropBlur.quality = v;
+      inpQuality.nextElementSibling.textContent = String(v);
+    };
+    inpResolution.oninput = () => {
+      const v = Number(inpResolution.value);
+      backdropBlur.resolution = v;
+      inpResolution.nextElementSibling.textContent = v.toFixed(1);
+    };
+  </script>
+</body>
+
+</html>

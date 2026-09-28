@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+    .log {
+      margin-top:10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+  <div class="box"></div>
+  <div class="log">
+    ratio: <span id="ratioVal">0.000</span> 
+    progress: <span id="progressVal">0.000</span>
+  </div>
+  <button id="playBtn">播放动画</button>
+  <script>
+    const box = document.querySelector(".box");
+    const ratioDom = document.querySelector("#ratioVal");
+    const progressDom = document.querySelector("#progressVal");
+    let tween;
+
+    document.querySelector("#playBtn").onclick = () => {
+      if(tween) tween.kill();
+      tween = gsap.to(box, {
+        x: 300,
+        duration: 2,
+        delay: 0.5,
+        repeat: 1,
+        yoyo:true
+      });
+    }
+
+    gsap.ticker.add(() => {
+      if(!tween) return;
+      ratioDom.textContent = tween.ratio.toFixed(3);
+      progressDom.textContent = tween.progress().toFixed(3);
+    })
+  </script>
+</body>
+</html>

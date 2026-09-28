@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector(".box");
+    // 解析弹性缓动
+    const easeFn = gsap.parseEase("elastic.out(1,0.3)");
+    let progress = 0;
+    const duration = 2;
+    let startTime = performance.now();
+
+    gsap.ticker.add(() => {
+      const now = performance.now();
+      progress = (now - startTime) / (duration * 1000);
+      if (progress > 1) {
+        progress = 0;
+        startTime = now;
+      }
+      const x = easeFn(progress) * 250;
+      gsap.set(box, { x });
+    });
+  </script>
+</body>
+
+</html>

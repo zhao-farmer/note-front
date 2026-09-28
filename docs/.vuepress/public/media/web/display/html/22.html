@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas dB电平表-格子实现</title>
+  <style>
+    #meterCanvas {
+      background: #1a1a22;
+      border-radius: 8px;
+    }
+
+    .info {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="info">Left dB: <span id="dbL">‑∞</span> &nbsp;&nbsp; Right dB: <span id="dbR">‑∞</span></div>
+  <canvas id="meterCanvas"></canvas>
+  <br>
+  <audio id="audio" controls src="./audio/01.mp3">
+
+    <script>
+      const audioEl = document.getElementById('audio');
+      const dbLabelL = document.getElementById('dbL');
+      const dbLabelR = document.getElementById('dbR');
+      const canvas = document.getElementById('meterCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // 画布布局配置
+      const CONFIG = {
+        barWidth: 84,
+        barHeight: 38,
+        gapBar: 5,
+        gapCh: 30,
+        barCount: 5,
+        padding: 16
+      };
+      // 自动设置画布尺寸
+      const totalW = CONFIG.padding * 2 + CONFIG.barWidth * 2 + CONFIG.gapCh;
+      const totalH = CONFIG.padding * 2 + CONFIG.barCount * (CONFIG.barHeight + CONFIG.gapBar);
+      canvas.width = totalW;
+      canvas.height = totalH;
+
+      // 颜色 从下往上 l0~l4
+      const COLORS = [
+        '#29c241',
+        '#29c241',
+        '#29c241',
+        '#ff8800',
+        '#ff2222'
+      ];
+      const BG_BAR = '#333333';
+
+      // 档位dB阈值 l0~l4
+      const THRESHOLDS = [
+        -50,
+        -25,
+        -12,
+        -6,
+        0
+      ];
+
+      let audioCtx, splitter, analyserL, analyserR;
+      // 峰值保持
+      const peakLeft = { val: -100 };
+      const peakRight = { val: -100 };
+      const DECAY_DB = 1.2;
+
+      audioEl.onplay = async () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const source = audioCtx.createMediaElementSource(audioEl);
+          splitter = audioCtx.createChannelSplitter(2);
+          analyserL = audioCtx.createAnalyser();
+          analyserR = audioCtx.createAnalyser();
+          analyserL.fftSize = 1024;
+          analyserR.fftSize = 1024;
+          analyserL.smoothingTimeConstant = 0.0;
+          analyserR.smoothingTimeConstant = 0.0;
+          source.connect(splitter);
+          splitter.connect(analyserL, 0);
+          splitter.connect(analyserR, 1);
+          source.connect(audioCtx.destination);
+        }
+        renderLoop();
+      }
+
+      // 获取Peak dBFS
+      function getPeakDb(analyser) {
+        const buf = new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(buf);
+        let maxAmp = 0;
+        for (let i = 0; i < buf.length; i++) {
+          const v = (buf[i] - 128) / 128;
+          const absV = Math.abs(v);
+          if (absV > maxAmp) maxAmp = absV;
+        }
+        if (maxAmp <= 1e-8) return -100;
+        const db = 20 * Math.log10(maxAmp);
+        return Math.max(-100, Math.min(0, db));
+      }
+
+      function dbToLevel(dbVal) {
+        let level = 0;
+        for (const t of THRESHOLDS) {
+          if (dbVal > t) level++;
+        }
+        return level;
+      }
+
+      /**
+       * 绘制单声道一组电平格子
+       * @param {number} offsetX 声道起始X
+       * @param {number} litCount 点亮格数
+       */
+      function drawChannel(offsetX, litCount) {
+        const { padding, barHeight, gapBar, barWidth, barCount } = CONFIG;
+        // 从下往上绘制，对应原来 flex‑direction:column‑reverse
+        for (let i = 0; i < barCount; i++) {
+          // i=0最下面一格；i=4最上面一格
+          const y = padding + (barCount - 1 - i) * (barHeight + gapBar);
+          if (i < litCount) {
+            ctx.fillStyle = COLORS[i];
+          } else {
+            ctx.fillStyle = BG_BAR;
+          }
+          ctx.fillRect(offsetX, y, barWidth, barHeight);
+        }
+      }
+
+      function renderLoop() {
+        if (audioEl.paused) return;
+
+        const currDbL = getPeakDb(analyserL);
+        const currDbR = getPeakDb(analyserR);
+
+        // 更新峰值保持
+        let outL;
+        if (currDbL > peakLeft.val) {
+          outL = currDbL; peakLeft.val = currDbL;
+        } else {
+          outL = peakLeft.val;
+          peakLeft.val = Math.max(-100, peakLeft.val - DECAY_DB);
+        }
+
+        let outR;
+        if (currDbR > peakRight.val) {
+          outR = currDbR; peakRight.val = currDbR;
+        } else {
+          outR = peakRight.val;
+          peakRight.val = Math.max(-100, peakRight.val - DECAY_DB);
+        }
+
+        dbLabelL.textContent = outL.toFixed(1) + " dBFS";
+        dbLabelR.textContent = outR.toFixed(1) + " dBFS";
+
+        const lvL = dbToLevel(outL);
+        const lvR = dbToLevel(outR);
+
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 左声道
+        drawChannel(CONFIG.padding, lvL);
+        // 右声道X偏移
+        const rightX = CONFIG.padding + CONFIG.barWidth + CONFIG.gapCh;
+        drawChannel(rightX, lvR);
+
+        requestAnimationFrame(renderLoop);
+      }
+    </script>
+</body>
+
+</html>

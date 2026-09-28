@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="box"></div>
+  <script>
+    // 设置全局默认
+    gsap.defaults({
+      duration: 1.2,
+      ease: "power3.out"
+    });
+
+    // 自动继承 duration、ease
+    gsap.to(".box:nth-child(1)", { x: 250 });
+    // 覆盖 duration
+    gsap.to(".box:nth-child(2)", { x: 250, duration: 0.6 });
+  </script>
+</body>
+
+</html>

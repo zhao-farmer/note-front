@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>内外交替折线图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="altLineCanvas" width="500" height="500"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('altLineCanvas');
+    const ctx = canvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source, isReady = false;
+
+    // ========== RMS 相关参数 ==========
+    const bufferLength = 2048;
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const timeDataArray = new Uint8Array(bufferLength); // 专供 RMS 使用
+
+    // ========== 频谱折线相关参数 ==========
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);      // 专供频谱使用
+    const POINT_COUNT = 64; // 建议保持偶数，确保内外环交替完美闭合
+    const OUTER_RADIUS = 180; // 外环基准半径
+    const INNER_RADIUS = 80;  // 内环基准半径
+    const MAX_AMPLITUDE = 60; // 振幅向外/内延伸的最大长度
+
+    audioEl.onplay = async () => {
+      if (!isReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.85;
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isReady = true;
+      }
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+
+      // 1. RMS 分贝计算（完整保留）
+
+      analyser.getByteTimeDomainData(timeDataArray);
+      let sumSq = 0;
+      for (let v of timeDataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      const instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+
+      // 2. 获取频域数据并绘制交替折线
+
+      analyser.getByteFrequencyData(dataArray);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      // 清空画布
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 绘制内外环基准线（作为视觉参考）
+      ctx.beginPath();
+      ctx.arc(cx, cy, OUTER_RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, INNER_RADIUS, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 创建锥形渐变（绿 -> 黄 -> 红 -> 黄 -> 绿，无缝衔接）
+      const grad = ctx.createConicGradient(-Math.PI / 2, cx, cy);
+      grad.addColorStop(0, 'hsl(120, 100%, 50%)');
+      grad.addColorStop(0.25, 'hsl(60, 100%, 50%)');
+      grad.addColorStop(0.5, 'hsl(0, 100%, 50%)');
+      grad.addColorStop(0.75, 'hsl(60, 100%, 50%)');
+      grad.addColorStop(1, 'hsl(120, 100%, 50%)');
+
+      // 【核心】收集所有点并绘制交替折线
+      const step = Math.floor(fftBinCount / POINT_COUNT);
+      const angleStep = (Math.PI * 2) / POINT_COUNT;
+      const startOffset = -Math.PI / 2; // 从正上方开始
+
+      ctx.beginPath();
+      for (let i = 0; i <= POINT_COUNT; i++) {
+        const idx = i % POINT_COUNT;
+
+        let sum = 0;
+        for (let j = 0; j < step; j++) sum += dataArray[idx * step + j];
+        const avgVal = sum / step;
+        const amplitude = (avgVal / 255) * MAX_AMPLITUDE;
+
+        // 【核心逻辑】根据索引奇偶性决定落在外环还是内环
+        let currentRadius;
+        if (i % 2 === 0) {
+          // 偶数点：落在外环，向外延伸
+          currentRadius = OUTER_RADIUS + amplitude;
+        } else {
+          // 奇数点：落在内环，向内延伸
+          currentRadius = INNER_RADIUS - amplitude;
+          // 防止穿过圆心
+          currentRadius = Math.max(currentRadius, 10);
+        }
+
+        const angle = startOffset + idx * angleStep;
+        const x = cx + currentRadius * Math.cos(angle);
+        const y = cy + currentRadius * Math.sin(angle);
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+
+      ctx.closePath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 给折线内部加一层半透明填充，增强齿轮/星芒的体量感
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

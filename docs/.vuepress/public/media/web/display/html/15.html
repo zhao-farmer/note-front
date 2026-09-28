@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny抽帧 函数参数 extractFrames(total,start,end)</title>
+  <script src="./js/pixi.js"></script>
+</head>
+<body>
+  <script type="module">
+    import { Input, UrlSource, EncodedPacketSink, ALL_FORMATS } from './js/mediabunny.1.42.mjs';
+
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({
+        width: 800,
+        height: 200,
+        backgroundColor: 0x222222,
+        antialias: true
+      });
+      document.body.appendChild(app.canvas);
+
+
+      // 外层可拖拽容器
+      const clipContainer = new PIXI.Container();
+      clipContainer.y = 50;
+      app.stage.addChild(clipContainer);
+
+
+      let isResizing = false;
+      let viewWidth = 400;
+      let totalThumbWidth = 0;
+
+
+      // ========= 轨道配置 =========
+      const TRACK_CONFIG = {
+        trackHeight: 100,
+        trackWidth: 160,
+        spacing: 4,
+        paddingV: 8
+      };
+
+
+      const bgGraphics = new PIXI.Graphics();
+      clipContainer.addChild(bgGraphics);
+
+      const thumbContainer = new PIXI.Container();
+      clipContainer.addChild(thumbContainer);
+
+      const maskGraphics = new PIXI.Graphics();
+      maskGraphics.rect(0,0,viewWidth,TRACK_CONFIG.trackHeight).fill(0xffffff);
+      thumbContainer.addChild(maskGraphics);
+      thumbContainer.mask = maskGraphics;
+
+
+      const handle = new PIXI.Graphics();
+      clipContainer.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      /** @type {PIXI.Sprite[]} */
+      const thumbSprites = [];
+
+
+      function bakeFrameToSprite(frame) {
+        const tempTexture = PIXI.Texture.from(frame);
+        const tempSprite = new PIXI.Sprite(tempTexture);
+
+        const renderTexture = PIXI.RenderTexture.create({
+          width: frame.displayWidth,
+          height: frame.displayHeight
+        });
+        app.renderer.render({
+          container: tempSprite,
+          target: renderTexture
+        });
+
+        tempSprite.destroy();
+        tempTexture.destroy(true);
+        return new PIXI.Sprite(renderTexture);
+      }
+
+
+      /**
+       * @param {number} total 总共划分多少等分帧
+       * @param {number} frameStart 起始帧下标（包含）
+       * @param {number} frameEnd 结束帧下标（包含）
+       */
+      async function extractFrames(total, frameStart, frameEnd) {
+        // 参数校验
+        if(frameStart < 0) frameStart = 0;
+        if(frameEnd >= total) frameEnd = total -1;
+        if(frameStart > frameEnd){
+          throw new Error(`参数错误 frameStart(${frameStart}) > frameEnd(${frameEnd})`);
+        }
+
+        const input = new Input({
+          source: new UrlSource('./video/demo.mp4'),
+          formats: ALL_FORMATS,
+        });
+        const duration = await input.computeDuration();
+        const videoTrack = await input.getPrimaryVideoTrack();
+        if (!videoTrack) throw new Error("无视频轨道");
+
+        const dw = await videoTrack.getDisplayWidth();
+        const dh = await videoTrack.getDisplayHeight();
+        console.log('视频原始比例 dw/dh', dw, dh);
+
+        const decoderConfig = await videoTrack.getDecoderConfig();
+        if (!decoderConfig) throw new Error("获取decoderConfig失败");
+        const { supported } = await VideoDecoder.isConfigSupported(decoderConfig);
+        if (!supported) throw new Error("浏览器解码器配置不支持");
+
+
+        const indexQueue = [];
+        const sink = new EncodedPacketSink(videoTrack);
+
+        const decoder = new VideoDecoder({
+          output: (videoFrame) => {
+            const idx = indexQueue.shift();
+            if (idx !== -1) {
+              const spr = bakeFrameToSprite(videoFrame);
+              thumbSprites[idx] = spr;
+            }
+            videoFrame.close();
+          },
+          error: (err) => console.error("decode error", err)
+        });
+        decoder.configure(decoderConfig);
+
+
+        const stepTime = duration / total;
+        let targetIndex = frameStart;          // 从传入的起始下标开始
+        let nextTargetTime = targetIndex * stepTime;
+        let gotKeyframe = false;
+
+
+        for await (const pkt of sink.packets()) {
+          const chunk = pkt.toEncodedVideoChunk();
+
+          if (!gotKeyframe) {
+            if (chunk.type === "key") {
+              decoder.decode(chunk);
+              indexQueue.push(-1);
+              gotKeyframe = true;
+            }
+            continue;
+          }
+
+          let useIndex = -1;
+          const ptsSec = chunk.timestamp / 1_000_000;
+          if (ptsSec >= nextTargetTime && targetIndex <= frameEnd) {
+            useIndex = targetIndex;
+            targetIndex += 1;
+            nextTargetTime = targetIndex * stepTime;
+          }
+
+          decoder.decode(chunk);
+          indexQueue.push(useIndex);
+
+          // 达到结束下标，直接停止读取包
+          if (targetIndex > frameEnd) break;
+        }
+
+        await decoder.flush();
+        decoder.close();
+
+
+        // 渲染 [frameStart ~ frameEnd] 的sprite
+        const availableImgHeight = TRACK_CONFIG.trackHeight - TRACK_CONFIG.paddingV * 2;
+        let offsetX = 0;
+        thumbContainer.removeChildren(); // 清空旧缩略图，支持多次调用extractFrames
+
+        for(let i = frameStart; i <= frameEnd; i++){
+          const spr = thumbSprites[i];
+          if(!spr) continue;
+
+          const scale = availableImgHeight / spr.texture.height;
+          spr.scale.set(scale);
+
+          spr.x = offsetX;
+          spr.y = TRACK_CONFIG.paddingV + (availableImgHeight - spr.height)/2;
+
+          thumbContainer.addChild(spr);
+          offsetX += spr.width + TRACK_CONFIG.spacing;
+        }
+
+        totalThumbWidth = offsetX;
+        console.log(`extractFrames完成 total:${total} 范围[${frameStart}-${frameEnd}] 渲染总宽度`,totalThumbWidth);
+      }
+
+
+      function updateView() {
+        const { trackHeight } = TRACK_CONFIG;
+        bgGraphics.clear();
+        bgGraphics.rect(0, 0, viewWidth, trackHeight).fill(0x333355);
+
+        maskGraphics.clear();
+        maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+
+        const handleH = 30;
+        const handleY = (trackHeight - handleH) / 2;
+        handle.clear();
+        handle.rect(viewWidth - 10, handleY, 10, handleH).fill(0xffffff);
+      }
+
+
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+        const localX = clipContainer.toLocal(global).x;
+        viewWidth = Math.max(100, Math.min(totalThumbWidth, localX));
+        updateView();
+      });
+
+
+      // =====调用示例：总20等分，取下标5~15帧=====
+      await extractFrames(20,9,15);
+      updateView();
+
+      // 后续你还可以再次调用，例如：await extractFrames(20,2,8);
+    })();
+  </script>
+</body>
+</html>

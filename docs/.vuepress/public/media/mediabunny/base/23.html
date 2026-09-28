@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny 音频处理（声道+采样率+转码）</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      Output,
+      WebMOutputFormat,
+      BufferTarget,
+      Conversion,
+      UrlSource,
+      ALL_FORMATS,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    // 页面元素
+    const outputEl = document.getElementById('output');
+    const player = document.getElementById('player');
+
+    // 视频源
+    const VIDEO_URL = "../media/01.mp4";
+
+    // 文件大小
+    let currentFileSize = 0;
+    let lastProgressLine = -1;
+
+    // 普通日志
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+    }
+
+    // 进度覆盖日志
+    function updateProgress(p) {
+      const mb = (currentFileSize / 1024 / 1024).toFixed(2);
+      const text = outputEl.textContent;
+      const lines = text.split('\n');
+
+      const info = `进度：${p}%  | 已输出：${mb} MB`;
+
+      if (lastProgressLine === -1) {
+        lastProgressLine = lines.length;
+        lines.push(info);
+      } else {
+        lines[lastProgressLine] = info;
+      }
+
+      outputEl.textContent = lines.join('\n');
+    }
+
+    // 自动执行
+    (async () => {
+      try {
+        log("=== 自动开始 音频处理转换 ===");
+
+        log("1. 创建输入源...");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+
+        log("2. 创建输出（WebM）...");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget()
+        });
+
+        // 监听输出文件大小
+        output.target.on('write', ({ end }) => {
+          currentFileSize = Math.max(currentFileSize, end);
+        });
+
+        log("3. 初始化转换任务（处理音频）...");
+
+        const conversion = await Conversion.init({
+          input,
+          output,
+          // 视频保持原样
+          video: {},
+          // 音频核心处理
+          audio: {
+            // 1. 转单声道
+            numberOfChannels: 1,
+
+            // 2. 重采样到 48000Hz
+            sampleRate: 48000,
+
+            // 3. 音频编码 + 高质量
+            codec: "opus",
+            bitrate: QUALITY_HIGH,
+
+            // 4. 强制转码（不走流复制）
+            forceTranscode: true
+          }
+        });
+
+        if (!conversion.isValid) {
+          log("转换无效：" + conversion.discardedTracks.length);
+          return;
+        }
+
+        log("4. 正在转换（音频处理中）...");
+        conversion.onProgress = (progress) => {
+          const p = (progress * 100).toFixed(1);
+          updateProgress(p);
+        };
+
+        await conversion.execute();
+        updateProgress("100");
+        log("音频转换完成！");
+
+        log("5. 播放处理后的视频...");
+        const blob = new Blob([output.target.buffer], { type: 'video/webm' });
+        player.src = URL.createObjectURL(blob);
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

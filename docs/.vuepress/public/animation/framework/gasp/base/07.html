@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 60px;
+      height: 60px;
+      background: #4285f4;
+      margin: 8px;
+      display: inline-block;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <script>
+    const boxes = gsap.utils.toArray(".box");
+    const distributor = gsap.utils.distribute({
+      base: 0,
+      amount: 150,
+      from: "start",
+      ease: "power2.out"
+    });
+
+    boxes.forEach((box, i) => {
+      gsap.to(box, {
+        x: distributor(i, boxes.length, box),
+        duration: 1,
+        opacity: gsap.utils.random(0.4, 1)
+      })
+    })
+  </script>
+</body>
+
+</html>

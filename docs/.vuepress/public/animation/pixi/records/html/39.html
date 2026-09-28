@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+      <meta charset="UTF-8">
+      <title>ShockwaveFilter 冲击波水波纹滤镜-调整动画值</title>
+      <script src="./js/pixi.js"></script>
+      <script src="./js/pixi-filters.js"></script>
+      <style>
+        .wrap {
+          display: flex;
+          gap: 20px;
+          align-items: flex-start;
+        }
+        .panel {
+          width: 340px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          border: 1px solid #ccc;
+          padding:14px;
+          border-radius:6px;
+        }
+        canvas{
+          border:1px solid #ccc;
+        }
+        .row{
+          display:flex;
+          gap:8px;
+          align-items:center;
+        }
+        label{
+          width:130px;
+          font-size:14px;
+        }
+        input[type="range"]{
+          flex:1;
+        }
+        .val{
+          width:80px;
+          text-align:right;
+          font-size:13px;
+        }
+      </style>
+    </head>
+    <body>
+    <div class="wrap">
+      <div id="canvasWrap"></div>
+      <div class="panel">
+        
+        <div class="row">
+          <label>speed 扩散速度</label>
+          <input type="range" min="50" max="1000" step="10" id="inpSpeed">
+          <span class="val">500.00</span>
+        </div>
+        <div class="row">
+          <label>radius 最大半径</label>
+          <input type="range" min="-1" max="500" step="1" id="inpRadius">
+          <span class="val">-1</span>
+        </div>
+        <div style="font-size:12px;color:#555;">
+          ShockwaveFilter：冲击波扩散波纹滤镜；使用精灵Sprite图片<br/>
+          time由ticker自动累加；重置time=0重新触发冲击波；radius=-1为全局生效
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      const app = new PIXI.Application();
+      await app.init({
+        width: 345,
+        height: 460,
+        backgroundColor:0xffffff
+      });
+      document.querySelector("#canvasWrap").appendChild(app.canvas);
+      //加载精灵图片
+      const tex = await PIXI.Assets.load("./image/01.jpg");
+      const sprite = PIXI.Sprite.from(tex);
+      sprite.scale.set(0.5);
+      app.stage.addChild(sprite);
+
+      const shockwaveFilter = new PIXI.filters.ShockwaveFilter();
+      shockwaveFilter.center.x = 172;
+      shockwaveFilter.center.y = 230;
+      shockwaveFilter.amplitude = 30;
+      shockwaveFilter.wavelength = 160;
+      shockwaveFilter.speed = 500;
+      shockwaveFilter.brightness = 1;
+      shockwaveFilter.radius = -1;
+      shockwaveFilter.time = 0;
+
+      sprite.filters = [shockwaveFilter];
+
+      const inpSpeed = document.getElementById("inpSpeed");
+      const inpRadius = document.getElementById("inpRadius");
+
+      const valSpeed = inpSpeed.nextElementSibling;
+      const valRadius = inpRadius.nextElementSibling;
+
+      //初始化滑块
+      inpSpeed.value = shockwaveFilter.speed;
+      valSpeed.textContent = shockwaveFilter.speed.toFixed(2);
+      inpRadius.value = shockwaveFilter.radius;
+      valRadius.textContent = shockwaveFilter.radius;
+
+      
+      inpSpeed.oninput = ()=>{
+        shockwaveFilter.speed = Number(inpSpeed.value);
+        valSpeed.textContent = shockwaveFilter.speed.toFixed(2);
+      };
+      inpRadius.oninput = ()=>{
+        shockwaveFilter.radius = Number(inpRadius.value);
+        valRadius.textContent = shockwaveFilter.radius;
+      };
+
+      // ticker驱动波纹动画 time必须持续累加
+      app.ticker.add((ticker)=>{
+        shockwaveFilter.time +=  Math.cos(ticker.deltaTime) / 1000; 
+        if(shockwaveFilter.time >= 0.7){
+          shockwaveFilter.time = 0;
+        }
+      });
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Output 6大核心步骤（音视频+字幕三合一）</title>
+</head>
+
+<body>
+  <button id="gen">开始合成音视频</button><br>
+  <video id="player" controls height="300" style="margin-top:20px">
+    <track kind="subtitles" label="中文" default id="subtitleTrack">
+  </video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSampleSink,
+      AudioSampleSink,
+      Output,
+      WebMOutputFormat,   // 或者 MkvOutputFormat
+      VideoSampleSource,
+      AudioSampleSource,
+      TextSubtitleSource,
+      BufferTarget,
+      getFirstEncodableVideoCodec,
+      getFirstEncodableAudioCodec,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const genBtn = document.getElementById('gen');
+    const player = document.getElementById('player');
+
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+      console.log(msg);
+    }
+
+    // 资源路径
+    const VIDEO_URL = "../media/04.mp4";
+    const AUDIO_URL = "../media/05.mp3";
+
+    // 点击按钮触发合成
+    genBtn.onclick = async () => {
+      outputEl.textContent = "";
+      genBtn.disabled = true;
+      genBtn.textContent = "合成中...";
+      player.src = "";
+      let output;
+
+      try {
+        log("1. 创建 编码器");
+        output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道");
+        // 读取视频
+        const videoInput = new Input({ formats: ALL_FORMATS, source: new UrlSource	(VIDEO_URL) });
+        const videoTrack = await videoInput.getPrimaryVideoTrack();
+
+        // 读取音频
+        const audioInput = new Input({ formats: ALL_FORMATS, source: new UrlSource	(AUDIO_URL) });
+        const audioTrack = await audioInput.getPrimaryAudioTrack();
+
+        // 自动检测编码
+        const videoCodec = await getFirstEncodableVideoCodec(
+          output.format.getSupportedVideoCodecs(),
+          { width: videoTrack.codedWidth, height: videoTrack.codedHeight }
+        );
+        const audioCodec = await getFirstEncodableAudioCodec(
+          output.format.getSupportedAudioCodecs(),
+          { numberOfChannels: audioTrack.channels, sampleRate: audioTrack.sampleRate }
+        );
+        log(`自动选择编码：视频=${videoCodec} 音频=${audioCodec}`);
+
+        // 创建源
+        const videoSampleSource = new VideoSampleSource({ codec: videoCodec, bitrate: 	QUALITY_HIGH });
+        const audioSampleSource = new AudioSampleSource({ codec: audioCodec, bitrate: 	QUALITY_HIGH });
+        const textSource = new TextSubtitleSource('webvtt');
+
+        // 添加轨道
+        output.addVideoTrack(videoSampleSource);
+        output.addAudioTrack(audioSampleSource);
+        output.addSubtitleTrack(textSource, { language: 'chi', name: 'Chinese' });
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入数据包");
+        // 写入字幕
+        log("4.1 添加字幕-分批添加");
+        await textSource.add('WEBVTT\n\n');
+        await textSource.add('00:00:00.000 --> 00:00:02.000\n第一条字幕!\n\n');
+        await textSource.add('00:00:02.500 --> 00:00:04.000\n第二条字幕.\n\n');
+
+
+        // 写入视频
+        log("4.2 写入视频数据");
+        const videoSink = new VideoSampleSink(videoTrack);
+        for await (const sample of videoSink.samples()) {
+          await videoSampleSource.add(sample);
+          sample.close();
+        }
+
+        // 写入音频
+        log("4.3 写入音频数据");
+        const audioSink = new AudioSampleSink(audioTrack);
+        for await (const sample of audioSink.samples()) {
+          await audioSampleSource.add(sample);
+          sample.close();
+        }
+
+        // 关闭所有源
+        videoSampleSource.close();
+        audioSampleSource.close();
+        textSource.close();
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 生成预览并播放\n");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/webm" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`播放器加载成功！视频时长: ${player.duration.toFixed(2)}s`);
+        });
+
+        log("全部流程执行完成！");
+
+        // 释放资源
+        videoInput.dispose();
+        audioInput.dispose();
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+        await output?.cancel();
+      } finally {
+        genBtn.disabled = false;
+        genBtn.textContent = "开始合成音视频";
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ConvolutionFilter 卷积滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    select {
+      flex: 1;
+      padding:4px;
+    }
+    textarea{
+      width:100%;
+      height:80px;
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>预设卷积核</label>
+        <select id="selKernel">
+          <option value="off">关闭滤镜（原图）</option>
+          <option value="sharpen">锐化 sharpen</option>
+          <option value="blur">均值模糊 blur</option>
+          <option value="edge">边缘检测 edge‑detect</option>
+          <option value="emboss">浮雕 emboss</option>
+        </select>
+      </div>
+      <div>
+        <label>matrix数组：</label>
+        <textarea id="txtMatrix" readonly></textarea>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        3×3卷积核，9个数字；修改预设切换效果<br/>
+        width/height 需要匹配精灵尺寸，否则效果异常<br/>
+        边缘检测总和为0，画面会大量黑色
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    // 预置矩阵，移除无效identity
+    const kernelMap = {
+      sharpen: [ 0,-1,0, -1,5,-1, 0,-1,0 ],
+      blur: [1/9,1/9,1/9, 1/9,1/9,1/9, 1/9,1/9,1/9],
+      edge: [-1,-1,-1, -1,8,-1, -1,-1,-1],
+      emboss: [-2,-1,0, -1,1,1, 0,1,2]
+    };
+
+    let convFilter = null;
+
+    const selKernel = document.getElementById('selKernel');
+    const txtMatrix = document.getElementById('txtMatrix');
+
+    function applyKernel(name){
+      if(name === 'off'){
+        sprite.filters = [];
+        txtMatrix.value = "滤镜已关闭，显示原图";
+        return;
+      }
+      const m = kernelMap[name];
+      if(!convFilter){
+        convFilter = new PIXI.filters.ConvolutionFilter({
+          matrix: m,
+          width: sprite.width,
+          height: sprite.height
+        });
+      }else{
+        convFilter.matrix = m;
+        convFilter.width = sprite.width;
+        convFilter.height = sprite.height;
+      }
+      sprite.filters = [convFilter];
+      txtMatrix.value = JSON.stringify(m);
+    }
+
+    applyKernel('off');
+
+    selKernel.onchange = ()=>{
+      applyKernel(selKernel.value);
+    };
+  </script>
+</body>
+</html>

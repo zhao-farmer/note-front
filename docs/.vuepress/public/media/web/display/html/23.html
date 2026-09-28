@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>剪映样式竖电平表 DOM</title>
+  <style>
+    /* 电平表外层容器 */
+    .meter-wrap {
+      display: flex;
+      background: #262626;
+      border-radius: 12px;
+      padding: 30px 12px;
+      width: 220px;
+      height: 640px;
+      gap: 10px;
+    }
+
+    /* 左侧刻度栏 */
+    .meter-scale {
+      width: 44px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .scale-item {
+      position: absolute;
+      right: 4px;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    /* 从刻度文字向右延伸的水平虚线 */
+    .scale-item::after {
+      content: "";
+      position: absolute;
+      left: calc(100% + 14px);
+      top: 50%;
+      transform: translateY(-50%);
+      height: 1px;
+      border-bottom: 1px dashed #666;
+      width: 165px;
+      opacity: 0.5;
+    }
+
+    /* 声道容器L/R */
+    .meter-channels {
+      display: flex;
+      gap: 14px;
+      flex: 1;
+      z-index: 1;
+    }
+
+    .channel-col {
+      flex: 1;
+      position: relative;
+      height: 100%;
+    }
+
+    /* 底层彩色渐变背景 */
+    .channel-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top,
+          #27c943 0%,
+          #27c943 65%,
+          #ff8800 85%,
+          #ff2b2b 100%);
+    }
+
+    /* level‑bar top固定0，只用height控制向下遮挡 */
+    .level-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #1C1C1C;
+      height: 100%;
+      width: 100%;
+      transition: none;
+    }
+
+    /* 峰值保持短横线 */
+    .peak-mark {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 3px;
+      background: #fff;
+      box-shadow: 0 0 4px #ffffff80;
+    }
+
+    .ch-top-label {
+      position: absolute;
+      top: -26px;
+      text-align: center;
+      width: 100%;
+      font-size: 18px;
+      color: #adb5bd;
+    }
+
+    .ch-bottom-label {
+      position: absolute;
+      bottom: -26px;
+      text-align: center;
+      width: 100%;
+      font-size: 18px;
+      color: #adb5bd;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="meter-wrap">
+    <div class="meter-scale" id="meterScale"></div>
+    <div class="meter-channels">
+      <!-- L声道 -->
+      <div class="channel-col">
+        <div class="ch-top-label">∞</div>
+        <div class="channel-bg"></div>
+        <div class="level-bar" id="barL"></div>
+        <div class="peak-mark" id="peakMarkL"></div>
+        <div class="ch-bottom-label">L</div>
+      </div>
+      <!-- R声道 -->
+      <div class="channel-col">
+        <div class="ch-top-label">∞</div>
+        <div class="channel-bg"></div>
+        <div class="level-bar" id="barR"></div>
+        <div class="peak-mark" id="peakMarkR"></div>
+        <div class="ch-bottom-label">R</div>
+      </div>
+    </div>
+  </div>
+  <div class="info">
+    Left: <span id="dbL">-∞</span> dBFS
+    &nbsp;&nbsp; Right: <span id="dbR">-∞</span> dBFS
+    &nbsp;&nbsp; maxLeft: <span id="mdbL">-∞</span> dBFS
+    &nbsp;&nbsp; maxRight: <span id="mdbR">-∞</span> dBFS
+  </div>
+  <audio id="audio" controls src="./audio/01.mp3">
+    <script>
+      // === 剪映UI实际像素映射表 ===
+      const scaleLookupTable = [
+        { db: 6, topPct: 0 },
+        { db: 0, topPct: 16 },
+        { db: -6, topPct: 36 },
+        { db: -12, topPct: 52 },
+        { db: -20, topPct: 68 },
+        { db: -30, topPct: 80 },
+        { db: -50, topPct: 92 },
+        { db: -60, topPct: 100 }
+      ];
+
+      // DOM渲染刻度用
+      function renderScaleItems() {
+        const scaleWrap = document.getElementById("meterScale");
+        scaleWrap.innerHTML = "";
+        scaleLookupTable.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "scale-item";
+          div.style.top = item.topPct + "%";
+          div.textContent = item.db === -60 ? "-∞" : String(item.db);
+          scaleWrap.appendChild(div);
+        });
+      }
+
+      /**
+       * 根据查表插值：输入dB，输出UI对应的top百分比
+       */
+      function dbToUIPercent(dbVal) {
+        const table = scaleLookupTable;
+        let db = Math.max(-60, Math.min(6, dbVal));
+        let i;
+        for (i = 0; i < table.length - 1; i++) {
+          const a = table[i];
+          const b = table[i + 1];
+          if (db <= a.db && db >= b.db) {
+            const ratio = (a.db - db) / (a.db - b.db);
+            const out = a.topPct + ratio * (b.topPct - a.topPct);
+            return out;
+          }
+        }
+        return 100;
+      }
+
+      const audioEl = document.getElementById('audio');
+      const barL = document.getElementById('barL');
+      const barR = document.getElementById('barR');
+      const peakMarkL = document.getElementById('peakMarkL');
+      const peakMarkR = document.getElementById('peakMarkR');
+      const dbLabelL = document.getElementById('dbL');
+      const dbLabelR = document.getElementById('dbR');
+      const maxDbLabelL = document.getElementById('mdbL');
+      const maxDbLabelR = document.getElementById('mdbR');
+      let audioCtx, splitter, analyserL, analyserR;
+
+      // ========= 峰值状态改造：带保持时间戳 =========
+      const peakState = {
+        L: { db: -100, holdUntil: 0 },
+        R: { db: -100, holdUntil: 0 }
+      };
+      const PEAK_HOLD_MS = 3000;   // 峰值保持3秒
+      const PEAK_DECAY_PER_SEC = 8; // 每秒衰减多少dB，控制下落快慢
+      const FLOOR_DB = -100;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderScaleItems();
+      });
+
+      audioEl.onplay = async () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const source = audioCtx.createMediaElementSource(audioEl);
+          splitter = audioCtx.createChannelSplitter(2);
+          analyserL = audioCtx.createAnalyser();
+          analyserR = audioCtx.createAnalyser();
+          analyserL.fftSize = 1024;
+          analyserR.fftSize = 1024;
+          analyserL.smoothingTimeConstant = 0;
+          analyserR.smoothingTimeConstant = 0;
+          source.connect(splitter);
+          splitter.connect(analyserL, 0);
+          splitter.connect(analyserR, 1);
+          source.connect(audioCtx.destination);
+        }
+        renderLoop();
+      }
+
+      function getPeakDb(analyser) {
+        const buf = new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(buf);
+        let maxAmp = 0;
+        for (let i = 0; i < buf.length; i++) {
+          const v = (buf[i] - 128) / 128;
+          const absV = Math.abs(v);
+          if (absV > maxAmp) maxAmp = absV;
+        }
+        if (maxAmp <= 1e-8) return -100;
+        let db = 20 * Math.log10(maxAmp);
+        return db;
+      }
+
+      let lastTs = 0;
+      function renderLoop(ts = 0) {
+        if (audioEl.paused) return;
+        const deltaTime = (ts - lastTs) / 1000;
+        lastTs = ts;
+        const now = performance.now();
+
+        const currL = getPeakDb(analyserL);
+        const currR = getPeakDb(analyserR);
+
+        // ========= L声道峰值逻辑 =========
+        const pkL = peakState.L;
+        if (currL > pkL.db) {
+          // 出现更高峰值：更新db，重置3秒保持计时器
+          pkL.db = currL;
+          pkL.holdUntil = now + PEAK_HOLD_MS;
+        } else {
+          // 没有更高峰值，判断是否过了保持时间
+          if (now > pkL.holdUntil) {
+            // 开始缓慢向下衰减
+            pkL.db = Math.max(FLOOR_DB, pkL.db - PEAK_DECAY_PER_SEC * deltaTime);
+          }
+        }
+
+        // ========= R声道峰值逻辑 =========
+        const pkR = peakState.R;
+        if (currR > pkR.db) {
+          pkR.db = currR;
+          pkR.holdUntil = now + PEAK_HOLD_MS;
+        } else {
+          if (now > pkR.holdUntil) {
+            pkR.db = Math.max(FLOOR_DB, pkR.db - PEAK_DECAY_PER_SEC * deltaTime);
+          }
+        }
+
+        // UI渲染
+        const heightCurrL = dbToUIPercent(currL);
+        const heightPeakL = dbToUIPercent(pkL.db);
+        barL.style.height = heightCurrL + '%';
+        peakMarkL.style.top = heightPeakL + '%';
+
+        const heightCurrR = dbToUIPercent(currR);
+        const heightPeakR = dbToUIPercent(pkR.db);
+        barR.style.height = heightCurrR + '%';
+        peakMarkR.style.top = heightPeakR + '%';
+
+        dbLabelL.textContent = currL.toFixed(1);
+        dbLabelR.textContent = currR.toFixed(1);
+        maxDbLabelL.textContent = pkL.db.toFixed(1);
+        maxDbLabelR.textContent = pkR.db.toFixed(1);
+        requestAnimationFrame(renderLoop);
+      }
+    </script>
+</body>
+
+</html>

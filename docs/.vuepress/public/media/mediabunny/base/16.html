@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CanvasSink 特效</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSample,
+      CanvasSink,       // 替换 VideoSampleSink
+      Output,
+      Mp4OutputFormat,
+      VideoSampleSource,
+      BufferTarget,
+      getFirstEncodableVideoCodec,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 资源路径
+    const VIDEO_URL = "../media/04.mp4";
+
+    // 你用 ffmpeg 拆分出来的帧：frame_001.png、frame_002.png...
+    const EFFECT_FRAMES = [];
+    const TOTAL_EFFECT_FRAMES = 26; // 你特效总共有多少帧，自己改！
+
+    // 自动加载所有特效帧
+    for (let i = 1; i <= TOTAL_EFFECT_FRAMES; i++) {
+      const num = i.toString().padStart(3, '0');
+      EFFECT_FRAMES.push(`../media/frames/frame_${num}.png`);
+    }
+
+    (async () => {
+      try {
+
+        // ====================== 预加载所有特效图片 ======================
+        log("0. 加载特效帧...");
+        const effectImages = [];
+        for (const url of EFFECT_FRAMES) {
+          const img = new Image();
+          await new Promise((res) => {
+            img.onload = res;
+            img.src = url;
+          });
+          effectImages.push(img);
+        }
+
+        log("1. 创建编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道源");
+        const videoInput = new Input({ formats: ALL_FORMATS, source: new UrlSource(VIDEO_URL) });
+        const videoTrack = await videoInput.getPrimaryVideoTrack();
+
+        const videoCodec = await getFirstEncodableVideoCodec(
+          output.format.getSupportedVideoCodecs(),
+          { width: videoTrack.codedWidth, height: videoTrack.codedHeight }
+        );
+        log(`自动选择编码：视频=${videoCodec}`);
+
+        const videoSampleSource = new VideoSampleSource({
+          codec: videoCodec,
+          bitrate: QUALITY_HIGH
+        });
+        output.addVideoTrack(videoSampleSource);
+
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 开始处理视频帧（加滤镜）");
+        const canvasSink = new CanvasSink(videoTrack);
+
+        let effectFrameIndex = 0;   // 特效帧（每3帧才+1）
+        let videoFrameCount = 0;    // 视频总帧计数
+    
+        for await (const wrapperCanvas of canvasSink.canvases()) {
+
+          const canvas = wrapperCanvas.canvas;
+          const ctx = canvas.getContext('2d');
+
+          // 1. 主画面已经在 canvas 里了
+          // 2. 叠加特效（滤色模式 = 光效/火焰专用）
+          const effectImg = effectImages[effectFrameIndex];
+
+
+          // 2. 特效
+          // 关键：黑底专用混合模式，自动去除黑色背景
+          ctx.globalCompositeOperation = 'screen';
+          // 绘制特效，黑色自动透明消失
+          ctx.drawImage(effectImg, 0, 0, canvas.width, canvas.height);
+          // 切回默认绘制模式，防止错乱
+          ctx.globalCompositeOperation = 'source-over';
+
+                  
+          // 每 3 帧 才切换下一张特效图
+          videoFrameCount++;
+          if (videoFrameCount % 3 === 0) {
+            effectFrameIndex++;
+          }
+
+          // 特效循环播放（防止越界）
+          if (effectFrameIndex >= effectImages.length) {
+            effectFrameIndex = 0;
+          }
+
+          // 3. 添加到视频样本
+          const videoSample = new VideoSample(canvas, {
+            timestamp: wrapperCanvas.timestamp,
+            duration: wrapperCanvas.duration ?? undefined
+          });
+          await videoSampleSource.add(videoSample);
+          videoSample.close();
+
+        }
+
+        log("5. 编码完成");
+        await output.finalize();
+        videoSampleSource.close();
+
+        log("6. 应用展示");
+        const blob = new Blob([output.target.buffer], { type: "video/mp4" });
+        player.src = URL.createObjectURL(blob);
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`预览加载成功！时长：${player.duration.toFixed(2)}s`);
+        });
+        log(" 全部流程完成！");
+
+        // 释放资源
+        videoInput.dispose();
+      } catch (err) {
+        log(" 错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

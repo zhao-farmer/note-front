@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>RGBSplitFilter 通道分离滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>red.x 红X偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpRedX">
+        <span class="val">-10.00</span>
+      </div>
+      <div class="row">
+        <label>red.y 红Y偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpRedY">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>green.x 绿X偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpGreenX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>green.y 绿Y偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpGreenY">
+        <span class="val">10.00</span>
+      </div>
+      <div class="row">
+        <label>blue.x 蓝X偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpBlueX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>blue.y 蓝Y偏移</label>
+        <input type="range" min="-30" max="30" step="0.5" id="inpBlueY">
+        <span class="val">0.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        RGBSplitFilter：RGB通道分离故障滤镜；使用精灵Sprite图片<br />
+        偏移单位像素，建议范围‑30~30，过大画面边缘色彩溢出
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0xffffff
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+    //加载精灵图片
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    //截图原始参数 red.x=-10 red.y=0 green.x=0 green.y=10 blue.x=0 blue.y=0
+    const rgbSplitFilter = new PIXI.filters.RGBSplitFilter();
+    rgbSplitFilter.red.x = -10;
+    rgbSplitFilter.red.y = 0;
+    rgbSplitFilter.green.x = 0;
+    rgbSplitFilter.green.y = 10;
+    rgbSplitFilter.blue.x = 0;
+    rgbSplitFilter.blue.y = 0;
+
+    sprite.filters = [rgbSplitFilter];
+
+    const inpRedX = document.getElementById("inpRedX");
+    const inpRedY = document.getElementById("inpRedY");
+    const inpGreenX = document.getElementById("inpGreenX");
+    const inpGreenY = document.getElementById("inpGreenY");
+    const inpBlueX = document.getElementById("inpBlueX");
+    const inpBlueY = document.getElementById("inpBlueY");
+
+    const valRedX = inpRedX.nextElementSibling;
+    const valRedY = inpRedY.nextElementSibling;
+    const valGreenX = inpGreenX.nextElementSibling;
+    const valGreenY = inpGreenY.nextElementSibling;
+    const valBlueX = inpBlueX.nextElementSibling;
+    const valBlueY = inpBlueY.nextElementSibling;
+
+    //初始化滑块
+    inpRedX.value = rgbSplitFilter.red.x;
+    valRedX.textContent = rgbSplitFilter.red.x.toFixed(2);
+    inpRedY.value = rgbSplitFilter.red.y;
+    valRedY.textContent = rgbSplitFilter.red.y.toFixed(2);
+
+    inpGreenX.value = rgbSplitFilter.green.x;
+    valGreenX.textContent = rgbSplitFilter.green.x.toFixed(2);
+    inpGreenY.value = rgbSplitFilter.green.y;
+    valGreenY.textContent = rgbSplitFilter.green.y.toFixed(2);
+
+    inpBlueX.value = rgbSplitFilter.blue.x;
+    valBlueX.textContent = rgbSplitFilter.blue.x.toFixed(2);
+    inpBlueY.value = rgbSplitFilter.blue.y;
+    valBlueY.textContent = rgbSplitFilter.blue.y.toFixed(2);
+
+
+    inpRedX.oninput = () => {
+      rgbSplitFilter.red.x = Number(inpRedX.value);
+      valRedX.textContent = rgbSplitFilter.red.x.toFixed(2);
+    };
+    inpRedY.oninput = () => {
+      rgbSplitFilter.red.y = Number(inpRedY.value);
+      valRedY.textContent = rgbSplitFilter.red.y.toFixed(2);
+    };
+
+    inpGreenX.oninput = () => {
+      rgbSplitFilter.green.x = Number(inpGreenX.value);
+      valGreenX.textContent = rgbSplitFilter.green.x.toFixed(2);
+    };
+    inpGreenY.oninput = () => {
+      rgbSplitFilter.green.y = Number(inpGreenY.value);
+      valGreenY.textContent = rgbSplitFilter.green.y.toFixed(2);
+    };
+
+    inpBlueX.oninput = () => {
+      rgbSplitFilter.blue.x = Number(inpBlueX.value);
+      valBlueX.textContent = rgbSplitFilter.blue.x.toFixed(2);
+    };
+    inpBlueY.oninput = () => {
+      rgbSplitFilter.blue.y = Number(inpBlueY.value);
+      valBlueY.textContent = rgbSplitFilter.blue.y.toFixed(2);
+    };
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ShockwaveFilter 冲击波水波纹滤镜-调整设定值</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>center.x 中心X</label>
+        <input type="range" min="0" max="345" step="1" id="inpCx">
+        <span class="val">172.00</span>
+      </div>
+      <div class="row">
+        <label>center.y 中心Y</label>
+        <input type="range" min="0" max="460" step="1" id="inpCy">
+        <span class="val">230.00</span>
+      </div>
+      <div class="row">
+        <label>amplitude 振幅</label>
+        <input type="range" min="0" max="80" step="0.5" id="inpAmp">
+        <span class="val">30.00</span>
+      </div>
+      <div class="row">
+        <label>wavelength 波长</label>
+        <input type="range" min="20" max="300" step="1" id="inpWaveLen">
+        <span class="val">160.00</span>
+      </div>
+
+      <div class="row">
+        <label>brightness 亮度</label>
+        <input type="range" min="0" max="3" step="0.1" id="inpBright">
+        <span class="val">1.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        ShockwaveFilter：冲击波扩散波纹滤镜；使用精灵Sprite图片
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0xffffff
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+    //加载精灵图片
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const shockwaveFilter = new PIXI.filters.ShockwaveFilter();
+    shockwaveFilter.center.x = 172;
+    shockwaveFilter.center.y = 230;
+    shockwaveFilter.amplitude = 30;
+    shockwaveFilter.wavelength = 160;
+    shockwaveFilter.speed = 500;
+    shockwaveFilter.brightness = 1;
+    shockwaveFilter.radius = -1;
+    shockwaveFilter.time = 0;
+
+    sprite.filters = [shockwaveFilter];
+
+    const inpCx = document.getElementById("inpCx");
+    const inpCy = document.getElementById("inpCy");
+    const inpAmp = document.getElementById("inpAmp");
+    const inpWaveLen = document.getElementById("inpWaveLen");
+    const inpBright = document.getElementById("inpBright");
+
+
+    const valCx = inpCx.nextElementSibling;
+    const valCy = inpCy.nextElementSibling;
+    const valAmp = inpAmp.nextElementSibling;
+    const valWaveLen = inpWaveLen.nextElementSibling;
+
+    const valBright = inpBright.nextElementSibling;
+
+
+    //初始化滑块
+    inpCx.value = shockwaveFilter.center.x;
+    valCx.textContent = shockwaveFilter.center.x.toFixed(2);
+    inpCy.value = shockwaveFilter.center.y;
+    valCy.textContent = shockwaveFilter.center.y.toFixed(2);
+    inpAmp.value = shockwaveFilter.amplitude;
+    valAmp.textContent = shockwaveFilter.amplitude.toFixed(2);
+    inpWaveLen.value = shockwaveFilter.wavelength;
+    valWaveLen.textContent = shockwaveFilter.wavelength.toFixed(2);
+    inpBright.value = shockwaveFilter.brightness;
+    valBright.textContent = shockwaveFilter.brightness.toFixed(2);
+
+
+    inpCx.oninput = () => {
+      shockwaveFilter.center.x = Number(inpCx.value);
+      valCx.textContent = shockwaveFilter.center.x.toFixed(2);
+    };
+    inpCy.oninput = () => {
+      shockwaveFilter.center.y = Number(inpCy.value);
+      valCy.textContent = shockwaveFilter.center.y.toFixed(2);
+    };
+    inpAmp.oninput = () => {
+      shockwaveFilter.amplitude = Number(inpAmp.value);
+      valAmp.textContent = shockwaveFilter.amplitude.toFixed(2);
+    };
+    inpWaveLen.oninput = () => {
+      shockwaveFilter.wavelength = Number(inpWaveLen.value);
+      valWaveLen.textContent = shockwaveFilter.wavelength.toFixed(2);
+    };
+
+    inpBright.oninput = () => {
+      shockwaveFilter.brightness = Number(inpBright.value);
+      valBright.textContent = shockwaveFilter.brightness.toFixed(2);
+    };
+
+  </script>
+</body>
+
+</html>

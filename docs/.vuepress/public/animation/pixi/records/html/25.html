@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>GlitchFilter 故障艺术滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex:1;
+    }
+    .val{
+      width:60px;
+      text-align:right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>slices 切片数量</label>
+        <input type="range" min="1" max="30" step="1" id="inpSlices">
+        <span class="val">5</span>
+      </div>
+      <div class="row">
+        <label>offset 最大偏移</label>
+        <input type="range" min="0" max="120" step="1" id="inpOffset">
+        <span class="val">100</span>
+      </div>
+      <div class="row">
+        <label>direction 偏移角度</label>
+        <input type="range" min="0" max="360" step="1" id="inpDirection">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>average 均等切片</label>
+        <input type="checkbox" id="chkAverage">
+      </div>
+      <div class="row">
+        <label>seed随机种子</label>
+        <input type="range" min="0" max="100" step="1" id="inpSeed">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>fillMode 填充模式</label>
+        <input type="range" min="0" max="4" step="1" id="inpFillMode">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>red.x R通道X偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpRedX">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>red.y R通道Y偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpRedY">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>green.x G通道X偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpGreenX">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>green.y G通道Y偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpGreenY">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>blue.x B通道X偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpBlueX">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>blue.y B通道Y偏移</label>
+        <input type="range" min="-30" max="30" step="1" id="inpBlueY">
+        <span class="val">0</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        GlitchFilter：数字故障艺术滤镜<br/>
+        slices切片数量，offset控制撕裂强度，direction控制偏移朝向；修改seed/fillMode/通道偏移后调用refresh刷新
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const glitchFilter = new PIXI.filters.GlitchFilter({
+      slices:5,
+      offset:100,
+      direction:0,
+      average:false,
+      seed:0,
+      fillMode:0,
+      red:{x:0,y:0},
+      green:{x:0,y:0},
+      blue:{x:0,y:0}
+    });
+    sprite.filters = [glitchFilter];
+
+    const inpSlices = document.getElementById('inpSlices');
+    const inpOffset = document.getElementById('inpOffset');
+    const inpDirection = document.getElementById('inpDirection');
+    const chkAverage = document.getElementById('chkAverage');
+    const inpSeed = document.getElementById('inpSeed');
+    const inpFillMode = document.getElementById('inpFillMode');
+    const inpRedX = document.getElementById('inpRedX');
+    const inpRedY = document.getElementById('inpRedY');
+    const inpGreenX = document.getElementById('inpGreenX');
+    const inpGreenY = document.getElementById('inpGreenY');
+    const inpBlueX = document.getElementById('inpBlueX');
+    const inpBlueY = document.getElementById('inpBlueY');
+
+    const valSlices = inpSlices.nextElementSibling;
+    const valOffset = inpOffset.nextElementSibling;
+    const valDirection = inpDirection.nextElementSibling;
+    const valSeed = inpSeed.nextElementSibling;
+    const valFillMode = inpFillMode.nextElementSibling;
+    const valRedX = inpRedX.nextElementSibling;
+    const valRedY = inpRedY.nextElementSibling;
+    const valGreenX = inpGreenX.nextElementSibling;
+    const valGreenY = inpGreenY.nextElementSibling;
+    const valBlueX = inpBlueX.nextElementSibling;
+    const valBlueY = inpBlueY.nextElementSibling;
+
+    //初始化控件
+    inpSlices.value = glitchFilter.slices;
+    valSlices.textContent = glitchFilter.slices;
+    inpOffset.value = glitchFilter.offset;
+    valOffset.textContent = glitchFilter.offset;
+    inpDirection.value = glitchFilter.direction;
+    valDirection.textContent = glitchFilter.direction;
+    chkAverage.checked = glitchFilter.average;
+    inpSeed.value = glitchFilter.seed;
+    valSeed.textContent = glitchFilter.seed;
+    inpFillMode.value = glitchFilter.fillMode;
+    valFillMode.textContent = glitchFilter.fillMode;
+
+    inpRedX.value = glitchFilter.red.x;
+    valRedX.textContent = glitchFilter.red.x;
+    inpRedY.value = glitchFilter.red.y;
+    valRedY.textContent = glitchFilter.red.y;
+    inpGreenX.value = glitchFilter.green.x;
+    valGreenX.textContent = glitchFilter.green.x;
+    inpGreenY.value = glitchFilter.green.y;
+    valGreenY.textContent = glitchFilter.green.y;
+    inpBlueX.value = glitchFilter.blue.x;
+    valBlueX.textContent = glitchFilter.blue.x;
+    inpBlueY.value = glitchFilter.blue.y;
+    valBlueY.textContent = glitchFilter.blue.y;
+
+    inpSlices.oninput = ()=>{
+      glitchFilter.slices = Number(inpSlices.value);
+      valSlices.textContent = glitchFilter.slices;
+      glitchFilter.refresh();
+    };
+    inpOffset.oninput = ()=>{
+      glitchFilter.offset = Number(inpOffset.value);
+      valOffset.textContent = glitchFilter.offset;
+      glitchFilter.refresh();
+    };
+    inpDirection.oninput = ()=>{
+      glitchFilter.direction = Number(inpDirection.value);
+      valDirection.textContent = glitchFilter.direction;
+      glitchFilter.refresh();
+    };
+    chkAverage.onchange = ()=>{
+      glitchFilter.average = chkAverage.checked;
+      glitchFilter.refresh();
+    };
+    inpSeed.oninput = ()=>{
+      glitchFilter.seed = Number(inpSeed.value);
+      valSeed.textContent = glitchFilter.seed;
+      glitchFilter.refresh();
+    };
+    inpFillMode.oninput = ()=>{
+      glitchFilter.fillMode = Number(inpFillMode.value);
+      valFillMode.textContent = glitchFilter.fillMode;
+      glitchFilter.refresh();
+    };
+    inpRedX.oninput = ()=>{
+      glitchFilter.red.x = Number(inpRedX.value);
+      valRedX.textContent = glitchFilter.red.x;
+      glitchFilter.refresh();
+    };
+    inpRedY.oninput = ()=>{
+      glitchFilter.red.y = Number(inpRedY.value);
+      valRedY.textContent = glitchFilter.red.y;
+      glitchFilter.refresh();
+    };
+    inpGreenX.oninput = ()=>{
+      glitchFilter.green.x = Number(inpGreenX.value);
+      valGreenX.textContent = glitchFilter.green.x;
+      glitchFilter.refresh();
+    };
+    inpGreenY.oninput = ()=>{
+      glitchFilter.green.y = Number(inpGreenY.value);
+      valGreenY.textContent = glitchFilter.green.y;
+      glitchFilter.refresh();
+    };
+    inpBlueX.oninput = ()=>{
+      glitchFilter.blue.x = Number(inpBlueX.value);
+      valBlueX.textContent = glitchFilter.blue.x;
+      glitchFilter.refresh();
+    };
+    inpBlueY.oninput = ()=>{
+      glitchFilter.blue.y = Number(inpBlueY.value);
+      valBlueY.textContent = glitchFilter.blue.y;
+      glitchFilter.refresh();
+    };
+  </script>
+</body>
+</html>

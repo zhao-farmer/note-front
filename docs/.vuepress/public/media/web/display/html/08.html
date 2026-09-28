@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>PixiJS 8 图片重复填充 + 拉伸</title>
+    <script src="./js/pixi.js"></script>
+    <script src="./js/packages/gif.js"></script>
+</head>
+
+<body>
+    <script>
+        (async () => {
+            // 1. 初始化 Pixi8
+            const app = new PIXI.Application();
+            await app.init({
+                width: 800,
+                height: 200,
+                background: "#111",
+            });
+            document.body.appendChild(app.canvas);
+
+            // 2. 新建容器
+            const container = new PIXI.Container();
+            app.stage.addChild(container);
+            container.y = 50;
+            // 初始宽度 & 拉伸状态
+            let maxWidth = app.screen.width - 200;
+            let isResizing = false;
+            // 添加背景
+            const graphics = new PIXI.Graphics();
+            container.addChild(graphics);
+
+            // 3. 最重要，将gif图转为纹理全部放到容器里
+            const texture = await PIXI.Assets.load("./img/2.gif");
+            let gifWidth = texture.width;
+            let gifHeight = texture.height;
+
+            const tempContainer = new PIXI.Container();
+            const frames = texture.frames;
+
+            // 临时帧数 如果帧数过多进行采样
+            let imageSize = 5;
+            let iamgeGap = 1;
+            if (frames.length <= imageSize) {
+                imageSize = frames.length;
+            } else {
+                iamgeGap = Math.floor(frames.length / imageSize);
+            }
+
+            for (let i = 0; i < imageSize; i++) {
+                const texture = frames[i * iamgeGap].texture;
+                const sprite = new PIXI.Sprite({
+                    texture,
+                    x: i * gifWidth,
+                    y: 0,
+                });
+                tempContainer.addChild(sprite);
+            }
+
+            // 4. 将容器渲染成新的纹理
+            const mergedTexture = PIXI.RenderTexture.create({
+                width: gifWidth * imageSize, // 合成图宽
+                height: gifHeight, // 合成图高
+            });
+            mergedTexture.source.scaleMode = "nearest"; // 尽量保持高清
+            // 渲染容器到纹理
+            app.renderer.render({
+                container: tempContainer, // 要渲染的容器
+                target: mergedTexture, // 目标纹理
+                clear: true, // 清空再画
+            });
+
+            // 5. 验证纹理是否渲染成功
+            const tempSprite = new PIXI.Sprite(mergedTexture);
+            tempSprite.x = 0;
+            tempSprite.y = 300;
+            tempSprite.scale.set(0.2);
+            app.stage.addChild(tempSprite);
+
+            // 6. 创建 TilingSprite 并添加到容器中
+            let targetHeight = 60;
+            const tilingSprite = new PIXI.TilingSprite(mergedTexture, maxWidth, targetHeight);
+            tilingSprite.y = (100 - targetHeight) / 2;
+            container.addChild(tilingSprite);
+
+            // 缩放到目标大小 高度时固定了这里计算高度
+            const textureScale = targetHeight / texture.height;
+            tilingSprite.tileScale.set(textureScale);
+
+            // 7. 创建拉伸手柄并完成拉伸功能
+            const handle = new PIXI.Graphics();
+            container.addChild(handle);
+            handle.eventMode = "static";
+            handle.cursor = "ew-resize";
+
+            // 初始化渲染
+            update();
+
+            // 拖拽开始
+            handle.onpointerdown = () => {
+                isResizing = true;
+            };
+
+            // 拖拽结束（绑定到 canvas）
+            app.canvas.addEventListener("pointerup", () => {
+                isResizing = false;
+            });
+
+            // 拖拽移动（绑定到 canvas）
+            app.canvas.addEventListener("pointermove", e => {
+                if (!isResizing) return;
+
+                // 把鼠标坐标转成容器内的局部坐标
+                const rect = app.canvas.getBoundingClientRect();
+                const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+                const localX = container.toLocal(global).x;
+
+                // 更新宽度（限制最小100px）
+                maxWidth = Math.max(100, localX);
+                update();
+            });
+
+            // 更新视图
+            function update() {
+                // 1. 更新背景
+                graphics.clear();
+                graphics.rect(0, 0, maxWidth, 100);
+                graphics.fill(0xc34288);
+
+                // 2. 更新平铺宽度
+                tilingSprite.width = maxWidth;
+
+                // 3. 更新手柄位置（白色小方块）
+                handle.clear();
+                handle.rect(maxWidth - 10, 35, 10, 30);
+                handle.fill(0xffffff);
+            }
+        })();
+    </script>
+</body>
+</html>

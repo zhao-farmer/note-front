@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PIXI8 GIF 案例</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/packages/gif.js"></script>
+</head>
+
+<body>
+  <!-- 1. 添加控制按钮 -->
+  <div style="position:fixed; top:10px; left:10px;">
+      <button onclick="play()">播放</button>
+      <button onclick="pause()">暂停</button>
+      <button onclick="speedUp()">加速</button>
+      <button onclick="speedDown()">减速</button>
+  </div>
+  <script>
+    (async () => {
+           
+      // 2. 创建舞台
+      const app = new PIXI.Application();
+      await app.init({
+        width: 600,
+        height: 400,
+        backgroundColor: 0x222222
+      });
+      document.body.appendChild(app.canvas);
+
+      // 3. 常见gif精灵
+      const gif = await PIXI.Assets.load('./img/demo.gif');
+      const sprite = new PIXI.GifSprite({
+        source:gif,
+        animationSpeed: 0.2,
+        anchor: 0.5,
+        x: app.screen.width / 2,
+        y: app.screen.height / 2,
+        scale: 0.6,
+      });
+      app.stage.addChild(sprite);
+      sprite.play();
+
+      console.log(sprite);
+      
+
+      // 4.添加播放控制
+      window.play = function() { sprite.play(); };
+      window.pause = function() { sprite.stop(); };
+      window.speedUp = function() { sprite.animationSpeed *= 1.2; };
+      window.speedDown = function() { sprite.animationSpeed *= 0.8; };
+
+    })();
+  </script>
+</body>
+
+</html>

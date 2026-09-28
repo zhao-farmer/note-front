@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>PixiJS 8 图片重复填充 + 拉伸</title>
+  <script src="./js/pixi.js"></script>
+</head>
+
+<body>
+  <script type="module">
+    (async () => {
+      // 1. 初始化 Pixi8
+      const app = new PIXI.Application();
+      await app.init({ width: 800, height: 300, background: '#111' });
+      document.body.appendChild(app.canvas);
+
+      // 2. 新建容器
+      const container = new PIXI.Container();
+      app.stage.addChild(container);
+      container.y = 100;
+
+      // 初始宽度 & 拉伸状态
+      let maxWidth = app.screen.width - 200;
+      let isResizing = false;
+
+      // 3. 添加背景
+      const graphics = new PIXI.Graphics();
+      container.addChild(graphics);
+
+      // 4. 获取图片纹理
+      const texture = await PIXI.Assets.load('./img/1.png');
+
+      // 5. 创建 TilingSprite
+      let targetHeight = 60;
+      const tilingSprite = new PIXI.TilingSprite(texture, maxWidth, targetHeight);
+      tilingSprite.y = 20;
+      container.addChild(tilingSprite);
+
+      // 缩放到目标大小
+      setTilingSpriteCover(tilingSprite, 100, targetHeight);
+
+      // 6. 创建拉伸手柄并完成拉伸功能
+      const handle = new PIXI.Graphics();
+      container.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      // 初始化渲染
+      update();
+
+      // 拖拽开始
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+
+      // 拖拽结束（绑定到 canvas）
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+
+      // 拖拽移动（绑定到 canvas）
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+
+        // 把鼠标坐标转成容器内的局部坐标
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(
+          e.clientX - rect.left,
+          e.clientY - rect.top
+        );
+        const localX = container.toLocal(global).x;
+
+        // 更新宽度（限制最小100px）
+        maxWidth = Math.max(100, localX);
+        update();
+      });
+
+      // 更新视图
+      function update() {
+        // 1. 更新背景
+        graphics.clear();
+        graphics.rect(0, 0, maxWidth, 100);
+        graphics.fill(0xc34288);
+
+        // 2. 更新平铺宽度
+        tilingSprite.width = maxWidth;
+
+        // 3. 更新手柄位置（白色小方块）
+        handle.clear();
+        handle.rect(maxWidth - 10, 35, 10, 30);
+        handle.fill(0xffffff);
+      }
+      function setTilingSpriteCover(tilingSprite, containerW, containerH) {
+        // 原始纹理尺寸
+        const texture = tilingSprite.texture;
+        const imgW = texture.width;
+        const imgH = texture.height;
+
+        // 宽高比
+        const imgRatio = imgW / imgH;
+        const containerRatio = containerW / containerH;
+
+        // cover 核心：取更大的缩放比
+        let scale;
+        if (imgRatio > containerRatio) {
+          scale = containerH / imgH;
+        } else {
+          scale = containerW / imgW;
+        }
+
+        // 应用缩放（TilingSprite 专用）
+        tilingSprite.tileScale.set(scale);
+
+        // 计算居中偏移（和 CSS object-position: center 一致）
+        const offsetX = (containerW - imgW * scale) / 2;
+        const offsetY = (containerH - imgH * scale) / 2;
+        tilingSprite.tilePosition.set(offsetX, offsetY);
+      }
+    })();
+  </script>
+</body>
+
+</html>

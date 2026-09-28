@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CanvasSink 水印合成</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSample,
+      CanvasSink,       // 替换 VideoSampleSink
+      Output,
+      Mp4OutputFormat,
+      VideoSampleSource,
+      BufferTarget,
+      getFirstEncodableVideoCodec,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 资源路径
+    const VIDEO_URL = "../media/01.mp4";
+    const COVER_URL = "../media/06.png";
+
+    (async () => {
+      try {
+        // 1. 加载水印图片
+        const img = new Image();
+        img.src = COVER_URL;
+        await new Promise(resolve => img.onload = resolve);
+        log("水印图片加载完成");
+
+
+        log("1. 创建编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道源");
+        const videoInput = new Input({ formats: ALL_FORMATS, source: new UrlSource(VIDEO_URL) });
+        const videoTrack = await videoInput.getPrimaryVideoTrack();
+
+        const videoCodec = await getFirstEncodableVideoCodec(
+          output.format.getSupportedVideoCodecs(),
+          { width: videoTrack.codedWidth, height: videoTrack.codedHeight }
+        );
+        log(`自动选择编码：视频=${videoCodec}`);
+
+        const videoSampleSource = new VideoSampleSource({
+          codec: videoCodec,
+          bitrate: QUALITY_HIGH
+        });
+        output.addVideoTrack(videoSampleSource);
+
+        // 6. 启动输出
+        log("3. 启动编码器...");
+        await output.start();
+
+        // 7. 【核心替换】使用 CanvasSink 渲染 + 加水印
+        log("4. 开始处理视频帧（CanvasSink 加水印）");
+        const canvasSink = new CanvasSink(videoTrack);
+
+        // 8. 把处理好的 Canvas 帧送给编码器
+        for await (const wrapperCanvas of canvasSink.canvases()) {
+          // 1. canvas 上下文
+          const ctx = wrapperCanvas.canvas.getContext('2d');
+
+          // 2. 绘制canvas 与水印
+          ctx.drawImage(img, 10, 10, img.width / 5, img.height / 5);
+
+          // 3. 添加到视频样本
+          const videoSample = new VideoSample(wrapperCanvas.canvas, {
+            timestamp: wrapperCanvas.timestamp,
+            duration: wrapperCanvas.duration ?? undefined
+          });
+          await videoSampleSource.add(videoSample);
+          videoSample.close();
+        }
+
+        log("5. 编码完成");
+        await output.finalize();
+        videoSampleSource.close();
+
+        log("6. 应用展示");
+        const blob = new Blob([output.target.buffer], { type: "video/mp4" });
+        player.src = URL.createObjectURL(blob);
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`预览加载成功！时长：${player.duration.toFixed(2)}s`);
+        });
+        log(" 全部流程完成！");
+
+        // 释放资源
+        videoInput.dispose();
+      } catch (err) {
+        log(" 错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

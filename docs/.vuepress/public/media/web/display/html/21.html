@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>dB电平表-格子实现</title>
+  <style>
+    .container {
+      display: flex;
+      gap: 20px
+    }
+
+    .channel {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 5px
+    }
+
+    .bar {
+      width: 84px;
+      height: 38px;
+      border-radius: 8px;
+      background: #333;
+      transition: none;
+    }
+
+    /* 从下往上 */
+    .bar.l0 {
+      background: #29c241;
+    }
+
+    .bar.l1 {
+      background: #29c241;
+    }
+
+    .bar.l2 {
+      background: #29c241;
+    }
+
+    .bar.l3 {
+      background: #ff8800;
+    }
+
+    .bar.l4 {
+      background: #ff2222;
+    }
+
+    .info {
+      font-family: monospace
+    }
+  </style>
+</head>
+
+<body>
+  <div class="info">Left dB: <span id="dbL">‑∞</span> &nbsp;&nbsp; Right dB: <span id="dbR">‑∞</span></div>
+  <div class="container">
+    <div class="channel" id="leftCh">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <div class="channel" id="rightCh">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </div>
+  <br>
+  <audio id="audio" controls src="./audio/01.mp3"></audio>
+  <script>
+    const audioEl = document.getElementById('audio');
+    const leftBars = Array.from(document.querySelectorAll('#leftCh .bar'));
+    const rightBars = Array.from(document.querySelectorAll('#rightCh .bar'));
+    const dbLabelL = document.getElementById('dbL');
+    const dbLabelR = document.getElementById('dbR');
+    let audioCtx, splitter, analyserL, analyserR;
+
+    // 峰值保持状态
+    const peakLeft = { val: -100 };
+    const peakRight = { val: -100 };
+    const DECAY_DB = 1.2; // 每帧下降多少dB，越大掉得越快
+
+    // 档位dB阈值，从下往上 l0~l4
+    const THRESHOLDS = [
+      -50,   // >=‑50dB 点亮l0
+      -25,   // >=‑25dB 点亮l1
+      -12,   // >=‑12dB 点亮l2
+      -6,    // >=‑6dB 点亮l3橙色
+      0      // >=0dB 点亮l4红色(过载)
+    ];
+
+    audioEl.onplay = async () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaElementSource(audioEl);
+        splitter = audioCtx.createChannelSplitter(2);
+        analyserL = audioCtx.createAnalyser();
+        analyserR = audioCtx.createAnalyser();
+        analyserL.fftSize = 1024;
+        analyserR.fftSize = 1024;
+        analyserL.smoothingTimeConstant = 0.0; // peak峰值模式关闭平滑
+        analyserR.smoothingTimeConstant = 0.0;
+        source.connect(splitter);
+        splitter.connect(analyserL, 0);
+        splitter.connect(analyserR, 1);
+        source.connect(audioCtx.destination);
+      }
+      renderLoop();
+    }
+
+    /**
+     * 直接取时域峰值振幅 → peak dBFS，不做RMS
+     * @param {AnalyserNode} analyser
+     * @returns {number} dBFS [-100, 0]
+     */
+    function getPeakDb(analyser) {
+      const buf = new Uint8Array(analyser.fftSize);
+      analyser.getByteTimeDomainData(buf);
+      let maxAmp = 0;
+      for (let i = 0; i < buf.length; i++) {
+        // byte[0‑255] → float [-1 ~ +1]
+        const v = (buf[i] - 128) / 128;
+        const absV = Math.abs(v);
+        if (absV > maxAmp) maxAmp = absV;
+      }
+      if (maxAmp <= 1e-8) return -100;
+      // 直接计算峰值dBFS
+      const db = 20 * Math.log10(maxAmp);
+      return Math.max(-100, Math.min(0, db));
+    }
+
+    // 根据dB算出要点亮多少格
+    function dbToLevel(dbVal) {
+      let level = 0;
+      for (let t of THRESHOLDS) {
+        if (dbVal > t) level++;
+      }
+      return level;
+    }
+
+    function updateChannel(bars, currentDb, peakState, dbDom) {
+      let outDb;
+      if (currentDb > peakState.val) {
+        outDb = currentDb;
+        peakState.val = currentDb;
+      } else {
+        outDb = peakState.val;
+        peakState.val = Math.max(-100, peakState.val - DECAY_DB);
+      }
+      const lv = dbToLevel(outDb);
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].className = 'bar';
+        if (i < lv) {
+          bars[i].classList.add(`l${i}`);
+        }
+      }
+      dbDom.textContent = outDb.toFixed(1) + " dBFS";
+    }
+
+    function renderLoop() {
+      if (audioEl.paused) return;
+      const dbL = getPeakDb(analyserL);
+      const dbR = getPeakDb(analyserR);
+      updateChannel(leftBars, dbL, peakLeft, dbLabelL);
+      updateChannel(rightBars, dbR, peakRight, dbLabelR);
+      requestAnimationFrame(renderLoop);
+    }
+  </script>
+</body>
+
+</html>

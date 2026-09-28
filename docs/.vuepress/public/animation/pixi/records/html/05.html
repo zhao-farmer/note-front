@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ColorMatrixFilter 完整效果面板</title>
+  <script src="./js/pixi.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .group-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 4px 0;
+    }
+
+    label {
+      width: 100px;
+      display: inline-block;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .val {
+      width: 50px;
+      text-align: right;
+    }
+
+    button {
+      padding: 4px 10px;
+      cursor: pointer;
+      border: 1px solid #999;
+      background: #f7f7f7;
+      border-radius: 3px;
+    }
+
+    select {
+      padding: 3px;
+      min-width: 140px;
+    }
+
+    input[type="color"] {
+      width: 44px;
+      height: 28px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="group-title">快速预设效果(点击按钮)</div>
+      <div class="row">
+        <button data-fn="greyscale">灰度(1)</button>
+        <button data-fn="blackAndWhite">黑白二值</button>
+        <button data-fn="negative">颜色反相</button>
+      </div>
+      <div class="row">
+        <button data-fn="browni">复古棕褐</button>
+        <button data-fn="polaroid">宝丽来胶片</button>
+        <button data-fn="reset">重置</button>
+      </div>
+
+      <div class="group-title">参数滑块调节</div>
+      <div class="row">
+        <label>灰度强度</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpGreyscale">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>色相旋转 °</label>
+        <input type="range" min="0" max="360" step="1" id="inpHue">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>亮度</label>
+        <input type="range" min="0" max="2.5" step="0.01" id="inpBrightness">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>对比度</label>
+        <input type="range" min="0" max="2.5" step="0.01" id="inpContrast">
+        <span class="val">1.00</span>
+      </div>
+
+      <div class="group-title">colorTone 色调映射(亮部/暗部染色)</div>
+      <div class="row">
+        <label>明暗阈值1</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpTone1">
+        <span class="val">0.20</span>
+      </div>
+      <div class="row">
+        <label>明暗阈值2</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpTone2">
+        <span class="val">0.30</span>
+      </div>
+      <div class="row">
+        <label>亮部颜色</label>
+        <input type="color" id="colorLight" value="#ffdd88">
+        <span id="lightHex">#ffdd88</span>
+      </div>
+      <div class="row">
+        <label>暗部颜色</label>
+        <input type="color" id="colorDark" value="#224422">
+        <span id="darkHex">#224422</span>
+      </div>
+      <div class="row">
+        <button id="btnApplyTone">应用色调映射</button>
+      </div>
+
+      <div class="group-title">叠加模式</div>
+      <div class="row">
+        <label>运算模式</label>
+        <select id="selMode">
+          <option value="replace">替换(每次重置矩阵)</option>
+          <option value="multiply">叠加(在现有矩阵上累加)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const texture = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(texture);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const cmFilter = new PIXI.ColorMatrixFilter();
+    sprite.filters = [cmFilter];
+
+    // 工具：16进制#字符串转 pixi number 0xRRGGBB
+    function hexToNum(hexStr) {
+      const s = hexStr.replace('#', '');
+      return parseInt(s, 16);
+    }
+
+    function getMultiplyFlag() {
+      return document.getElementById('selMode').value === 'multiply';
+    }
+
+    // 按钮快速预设
+    document.querySelectorAll('button[data-fn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fn = btn.dataset.fn;
+        if (fn === 'reset') {
+          cmFilter.reset();
+          // 重置UI
+          document.getElementById('inpGreyscale').value = 0;
+          document.querySelector('#inpGreyscale+.val').textContent = '0.00';
+          document.getElementById('inpHue').value = 0;
+          document.querySelector('#inpHue+.val').textContent = '0';
+          document.getElementById('inpBrightness').value = 1;
+          document.querySelector('#inpBrightness+.val').textContent = '1.00';
+          document.getElementById('inpContrast').value = 1;
+          document.querySelector('#inpContrast+.val').textContent = '1.00';
+          return;
+        }
+        const mul = getMultiplyFlag();
+        if (fn === 'greyscale') cmFilter.greyscale(1, mul);
+        if (fn === 'blackAndWhite') cmFilter.blackAndWhite(mul);
+        if (fn === 'negative') cmFilter.negative(mul);
+        if (fn === 'browni') cmFilter.browni(mul);
+        if (fn === 'polaroid') cmFilter.polaroid(mul);
+      })
+    })
+
+    // 滑块：灰度
+    const inpGreyscale = document.getElementById('inpGreyscale');
+    inpGreyscale.addEventListener('input', () => {
+      const v = Number(inpGreyscale.value);
+      cmFilter.greyscale(v, getMultiplyFlag());
+      inpGreyscale.nextElementSibling.textContent = v.toFixed(2);
+    })
+
+    // 滑块：色相
+    const inpHue = document.getElementById('inpHue');
+    inpHue.addEventListener('input', () => {
+      const v = Number(inpHue.value);
+      cmFilter.hue(v, getMultiplyFlag());
+      inpHue.nextElementSibling.textContent = String(v);
+    })
+
+    // 滑块：亮度
+    const inpBrightness = document.getElementById('inpBrightness');
+    inpBrightness.addEventListener('input', () => {
+      const v = Number(inpBrightness.value);
+      cmFilter.brightness(v, getMultiplyFlag());
+      inpBrightness.nextElementSibling.textContent = v.toFixed(2);
+    })
+
+    // 滑块：对比度
+    const inpContrast = document.getElementById('inpContrast');
+    inpContrast.addEventListener('input', () => {
+      const v = Number(inpContrast.value);
+      cmFilter.contrast(v, getMultiplyFlag());
+      inpContrast.nextElementSibling.textContent = v.toFixed(2);
+    })
+
+    // colorTone
+    const inpTone1 = document.getElementById('inpTone1');
+    const inpTone2 = document.getElementById('inpTone2');
+    const colorLight = document.getElementById('colorLight');
+    const colorDark = document.getElementById('colorDark');
+    const lightHexSpan = document.getElementById('lightHex');
+    const darkHexSpan = document.getElementById('darkHex');
+    const btnApplyTone = document.getElementById('btnApplyTone');
+
+    colorLight.addEventListener('input', () => { lightHexSpan.textContent = colorLight.value; })
+    colorDark.addEventListener('input', () => { darkHexSpan.textContent = colorDark.value; })
+
+    inpTone1.addEventListener('input', () => { inpTone1.nextElementSibling.textContent = Number(inpTone1.value).toFixed(2); })
+    inpTone2.addEventListener('input', () => { inpTone2.nextElementSibling.textContent = Number(inpTone2.value).toFixed(2); })
+
+    btnApplyTone.addEventListener('click', () => {
+      const t1 = Number(inpTone1.value);
+      const t2 = Number(inpTone2.value);
+      const lightNum = hexToNum(colorLight.value);
+      const darkNum = hexToNum(colorDark.value);
+      cmFilter.colorTone(t1, t2, lightNum, darkNum, getMultiplyFlag());
+    })
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ColorMatrixFilter 单矩阵调试（可复制示例）</title>
+  <script src="./js/pixi.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 380px;
+    }
+
+    textarea {
+      width: calc(100% - 30px);
+      height: 190px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      padding: 8px;
+      resize: none;
+    }
+
+    button {
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+
+    .example-block {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .example-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .code-item {
+      background: #f5f5f5;
+      padding: 6px;
+      margin: 6px 0;
+      border-radius: 3px;
+      white-space: pre-wrap;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .tip {
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div>
+      <div id="canvasBox"></div>
+      <div>
+        <div class="tip">手动编辑20元素颜色矩阵数组，点击应用生效；第4行控制Alpha通道</div>
+        <textarea id="matInput">[
+  1,0,0,0,0,
+  0,1,0,0,0,
+  0,0,1,0,0,
+  0,0,0,1,0
+]</textarea>
+        <div style="margin-top:8px;">
+          <button id="btnApply">应用矩阵</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+
+
+      <div class="example-block">
+        <div class="example-title">点击代码自动复制到剪贴板</div>
+        <div class="code-item" data-mat='[
+  1,0,0,0,0,
+  0,1,0,0,0,
+  0,0,1,0,0,
+  0,0,0,1,0
+]'>// 1.原始图像(单位矩阵)
+[
+  1,0,0,0,0,
+  0,1,0,0,0,
+  0,0,1,0,0,
+  0,0,0,1,0
+]
+        </div>
+
+        <div class="code-item" data-mat='[
+  0.33,0.33,0.33,0,0,
+  0.33,0.33,0.33,0,0,
+  0.33,0.33,0.33,0,0,
+  0,0,0,1,0
+]'>// 2.灰度
+[
+  0.33,0.33,0.33,0,0,
+  0.33,0.33,0.33,0,0,
+  0.33,0.33,0.33,0,0,
+  0,0,0,1,0
+]
+        </div>
+
+        <div class="code-item" data-mat='[
+  -1,0,0,0,1,
+  0,-1,0,0,1,
+  0,0,-1,0,1,
+  0,0,0,1,0
+]'>//3.颜色反相(负片)
+[
+  -1,0,0,0,1,
+  0,-1,0,0,1,
+  0,0,-1,0,1,
+  0,0,0,1,0
+]
+        </div>
+
+        <div class="code-item" data-mat='[
+  1,0,0,0,0,
+  0,1,0,0,0,
+  0,0,1,0,0,
+  0,0,0,0.4,0
+]'>//4.整体alpha=0.4半透明
+[
+  1,0,0,0,0,
+  0,1,0,0,0,
+  0,0,1,0,0,
+  0,0,0,0.4,0
+]
+        </div>
+
+        <div class="code-item" data-mat='[
+  0.393,0.769,0.189,0,0,
+  0.349,0.686,0.168,0,0,
+  0.272,0.534,0.131,0,0,
+  0,0,0,1,0
+]'>//5.复古棕褐色(sepia)
+[
+  0.393,0.769,0.189,0,0,
+  0.349,0.686,0.168,0,0,
+  0.272,0.534,0.131,0,0,
+  0,0,0,1,0   
+]
+        </div>
+
+        <div class="code-item" data-mat='[
+  1.5,0,0,0,-0.2,
+  0,1.2,0,0,-0.1,
+  0,0,0.8,0,0,
+  0,0,0,0.7,0
+]'>//6.红通道增强 + alpha=0.7
+[
+  1.5,0,0,0,-0.2,
+  0,1.2,0,0,-0.1,
+  0,0,0.8,0,0,
+  0,0,0,0.7,0
+]
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 340, height: 460 });
+    document.querySelector('#canvasBox').appendChild(app.canvas);
+
+    const texture = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(texture);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const filter = new PIXI.ColorMatrixFilter();
+    sprite.filters = [filter];
+
+    const matInput = document.getElementById('matInput');
+
+    function parseMatrix(text) {
+      const arr = JSON.parse(text);
+      if (arr.length !== 20) throw new Error("数组长度必须为20");
+      return arr;
+    }
+
+    document.getElementById('btnApply').addEventListener('click', () => {
+      try {
+        const m = parseMatrix(matInput.value);
+        filter.matrix = m;
+      } catch (e) {
+        alert(`矩阵解析失败：${e.message}`);
+      }
+    });
+
+    // 点击示例块，复制矩阵文本到textarea
+    document.querySelectorAll('.code-item').forEach(el => {
+      el.addEventListener('click', async () => {
+        const matStr = el.dataset.mat;
+        matInput.value = matStr;
+        try {
+          await navigator.clipboard.writeText(matStr);
+        } catch (err) { }
+      })
+    })
+  </script>
+</body>
+
+</html>

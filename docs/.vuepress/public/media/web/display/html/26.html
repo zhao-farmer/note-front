@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>时频谱 Spectrogram</title>
+  <style>
+  
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+    .warn {
+      color: #f44;
+    }
+    canvas {
+      background: #000;
+      border-radius: 6px;
+      display: block;
+      margin-top: 10px;
+    }
+    .audio-content{
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="canvas" width="600" height="256"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+ 
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+
+    // 监听音频播放事件
+    audioEl.onplay = async () => {
+      // 只有在第一次播放时才初始化 AudioContext
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.0;
+
+        // 将 audio 标签连接到 Web Audio API
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        isAudioContextReady = true;
+      }
+      // 每次播放都启动渲染循环
+      loop();
+    };
+
+    function loop() {
+      // 如果音频暂停了，停止渲染循环以节省性能
+      if (audioEl.paused) return;
+
+      // 计算RMS分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // ====== 时频谱逻辑 ======
+      analyser.getByteFrequencyData(dataArray);
+      // 画布整体向左滚动1像素
+      ctx.drawImage(canvas, -1, 0);
+
+      // 最右侧画新的一列
+      const colX = canvas.width - 1;
+      for (let y = 0; y < canvas.height; y++) {
+        // y映射到fft bin，高频在上，低频在下
+        const binIdx = Math.floor(y / canvas.height * fftBinCount);
+        const val = dataArray[binIdx];
+        // 简单灰度配色
+        ctx.fillStyle = `rgb(${val},${val},${val})`;
+        ctx.fillRect(colX, y, 1, 1);
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

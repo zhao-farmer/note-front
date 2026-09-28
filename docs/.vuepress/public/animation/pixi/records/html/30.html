@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>KawaseBlurFilter 卡瓦塞模糊滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>strength 模糊强度</label>
+        <input type="range" min="0" max="16" step="0.1" id="inpStrength">
+        <span class="val">4</span>
+      </div>
+      <div class="row">
+        <label>quality 迭代质量</label>
+        <input type="range" min="1" max="8" step="1" id="inpQuality">
+        <span class="val">3</span>
+      </div>
+      <div class="row">
+        <label>pixelSize.x 水平像素</label>
+        <input type="range" min="0.1" max="8" step="0.01" id="inpPixelX">
+        <span class="val">1</span>
+      </div>
+      <div class="row">
+        <label>pixelSize.y 垂直像素</label>
+        <input type="range" min="0.1" max="8" step="0.01" id="inpPixelY">
+        <span class="val">1</span>
+      </div>
+
+      <div style="font-size:12px;color:#555;">
+        KawaseBlurFilter：卡瓦塞高性能模糊滤镜<br />
+        strength模糊半径；quality迭代次数；pixelSize控制采样粒度，数值越大性能越高画面越粗糙
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const blurFilter = new PIXI.filters.KawaseBlurFilter({
+      strength:4,
+      quality:3,
+      pixelSize:{x:1,y:1}
+    });
+    sprite.filters = [blurFilter];
+
+    const inpStrength = document.getElementById('inpStrength');
+    const inpQuality = document.getElementById('inpQuality');
+    const inpPixelX = document.getElementById('inpPixelX');
+    const inpPixelY = document.getElementById('inpPixelY');
+
+    const valStrength = inpStrength.nextElementSibling;
+    const valQuality = inpQuality.nextElementSibling;
+    const valPixelX = inpPixelX.nextElementSibling;
+    const valPixelY = inpPixelY.nextElementSibling;
+
+    //初始化控件
+    inpStrength.value = blurFilter.strength;
+    valStrength.textContent = blurFilter.strength.toFixed(1);
+    inpQuality.value = blurFilter.quality;
+    valQuality.textContent = blurFilter.quality;
+    inpPixelX.value = blurFilter.pixelSize.x;
+    valPixelX.textContent = blurFilter.pixelSize.x.toFixed(2);
+    inpPixelY.value = blurFilter.pixelSize.y;
+    valPixelY.textContent = blurFilter.pixelSize.y.toFixed(2);
+
+    inpStrength.oninput = () => {
+      blurFilter.strength = Number(inpStrength.value);
+      valStrength.textContent = blurFilter.strength.toFixed(1);
+    };
+    inpQuality.oninput = () => {
+      blurFilter.quality = Number(inpQuality.value);
+      valQuality.textContent = blurFilter.quality;
+    };
+    inpPixelX.oninput = () => {
+      blurFilter.pixelSize.x = Number(inpPixelX.value);
+      valPixelX.textContent = blurFilter.pixelSize.x.toFixed(2);
+    };
+    inpPixelY.oninput = () => {
+      blurFilter.pixelSize.y = Number(inpPixelY.value);
+      valPixelY.textContent = blurFilter.pixelSize.y.toFixed(2);
+    };
+  </script>
+</body>
+</html>

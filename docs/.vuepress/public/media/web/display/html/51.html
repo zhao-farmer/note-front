@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>双向镜像环形折线</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+    .warn {
+      color: #f44;
+    }
+    canvas {
+      background: #000;
+      display: block;
+      margin-top: 10px;
+    }
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="lineCanvas" width="500" height="500"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3">
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+  <script>
+    const canvas = document.getElementById('lineCanvas');
+    const ctx = canvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+    let audioContext, analyser, source, isReady = false;
+
+    const bufferLength = 2048;
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const timeDataArray = new Uint8Array(bufferLength);
+
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+    const POINT_COUNT = 128;
+
+    const BASE_RADIUS = 160;      // 镜像中线基准半径
+    const MAX_AMPLITUDE = 90;     // 向外/向内最大偏移幅度
+
+    audioEl.onplay = async () => {
+      if (!isReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.85;
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isReady = true;
+      }
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // RMS分贝计算
+      analyser.getByteTimeDomainData(timeDataArray);
+      let sumSq = 0;
+      for (let v of timeDataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      const instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      analyser.getByteFrequencyData(dataArray);
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 中间基准参考圈
+      ctx.beginPath();
+      ctx.arc(cx, cy, BASE_RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 锥形渐变 绿‑黄‑红‑黄‑绿
+      const grad = ctx.createConicGradient(-Math.PI / 2, cx, cy);
+      grad.addColorStop(0, 'hsl(120, 100%, 50%)');
+      grad.addColorStop(0.25, 'hsl(60, 100%, 50%)');
+      grad.addColorStop(0.5, 'hsl(0, 100%, 50%)');
+      grad.addColorStop(0.75, 'hsl(60, 100%, 50%)');
+      grad.addColorStop(1, 'hsl(120, 100%, 50%)');
+
+      const step = Math.floor(fftBinCount / POINT_COUNT);
+      const angleStep = (Math.PI * 2) / POINT_COUNT;
+      const startOffset = -Math.PI / 2;
+
+      // 预先计算全部点：外点数组、内点数组
+      const outerPoints = [];
+      const innerPoints = [];
+      for (let i = 0; i < POINT_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < step; j++) sum += dataArray[i * step + j];
+        const avgVal = sum / step;
+        const offset = (avgVal / 255) * MAX_AMPLITUDE;
+
+        const rOut = BASE_RADIUS + offset;
+        const rIn = Math.max(BASE_RADIUS - offset, 10);
+
+        const angle = startOffset + i * angleStep;
+        outerPoints.push({
+          x: cx + rOut * Math.cos(angle),
+          y: cy + rOut * Math.sin(angle)
+        });
+        innerPoints.push({
+          x: cx + rIn * Math.cos(angle),
+          y: cy + rIn * Math.sin(angle)
+        });
+      }
+
+      // 绘制闭合路径：先沿外圈顺时针，再沿内圈逆时针回来闭合
+      ctx.beginPath();
+      // 外圈正向
+      ctx.moveTo(outerPoints[0].x, outerPoints[0].y);
+      for (let i = 1; i < POINT_COUNT; i++) {
+        ctx.lineTo(outerPoints[i].x, outerPoints[i].y);
+      }
+      // 连接到内圈最后一个点，反向遍历内圈
+      ctx.lineTo(innerPoints[POINT_COUNT - 1].x, innerPoints[POINT_COUNT - 1].y);
+      for (let i = POINT_COUNT - 2; i >= 0; i--) {
+        ctx.lineTo(innerPoints[i].x, innerPoints[i].y);
+      }
+      ctx.closePath();
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 半透明填充环形带内部
+      ctx.globalAlpha = 0.12;
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>

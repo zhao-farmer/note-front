@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>BulgePinchFilter 凸起挤压滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>centerX 归一化X</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpCx">
+        <span class="val">0.50</span>
+      </div>
+      <div class="row">
+        <label>centerY 归一化Y</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpCy">
+        <span class="val">0.50</span>
+      </div>
+      <div class="row">
+        <label>radius 作用半径(px)</label>
+        <input type="range" min="0" max="200" step="1" id="inpRadius">
+        <span class="val">80</span>
+      </div>
+      <div class="row">
+        <label>strength 畸变强度</label>
+        <input type="range" min="-1" max="1" step="0.05" id="inpStrength">
+        <span class="val">0.60</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        center为<strong>0‑1归一化纹理坐标，不是画布像素！</strong><br/>
+        strength>0向外凸起；strength<0向内挤压收缩<br/>
+        padding已设置，防止形变裁切
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 385, height: 500 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    sprite.x = 20;
+    sprite.y = 20;
+    app.stage.addChild(sprite);
+
+    // center 使用0‑1归一化，[0.5,0.5]纹理中心点
+    const bulgePinchFilter = new PIXI.filters.BulgePinchFilter({
+      center: [0.5, 0.5],
+      radius: 80,
+      strength: 0.6
+    });
+    bulgePinchFilter.padding = 40;
+    sprite.filters = [bulgePinchFilter];
+
+    // UI绑定
+    const inpCx = document.getElementById('inpCx');
+    const inpCy = document.getElementById('inpCy');
+    const inpRadius = document.getElementById('inpRadius');
+    const inpStrength = document.getElementById('inpStrength');
+
+    inpCx.value = 0.50;
+    inpCy.value = 0.50;
+    inpRadius.value = 80;
+    inpStrength.value = 0.60;
+
+    inpCx.oninput = () => {
+      const v = Number(inpCx.value);
+      bulgePinchFilter.center[0] = v;
+      inpCx.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpCy.oninput = () => {
+      const v = Number(inpCy.value);
+      bulgePinchFilter.center[1] = v;
+      inpCy.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpRadius.oninput = () => {
+      const v = Number(inpRadius.value);
+      bulgePinchFilter.radius = v;
+      inpRadius.nextElementSibling.textContent = String(v);
+    };
+    inpStrength.oninput = () => {
+      const v = Number(inpStrength.value);
+      bulgePinchFilter.strength = v;
+      inpStrength.nextElementSibling.textContent = v.toFixed(2);
+    };
+  </script>
+</body>
+</html>

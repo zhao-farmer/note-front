@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .root {
+      width: 600px;
+      height: 400px;
+      background-color: #111;
+      display: flex;
+      align-items: center;
+    }
+
+    .box {
+      display: block;
+      width: 100px;
+      height: 100px;
+      background-color: green;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="root">
+    <!-- 目标元素 -->
+    <div class="box"></div>
+  </div>
+
+  <script>
+    let state = false;
+    setInterval(() => {
+      if (state) {
+        state = false;
+        // .box 目标元素移动到 x 轴 0 处
+        gsap.to(".box", {
+          x: 0,
+        });
+      } else {
+        state = true;
+        gsap.to(".box", {
+          x: 200,
+        });
+      }
+    }, 1000);
+  </script>
+</body>
+
+</html>

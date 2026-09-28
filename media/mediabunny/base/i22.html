@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny 自动转换（特效）</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      Output,
+      WebMOutputFormat,
+      BufferTarget,
+      Conversion,
+      UrlSource,
+      ALL_FORMATS,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    // 页面元素
+    const outputEl = document.getElementById('output');
+    const player = document.getElementById('player');
+
+    // 视频源
+    const VIDEO_URL = "../media/04.mp4";
+
+    // ====================== 特效帧配置 ======================
+    const TOTAL_EFFECT_FRAMES = 26; // 特效总帧数
+    const EFFECT_FRAMES = [];
+    for (let i = 1; i <= TOTAL_EFFECT_FRAMES; i++) {
+      const num = i.toString().padStart(3, '0');
+      EFFECT_FRAMES.push(`../media/frames/frame_${num}.png`);
+    }
+    let effectImages = [];       // 预加载的特效图片
+    let effectFrameIndex = 0;    // 当前特效帧
+    let videoFrameCount = 0;     // 视频帧计数
+
+    // 文件大小
+    let currentFileSize = 0;
+    let lastProgressLine = -1;
+
+    // 普通日志
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+    }
+
+    // 进度覆盖日志（只替换最后一行）
+    function updateProgress(p) {
+      const mb = (currentFileSize / 1024 / 1024).toFixed(2);
+      const text = outputEl.textContent;
+      const lines = text.split('\n');
+
+      const info = `进度：${p}%  | 已输出：${mb} MB`;
+
+      if (lastProgressLine === -1) {
+        lastProgressLine = lines.length;
+        lines.push(info);
+      } else {
+        lines[lastProgressLine] = info;
+      }
+
+      outputEl.textContent = lines.join('\n');
+    }
+
+    // 自动执行
+    (async () => {
+      try {
+        log("=== 自动开始媒体转换 ===");
+
+        // ====================== 预加载所有特效帧 ======================
+        log("加载特效帧...");
+        effectImages = [];
+        for (const url of EFFECT_FRAMES) {
+          const img = new Image();
+          await new Promise((res) => {
+            img.onload = res;
+            img.src = url;
+          });
+          effectImages.push(img);
+        }
+        log("特效帧加载完成");
+
+        log("1. 创建输入源...");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+
+        log("2. 创建输出（WebM）...");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget()
+        });
+
+        // 监听输出文件大小
+        output.target.on('write', ({ end }) => {
+          currentFileSize = Math.max(currentFileSize, end);
+        });
+
+        log("3. 初始化转换任务（特效）...");
+
+        let ctx = null;
+        const conversion = await Conversion.init({
+          input,
+          output,
+          video: {
+            // ====================== 核心：process 加特效 ======================
+            process: (sample) => {
+              if (!ctx) {
+                const canvas = new OffscreenCanvas(
+                  sample.displayWidth,
+                  sample.displayHeight
+                );
+                ctx = canvas.getContext('2d');
+              }
+
+              // 1. 绘制视频原始帧
+              sample.draw(ctx, 0, 0);
+
+              // 2. 获取当前特效帧
+              const effectImg = effectImages[effectFrameIndex];
+
+              // 3. 滤色模式（黑底自动变透明）
+              ctx.globalCompositeOperation = 'screen';
+              ctx.drawImage(effectImg, 0, 0, sample.displayWidth, sample.displayHeight);
+              ctx.globalCompositeOperation = 'source-over';
+
+              // 4. 控制特效切换速度：每3帧切换一张
+              videoFrameCount++;
+              if (videoFrameCount % 3 === 0) {
+                effectFrameIndex++;
+              }
+              // 循环播放特效
+              if (effectFrameIndex >= effectImages.length) {
+                effectFrameIndex = 0;
+              }
+
+              return ctx.canvas;
+            },
+          }
+        });
+
+        if (!conversion.isValid) {
+          log("转换无效：" + conversion.discardedTracks.length);
+          return;
+        }
+
+        log("4. 正在转换...");
+        conversion.onProgress = (progress) => {
+          const p = (progress * 100).toFixed(1);
+          updateProgress(p);
+        };
+
+        await conversion.execute();
+        updateProgress("100");
+        log("转换完成！");
+
+        log("5. 加载webm效果...");
+        const blob = new Blob([output.target.buffer], { type: 'video/webm' });
+        player.src = URL.createObjectURL(blob);
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

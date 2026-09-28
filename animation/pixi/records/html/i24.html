@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EmbossFilter 浮雕滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>strength 浮雕强度</label>
+        <input type="range" min="0" max="5" step="0.1" id="inpStrength">
+        <span class="val">2</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        EmbossFilter：图像浮雕滤镜<br />
+        strength控制浮雕凹凸强度；滤镜无角度参数，光照方向内置固定
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+    const embossFilter = new PIXI.filters.EmbossFilter(2);
+    sprite.filters = [embossFilter];
+
+    const inpStrength = document.getElementById('inpStrength');
+    const valStrength = inpStrength.nextElementSibling;
+
+    // 初始化控件值
+    inpStrength.value = embossFilter.strength;
+    valStrength.textContent = embossFilter.strength;
+
+    inpStrength.oninput = () => {
+      embossFilter.strength = Number(inpStrength.value);
+      valStrength.textContent = embossFilter.strength.toFixed(1);
+    };
+  </script>
+</body>
+
+</html>

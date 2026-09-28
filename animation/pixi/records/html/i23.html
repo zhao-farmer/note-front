@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>DropShadowFilter 投影滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas{
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex:1;
+    }
+    .val{
+      width:60px;
+      text-align:right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>shadowColor 阴影颜色</label>
+        <input type="color" id="inpShadowColor" value="#000000">
+      </div>
+      <div class="row">
+        <label>offset.x X偏移</label>
+        <input type="range" min="-20" max="20" step="1" id="inpOffsetX">
+        <span class="val">4</span>
+      </div>
+      <div class="row">
+        <label>offset.y Y偏移</label>
+        <input type="range" min="-20" max="20" step="1" id="inpOffsetY">
+        <span class="val">4</span>
+      </div>
+      <div class="row">
+        <label>blur 模糊半径</label>
+        <input type="range" min="0" max="12" step="0.5" id="inpBlur">
+        <span class="val">2</span>
+      </div>
+      <div class="row">
+        <label>quality 采样质量</label>
+        <input type="range" min="1" max="8" step="1" id="inpQuality">
+        <span class="val">3</span>
+      </div>
+      <div class="row">
+        <label>alpha 透明度</label>
+        <input type="range" min="0" max="1" step="0.05" id="inpAlpha">
+        <span class="val">0.5</span>
+      </div>
+      <div class="row">
+        <label>shadowOnly 仅输出阴影</label>
+        <input type="checkbox" id="chkShadowOnly">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        DropShadowFilter：物体投射外阴影滤镜<br/>
+        offset控制阴影偏移，blur/quality控制柔和度，shadowOnly可隐藏原图只看阴影；阴影溢出边界需要预留边距；使用基础图形：矩形、圆形、三角形、五角星
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ 
+      width: 345,
+       height: 460 ,
+       backgroundColor: 0xffffff
+    });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const container = new PIXI.Container();
+    app.stage.addChild(container);
+
+    // 绘制基础图形：矩形、圆形、三角形、五角星
+    const rectGfx = new PIXI.Graphics();
+    rectGfx.rect(0,0,80,60).fill(0x3388dd);
+    rectGfx.position.set(40,40);
+    container.addChild(rectGfx);
+
+    const circleGfx = new PIXI.Graphics();
+    circleGfx.circle(0,0,35).fill(0xdd6644);
+    circleGfx.position.set(180,70);
+    container.addChild(circleGfx);
+
+    const triGfx = new PIXI.Graphics();
+    triGfx.moveTo(0,-40).lineTo(35,32).lineTo(-35,32).closePath().fill(0x22bb66);
+    triGfx.position.set(70,180);
+    container.addChild(triGfx);
+
+    const starGfx = new PIXI.Graphics();
+    const starR = 40;
+    starGfx.moveTo(0,-starR);
+    for(let i=1;i<10;i++){
+      const r = i%2===1 ? starR : starR*0.4;
+      const angle = (Math.PI*2*i)/10 - Math.PI/2;
+      starGfx.lineTo(Math.cos(angle)*r, Math.sin(angle)*r);
+    }
+    starGfx.closePath().fill(0xccaa22);
+    starGfx.position.set(200,220);
+    container.addChild(starGfx);
+
+    const dropShadowFilter = new PIXI.filters.DropShadowFilter({
+      offset:{x:4, y:4},
+      blur:2,
+      quality:3,
+      alpha:0.5,
+      color:0x000000,
+      shadowOnly:false
+    });
+    container.filters = [dropShadowFilter];
+
+    const inpShadowColor = document.getElementById('inpShadowColor');
+    const inpOffsetX = document.getElementById('inpOffsetX');
+    const inpOffsetY = document.getElementById('inpOffsetY');
+    const inpBlur = document.getElementById('inpBlur');
+    const inpQuality = document.getElementById('inpQuality');
+    const inpAlpha = document.getElementById('inpAlpha');
+    const chkShadowOnly = document.getElementById('chkShadowOnly');
+
+    const valOffsetX = inpOffsetX.nextElementSibling;
+    const valOffsetY = inpOffsetY.nextElementSibling;
+    const valBlur = inpBlur.nextElementSibling;
+    const valQuality = inpQuality.nextElementSibling;
+    const valAlpha = inpAlpha.nextElementSibling;
+
+    //初始化控件
+    inpShadowColor.value = '#' + dropShadowFilter.color.toString(16).padStart(6,'0');
+    inpOffsetX.value = dropShadowFilter.offset.x;
+    valOffsetX.textContent = dropShadowFilter.offset.x;
+    inpOffsetY.value = dropShadowFilter.offset.y;
+    valOffsetY.textContent = dropShadowFilter.offset.y;
+    inpBlur.value = dropShadowFilter.blur;
+    valBlur.textContent = dropShadowFilter.blur;
+    inpQuality.value = dropShadowFilter.quality;
+    valQuality.textContent = dropShadowFilter.quality;
+    inpAlpha.value = dropShadowFilter.alpha;
+    valAlpha.textContent = dropShadowFilter.alpha.toFixed(2);
+    chkShadowOnly.checked = dropShadowFilter.shadowOnly;
+
+    inpShadowColor.oninput = ()=>{
+      const hex = inpShadowColor.value.replace('#','');
+      dropShadowFilter.color = parseInt(hex,16);
+    };
+
+    inpOffsetX.oninput = ()=>{
+      dropShadowFilter.offset.x = Number(inpOffsetX.value);
+      valOffsetX.textContent = dropShadowFilter.offset.x;
+    };
+
+    inpOffsetY.oninput = ()=>{
+      dropShadowFilter.offset.y = Number(inpOffsetY.value);
+      valOffsetY.textContent = dropShadowFilter.offset.y;
+    };
+
+    inpBlur.oninput = ()=>{
+      dropShadowFilter.blur = Number(inpBlur.value);
+      valBlur.textContent = dropShadowFilter.blur;
+    };
+
+    inpQuality.oninput = ()=>{
+      dropShadowFilter.quality = Number(inpQuality.value);
+      valQuality.textContent = dropShadowFilter.quality;
+    };
+
+    inpAlpha.oninput = ()=>{
+      dropShadowFilter.alpha = Number(inpAlpha.value);
+      valAlpha.textContent = dropShadowFilter.alpha.toFixed(2);
+    };
+
+    chkShadowOnly.onchange = ()=>{
+      dropShadowFilter.shadowOnly = chkShadowOnly.checked;
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>CRTFilter CRT显示器滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 180px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 55px;
+      text-align: right;
+      font-size:13px;
+    }
+    .tip {
+      font-size:12px;
+      color:#555;
+      line-height:1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>enabled 启用滤镜</label>
+        <input type="checkbox" id="chkEnable" checked>
+      </div>
+      <div class="row">
+        <label>curvature 球面弯曲</label>
+        <input type="range" min="0" max="2" step="0.05" id="inpCurvature">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>lineWidth 扫描线粗细</label>
+        <input type="range" min="0" max="4" step="0.1" id="inpLineWidth">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>lineContrast 扫描线对比</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpLineContrast">
+        <span class="val">0.25</span>
+      </div>
+      <div class="row">
+        <label>verticalLine 垂直扫描线</label>
+        <input type="checkbox" id="chkVertical">
+      </div>
+      <div class="row">
+        <label>noise 噪点强度</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpNoise">
+        <span class="val">0.30</span>
+      </div>
+      <div class="row">
+        <label>noiseSize 噪点颗粒大小</label>
+        <input type="range" min="0.5" max="4" step="0.1" id="inpNoiseSize">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>seed 噪点随机种子</label>
+        <input type="range" min="0" max="5" step="0.1" id="inpSeed">
+        <span class="val">0.50</span>
+      </div>
+      <div class="row">
+        <label>vignetting 暗角强度</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpVignette">
+        <span class="val">0.30</span>
+      </div>
+      <div class="row">
+        <label>vignettingAlpha 暗角透明度</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpVigAlpha">
+        <span class="val">1.00</span>
+      </div>
+      <div class="row">
+        <label>vignettingBlur 暗角模糊</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpVigBlur">
+        <span class="val">0.30</span>
+      </div>
+      <div class="tip">
+        CRTFilter：模拟老式CRT显像管显示器<br/>
+        扫描线、球面畸变、噪点、边缘暗角；支持直接修改属性
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width:345, height:460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const crtFilter = new PIXI.filters.CRTFilter({
+      curvature:1.0,
+      lineWidth:1.0,
+      lineContrast:0.25,
+      verticalLine:false,
+      noise:0.3,
+      noiseSize:1.0,
+      seed:0.5,
+      vignetting:0.3,
+      vignettingAlpha:1.0,
+      vignettingBlur:0.3,
+      time:1
+    });
+    sprite.filters = [crtFilter];
+
+    const chkEnable = document.getElementById('chkEnable');
+    const inpCurvature = document.getElementById('inpCurvature');
+    const inpLineWidth = document.getElementById('inpLineWidth');
+    const inpLineContrast = document.getElementById('inpLineContrast');
+    const chkVertical = document.getElementById('chkVertical');
+    const inpNoise = document.getElementById('inpNoise');
+    const inpNoiseSize = document.getElementById('inpNoiseSize');
+    const inpSeed = document.getElementById('inpSeed');
+    const inpVignette = document.getElementById('inpVignette');
+    const inpVigAlpha = document.getElementById('inpVigAlpha');
+    const inpVigBlur = document.getElementById('inpVigBlur');
+
+    inpCurvature.value = 1.00;
+    inpLineWidth.value = 1.00;
+    inpLineContrast.value = 0.25;
+    inpNoise.value = 0.30;
+    inpNoiseSize.value = 1.00;
+    inpSeed.value = 0.50;
+    inpVignette.value = 0.30;
+    inpVigAlpha.value = 1.00;
+    inpVigBlur.value = 0.30;
+
+    chkEnable.onchange = ()=>{
+      crtFilter.enabled = chkEnable.checked;
+    };
+    chkVertical.onchange = ()=>{
+      crtFilter.verticalLine = chkVertical.checked;
+    };
+
+    inpCurvature.oninput = ()=>{
+      const v = Number(inpCurvature.value);
+      crtFilter.curvature = v;
+      inpCurvature.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpLineWidth.oninput = ()=>{
+      const v = Number(inpLineWidth.value);
+      crtFilter.lineWidth = v;
+      inpLineWidth.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpLineContrast.oninput = ()=>{
+      const v = Number(inpLineContrast.value);
+      crtFilter.lineContrast = v;
+      inpLineContrast.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpNoise.oninput = ()=>{
+      const v = Number(inpNoise.value);
+      crtFilter.noise = v;
+      inpNoise.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpNoiseSize.oninput = ()=>{
+      const v = Number(inpNoiseSize.value);
+      crtFilter.noiseSize = v;
+      inpNoiseSize.nextElementSibling.textContent = v.toFixed(2);
+    };
+    // seed 修改，直接操作uniforms.uSeed
+    inpSeed.oninput = ()=>{
+      const v = Number(inpSeed.value);
+      crtFilter.seed = v;
+      inpSeed.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpVignette.oninput = ()=>{
+      const v = Number(inpVignette.value);
+      crtFilter.vignetting = v;
+      inpVignette.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpVigAlpha.oninput = ()=>{
+      const v = Number(inpVigAlpha.value);
+      crtFilter.vignettingAlpha = v;
+      inpVigAlpha.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpVigBlur.oninput = ()=>{
+      const v = Number(inpVigBlur.value);
+      crtFilter.vignettingBlur = v;
+      inpVigBlur.nextElementSibling.textContent = v.toFixed(2);
+    };
+  </script>
+</body>
+</html>

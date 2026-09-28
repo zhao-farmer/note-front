@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 8px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+  <div class="box"></div>
+  <div>移动鼠标，方块带缓动跟随（quickTo）</div>
+  <script>
+    const box = document.querySelector(".box");
+    const animateX = gsap.quickTo(box, "x", { duration:0.25, ease:"power3.out" });
+    const animateY = gsap.quickTo(box, "y", { duration:0.25, ease:"power3.out" });
+
+    document.addEventListener("mousemove", (e) => {
+      animateX(e.clientX - 40);
+      animateY(e.clientY - 40);
+    });
+  </script>
+</body>
+</html>

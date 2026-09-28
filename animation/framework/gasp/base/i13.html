@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <button id="restartBtn">重新播放入场动画</button>
+  <script>
+    const box = document.querySelector(".box");
+    let tween;
+
+    function playEnterAnim() {
+      // 销毁旧动画防止冲突
+      if (tween) tween.kill();
+      tween = gsap.from(box, {
+        opacity: 0,
+        y: 60,
+        scale: 0.7,
+        duration: 1,
+        ease: "power2.out"
+      });
+    }
+    playEnterAnim();
+    document.querySelector("#restartBtn").onclick = playEnterAnim;
+  </script>
+</body>
+
+</html>

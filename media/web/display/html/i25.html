@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>剪映样式竖电平表 Canvas</title>
+  <style>
+    body {
+      font-family: system-ui;
+    }
+
+    canvas {
+      background: #262626;
+      border-radius: 12px;
+    }
+
+    .info {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="meterCanvas" width="220" height="640"></canvas>
+  <div class="info">
+    Left: <span id="dbL">-∞</span> dBFS
+    &nbsp;&nbsp; Right: <span id="mdbL">-∞</span> dBFS
+    &nbsp;&nbsp; maxLeft: <span id="dbR">-∞</span> dBFS
+    &nbsp;&nbsp; maxRight: <span id="mdbR">-∞</span> dBFS
+  </div>
+  <audio id="audio" controls src="./audio/01.mp3"></audio>
+
+  <script>
+    // === 剪映UI实际像素映射表 ===
+    const scaleLookupTable = [
+      { db: 6, topPct: 0 }, { db: 0, topPct: 16 }, { db: -6, topPct: 36 },
+      { db: -12, topPct: 52 }, { db: -20, topPct: 68 }, { db: -30, topPct: 80 },
+      { db: -50, topPct: 92 }, { db: -60, topPct: 100 }
+    ];
+
+    const PEAK_HOLD_MS = 3000;
+    const FLOOR_DB = -100;
+
+    // 【修改1】定义正常衰减和暂停时的双倍速衰减常量
+    const NORMAL_DECAY_PER_SEC = 8;
+    const FAST_DECAY_PER_SEC = 16; // 双倍速度
+
+    const canvas = document.getElementById('meterCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const PADDING_TOP = 30;
+    const PADDING_BOTTOM = 30;
+    const scaleWidth = 44;
+    const channelGap = 14;
+    const marginRight = 12;
+
+    const contentW = W - scaleWidth - marginRight;
+    const chWidth = (contentW - channelGap) / 2;
+    const chTop = PADDING_TOP;
+    const chHeight = H - PADDING_TOP - PADDING_BOTTOM;
+
+    const dbLabelL = document.getElementById('dbL');
+    const dbLabelR = document.getElementById('dbR');
+    const maxDbLabelL = document.getElementById('mdbL');
+    const maxDbLabelR = document.getElementById('mdbR');
+
+    const audioEl = document.getElementById('audio');
+    let audioCtx, splitter, analyserL, analyserR;
+
+    // 【修改2】增加 isPaused 状态标记
+    let isPaused = false;
+
+    const peakState = {
+      L: { db: -100, currDb: -100, holdUntil: 0 }, // 增加 currDb
+      R: { db: -100, currDb: -100, holdUntil: 0 }  // 增加 currDb
+    };
+
+    function dbToUIPercent(dbVal) {
+      const table = scaleLookupTable;
+      let db = Math.max(-60, Math.min(6, dbVal));
+      for (let i = 0; i < table.length - 1; i++) {
+        const a = table[i];
+        const b = table[i + 1];
+        if (db <= a.db && db >= b.db) {
+          const ratio = (a.db - db) / (a.db - b.db);
+          return a.topPct + ratio * (b.topPct - a.topPct);
+        }
+      }
+      return 100;
+    }
+
+    function pctToY(pct) {
+      return chTop + (pct / 100) * chHeight;
+    }
+
+    function getPeakDb(analyser) {
+      const buf = new Uint8Array(analyser.fftSize);
+      analyser.getByteTimeDomainData(buf);
+      let maxAmp = 0;
+      for (let i = 0; i < buf.length; i++) {
+        const v = (buf[i] - 128) / 128;
+        const absV = Math.abs(v);
+        if (absV > maxAmp) maxAmp = absV;
+      }
+      if (maxAmp <= 1e-8) return -100;
+      return 20 * Math.log10(maxAmp);
+    }
+
+    function drawMeter(currL = -100, currR = -100, pkLdb = -100, pkRdb = -100) {
+      ctx.clearRect(0, 0, W, H);
+      const chLX = scaleWidth;
+      const chRX = scaleWidth + chWidth + channelGap;
+
+      const grad = ctx.createLinearGradient(0, chTop, 0, chTop + chHeight);
+      grad.addColorStop(0, "#ff2b2b");
+      grad.addColorStop(0.20, "#ff8800");
+      grad.addColorStop(0.35, "#27c943");
+      grad.addColorStop(1, "#27c943");
+
+      // L声道
+      const currPctL = dbToUIPercent(currL);
+      const peakPctL = dbToUIPercent(pkLdb);
+      const currYL = pctToY(currPctL);
+      const peakYL = pctToY(peakPctL);
+
+      ctx.fillStyle = "#1C1C1C";
+      ctx.fillRect(chLX, chTop, chWidth, currYL - chTop);
+      ctx.fillStyle = grad;
+      ctx.fillRect(chLX, currYL, chWidth, (chTop + chHeight) - currYL);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = "#ffffff80";
+      ctx.shadowBlur = 4;
+      ctx.fillRect(chLX, peakYL, chWidth, 3);
+      ctx.shadowBlur = 0;
+
+      // R声道
+      const currPctR = dbToUIPercent(currR);
+      const peakPctR = dbToUIPercent(pkRdb);
+      const currYR = pctToY(currPctR);
+      const peakYR = pctToY(peakPctR);
+
+      ctx.fillStyle = "#1C1C1C";
+      ctx.fillRect(chRX, chTop, chWidth, currYR - chTop);
+      ctx.fillStyle = grad;
+      ctx.fillRect(chRX, currYR, chWidth, (chTop + chHeight) - currYR);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = "#ffffff80";
+      ctx.shadowBlur = 4;
+      ctx.fillRect(chRX, peakYR, chWidth, 3);
+      ctx.shadowBlur = 0;
+
+      // 刻度与标签
+      ctx.fillStyle = "#adb5bd";
+      ctx.font = "18px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("∞", chLX + chWidth / 2, chTop - 8);
+      ctx.fillText("L", chLX + chWidth / 2, chTop + chHeight + 20);
+      ctx.fillText("∞", chRX + chWidth / 2, chTop - 8);
+      ctx.fillText("R", chRX + chWidth / 2, chTop + chHeight + 20);
+
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "16px sans-serif";
+      ctx.textAlign = "right";
+      for (const item of scaleLookupTable) {
+        const y = pctToY(item.topPct);
+        const text = item.db === -60 ? "-∞" : String(item.db);
+        ctx.fillText(text, scaleWidth - 4, y + 5);
+        ctx.strokeStyle = "#666";
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(scaleWidth, y);
+        ctx.lineTo(W - marginRight, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    let lastTs = 0;
+    function renderLoop(ts = 0) {
+      const deltaTime = (ts - lastTs) / 1000;
+      lastTs = ts;
+      const now = performance.now();
+
+      let currL, currR;
+
+      // 根据 isPaused 状态决定是读取实时音频还是执行双倍速衰减
+      if (!isPaused) {
+        // 正常播放：读取实时数据，正常衰减
+        currL = getPeakDb(analyserL);
+        currR = getPeakDb(analyserR);
+
+        // 同步更新瞬时音量状态
+        peakState.L.currDb = currL;
+        peakState.R.currDb = currR;
+
+        // L峰值逻辑
+        const pkL = peakState.L;
+        if (currL > pkL.db) {
+          pkL.db = currL;
+          pkL.holdUntil = now + PEAK_HOLD_MS;
+        } else if (now > pkL.holdUntil) {
+          pkL.db = Math.max(FLOOR_DB, pkL.db - NORMAL_DECAY_PER_SEC * deltaTime);
+        }
+
+        // R峰值逻辑
+        const pkR = peakState.R;
+        if (currR > pkR.db) {
+          pkR.db = currR;
+          pkR.holdUntil = now + PEAK_HOLD_MS;
+        } else if (now > pkR.holdUntil) {
+          pkR.db = Math.max(FLOOR_DB, pkR.db - NORMAL_DECAY_PER_SEC * deltaTime);
+        }
+      } else {
+        // 暂停/结束状态：跳过音频分析，直接以双倍速衰减
+        // 1. L声道瞬时音量匀速衰减
+        const pkL = peakState.L;
+        // 使用严格的减法：当前值 - (速度 × 时间差)
+        pkL.currDb = Math.max(FLOOR_DB, pkL.currDb - FAST_DECAY_PER_SEC * 4 * deltaTime);
+        currL = pkL.currDb;
+
+        // 2. R声道瞬时音量匀速衰减
+        const pkR = peakState.R;
+        pkR.currDb = Math.max(FLOOR_DB, pkR.currDb - FAST_DECAY_PER_SEC * 4 * deltaTime);
+        currR = pkR.currDb;
+
+        // 3. 峰值白线同样匀速衰减
+        pkL.db = Math.max(FLOOR_DB, pkL.db - FAST_DECAY_PER_SEC * 2 * deltaTime);
+        pkR.db = Math.max(FLOOR_DB, pkR.db - FAST_DECAY_PER_SEC * 2 * deltaTime);
+      }
+
+      // 更新文本
+      dbLabelL.textContent = currL.toFixed(1);
+      dbLabelR.textContent = currR.toFixed(1);
+      maxDbLabelL.textContent = peakState.L.db.toFixed(1);
+      maxDbLabelR.textContent = peakState.R.db.toFixed(1);
+
+      drawMeter(currL, currR, peakState.L.db, peakState.R.db);
+
+      // 【修改4】只要峰值没有完全归底，或者正在播放，就持续请求动画帧
+      const isAnimating = peakState.L.db > FLOOR_DB || peakState.R.db > FLOOR_DB;
+      if (!audioEl.paused || isAnimating) {
+        requestAnimationFrame(renderLoop);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      drawMeter(-100, -100, -100, -100);
+    });
+
+    audioEl.onplay = async () => {
+      isPaused = false; // 恢复播放状态
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaElementSource(audioEl);
+        splitter = audioCtx.createChannelSplitter(2);
+        analyserL = audioCtx.createAnalyser();
+        analyserR = audioCtx.createAnalyser();
+        analyserL.fftSize = 1024;
+        analyserR.fftSize = 1024;
+        analyserL.smoothingTimeConstant = 0;
+        analyserR.smoothingTimeConstant = 0;
+        source.connect(splitter);
+        splitter.connect(analyserL, 0);
+        splitter.connect(analyserR, 1);
+        source.connect(audioCtx.destination);
+      }
+      lastTs = performance.now();
+      requestAnimationFrame(renderLoop);
+    };
+
+    // 【修改5】暂停时不再直接重绘静态图，而是标记状态并启动衰减动画
+    audioEl.onpause = () => {
+      isPaused = true;
+      lastTs = performance.now();
+      requestAnimationFrame(renderLoop); // 启动衰减动画循环
+    };
+  </script>
+</body>
+
+</html>

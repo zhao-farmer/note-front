@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>GodrayFilter 上帝光滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>time 时间因子</label>
+        <input type="range" min="0" max="3" step="0.001" id="inpTime">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>gain 光线强度</label>
+        <input type="range" min="0" max="2" step="0.001" id="inpGain">
+        <span class="val">0.5</span>
+      </div>
+      <div class="row">
+        <label>lacunarity 噪声密度</label>
+        <input type="range" min="0.1" max="4" step="0.001" id="inpLacunarity">
+        <span class="val">1.565</span>
+      </div>
+      <div class="row">
+        <label>alpha 光束透明度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpAlpha">
+        <span class="val">0.313</span>
+      </div>
+       <div class="row">
+        <label>center.x 光源X</label>
+        <input type="range" min="-200" max="1200" step="1" id="inpCenterX">
+        <span class="val">960</span>
+      </div>
+      <div class="row">
+        <label>center.y 光源Y</label>
+        <input type="range" min="-300" max="600" step="1" id="inpCenterY">
+        <span class="val">-100</span>
+      </div>
+      <div class="row">
+        <label>parallel 平行光束</label>
+        <input type="checkbox" id="chkParallel">
+      </div>
+      <div class="row">
+        <label>angle 光线角度</label>
+        <input type="range" min="-90" max="90" step="0.01" id="inpAngle">
+        <span class="val">-20.88</span>
+      </div>
+     
+      <div style="font-size:12px;color:#555;">
+        GodrayFilter：上帝光丁达尔光束滤镜<br />
+        animating勾选后ticker自动累加time；parallel=true平行光使用angle，false放射光使用center
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const godrayFilter = new PIXI.filters.GodrayFilter({
+      time: 1,
+      gain: 0.9,
+      lacunarity: 1.565,
+      alpha: 0.313,
+      parallel: true,
+      angle: -20.88,
+      center: { x: 960, y: -100 }
+    });
+    sprite.filters = [godrayFilter];
+
+    const inpTime = document.getElementById('inpTime');
+    const inpGain = document.getElementById('inpGain');
+    const inpLacunarity = document.getElementById('inpLacunarity');
+    const inpAlpha = document.getElementById('inpAlpha');
+    const chkParallel = document.getElementById('chkParallel');
+    const inpAngle = document.getElementById('inpAngle');
+    const inpCenterX = document.getElementById('inpCenterX');
+    const inpCenterY = document.getElementById('inpCenterY');
+
+    const valTime = inpTime.nextElementSibling;
+    const valGain = inpGain.nextElementSibling;
+    const valLacunarity = inpLacunarity.nextElementSibling;
+    const valAlpha = inpAlpha.nextElementSibling;
+    const valAngle = inpAngle.nextElementSibling;
+    const valCenterX = inpCenterX.nextElementSibling;
+    const valCenterY = inpCenterY.nextElementSibling;
+
+    //初始化控件
+    inpTime.value = godrayFilter.time;
+    valTime.textContent = godrayFilter.time.toFixed(3);
+    inpGain.value = godrayFilter.gain;
+    valGain.textContent = godrayFilter.gain.toFixed(3);
+    inpLacunarity.value = godrayFilter.lacunarity;
+    valLacunarity.textContent = godrayFilter.lacunarity.toFixed(3);
+    inpAlpha.value = godrayFilter.alpha;
+    valAlpha.textContent = godrayFilter.alpha.toFixed(3);
+    chkParallel.checked = godrayFilter.parallel;
+    inpAngle.value = godrayFilter.angle;
+    valAngle.textContent = godrayFilter.angle.toFixed(2);
+    inpCenterX.value = godrayFilter.center.x;
+    valCenterX.textContent = godrayFilter.center.x;
+    inpCenterY.value = godrayFilter.center.y;
+    valCenterY.textContent = godrayFilter.center.y;
+
+    inpTime.oninput = () => {
+      godrayFilter.time = Number(inpTime.value);
+      valTime.textContent = godrayFilter.time.toFixed(3);
+    };
+    inpGain.oninput = () => {
+      godrayFilter.gain = Number(inpGain.value);
+      valGain.textContent = godrayFilter.gain.toFixed(3);
+    };
+    inpLacunarity.oninput = () => {
+      godrayFilter.lacunarity = Number(inpLacunarity.value);
+      valLacunarity.textContent = godrayFilter.lacunarity.toFixed(3);
+    };
+    inpAlpha.oninput = () => {
+      godrayFilter.alpha = Number(inpAlpha.value);
+      valAlpha.textContent = godrayFilter.alpha.toFixed(3);
+    };
+    chkParallel.onchange = () => {
+      godrayFilter.parallel = chkParallel.checked;
+    };
+    inpAngle.oninput = () => {
+      godrayFilter.angle = Number(inpAngle.value);
+      valAngle.textContent = godrayFilter.angle.toFixed(2);
+    };
+    inpCenterX.oninput = () => {
+      godrayFilter.center.x = Number(inpCenterX.value);
+      valCenterX.textContent = godrayFilter.center.x;
+    };
+    inpCenterY.oninput = () => {
+      godrayFilter.center.y = Number(inpCenterY.value);
+      valCenterY.textContent = godrayFilter.center.y;
+    };
+  </script>
+</body>
+</html>

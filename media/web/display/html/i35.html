@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>左右对称中心展开频谱图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+    .warn {
+      color: #f44;
+    }
+    canvas {
+      background: #000;
+      border-radius: 6px;
+      display: block;
+      margin-top: 10px;
+    }
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="barCanvas" width="600" height="200"></canvas>
+
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const barCanvas = document.getElementById('barCanvas');
+    const barCtx = barCanvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const BAR_COUNT = 64; 
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8;
+
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isAudioContextReady = true;
+      }
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. 计算 RMS 分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 绘制左右对称柱状图
+      // 清空画布
+      barCtx.fillStyle = '#000';
+      barCtx.fillRect(0, 0, barCanvas.width, barCanvas.height);
+
+      const centerX = barCanvas.width / 2;
+      const barWidth = barCanvas.width / BAR_COUNT;
+      const step = Math.floor(fftBinCount / BAR_COUNT);
+      const halfCount = BAR_COUNT / 2;
+
+      for (let i = 0; i < halfCount; i++) {
+        // 获取当前频率区间的平均值
+        let sum = 0;
+        for (let j = 0; j < step; j++) {
+          sum += dataArray[i * step + j];
+        }
+        const avgVal = sum / step;
+        const barHeight = (avgVal / 255) * barCanvas.height;
+
+        // 渐变色：中间（低频）为绿色，向两侧（高频）变为红色
+        const hue = 120 - (i / halfCount) * 120;
+        barCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+
+        // 计算左右两侧柱子的 X 坐标
+        // 右半部分：从中心向右展开
+        const rightX = centerX + (i * barWidth);
+        // 左半部分：从中心向左展开
+        const leftX = centerX - ((i + 1) * barWidth); 
+
+        // 绘制右侧柱子
+        barCtx.fillRect(rightX, barCanvas.height - barHeight, barWidth - 1, barHeight);
+        // 绘制左侧柱子
+        barCtx.fillRect(leftX, barCanvas.height - barHeight, barWidth - 1, barHeight);
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GSAP 3D Transform Demo</title>
+  <style>
+    .wrap3d {
+      width: 300px;
+      height: 300px;
+      border: 1px solid #ccc;
+      margin: 30px 0;
+    }
+
+    .box3d {
+      width: 120px;
+      height: 120px;
+      background: #ea4335;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap3d">
+    <div class="box3d">3D盒子</div>
+  </div>
+  <button onclick="run3DAnim()">播放3D动画</button>
+
+  <script src="../js/gsap.min.js"></script>
+  <script>
+    const wrap3d = document.querySelector('.wrap3d');
+    const box3d = document.querySelector('.box3d');
+
+    // 父容器设置 perspective，子元素共享透视（推荐方式）
+    gsap.set(wrap3d, { perspective: 500 });
+
+    function run3DAnim() {
+      gsap.to(box3d, {
+        duration: 2,
+        rotationX: 45,
+        rotationY: 360,
+        z: -300,
+        transformOrigin: "50% 50% -400px", // 3D变换原点
+        force3D: true, // 强制GPU 3D层
+        ease: "power2.out"
+      })
+    }
+  </script>
+</body>
+
+</html>

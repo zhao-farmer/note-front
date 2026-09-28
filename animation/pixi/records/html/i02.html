@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>sprite.alpha vs AlphaFilter 对比</title>
+  <script src="./js/pixi.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="demo-item">
+      <label>① Container.alpha = 0.5（原生属性）</label>
+      <div id="box1"></div>
+    </div>
+    <div class="demo-item">
+      <label>② AlphaFilter({alpha:0.5})（滤镜）</label>
+      <div id="box2"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 280, height: 240 });
+    document.querySelector('#box1').appendChild(app.canvas);
+
+    const app2 = new PIXI.Application();
+    await app2.init({ width: 280, height: 240 });
+    document.querySelector('#box2').appendChild(app2.canvas);
+
+    // -------------------- 示例1：使用 container.alpha 原生属性 --------------------
+    const containerA = new PIXI.Container();
+    app.stage.addChild(containerA);
+    containerA.alpha = 0.5;
+
+    const redA = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    redA.tint = 0xff0000;
+    redA.width = 120; redA.height = 120;
+    const blueA = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    blueA.tint = 0x0000ff;
+    blueA.width = 120; blueA.height = 120;
+    blueA.x = 60; blueA.y = 60;
+
+    containerA.addChild(redA, blueA);
+
+    // 现象：两个子元素各自做alpha混合，重叠区域会出现颜色叠加变亮
+
+    // -------------------- 示例2：使用 AlphaFilter 滤镜 --------------------
+    const containerB = new PIXI.Container();
+    app2.stage.addChild(containerB);
+
+    const redB = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    redB.tint = 0xff0000;
+    redB.width = 120; redB.height = 120;
+    const blueB = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    blueB.tint = 0x0000ff;
+    blueB.width = 120; blueB.height = 120;
+    blueB.x = 60; blueB.y = 60;
+
+    containerB.addChild(redB, blueB);
+
+    const alphaFilter = new PIXI.AlphaFilter({ alpha: 0.5 });
+    containerB.filters = [alphaFilter];
+
+    // 现象：先把容器所有内容渲染为一张离屏纹理，再整体透明；内部重叠不会二次混合变色
+  </script>
+</body>
+
+</html>

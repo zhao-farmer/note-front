@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>上下镜像半圆频谱图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+    .warn {
+      color: #f44;
+    }
+    canvas {
+      background: #000;
+      border-radius: 6px;
+      display: block;
+      margin-top: 10px;
+    }
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="barCanvas" width="600" height="300"></canvas>
+
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const barCanvas = document.getElementById('barCanvas');
+    const barCtx = barCanvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const BAR_COUNT = 64;
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8;
+
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isAudioContextReady = true;
+      }
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. 计算 RMS 分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 清空画布
+      barCtx.fillStyle = '#000';
+      barCtx.fillRect(0, 0, barCanvas.width, barCanvas.height);
+
+      const centerY = barCanvas.height / 2;
+      const barWidth = barCanvas.width / BAR_COUNT;
+      const step = Math.floor(fftBinCount / BAR_COUNT);
+      const gap = 2; // 柱子水平间隙
+
+      for (let i = 0; i < BAR_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < step; j++) {
+          sum += dataArray[i * step + j];
+        }
+        const avgVal = sum / step;
+
+        const maxBarHeight = centerY - 5;
+        const barHeight = (avgVal / 255) * maxBarHeight;
+
+        // 渐变色：低频绿 -> 高频红
+        const hue = 120 - (i / BAR_COUNT) * 120;
+        barCtx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        barCtx.lineWidth = 1.5;
+
+        const x = i * barWidth;
+        const w = barWidth - gap;
+        
+        // 如果高度太小则不绘制
+        if (barHeight <= 0) continue;
+
+        // 计算顶部/底部半圆的半径
+        const radius = w / 2;
+        const centerX = x + radius;
+
+        // 计算顶部圆弧的圆心 Y 坐标（为了让半圆刚好贴合矩形顶端）
+        const topArcY = centerY - barHeight + radius;
+        // 计算底部圆弧的圆心 Y 坐标
+        const bottomArcY = centerY + barHeight - radius;
+
+        barCtx.beginPath();
+        
+        // 从左下角（中心位置）开始
+        barCtx.moveTo(x, centerY);
+        // 绘制左侧竖线到顶部圆弧起点
+        barCtx.lineTo(x, topArcY);
+        
+        // 绘制上半部分的半圆 (从左侧到右侧)
+        barCtx.arc(centerX, topArcY, radius, Math.PI, 0);
+        
+        // 绘制右侧竖线回到中心位置
+        barCtx.lineTo(x + w, centerY);
+        
+        // 绘制下半部分的半圆 (从右侧回到左侧，完成闭环)
+        barCtx.arc(centerX, bottomArcY, radius, 0, Math.PI);
+        
+        // 回到原点
+        barCtx.lineTo(x, centerY);
+        barCtx.stroke();
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>

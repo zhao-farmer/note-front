@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Output 字幕源</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px">
+     <track kind="subtitles" label="中文" default id="subtitleTrack">
+  </video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSampleSink,
+      Output,
+      WebMOutputFormat,
+      VideoSampleSource,
+      TextSubtitleSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试视频
+    const VIDEO_URL = "../media/01.mp4";
+
+    (async () => {
+      try {
+        log("1. 创建 编码器");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道");
+        // 视频轨道
+        const videoSampleSource = new VideoSampleSource({ 
+          codec: "av1", 
+          bitrate: 1e6, // 1 Mbps	
+        });
+        output.addVideoTrack(videoSampleSource);
+
+        // 字幕轨道
+        const textSource = new TextSubtitleSource('webvtt');
+        output.addSubtitleTrack(textSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入数据包");
+
+        log("4.2 添加视频");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+        const videoTrack = await input.getPrimaryVideoTrack();
+        const videoSink = new VideoSampleSink(videoTrack);
+
+        // 前5秒的视频
+        for await (const sample of videoSink.samples()) {
+          await videoSampleSource.add(sample);
+          sample.close();
+        }
+
+        log("4.2 添加字幕");
+        const text = 
+`WEBVTT
+
+00:00:00.000 --> 00:00:03.080
+为你我用了半年的积蓄，
+
+00:00:03.620 --> 00:00:06.280
+漂洋过海的来看你。
+
+00:00:07.780 --> 00:00:09.920
+为了这次相聚，
+
+00:00:10.180 --> 00:00:14.640
+我连见面时的呼吸都曾反复联系。
+`;
+
+        await textSource.add(text);
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 资源使用\n");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/webm" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`播放器加载成功！视频时长: ${player.duration.toFixed(2)}s`);
+        });
+
+        log("全部流程执行完成！");
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

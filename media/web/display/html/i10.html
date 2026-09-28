@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>PixiJS 8 最终修复版（切换宽度立即刷新GIF）</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/packages/gif.js"></script>
+  <style>
+    body { margin: 0; }
+    .controls {
+      display: flex; gap: 8px; padding: 10px;
+    }
+    .controls button {
+      padding: 8px 14px;
+      background: #4a90d9;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="controls">
+    <button data-width="200">200</button>
+    <button data-width="300">300</button>
+    <button data-width="400">400</button>
+    <button data-width="500">500</button>
+    <button data-width="600">600</button>
+  </div>
+
+  <script>
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({ width: 1200, height: 200, background: '#111' });
+      document.body.appendChild(app.canvas);
+
+      const container = new PIXI.Container();
+      app.stage.addChild(container);
+      container.y = 50;
+
+      // ================== 配置 ==================
+      let segmentWidth = 400;
+      let totalWidth = 600;
+      const targetHeight = 60;
+      const itemWidth = 120;
+      let isResizing = false;
+
+      // 遮罩
+      const maskGraphics = new PIXI.Graphics();
+      container.addChild(maskGraphics);
+      container.mask = maskGraphics;
+
+      const bg = new PIXI.Graphics();
+      const lineGroup = new PIXI.Graphics();
+      const imageContainer = new PIXI.Container();
+      const handle = new PIXI.Graphics();
+      container.addChild(bg, imageContainer, lineGroup, handle);
+
+      // 加载GIF
+      const texture = await PIXI.Assets.load('./img/2.gif');
+      const allFrames = texture.frames;
+      const totalFrames = allFrames.length;
+
+      let allSprites = [];
+
+      // ================== 按钮 ==================
+      document.querySelectorAll('.controls button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          segmentWidth = parseInt(btn.dataset.width);
+          totalWidth = Math.max(totalWidth, segmentWidth);
+          refresh();
+        });
+      });
+
+      // ================== 拖拽 ==================
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+      handle.onpointerdown = () => { isResizing = true; };
+      app.canvas.addEventListener('pointerup', () => { isResizing = false; });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const local = container.toLocal(new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top));
+        totalWidth = Math.max(segmentWidth, local.x);
+        refresh();
+      });
+
+      // ================== 核心修复：切换宽度必重新抽帧 ==================
+      function refresh() {
+        allSprites.forEach(s => s.destroy());
+        allSprites = [];
+        bg.clear();
+        lineGroup.clear();
+        maskGraphics.clear();
+
+        // 遮罩 + 背景
+        maskGraphics.rect(0, 0, totalWidth, 100).fill(0xffffff);
+        bg.rect(0, 0, totalWidth, 100).fill(0xc34288);
+
+        // 蓝线
+        for (let x = segmentWidth; x < totalWidth; x += segmentWidth) {
+          lineGroup.moveTo(x, 0).lineTo(x, 100).stroke(0x0000ff, 1);
+        }
+
+   
+        const totalImages = Math.ceil(totalWidth / itemWidth);
+        const totalFrameIndexs = [];
+
+        // 设置所帧的索引
+        let startX = 0;
+        for (let i = 0; i < totalImages; i++) {
+          // 计算处于第几帧
+          const frameIndex = Math.round((startX / segmentWidth) * (totalFrames-1));
+          
+          totalFrameIndexs.push(frameIndex);
+          startX += itemWidth;
+          if(startX > segmentWidth) {
+            startX = startX - segmentWidth 
+          }
+        }
+
+        // 设置所有精灵
+        let currentX = 0;
+        for (let i = 0; i < totalImages; i++) {
+          // 获取当前帧的纹理
+          const frameIndex = totalFrameIndexs[i];
+          // 精灵添加
+          const spr = new PIXI.Sprite(allFrames[frameIndex].texture);
+          spr.width = itemWidth;
+          spr.height = targetHeight;
+          spr.x = currentX;
+          spr.y = (100 - targetHeight) / 2;
+
+          imageContainer.addChild(spr);
+          allSprites.push(spr);
+          currentX += itemWidth;
+        }
+
+        // 手柄
+        handle.clear();
+        handle.rect(totalWidth - 10, 35, 10, 30).fill(0xffffff);
+      }
+
+      refresh();
+    })();
+  </script>
+</body>
+</html>

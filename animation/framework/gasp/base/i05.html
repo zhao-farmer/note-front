@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+
+    .ctrl button {
+      margin: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="ctrl">
+    <button onclick="gsap.globalTimeline.pause()">全局暂停</button>
+    <button onclick="gsap.globalTimeline.play()">全局播放</button>
+    <button onclick="gsap.globalTimeline.timeScale(2)">2倍速</button>
+    <button onclick="gsap.globalTimeline.timeScale(0.3)">0.3倍速</button>
+  </div>
+
+  <script>
+    // 创建一个持续往复动画
+    gsap.to(".box", {
+      x: 300,
+      duration: 2,
+      repeat: -1,
+      yoyo: true
+    })
+  </script>
+</body>
+
+</html>

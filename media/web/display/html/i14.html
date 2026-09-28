@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny抽帧 自适应视频比例轨道</title>
+  <script src="./js/pixi.js"></script>
+</head>
+<body>
+  <script type="module">
+    import { Input, UrlSource, EncodedPacketSink, ALL_FORMATS } from './js/mediabunny.1.42.mjs';
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({
+        width: 800,
+        height: 200,
+        backgroundColor: 0x222222,
+        antialias: true
+      });
+      document.body.appendChild(app.canvas);
+
+      // 外层可拖拽容器
+      const clipContainer = new PIXI.Container();
+      clipContainer.y = 50;
+      app.stage.addChild(clipContainer);
+
+      let isResizing = false;
+      let viewWidth = 400; // 当前可视宽度（拖拽改变）
+      let totalThumbWidth = 0; // 全部缩略图拼接总宽度，拖拽不能超过该值
+
+      // ========= 轨道配置：唯一基准高度，所有尺寸由此派生 =========
+      const TRACK_CONFIG = {
+        trackHeight: 100,    // 轨道容器总高度
+        spacing: 4,          // 缩略图之间间隙
+        paddingV: 8          // 缩略图上下内边距
+      };
+
+      const bgGraphics = new PIXI.Graphics();
+      clipContainer.addChild(bgGraphics);
+
+      // 缩略图存放容器
+      const thumbContainer = new PIXI.Container();
+      clipContainer.addChild(thumbContainer);
+      // 添加遮罩
+      const maskGraphics =  new PIXI.Graphics()
+      maskGraphics.rect(0, 0, viewWidth, TRACK_CONFIG.trackHeight)
+      maskGraphics.fill(0xffffff);
+      thumbContainer.addChild(maskGraphics);
+      thumbContainer.mask = maskGraphics;
+
+      // 拖拽手柄
+      const handle = new PIXI.Graphics();
+      clipContainer.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      /** @type {PIXI.Sprite[]} */
+      const thumbSprites = [];
+
+      // 烘焙VideoFrame得到RenderTexture sprite
+      function bakeFrameToSprite(frame) {
+        const tempTexture = PIXI.Texture.from(frame);
+        const tempSprite = new PIXI.Sprite(tempTexture);
+
+        const renderTexture = PIXI.RenderTexture.create({
+          width: frame.displayWidth,
+          height: frame.displayHeight
+        });
+        app.renderer.render({
+          container: tempSprite,
+          target: renderTexture
+        });
+
+        tempSprite.destroy();
+        tempTexture.destroy(true);
+        return new PIXI.Sprite(renderTexture);
+      }
+
+      async function extractFrames(total = 12) {
+        const input = new Input({
+          source: new UrlSource('./video/demo.mp4'),
+          formats: ALL_FORMATS,
+        });
+        const duration = await input.computeDuration();
+        const videoTrack = await input.getPrimaryVideoTrack();
+        if (!videoTrack) throw new Error("无视频轨道");
+
+        // ===== 获取视频真实显示宽高，原始比例 =====
+        const dw = await videoTrack.getDisplayWidth();
+        const dh = await videoTrack.getDisplayHeight();
+        const videoAspect = dw / dh;
+        console.log('视频原始比例 dw/dh', dw, dh, videoAspect);
+
+        const decoderConfig = await videoTrack.getDecoderConfig();
+        if (!decoderConfig) throw new Error("获取decoderConfig失败");
+        const { supported } = await VideoDecoder.isConfigSupported(decoderConfig);
+        if (!supported) throw new Error("浏览器解码器配置不支持");
+
+        const indexQueue = [];
+        const sink = new EncodedPacketSink(videoTrack);
+
+        const decoder = new VideoDecoder({
+          output: (videoFrame) => {
+            const idx = indexQueue.shift();
+            if (idx !== -1) {
+              const spr = bakeFrameToSprite(videoFrame);
+              thumbSprites[idx] = spr;
+            }
+            videoFrame.close();
+          },
+          error: (err) => console.error("decode error", err)
+        });
+        decoder.configure(decoderConfig);
+
+        const stepTime = duration / total;
+        let targetIndex = 0;
+        let nextTargetTime = targetIndex * stepTime;
+        let gotKeyframe = false;
+
+        for await (const pkt of sink.packets()) {
+          const chunk = pkt.toEncodedVideoChunk();
+          if (!gotKeyframe) {
+            if (chunk.type === "key") {
+              decoder.decode(chunk);
+              indexQueue.push(-1);
+              gotKeyframe = true;
+            }
+            continue;
+          }
+
+          let useIndex = -1;
+          const ptsSec = chunk.timestamp / 1_000_000;
+          if (ptsSec >= nextTargetTime && targetIndex < total) {
+            useIndex = targetIndex;
+            targetIndex += 1;
+            nextTargetTime = targetIndex * stepTime;
+          }
+          decoder.decode(chunk);
+          indexQueue.push(useIndex);
+          if (targetIndex >= total) break;
+        }
+        await decoder.flush();
+        decoder.close();
+
+        // ========= 根据【轨道高度】+【视频原始比例】自动缩放缩略图 =========
+        const availableImgHeight = TRACK_CONFIG.trackHeight - TRACK_CONFIG.paddingV * 2;
+        let offsetX = 0;
+        thumbSprites.forEach((spr) => {
+          // 按可用高度计算scale，保证视频原始宽高比不变
+          const scale = availableImgHeight / spr.texture.height;
+          spr.scale.set(scale);
+
+          spr.x = offsetX;
+          // 垂直居中放置
+          spr.y = TRACK_CONFIG.paddingV + (availableImgHeight - spr.height) / 2;
+
+          thumbContainer.addChild(spr);
+          offsetX += spr.width + TRACK_CONFIG.spacing;
+        });
+        totalThumbWidth = offsetX;
+        console.log("抽帧完成，总缩略宽度：", totalThumbWidth);
+      }
+
+
+      // ========== 更新视图，全部尺寸基于TRACK_CONFIG，无硬编码数字 ==========
+      function updateView() {
+        const { trackHeight } = TRACK_CONFIG;
+        // 背景轨道
+        bgGraphics.clear();
+        bgGraphics.rect(0, 0, viewWidth, trackHeight).fill(0x333355);
+
+        // mask裁剪区域和轨道完全一样大小
+        maskGraphics.clear();
+        maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+    
+
+        // 拖拽手柄垂直居中
+        const handleH = 30;
+        const handleY = (trackHeight - handleH) / 2;
+        handle.clear();
+        handle.rect(viewWidth - 10, handleY, 10, handleH).fill(0xffffff);
+      }
+
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+        const localX = clipContainer.toLocal(global).x;
+
+        // 约束最小100，最大等于全部缩略拼接总宽度
+        viewWidth = Math.max(100, Math.min(totalThumbWidth, localX));
+        updateView();
+      });
+
+      await extractFrames(6);
+      updateView();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/spine-pixi-v8.js"></script>
+</head>
+
+<body>
+  <script>
+    // 普通全局环境，不要 import export
+    class SpineBoy {
+      constructor() {
+        // 创建主视图容器
+        this.view = new PIXI.Container();
+
+        // Spine实例化，使用资源别名（Assets.load要配置alias）
+        this.spine = spine.Spine.from({
+          skeleton: 'spineSkeleton',
+          atlas: 'spineAtlas',
+        });
+        this.view.addChild(this.spine);
+      }
+    }
+
+    // 将键盘按键编码映射到控制器状态键
+    const keyMap = {
+      Space: 'space',
+      KeyW: 'up',
+      ArrowUp: 'up',
+      KeyA: 'left',
+      ArrowLeft: 'left',
+      KeyS: 'down',
+      ArrowDown: 'down',
+      KeyD: 'right',
+      ArrowRight: 'right',
+    };
+
+    // 处理键盘输入的控制器类
+    class Controller {
+      constructor() {
+        // 控制器状态
+        this.keys = {
+          up: { pressed: false, doubleTap: false, timestamp: 0 },
+          left: { pressed: false, doubleTap: false, timestamp: 0 },
+          down: { pressed: false, doubleTap: false, timestamp: 0 },
+          right: { pressed: false, doubleTap: false, timestamp: 0 },
+          space: { pressed: false, doubleTap: false, timestamp: 0 },
+        };
+        // 注册键盘按下、抬起事件监听
+        window.addEventListener('keydown', (event) => this.keydownHandler(event));
+        window.addEventListener('keyup', (event) => this.keyupHandler(event));
+      }
+
+      // 键盘按下事件处理函数
+      keydownHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = true;
+        this.keys[key].doubleTap = this.keys[key].doubleTap || now - this.keys[key].timestamp < 300;
+      }
+
+      // 键盘抬起事件处理函数
+      keyupHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = false;
+        if (this.keys[key].doubleTap) this.keys[key].doubleTap = false;
+        else this.keys[key].timestamp = now;
+      }
+    }
+
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({ background: '#1099bb', resizeTo: window });
+      document.body.appendChild(app.canvas);
+
+      await PIXI.Assets.load([
+        {
+          alias: 'spineSkeleton',
+          src: './assets/spineboy-pro.skel',
+        },
+        {
+          alias: 'spineAtlas',
+          src: './assets/spineboy-pma.atlas',
+        },
+        {
+          alias: 'sky',
+          src: './assets/sky.png',
+        },
+        {
+          alias: 'background',
+          src: './assets/background.png',
+        },
+        {
+          alias: 'midground',
+          src: './assets/midground.png',
+        },
+        {
+          alias: 'platform',
+          src: './assets/platform.png',
+        },
+      ]);
+
+      // 创建角色
+      const spineBoy = new SpineBoy();
+      // 设置位置缩放
+      spineBoy.view.x = app.screen.width / 2;
+      spineBoy.view.y = app.screen.height - 80;
+      spineBoy.spine.scale.set(0.5);
+      app.stage.addChild(spineBoy.view);
+
+      // 播放动画
+      const controller = new Controller();
+      let currentAnimation;
+
+      app.ticker.add((time) => {
+        const rightPressed = controller.keys.right.pressed;
+        const animationName = rightPressed ? 'walk' : 'idle';
+        const loop = true;
+
+        if (currentAnimation !== animationName) {
+          currentAnimation = animationName;
+          spineBoy.spine.state.setAnimation(0, animationName, loop);
+        }
+      })
+    })();
+  </script>
+</body>
+
+</html>

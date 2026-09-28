@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BevelFilter 完整属性</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 120px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    input[type="color"] {
+      width: 60px;
+    }
+
+    .val {
+      width: 45px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>thickness 倒角厚度</label>
+        <input type="range" min="0" max="20" step="1" id="inpThickness">
+        <span class="val">2</span>
+      </div>
+      <div class="row">
+        <label>rotation 光源角度</label>
+        <input type="range" min="0" max="360" step="1" id="inpRotation">
+        <span class="val">45</span>
+      </div>
+      <div class="row">
+        <label>lightColor 高光颜色</label>
+        <input type="color" id="inpLightColor" value="#ffffff">
+      </div>
+      <div class="row">
+        <label>lightAlpha 高光透明度</label>
+        <input type="range" min="0" max="1" step="0.05" id="inpLightAlpha">
+        <span class="val">0.70</span>
+      </div>
+      <div class="row">
+        <label>shadowColor 阴影颜色</label>
+        <input type="color" id="inpShadowColor" value="#000000">
+      </div>
+      <div class="row">
+        <label>shadowAlpha 阴影透明度</label>
+        <input type="range" min="0" max="1" step="0.05" id="inpShadowAlpha">
+        <span class="val">0.70</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        padding已设置20；thickness增大时建议同步加大padding
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 365, height: 480 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    sprite.x = 10;
+    sprite.y = 10;
+    app.stage.addChild(sprite);
+
+    // 全部属性完整传入
+    const bevelFilter = new PIXI.filters.BevelFilter({
+      rotation: 45,
+      thickness: 2,
+      lightColor: 0xffffff,
+      lightAlpha: 0.7,
+      shadowColor: 0x000000,
+      shadowAlpha: 0.7
+    });
+    bevelFilter.padding = 20;
+    sprite.filters = [bevelFilter];
+
+    const inpThickness = document.getElementById('inpThickness');
+    const inpRotation = document.getElementById('inpRotation');
+    const inpLightColor = document.getElementById('inpLightColor');
+    const inpLightAlpha = document.getElementById('inpLightAlpha');
+    const inpShadowColor = document.getElementById('inpShadowColor');
+    const inpShadowAlpha = document.getElementById('inpShadowAlpha');
+
+    inpThickness.value = 2;
+    inpRotation.value = 45;
+    inpLightAlpha.value = 0.70;
+    inpShadowAlpha.value = 0.70;
+
+    inpThickness.oninput = () => {
+      const v = Number(inpThickness.value);
+      bevelFilter.thickness = v;
+      inpThickness.nextElementSibling.textContent = String(v);
+    };
+
+    inpRotation.oninput = () => {
+      const v = Number(inpRotation.value);
+      bevelFilter.rotation = v;
+      inpRotation.nextElementSibling.textContent = String(v);
+    };
+
+    inpLightColor.oninput = () => {
+      const hex = inpLightColor.value.replace('#', '');
+      bevelFilter.lightColor = parseInt(hex, 16);
+    };
+
+    inpLightAlpha.oninput = () => {
+      const v = Number(inpLightAlpha.value);
+      bevelFilter.lightAlpha = v;
+      inpLightAlpha.nextElementSibling.textContent = v.toFixed(2);
+    };
+
+    inpShadowColor.oninput = () => {
+      const hex = inpShadowColor.value.replace('#', '');
+      bevelFilter.shadowColor = parseInt(hex, 16);
+    };
+
+    inpShadowAlpha.oninput = () => {
+      const v = Number(inpShadowAlpha.value);
+      bevelFilter.shadowAlpha = v;
+      inpShadowAlpha.nextElementSibling.textContent = v.toFixed(2);
+    };
+  </script>
+</body>
+
+</html>

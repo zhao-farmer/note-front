@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>SimplexNoiseFilter 单纯形噪波滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>strength 强度</label>
+        <input type="range" min="0" max="2" step="0.01" id="inpStrength">
+        <span class="val">0.50</span>
+      </div>
+      <div class="row">
+        <label>noiseScale 噪波缩放</label>
+        <input type="range" min="1" max="50" step="0.5" id="inpNoiseScale">
+        <span class="val">10.00</span>
+      </div>
+      <div class="row">
+        <label>offsetX X偏移</label>
+        <input type="range" min="-20" max="20" step="0.1" id="inpOffsetX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>offsetY Y偏移</label>
+        <input type="range" min="-20" max="20" step="0.1" id="inpOffsetY">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>offsetZ Z偏移(种子)</label>
+        <input type="range" min="-20" max="20" step="0.1" id="inpOffsetZ">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>step 阶梯量化</label>
+        <input type="range" min="-1" max="1" step="0.01" id="inpStep">
+        <span class="val">-1.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        SimplexNoiseFilter；step=-1.00 关闭阶梯；噪波为灰度仅明暗扰动；ticker递增offsetZ实现噪波流动动画
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0x000000
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const simplexNoiseFilter = new PIXI.filters.SimplexNoiseFilter({
+      strength: 0.5,
+      noiseScale: 10,
+      offsetX: 0,
+      offsetY: 0,
+      offsetZ: 0,
+      step: -1.00
+    });
+    sprite.filters = [simplexNoiseFilter];
+
+    const inpStrength = document.getElementById("inpStrength");
+    const inpNoiseScale = document.getElementById("inpNoiseScale");
+    const inpOffsetX = document.getElementById("inpOffsetX");
+    const inpOffsetY = document.getElementById("inpOffsetY");
+    const inpOffsetZ = document.getElementById("inpOffsetZ");
+    const inpStep = document.getElementById("inpStep");
+
+    const valStrength = inpStrength.nextElementSibling;
+    const valNoiseScale = inpNoiseScale.nextElementSibling;
+    const valOffsetX = inpOffsetX.nextElementSibling;
+    const valOffsetY = inpOffsetY.nextElementSibling;
+    const valOffsetZ = inpOffsetZ.nextElementSibling;
+    const valStep = inpStep.nextElementSibling;
+
+    // 初始化赋值回显
+    inpStrength.value = simplexNoiseFilter.strength;
+    valStrength.textContent = simplexNoiseFilter.strength.toFixed(2);
+
+    inpNoiseScale.value = simplexNoiseFilter.noiseScale;
+    valNoiseScale.textContent = simplexNoiseFilter.noiseScale.toFixed(2);
+
+    inpOffsetX.value = simplexNoiseFilter.offsetX;
+    valOffsetX.textContent = simplexNoiseFilter.offsetX.toFixed(2);
+
+    inpOffsetY.value = simplexNoiseFilter.offsetY;
+    valOffsetY.textContent = simplexNoiseFilter.offsetY.toFixed(2);
+
+    inpOffsetZ.value = simplexNoiseFilter.offsetZ;
+    valOffsetZ.textContent = simplexNoiseFilter.offsetZ.toFixed(2);
+
+    inpStep.value = simplexNoiseFilter.step;
+    valStep.textContent = Number(simplexNoiseFilter.step).toFixed(2);
+
+    // 每个控件独立oninput，自己处理自己属性
+    inpStrength.oninput = () => {
+      simplexNoiseFilter.strength = Number(inpStrength.value);
+      valStrength.textContent = Number(inpStrength.value).toFixed(2);
+    };
+
+    inpNoiseScale.oninput = () => {
+      simplexNoiseFilter.noiseScale = Number(inpNoiseScale.value);
+      valNoiseScale.textContent = Number(inpNoiseScale.value).toFixed(2);
+    };
+
+    inpOffsetX.oninput = () => {
+      simplexNoiseFilter.offsetX = Number(inpOffsetX.value);
+      valOffsetX.textContent = Number(inpOffsetX.value).toFixed(2);
+    };
+
+    inpOffsetY.oninput = () => {
+      simplexNoiseFilter.offsetY = Number(inpOffsetY.value);
+      valOffsetY.textContent = Number(inpOffsetY.value).toFixed(2);
+    };
+
+    inpOffsetZ.oninput = () => {
+      simplexNoiseFilter.offsetZ = Number(inpOffsetZ.value);
+      valOffsetZ.textContent = Number(inpOffsetZ.value).toFixed(2);
+    };
+
+    inpStep.oninput = () => {
+      simplexNoiseFilter.step = Number(inpStep.value);
+      valStep.textContent = Number(inpStep.value).toFixed(2);
+    };
+
+  </script>
+</body>
+</html>

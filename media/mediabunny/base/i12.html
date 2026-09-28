@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Output 6大核心步骤（原生视频采集合成）</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Output,
+      Mp4OutputFormat,
+      BufferTarget,
+      VideoSample,
+      AudioSample,
+      VideoSampleSource,
+      AudioSampleSource,
+      getFirstEncodableVideoCodec,
+      getFirstEncodableAudioCodec,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 资源路径
+    const VIDEO_URL = "../media/04.mp4";
+    const AUDIO_URL = "../media/05.mp3";
+
+    // 纯原生方法：加载视频并获取帧数据
+    const loadVideoFramesNative = async (videoUrl) => {
+      return new Promise((resolve, reject) => {
+        const video = document.createElement('video');
+        video.muted = true;
+
+        video.onloadedmetadata = async () => {
+          const width = video.videoWidth;
+          const height = video.videoHeight;
+          const duration = video.duration;
+          const fps = 30;
+          const totalFrames = Math.floor(duration * fps);
+          const frameDuration = 1 / fps;
+
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = width;
+          canvas.height = height;
+
+          const frames = [];
+          video.currentTime = 0;
+
+          video.ontimeupdate = async () => {
+            const currentTime = video.currentTime;
+            ctx.drawImage(video, 0, 0, width, height);
+            const bitmap = await createImageBitmap(canvas);
+
+            frames.push({
+              data: bitmap,
+              timestamp: currentTime,
+              duration: frameDuration
+            });
+
+            const nextTime = currentTime + frameDuration;
+            if (nextTime >= duration) {
+              video.pause();
+              resolve({ frames, width, height, duration });
+              return;
+            }
+            video.currentTime = nextTime;
+          };
+        };
+
+        video.onerror = (e) => reject(e);
+        video.src = videoUrl;
+        video.play();
+      });
+    };
+
+    (async () => {
+      let actx = null;
+      try {
+        log("1. 创建 编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 原生加载视频 & 音频");
+        // 原生读取视频帧
+        const { frames, width, height } = await loadVideoFramesNative(VIDEO_URL);
+        log(`原生提取视频帧：${frames.length} 帧`);
+
+        // 加载音频
+        const audioRes = await fetch(AUDIO_URL);
+        const arrayBufferAudio = await audioRes.arrayBuffer();
+        actx = new AudioContext();
+        const audioBuffer = await actx.decodeAudioData(arrayBufferAudio);
+        const audioSamples = AudioSample.fromAudioBuffer(audioBuffer, 0);
+
+        log("3. 添加轨道");
+        // 自动检测编码
+        const videoCodec = await getFirstEncodableVideoCodec(
+          output.format.getSupportedVideoCodecs(),
+          { width, height }
+        );
+        const audioCodec = await getFirstEncodableAudioCodec(
+          output.format.getSupportedAudioCodecs(),
+          { numberOfChannels: audioBuffer.numberOfChannels, sampleRate: audioBuffer.sampleRate }
+        );
+        log(`自动选择编码：视频=${videoCodec} 音频=${audioCodec}`);
+
+        const videoSampleSource = new VideoSampleSource({
+          codec: videoCodec,
+          bitrate: QUALITY_HIGH
+        });
+        const audioSampleSource = new AudioSampleSource({
+          codec: audioCodec,
+          bitrate: QUALITY_HIGH
+        });
+
+        output.addVideoTrack(videoSampleSource);
+        output.addAudioTrack(audioSampleSource);
+
+        log("4. 启动编码器...");
+        await output.start();
+
+        log("5. 写入数据包");
+        // 写入视频
+        log("5.1 写入原生视频帧");
+        for (const frame of frames) {
+          const sample = new VideoSample(frame.data, {
+            timestamp: frame.timestamp,
+            duration: frame.duration,
+          });
+          await videoSampleSource.add(sample);
+          frame.data.close();
+        }
+
+        // 写入音频
+        log("5.2 写入音频数据");
+        for (const sample of audioSamples) {
+          await audioSampleSource.add(sample);
+          sample.close();
+        }
+
+        // 关闭源
+        videoSampleSource.close();
+        audioSampleSource.close();
+
+        log("6. 完成编码 & 生成预览\n");
+        await output.finalize();
+
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/mp4" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`播放器加载成功！视频时长: ${player.duration.toFixed(2)}s`);
+        });
+
+        log("全部流程执行完成！");
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      } finally {
+        if (actx) await actx.close();
+      }
+    })();
+  </script>
+</body>
+</html>

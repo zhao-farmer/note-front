@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>剪映样式竖电平表 Canvas</title>
+  <style>
+    body {
+      font-family: system-ui;
+    }
+
+    canvas {
+      background: #262626;
+      border-radius: 12px;
+    }
+
+    .info {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="meterCanvas" width="220" height="640"></canvas>
+  <div class="info">
+    Left: <span id="dbL">-∞</span> dBFS
+    &nbsp;&nbsp; Right: <span id="mdbL">-∞</span> dBFS
+    &nbsp;&nbsp; maxLeft: <span id="dbR">-∞</span> dBFS
+    &nbsp;&nbsp; maxRight: <span id="mdbR">-∞</span> dBFS
+  </div>
+  <audio id="audio" controls src="./audio/01.mp3">
+
+    <script>
+      // === 剪映UI实际像素映射表 ===
+      const scaleLookupTable = [
+        { db: 6, topPct: 0 },
+        { db: 0, topPct: 16 },
+        { db: -6, topPct: 36 },
+        { db: -12, topPct: 52 },
+        { db: -20, topPct: 68 },
+        { db: -30, topPct: 80 },
+        { db: -50, topPct: 92 },
+        { db: -60, topPct: 100 }
+      ];
+
+      const PEAK_HOLD_MS = 3000;
+      const PEAK_DECAY_PER_SEC = 8;
+      const FLOOR_DB = -100;
+
+      // canvas
+      const canvas = document.getElementById('meterCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // layout 复刻原DOM布局
+      const PADDING_TOP = 30;
+      const PADDING_BOTTOM = 30;
+      const scaleWidth = 44;
+      const channelGap = 14;
+      const marginRight = 12;
+
+      const contentW = W - scaleWidth - marginRight;
+      const chWidth = (contentW - channelGap) / 2;
+      const chTop = PADDING_TOP;
+      const chHeight = H - PADDING_TOP - PADDING_BOTTOM;
+
+      // DOM文本输出
+      const dbLabelL = document.getElementById('dbL');
+      const dbLabelR = document.getElementById('dbR');
+      const maxDbLabelL = document.getElementById('mdbL');
+      const maxDbLabelR = document.getElementById('mdbR');
+
+      // audio
+      const audioEl = document.getElementById('audio');
+      let audioCtx, splitter, analyserL, analyserR;
+      let isPlaying = false;
+
+      // 峰值状态
+      const peakState = {
+        L: { db: -100, holdUntil: 0 },
+        R: { db: -100, holdUntil: 0 }
+      };
+
+      /** dB → UI百分比 */
+      function dbToUIPercent(dbVal) {
+        const table = scaleLookupTable;
+        let db = Math.max(-60, Math.min(6, dbVal));
+        for (let i = 0; i < table.length - 1; i++) {
+          const a = table[i];
+          const b = table[i + 1];
+          if (db <= a.db && db >= b.db) {
+            const ratio = (a.db - db) / (a.db - b.db);
+            const out = a.topPct + ratio * (b.topPct - a.topPct);
+            return out;
+          }
+        }
+        return 100;
+      }
+
+      /** 百分比转canvas Y坐标，0=最顶部，100=最底部 */
+      function pctToY(pct) {
+        return chTop + (pct / 100) * chHeight;
+      }
+
+      /** 获取analyser瞬时峰值dB */
+      function getPeakDb(analyser) {
+        const buf = new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(buf);
+        let maxAmp = 0;
+        for (let i = 0; i < buf.length; i++) {
+          const v = (buf[i] - 128) / 128;
+          const absV = Math.abs(v);
+          if (absV > maxAmp) maxAmp = absV;
+        }
+        if (maxAmp <= 1e-8) return -100;
+        return 20 * Math.log10(maxAmp);
+      }
+
+      /**
+       * 独立绘制函数：未播放也可以调用，绘制刻度、底色、空电平
+       * currL,currR,pkLdb,pkRdb 传入dB数值
+       */
+      function drawMeter(currL = -100, currR = -100, pkLdb = -100, pkRdb = -100) {
+        ctx.clearRect(0, 0, W, H);
+
+
+        const chLX = scaleWidth;
+        const chRX = scaleWidth + chWidth + channelGap;
+
+        // 音量渐变
+        const grad = ctx.createLinearGradient(0, chTop, 0, chTop + chHeight);
+        grad.addColorStop(0, "#ff2b2b");
+        grad.addColorStop(0.20, "#ff8800");
+        grad.addColorStop(0.35, "#27c943");
+        grad.addColorStop(1, "#27c943");
+
+        // ========= L声道 =========
+        const currPctL = dbToUIPercent(currL);
+        const peakPctL = dbToUIPercent(pkLdb);
+        const currYL = pctToY(currPctL);
+        const peakYL = pctToY(peakPctL);
+
+        ctx.fillStyle = "#1C1C1C";
+        ctx.fillRect(chLX, chTop, chWidth, currYL - chTop);
+        ctx.fillStyle = grad;
+        ctx.fillRect(chLX, currYL, chWidth, (chTop + chHeight) - currYL);
+
+        // 峰值白线
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "#ffffff80";
+        ctx.shadowBlur = 4;
+        ctx.fillRect(chLX, peakYL, chWidth, 3);
+        ctx.shadowBlur = 0;
+
+        // ========= R声道 =========
+        const currPctR = dbToUIPercent(currR);
+        const peakPctR = dbToUIPercent(pkRdb);
+        const currYR = pctToY(currPctR);
+        const peakYR = pctToY(peakPctR);
+
+        ctx.fillStyle = "#1C1C1C";
+        ctx.fillRect(chRX, chTop, chWidth, currYR - chTop);
+        ctx.fillStyle = grad;
+        ctx.fillRect(chRX, currYR, chWidth, (chTop + chHeight) - currYR);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "#ffffff80";
+        ctx.shadowBlur = 4;
+        ctx.fillRect(chRX, peakYR, chWidth, 3);
+        ctx.shadowBlur = 0;
+
+        // 上下标签文字 ∞ / L / R
+        ctx.fillStyle = "#adb5bd";
+        ctx.font = "18px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("∞", chLX + chWidth / 2, chTop - 8);
+        ctx.fillText("L", chLX + chWidth / 2, chTop + chHeight + 20);
+
+        ctx.fillText("∞", chRX + chWidth / 2, chTop - 8);
+        ctx.fillText("R", chRX + chWidth / 2, chTop + chHeight + 20);
+
+        // 绘制左侧刻度+虚线（包含最顶端6dB）
+        ctx.fillStyle = "#9ca3af";
+        ctx.font = "16px sans-serif";
+        ctx.textAlign = "right";
+        for (const item of scaleLookupTable) {
+          const y = pctToY(item.topPct);
+          const text = item.db === -60 ? "-∞" : String(item.db);
+          ctx.fillText(text, scaleWidth - 4, y + 5);
+
+          // 水平虚线，最顶端也会画出
+          ctx.strokeStyle = "#666";
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(scaleWidth, y);
+          ctx.lineTo(W - marginRight, y);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+
+      let lastTs = 0;
+      function renderLoop(ts = 0) {
+        if (audioEl.paused) {
+          isPlaying = false;
+          return;
+        }
+        isPlaying = true;
+
+        const deltaTime = (ts - lastTs) / 1000;
+        lastTs = ts;
+        const now = performance.now();
+
+        const currL = getPeakDb(analyserL);
+        const currR = getPeakDb(analyserR);
+
+        // L峰值逻辑
+        const pkL = peakState.L;
+        if (currL > pkL.db) {
+          pkL.db = currL;
+          pkL.holdUntil = now + PEAK_HOLD_MS;
+        } else {
+          if (now > pkL.holdUntil) {
+            pkL.db = Math.max(FLOOR_DB, pkL.db - PEAK_DECAY_PER_SEC * deltaTime);
+          }
+        }
+
+        // R峰值逻辑
+        const pkR = peakState.R;
+        if (currR > pkR.db) {
+          pkR.db = currR;
+          pkR.holdUntil = now + PEAK_HOLD_MS;
+        } else {
+          if (now > pkR.holdUntil) {
+            pkR.db = Math.max(FLOOR_DB, pkR.db - PEAK_DECAY_PER_SEC * deltaTime);
+          }
+        }
+
+        // 更新文本
+        dbLabelL.textContent = currL.toFixed(1);
+        dbLabelR.textContent = currR.toFixed(1);
+        maxDbLabelL.textContent = pkL.db.toFixed(1);
+        maxDbLabelR.textContent = pkR.db.toFixed(1);
+
+        drawMeter(currL, currR, pkL.db, pkR.db);
+
+        requestAnimationFrame(renderLoop);
+      }
+
+      // 页面加载完成：立刻绘制静态画面（未播放也显示刻度和空电平）
+      document.addEventListener('DOMContentLoaded', () => {
+        drawMeter(-100, -100, -100, -100);
+      });
+
+      audioEl.onplay = async () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const source = audioCtx.createMediaElementSource(audioEl);
+          splitter = audioCtx.createChannelSplitter(2);
+          analyserL = audioCtx.createAnalyser();
+          analyserR = audioCtx.createAnalyser();
+          analyserL.fftSize = 1024;
+          analyserR.fftSize = 1024;
+          analyserL.smoothingTimeConstant = 0;
+          analyserR.smoothingTimeConstant = 0;
+          source.connect(splitter);
+          splitter.connect(analyserL, 0);
+          splitter.connect(analyserR, 1);
+          source.connect(audioCtx.destination);
+        }
+        renderLoop();
+      };
+
+    </script>
+</body>
+
+</html>

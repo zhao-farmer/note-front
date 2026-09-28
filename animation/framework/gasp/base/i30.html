@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+
+    .box2 {
+      background: #ea4335;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+  <button id="playBtn">播放时间线动画</button>
+  <script>
+    const box1 = document.querySelector(".box1");
+    const box2 = document.querySelector(".box2");
+
+    document.querySelector("#playBtn").onclick = () => {
+      gsap.killTweensOf([box1, box2]);
+      const tl = gsap.timeline({ defaults: { duration: 0.8, ease: "power2.out" } });
+      tl.to(box1, { x: 250 })
+        .to(box2, { y: 120 }, "-=0.3");
+    }
+  </script>
+</body>
+
+</html>

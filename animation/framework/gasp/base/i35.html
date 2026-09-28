@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+
+    .log {
+      margin-top: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+  <script src="../js/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="log">vars.duration: <span id="durVal">0</span></div>
+  <div class="log">vars.x: <span id="xVal">0</span></div>
+  <script>
+    const box = document.querySelector(".box");
+    const durDom = document.querySelector("#durVal");
+    const xDom = document.querySelector("#xVal");
+
+    const tween = gsap.to(box, {
+      x: 200,
+      duration: 2,
+      delay: 0.3,
+      repeat: -1
+    });
+
+    durDom.textContent = tween.vars.duration;
+    xDom.textContent = tween.vars.x;
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>环形折线图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="lineCanvas" width="400" height="400"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('lineCanvas');
+    const ctx = canvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source, isReady = false;
+
+    // RMS 相关参数 
+    const bufferLength = 2048;
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+
+    // 频谱折线相关参数 
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount); // 仅用于频域数据
+    const timeDataArray = new Uint8Array(bufferLength); // 独立数组用于RMS，避免与频域数据互相覆盖
+    const POINT_COUNT = 128;
+    const BASE_RADIUS = 80;
+    const MAX_AMPLITUDE = 100;
+
+    audioEl.onplay = async () => {
+      if (!isReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.85;
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isReady = true;
+      }
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. RMS 分贝计算（完整保留）
+      analyser.getByteTimeDomainData(timeDataArray);
+      let sumSq = 0;
+      for (let v of timeDataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      const instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+
+      // 2. 获取频域数据并绘制环形折线
+
+      analyser.getByteFrequencyData(dataArray);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 基准参考圆
+      ctx.beginPath();
+      ctx.arc(cx, cy, BASE_RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 锥形渐变
+      const grad = ctx.createConicGradient(-Math.PI / 2, cx, cy);
+      grad.addColorStop(0, 'hsl(120, 100%, 50%)');  // 起点=绿色（12点钟）
+      grad.addColorStop(0.25, 'hsl(60, 100%, 50%)');   // 黄色（3点钟方向）
+      grad.addColorStop(0.5, 'hsl(0, 100%, 50%)');    // 红色（6点钟方向）
+      grad.addColorStop(0.75, 'hsl(60, 100%, 50%)');   // 黄色（9点钟方向）
+      grad.addColorStop(1, 'hsl(120, 100%, 50%)');  // 终点=绿色（回到12点钟）
+
+      // 绘制闭合折线
+      const step = Math.floor(fftBinCount / POINT_COUNT);
+      const angleStep = (Math.PI * 2) / POINT_COUNT;
+      const startOffset = -Math.PI / 2;
+
+      ctx.beginPath();
+      for (let i = 0; i <= POINT_COUNT; i++) {
+        const idx = i % POINT_COUNT;
+
+        let sum = 0;
+        for (let j = 0; j < step; j++) sum += dataArray[idx * step + j];
+        const avgVal = sum / step;
+        const r = BASE_RADIUS + (avgVal / 255) * MAX_AMPLITUDE;
+
+        const angle = startOffset + idx * angleStep;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 半透明填充增强视觉体量
+      ctx.globalAlpha = 0.1;
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

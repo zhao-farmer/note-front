@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        .box {
+            width: 80px;
+            height: 80px;
+            background: #4285f4;
+            margin: 10px;
+        }
+    </style>
+    <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+    <div class="box"></div>
+    <button id="playBtn">播放自定义缓动动画</button>
+    <script>
+        const box = document.querySelector(".box");
+        // 注册自定义缓动函数
+        gsap.registerEase("bounceSoft", progress => {
+            if (progress < 0.5) {
+                return 2 * progress * progress;
+            } else {
+                progress = 1 - progress;
+                return 1 - 2 * progress * progress;
+            }
+        });
+
+        document.querySelector("#playBtn").onclick = () => {
+            gsap.killTweensOf(box);
+            gsap.to(box, {
+                x: 250,
+                duration: 1.5,
+                ease: "bounceSoft",
+            });
+        };
+    </script>
+</body>
+</html>

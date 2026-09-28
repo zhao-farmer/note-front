@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: #4285f4;
+    }
+
+    .ctrl button {
+      margin: 4px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="ctrl">
+    <button onclick="playAnim()">播放动画</button>
+    <button onclick="cleanAnim()">回滚清理</button>
+  </div>
+  <script>
+    let ctx;
+
+    function playAnim() {
+      ctx = gsap.context(() => {
+        gsap.to(".box", { x: 300, rotation: 180, duration: 2 });
+      });
+    }
+
+    function cleanAnim() {
+      if (ctx) ctx.revert();
+    }
+  </script>
+</body>
+
+</html>

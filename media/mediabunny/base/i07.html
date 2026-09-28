@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>视频源-CanvasSource</title>
+</head>
+
+<body>
+  <video id="player" controls height="320" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      CanvasSink,
+      Output,
+      Mp4OutputFormat,
+      CanvasSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试视频
+    const VIDEO_URL = "../media/01.mp4";
+
+    (async () => {
+      try {
+        log("1. 创建 编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道");
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 500;
+        canvas.height = 500;
+        const frameRate = 30;
+
+        const canvasSource = new CanvasSource(canvas,{ 
+          codec: "avc", 
+          bitrate: 1e6, // 1 Mbps	
+          frameRate: frameRate, // 30 fps
+        });
+        output.addVideoTrack(canvasSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入数据包");
+
+        log("4.1 添加2秒canvas变化");
+        const totalFrames1 = 60; // 2秒 * 30fps
+        for (let i = 0; i < totalFrames1; i++) {
+            const currentTime = i / frameRate;
+            ctx.fillStyle = `rgb(${i * 8}, ${i * 5}, ${i * 3})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 关键修复：必须 await add()
+            await canvasSource.add(currentTime, 1 / frameRate);
+        }
+
+
+        log("4.2 添加2秒图片数据");
+        // 通过外部直接获取图片
+        const img = new Image();
+        img.src = "../media/02.jpg";
+
+        await new Promise((resolve) => {
+          img.onload = () => {
+            console.log("图片加载成功");
+            resolve();
+          };
+          img.onerror = () => {
+            console.log("图片加载失败");
+            resolve();
+          };
+        });
+  
+        const totalFrames2 = 120;
+        const diffImg = img.height - img.width;
+        const diffFrames = totalFrames2 - totalFrames1;
+        const canvasDistance = diffImg / diffFrames;
+
+        // 图片慢慢向上移动
+        for (let i = totalFrames1; i < totalFrames2; i++) {
+            const currentTime = i / frameRate;            
+            ctx.drawImage(img, 0, canvasDistance * (i - totalFrames1), img.width, img.width, 0, 0, 500, 500);
+            await canvasSource.add(currentTime, 1 / frameRate);
+        }
+
+
+        log("4.3 添加2秒从视频获取的数据");
+        // 从适配获取数据
+        const videoInput = new Input({ 
+          formats: ALL_FORMATS, 
+          source: new UrlSource(VIDEO_URL) 
+        });
+        const videoTrack = await videoInput.getPrimaryVideoTrack();
+        const canvasSink = new CanvasSink(videoTrack);
+        for await (const wrappedCanvas of canvasSink.canvases(0, 2)) {
+          // 当前canvas
+          const currentCanvas = wrappedCanvas.canvas;
+          // 改变canvas内容
+          ctx.drawImage(currentCanvas, 0, 100, currentCanvas.width, currentCanvas.width, 0, 0, 500, 500);
+          // canvas所代表的时间
+          await canvasSource.add(wrappedCanvas.timestamp + totalFrames2/frameRate, wrappedCanvas.duration);
+        }
+        videoInput.dispose();
+
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 资源使用\n");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/mp4" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`播放器加载成功！视频时长: ${player.duration.toFixed(2)}s`);
+        });
+
+        log("全部流程执行完成！");
+
+        // 释放input
+        // input.dispose();
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

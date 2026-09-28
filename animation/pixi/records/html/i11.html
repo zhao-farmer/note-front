@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>AsciiFilter 字符画滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .panel {
+      width: 310px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 100px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>size 字符块大小</label>
+        <input type="range" min="2" max="24" step="1" id="inpSize">
+        <span class="val">8</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        size越小字符越密集；越大块越大<br />
+        字符集内置在shader，运行时不可修改
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    // AsciiFilter
+    const asciiFilter = new PIXI.filters.AsciiFilter(8);
+    sprite.filters = [asciiFilter];
+
+    const inpSize = document.getElementById('inpSize');
+    inpSize.value = 8;
+
+    inpSize.oninput = () => {
+      const v = Number(inpSize.value);
+      asciiFilter.size = v;
+      inpSize.nextElementSibling.textContent = String(v);
+    };
+  </script>
+</body>
+
+</html>

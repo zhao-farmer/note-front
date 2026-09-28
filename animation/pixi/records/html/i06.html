@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>DisplacementFilter 置换滤镜 Demo</title>
+  <script src="./js/pixi.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    label {
+      width: 80px;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+    }
+
+    .val {
+      width: 45px;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>scaleX</label>
+        <input type="range" min="0" max="60" step="1" id="inpScaleX">
+        <span class="val">12</span>
+      </div>
+      <div class="row">
+        <label>scaleY</label>
+        <input type="range" min="0" max="60" step="1" id="inpScaleY">
+        <span class="val">8</span>
+      </div>
+      <div class="row">
+        <label>滚动速度X</label>
+        <input type="range" min="-2" max="2" step="0.1" id="inpSpeedX">
+        <span class="val">0.4</span>
+      </div>
+      <div class="row">
+        <label>滚动速度Y</label>
+        <input type="range" min="-2" max="2" step="0.1" id="inpSpeedY">
+        <span class="val">0.2</span>
+      </div>
+      <div class="row">
+        <button id="btnPause">暂停/继续</button>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        原理：使用程序生成噪声置换贴图，R=X偏移，G=Y偏移。<br />
+        dispSprite必须加入舞台，但不会渲染显示。padding防止边缘裁切。
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    // ---------------------- 1.加载目标图片 ----------------------
+    const targetTex = await PIXI.Assets.load('./image/01.jpg');
+    const targetSprite = PIXI.Sprite.from(targetTex);
+    targetSprite.scale.set(0.5);
+    app.stage.addChild(targetSprite);
+
+    // ---------------------- 2.程序生成噪声置换贴图(不依赖外部图片) ----------------------
+    const dispSize = 256;
+    const rt = PIXI.RenderTexture.create({ width: dispSize, height: dispSize });
+    const noiseGraphics = new PIXI.Graphics();
+    // 生成灰阶噪声，RGB：R控制X偏移，G控制Y偏移，B无用
+    const canvas = document.createElement('canvas');
+    canvas.width = dispSize;
+    canvas.height = dispSize;
+    const ctx = canvas.getContext('2d');
+    const imgData = ctx.createImageData(dispSize, dispSize);
+    for (let i = 0; i < imgData.data.length; i += 4) {
+      const v = Math.floor(Math.random() * 255);
+      imgData.data[i] = v;     // R X
+      imgData.data[i + 1] = v;   // G Y
+      imgData.data[i + 2] = 128; // B 无效
+      imgData.data[i + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+    const dispTex = await PIXI.Texture.from(canvas);
+    // 设置重复平铺，实现无限滚动
+    dispTex.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
+
+    // 置换精灵：只提供纹理数据源，本身不显示
+    const dispSprite = new PIXI.Sprite(dispTex);
+    dispSprite.width = dispSize;
+    dispSprite.height = dispSize;
+    // 关键：必须addChild到stage，滤镜才可以读取纹理状态
+    app.stage.addChild(dispSprite);
+
+    // ---------------------- 3.创建DisplacementFilter ----------------------
+    const dispFilter = new PIXI.DisplacementFilter(dispSprite);
+    dispFilter.scale.x = 12;
+    dispFilter.scale.y = 8;
+    dispFilter.padding = 30; // 防止扭曲把像素推出画布造成黑边
+
+    targetSprite.filters = [dispFilter];
+
+    // ---------------------- UI绑定 ----------------------
+    const inpScaleX = document.getElementById('inpScaleX');
+    const inpScaleY = document.getElementById('inpScaleY');
+    const inpSpeedX = document.getElementById('inpSpeedX');
+    const inpSpeedY = document.getElementById('inpSpeedY');
+    const btnPause = document.getElementById('btnPause');
+
+    inpScaleX.value = 12;
+    inpScaleY.value = 8;
+    inpSpeedX.value = 0.4;
+    inpSpeedY.value = 0.2;
+
+    let paused = false;
+
+    inpScaleX.oninput = () => {
+      dispFilter.scale.x = Number(inpScaleX.value);
+      inpScaleX.nextElementSibling.textContent = inpScaleX.value;
+    };
+    inpScaleY.oninput = () => {
+      dispFilter.scale.y = Number(inpScaleY.value);
+      inpScaleY.nextElementSibling.textContent = inpScaleY.value;
+    };
+
+    btnPause.onclick = () => {
+      paused = !paused;
+    };
+
+    // ticker 滚动置换贴图，画面产生流动扭曲
+    app.ticker.add(() => {
+      if (paused) return;
+      const spX = Number(inpSpeedX.value);
+      const spY = Number(inpSpeedY.value);
+      dispSprite.x += spX;
+      dispSprite.y += spY;
+
+      document.querySelector('#inpSpeedX+.val').textContent = spX.toFixed(1);
+      document.querySelector('#inpSpeedY+.val').textContent = spY.toFixed(1);
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>时频谱 Spectrogram - Magma Style</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .warn {
+      color: #ff4444;
+    }
+
+    /* 核心布局：让标签和 Canvas 对齐 */
+    .spectrogram-wrapper {
+      display: flex;
+      align-items: stretch; /* 让左侧标签栏高度与 Canvas 一致 */
+      margin-top: 10px;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    /* 左侧频率轴标签 */
+    .y-axis-labels {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* 均匀分布 */
+      padding: 5px 10px;
+      background: #222;
+      border-right: 1px solid #444;
+      font-size: 12px;
+      color: #aaa;
+      width: 60px;
+      text-align: right;
+      user-select: none;
+    }
+
+    .y-axis-labels span {
+      /* 微调文字位置，使其大致对应 Canvas 的高度比例 */
+      transform: translateY(-50%); 
+    }
+    .y-axis-labels span:first-child { transform: translateY(0); }
+    .y-axis-labels span:last-child { transform: translateY(-100%); }
+
+    canvas {
+      background: #000;
+      display: block;
+      /* 保持原有尺寸 */
+      width: 600px;
+      height: 256px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    audio {
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="spectrogram-wrapper">
+      <!-- 左侧频率标签 -->
+      <div class="y-axis-labels">
+        <span>2.3 kHz</span>
+        <span>1.2 kHz</span>
+        <span>440 Hz</span>
+        <span>0 Hz</span>
+      </div>
+      <!-- Canvas -->
+      <canvas id="canvas" width="600" height="256"></canvas>
+    </div>
+
+    <div class="audio-content">
+      <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+      <div>当前分贝：<span id="db">0</span> dB</div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true }); // 优化读取性能
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024; // fftSize / 2
+    const dataArray = new Uint8Array(fftBinCount);
+
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+
+    // ==========================================
+    // 1. Magma 配色映射 (Color Map)
+    // ==========================================
+    // 这是一个简化的 Magma 调色板插值函数
+    // 输入 0-255，输出 [r, g, b]
+    function getMagmaColor(value) {
+      // 归一化到 0-1
+      const t = Math.max(0, Math.min(1, value / 255));
+      
+      // 关键色节点 (近似 Magma)
+      // 0.0: Black (0, 0, 4)
+      // 0.25: Dark Purple (28, 16, 68)
+      // 0.5: Purple/Red (122, 40, 128) -> 修正为更红的过渡 (180, 50, 100)
+      // 0.75: Orange (252, 137, 97)
+      // 1.0: Yellow/White (252, 253, 191)
+      
+      const stops = [
+        { p: 0.00, c: [0, 0, 4] },
+        { p: 0.15, c: [20, 10, 50] },
+        { p: 0.35, c: [80, 20, 100] },
+        { p: 0.55, c: [160, 40, 90] },
+        { p: 0.75, c: [240, 100, 50] },
+        { p: 0.90, c: [250, 180, 50] },
+        { p: 1.00, c: [252, 253, 191] }
+      ];
+
+      // 找到所在的区间
+      let lower = stops[0];
+      let upper = stops[stops.length - 1];
+      
+      for (let i = 0; i < stops.length - 1; i++) {
+        if (t >= stops[i].p && t <= stops[i+1].p) {
+          lower = stops[i];
+          upper = stops[i+1];
+          break;
+        }
+      }
+
+      // 线性插值
+      const range = upper.p - lower.p;
+      const factor = range === 0 ? 0 : (t - lower.p) / range;
+
+      const r = Math.round(lower.c[0] + factor * (upper.c[0] - lower.c[0]));
+      const g = Math.round(lower.c[1] + factor * (upper.c[1] - lower.c[1]));
+      const b = Math.round(lower.c[2] + factor * (upper.c[2] - lower.c[2]));
+
+      return [r, g, b];
+    }
+
+    // 预计算颜色表以提升性能 (0-255)
+    const colorTable = new Array(256);
+    for(let i=0; i<256; i++) {
+      colorTable[i] = getMagmaColor(i);
+    }
+
+    // ==========================================
+    // 2. 对数频率映射辅助函数
+    // ==========================================
+    // 将 Canvas 的 Y 坐标 (0=顶, H=底) 映射到 FFT Bin 索引
+    // 我们希望：顶部 = 高频 (MaxFreq), 底部 = 低频 (MinFreq)
+    // 使用对数刻度：freq = minFreq * (maxFreq/minFreq)^(y_ratio)
+    function getBinIndexFromY(y, canvasHeight, sampleRate) {
+      const minFreq = 20; // 最低显示频率
+      const maxFreq = sampleRate / 2; // 奈奎斯特频率，通常是 22050Hz
+      
+      // y=0 (顶部) -> ratio=1 -> maxFreq
+      // y=H (底部) -> ratio=0 -> minFreq
+      const ratio = 1 - (y / canvasHeight);
+      
+      // 对数映射计算目标频率
+      const freq = minFreq * Math.pow(maxFreq / minFreq, ratio);
+      
+      // 将频率转换为 Bin 索引
+      // binIndex = freq / (sampleRate / fftSize)
+      const binIdx = Math.floor(freq / (sampleRate / bufferLength));
+      
+      // 限制范围
+      return Math.max(0, Math.min(fftBinCount - 1, binIdx));
+    }
+
+    // ==========================================
+    // 3. 主逻辑
+    // ==========================================
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8; // 增加平滑度，让频谱看起来更连贯，不像噪点
+
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        isAudioContextReady = true;
+        
+        // 初始化 Canvas 为黑色
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+      
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // --- 分贝计算 ---
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // --- 时频谱绘制 ---
+      analyser.getByteFrequencyData(dataArray);
+
+      // 1. 整体左移 1 像素
+      // 使用 drawImage 自身拷贝是最快的滚动方式
+      ctx.drawImage(canvas, -1, 0);
+
+      // 2. 在最右侧绘制新的一列
+      const colX = canvas.width - 1;
+      const sampleRate = audioContext.sampleRate;
+
+      // 为了性能，我们直接操作 ImageData 或者批量绘制
+      // 这里使用 fillRect 绘制 1px 宽的竖条，但利用预计算的颜色
+      // 注意：由于是对数映射，Canvas 的每一个 y 像素对应的 bin 可能不是连续的
+      // 我们需要遍历 Canvas 的每一个 y (0 到 255)
+      
+      for (let y = 0; y < canvas.height; y++) {
+        const binIdx = getBinIndexFromY(y, canvas.height, sampleRate);
+        const val = dataArray[binIdx];
+        
+        // 获取预计算的颜色
+        const [r, g, b] = colorTable[val];
+        
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(colX, y, 1, 1);
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

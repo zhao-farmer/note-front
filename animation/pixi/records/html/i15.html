@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ColorGradientFilter 颜色渐变滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    input[type="checkbox"] {
+      width: auto;
+    }
+    .val {
+      width: 50px;
+      text-align: right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>type 0线性 1径向 2锥形</label>
+        <input type="range" min="0" max="2" step="1" id="inpType">
+        <span class="val">2</span>
+      </div>
+      <div class="row">
+        <label>angle(deg角度)</label>
+        <input type="range" min="0" max="360" step="1" id="inpAngle">
+        <span class="val">108</span>
+      </div>
+      <div class="row">
+        <label>alpha 整体透明度</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpAlpha">
+        <span class="val">0.67</span>
+      </div>
+      <div class="row">
+        <label>maxColors</label>
+        <input type="range" min="0" max="10" step="1" id="inpMaxColors">
+        <span class="val">7</span>
+      </div>
+      <div class="row">
+        <label>replace 直接替换颜色</label>
+        <input type="checkbox" id="inpReplace">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        type:0 LINEAR /1 RADIAL /2 CONIC锥形<br/>
+        angle单位是角度deg，无需转弧度；无start/end参数<br/>
+        replace=false：渐变和原图颜色相乘混合
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    // 官方原版构造参数，完全匹配你截图检视器
+    const gradFilter = new PIXI.filters.ColorGradientFilter({
+      type: PIXI.filters.ColorGradientFilter.CONIC,
+      angle: 108,
+      alpha: 0.669,
+      maxColors:7,
+      replace: false,
+      stops: [
+        { offset:0, color:0xff0000, alpha:1 },
+        { offset:1, color:0x0000ff, alpha:1 }
+      ]
+    });
+    sprite.filters = [gradFilter];
+
+    const inpType = document.getElementById('inpType');
+    const inpAngle = document.getElementById('inpAngle');
+    const inpAlpha = document.getElementById('inpAlpha');
+    const inpMaxColors = document.getElementById('inpMaxColors');
+    const inpReplace = document.getElementById('inpReplace');
+
+    inpType.value = 2;
+    inpAngle.value = 108;
+    inpAlpha.value = 0.669;
+    inpMaxColors.value =7;
+    inpReplace.checked = false;
+
+    inpType.oninput = ()=>{
+      const v = Number(inpType.value);
+      gradFilter.type = v;
+      inpType.nextElementSibling.textContent = String(v);
+    };
+    inpAngle.oninput = ()=>{
+      const v = Number(inpAngle.value);
+      gradFilter.angle = v;
+      inpAngle.nextElementSibling.textContent = String(v);
+    };
+    inpAlpha.oninput = ()=>{
+      const v = Number(inpAlpha.value);
+      gradFilter.alpha = v;
+      inpAlpha.nextElementSibling.textContent = v.toFixed(2);
+    };
+    inpMaxColors.oninput = ()=>{
+      const v = Number(inpMaxColors.value);
+      gradFilter.maxColors = v;
+      inpMaxColors.nextElementSibling.textContent = String(v);
+    };
+    inpReplace.onchange = ()=>{
+      gradFilter.replace = inpReplace.checked;
+    };
+  </script>
+</body>
+</html>

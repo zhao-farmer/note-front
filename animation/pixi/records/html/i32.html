@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>OldFilmFilter 旧胶片滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>sepia 复古褐色</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpSepia">
+        <span class="val">0.300</span>
+      </div>
+      <div class="row">
+        <label>noise 颗粒强度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpNoise">
+        <span class="val">0.300</span>
+      </div>
+      <div class="row">
+        <label>noiseSize 颗粒大小</label>
+        <input type="range" min="1" max="4" step="0.1" id="inpNoiseSize">
+        <span class="val">1.0</span>
+      </div>
+      <div class="row">
+        <label>scratch 划痕强度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpScratch">
+        <span class="val">0.500</span>
+      </div>
+      <div class="row">
+        <label>scratchDensity 划痕密度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpScratchDensity">
+        <span class="val">0.300</span>
+      </div>
+      <div class="row">
+        <label>scratchWidth 划痕宽度</label>
+        <input type="range" min="0.5" max="4" step="0.1" id="inpScratchWidth">
+        <span class="val">1.0</span>
+      </div>
+      <div class="row">
+        <label>vignetting 暗角强度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpVignetting">
+        <span class="val">1.000</span>
+      </div>
+      <div class="row">
+        <label>vignettingAlpha 暗角透明度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpVignettingAlpha">
+        <span class="val">0.300</span>
+      </div>
+      <div class="row">
+        <label>vignettingBlur 暗角模糊</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpVignettingBlur">
+        <span class="val">1.000</span>
+      </div>
+
+      <div style="font-size:12px;color:#555;">
+        OldFilmFilter：旧胶片滤镜<br />
+        sepia控制复古褪色；noise/noiseSize控制颗粒；scratch控制划痕；vignetting控制边缘暗角
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const oldFilmFilter = new PIXI.filters.OldFilmFilter({
+      sepia: 0.3,
+      noise: 0.3,
+      noiseSize: 1,
+      scratch: 0.5,
+      scratchDensity: 0.3,
+      scratchWidth: 1,
+      vignetting: 1,
+      vignettingAlpha: 0.3,
+      vignettingBlur: 1
+    });
+    sprite.filters = [oldFilmFilter];
+
+    const inpSepia = document.getElementById('inpSepia');
+    const inpNoise = document.getElementById('inpNoise');
+    const inpNoiseSize = document.getElementById('inpNoiseSize');
+    const inpScratch = document.getElementById('inpScratch');
+    const inpScratchDensity = document.getElementById('inpScratchDensity');
+    const inpScratchWidth = document.getElementById('inpScratchWidth');
+    const inpVignetting = document.getElementById('inpVignetting');
+    const inpVignettingAlpha = document.getElementById('inpVignettingAlpha');
+    const inpVignettingBlur = document.getElementById('inpVignettingBlur');
+
+    const valSepia = inpSepia.nextElementSibling;
+    const valNoise = inpNoise.nextElementSibling;
+    const valNoiseSize = inpNoiseSize.nextElementSibling;
+    const valScratch = inpScratch.nextElementSibling;
+    const valScratchDensity = inpScratchDensity.nextElementSibling;
+    const valScratchWidth = inpScratchWidth.nextElementSibling;
+    const valVignetting = inpVignetting.nextElementSibling;
+    const valVignettingAlpha = inpVignettingAlpha.nextElementSibling;
+    const valVignettingBlur = inpVignettingBlur.nextElementSibling;
+
+    //初始化控件
+    inpSepia.value = oldFilmFilter.sepia;
+    valSepia.textContent = oldFilmFilter.sepia.toFixed(3);
+    inpNoise.value = oldFilmFilter.noise;
+    valNoise.textContent = oldFilmFilter.noise.toFixed(3);
+    inpNoiseSize.value = oldFilmFilter.noiseSize;
+    valNoiseSize.textContent = oldFilmFilter.noiseSize.toFixed(1);
+    inpScratch.value = oldFilmFilter.scratch;
+    valScratch.textContent = oldFilmFilter.scratch.toFixed(3);
+    inpScratchDensity.value = oldFilmFilter.scratchDensity;
+    valScratchDensity.textContent = oldFilmFilter.scratchDensity.toFixed(3);
+    inpScratchWidth.value = oldFilmFilter.scratchWidth;
+    valScratchWidth.textContent = oldFilmFilter.scratchWidth.toFixed(1);
+    inpVignetting.value = oldFilmFilter.vignetting;
+    valVignetting.textContent = oldFilmFilter.vignetting.toFixed(3);
+    inpVignettingAlpha.value = oldFilmFilter.vignettingAlpha;
+    valVignettingAlpha.textContent = oldFilmFilter.vignettingAlpha.toFixed(3);
+    inpVignettingBlur.value = oldFilmFilter.vignettingBlur;
+    valVignettingBlur.textContent = oldFilmFilter.vignettingBlur.toFixed(3);
+
+    inpSepia.oninput = () => {
+      oldFilmFilter.sepia = Number(inpSepia.value);
+      valSepia.textContent = oldFilmFilter.sepia.toFixed(3);
+    };
+    inpNoise.oninput = () => {
+      oldFilmFilter.noise = Number(inpNoise.value);
+      valNoise.textContent = oldFilmFilter.noise.toFixed(3);
+    };
+    inpNoiseSize.oninput = () => {
+      oldFilmFilter.noiseSize = Number(inpNoiseSize.value);
+      valNoiseSize.textContent = oldFilmFilter.noiseSize.toFixed(1);
+    };
+    inpScratch.oninput = () => {
+      oldFilmFilter.scratch = Number(inpScratch.value);
+      valScratch.textContent = oldFilmFilter.scratch.toFixed(3);
+    };
+    inpScratchDensity.oninput = () => {
+      oldFilmFilter.scratchDensity = Number(inpScratchDensity.value);
+      valScratchDensity.textContent = oldFilmFilter.scratchDensity.toFixed(3);
+    };
+    inpScratchWidth.oninput = () => {
+      oldFilmFilter.scratchWidth = Number(inpScratchWidth.value);
+      valScratchWidth.textContent = oldFilmFilter.scratchWidth.toFixed(1);
+    };
+    inpVignetting.oninput = () => {
+      oldFilmFilter.vignetting = Number(inpVignetting.value);
+      valVignetting.textContent = oldFilmFilter.vignetting.toFixed(3);
+    };
+    inpVignettingAlpha.oninput = () => {
+      oldFilmFilter.vignettingAlpha = Number(inpVignettingAlpha.value);
+      valVignettingAlpha.textContent = oldFilmFilter.vignettingAlpha.toFixed(3);
+    };
+    inpVignettingBlur.oninput = () => {
+      oldFilmFilter.vignettingBlur = Number(inpVignettingBlur.value);
+      valVignettingBlur.textContent = oldFilmFilter.vignettingBlur.toFixed(3);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ZoomBlurFilter 径向缩放模糊滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>strength 模糊强度</label>
+        <input type="range" min="0" max="2" step="0.01" id="inpStrength">
+        <span class="val">0.30</span>
+      </div>
+      <div class="row">
+        <label>centerX 中心X</label>
+        <input type="range" min="0" max="800" step="1" id="inpCenterX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>centerY 中心Y</label>
+        <input type="range" min="0" max="800" step="1" id="inpCenterY">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>innerRadius 内半径</label>
+        <input type="range" min="0" max="400" step="1" id="inpInnerRadius">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>padding 边距</label>
+        <input type="range" min="0" max="100" step="1" id="inpPadding">
+        <span class="val">20.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        ZoomBlurFilter：放射缩放模糊；从中心点向外放射拖影，模拟镜头急速推拉效果
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0x000000
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const zoomBlurFilter = new PIXI.filters.ZoomBlurFilter({
+      strength:0.3,
+      center:new PIXI.Point(0,0),
+      innerRadius:0,
+      padding:20
+    });
+    sprite.filters = [zoomBlurFilter];
+
+    const inpStrength = document.getElementById("inpStrength");
+    const inpCenterX = document.getElementById("inpCenterX");
+    const inpCenterY = document.getElementById("inpCenterY");
+    const inpInnerRadius = document.getElementById("inpInnerRadius");
+    const inpPadding = document.getElementById("inpPadding");
+
+    const valStrength = inpStrength.nextElementSibling;
+    const valCenterX = inpCenterX.nextElementSibling;
+    const valCenterY = inpCenterY.nextElementSibling;
+    const valInnerRadius = inpInnerRadius.nextElementSibling;
+    const valPadding = inpPadding.nextElementSibling;
+
+    inpStrength.value = zoomBlurFilter.strength;
+    valStrength.textContent = zoomBlurFilter.strength.toFixed(2);
+
+    inpCenterX.value = zoomBlurFilter.center.x;
+    valCenterX.textContent = zoomBlurFilter.center.x.toFixed(2);
+
+    inpCenterY.value = zoomBlurFilter.center.y;
+    valCenterY.textContent = zoomBlurFilter.center.y.toFixed(2);
+
+    inpInnerRadius.value = zoomBlurFilter.innerRadius;
+    valInnerRadius.textContent = zoomBlurFilter.innerRadius.toFixed(2);
+
+    inpPadding.value = zoomBlurFilter.padding;
+    valPadding.textContent = zoomBlurFilter.padding.toFixed(2);
+
+    inpStrength.oninput = () => {
+      zoomBlurFilter.strength = Number(inpStrength.value);
+      valStrength.textContent = Number(inpStrength.value).toFixed(2);
+    };
+
+    inpCenterX.oninput = () => {
+      zoomBlurFilter.center.x = Number(inpCenterX.value);
+      valCenterX.textContent = Number(inpCenterX.value).toFixed(2);
+    };
+
+    inpCenterY.oninput = () => {
+      zoomBlurFilter.center.y = Number(inpCenterY.value);
+      valCenterY.textContent = Number(inpCenterY.value).toFixed(2);
+    };
+
+    inpInnerRadius.oninput = () => {
+      zoomBlurFilter.innerRadius = Number(inpInnerRadius.value);
+      valInnerRadius.textContent = Number(inpInnerRadius.value).toFixed(2);
+    };
+
+    inpPadding.oninput = () => {
+      zoomBlurFilter.padding = Number(inpPadding.value);
+      valPadding.textContent = Number(inpPadding.value).toFixed(2);
+    };
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>原生Video seek + Pixi cover模式缩略图</title>
+  <script src="./js/pixi.js"></script>
+</head>
+<body>
+  <script type="module">
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({
+        width: 800,
+        height: 220,
+        backgroundColor: 0x222222,
+        antialias: true
+      });
+      document.body.appendChild(app.canvas);
+
+      const clipContainer = new PIXI.Container();
+      clipContainer.y = 50;
+      app.stage.addChild(clipContainer);
+
+      let isResizing = false;
+      let viewWidth = 600;
+      let totalThumbWidth = 0;
+
+      const TRACK_CONFIG = {
+        trackHeight: 100,
+        trackWidth: 120,
+        spacing: 4,
+        paddingV: 8
+      };
+      const { trackWidth, trackHeight, spacing, paddingV } = TRACK_CONFIG;
+      const cellImgH = trackHeight - paddingV * 2;
+      const cellW = trackWidth;
+
+      const bgGraphics = new PIXI.Graphics();
+      clipContainer.addChild(bgGraphics);
+
+      const thumbContainer = new PIXI.Container();
+      clipContainer.addChild(thumbContainer);
+
+      const maskGraphics = new PIXI.Graphics();
+      maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+      thumbContainer.addChild(maskGraphics);
+      thumbContainer.mask = maskGraphics;
+
+      const handle = new PIXI.Graphics();
+      clipContainer.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      /** @type {PIXI.Sprite[]} */
+      const thumbSprites = [];
+
+      // -------- 复用示例里的 captureFrame --------
+      function captureFrame(video) {
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        const tempContainer = new PIXI.Container();
+        const tempSprite = new PIXI.Sprite(PIXI.Texture.from(video));
+        tempContainer.addChild(tempSprite);
+
+        const frameTex = PIXI.RenderTexture.create({ width: w, height: h });
+        app.renderer.render({
+          container: tempContainer,
+          target: frameTex
+        });
+
+        tempSprite.destroy();
+        tempContainer.destroy();
+        return frameTex;
+      }
+
+      /**
+       * @param {number} total 总共划分多少等分帧
+       * @param {number} frameStart 起始下标包含
+       * @param {number} frameEnd 结束下标包含
+       */
+      async function extractFrames(total, frameStart, frameEnd) {
+        if (frameStart < 0) frameStart = 0;
+        if (frameEnd >= total) frameEnd = total - 1;
+        if (frameStart > frameEnd) {
+          throw new Error(`参数错误 frameStart(${frameStart}) > frameEnd(${frameEnd})`);
+        }
+
+        // 原生video加载，替代MediaBunny
+        const videoTexture = await PIXI.Assets.load('./video/demo.mp4');
+        const video = videoTexture.source.resource;
+        video.muted = true;
+
+        const duration = video.duration;
+        const dw = video.videoWidth;
+        const dh = video.videoHeight;
+        console.log('视频原始比例 dw/dh', dw, dh);
+
+        const stepTime = duration / total;
+        thumbSprites.length = 0;
+
+        for (let i = frameStart; i <= frameEnd; i++) {
+          const targetTimeSec = i * stepTime;
+          video.currentTime = targetTimeSec;
+          await new Promise(resolve => {
+            video.onseeked = resolve;
+          });
+
+          const frameTex = captureFrame(video);
+          const spr = new PIXI.Sprite(frameTex);
+          thumbSprites[i] = spr;
+          console.log(`已截取 ${i}/${total}`);
+        }
+
+        // cover模式渲染逻辑完全保留
+        thumbContainer.removeChildren();
+        thumbContainer.addChild(maskGraphics);
+
+        let offsetX = 0;
+        for (let i = frameStart; i <= frameEnd; i++) {
+          const spr = thumbSprites[i];
+          if (!spr) continue;
+
+          const cellContainer = new PIXI.Container();
+          cellContainer.width = cellW;
+          cellContainer.height = cellImgH;
+
+          const cellMask = new PIXI.Graphics();
+          cellMask.rect(0, 0, cellW, cellImgH).fill(0xffffff);
+          cellContainer.addChild(cellMask);
+          cellContainer.mask = cellMask;
+
+          const texW = spr.texture.width;
+          const texH = spr.texture.height;
+          const texAspect = texW / texH;
+          const cellAspect = cellW / cellImgH;
+
+          let coverScale;
+          if (texAspect > cellAspect) {
+            coverScale = cellImgH / texH;
+          } else {
+            coverScale = cellW / texW;
+          }
+          spr.scale.set(coverScale);
+
+          spr.x = (cellW - spr.width) / 2;
+          spr.y = (cellImgH - spr.height) / 2;
+          cellContainer.addChild(spr);
+
+          cellContainer.x = offsetX;
+          cellContainer.y = paddingV;
+          thumbContainer.addChild(cellContainer);
+
+          offsetX += cellW + spacing;
+        }
+
+        totalThumbWidth = offsetX;
+        console.log(`extractFrames完成 [${frameStart}-${frameEnd}] totalWidth`, totalThumbWidth);
+      }
+
+      function updateView() {
+        bgGraphics.clear();
+        bgGraphics.rect(0, 0, viewWidth, trackHeight).fill(0x333355);
+
+        maskGraphics.clear();
+        maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+
+        const handleH = 30;
+        const handleY = (trackHeight - handleH) / 2;
+        handle.clear();
+        handle.rect(viewWidth - 10, handleY, 10, handleH).fill(0xffffff);
+      }
+
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+        const localX = clipContainer.toLocal(global).x;
+        viewWidth = Math.max(100, Math.min(totalThumbWidth, localX));
+        updateView();
+      });
+
+      await extractFrames(20, 5, 15);
+      updateView();
+    })();
+  </script>
+</body>
+</html>

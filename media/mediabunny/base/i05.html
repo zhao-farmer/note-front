@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Output 6大核心步骤（全配置项版）</title>
+</head>
+
+<body>
+  <video id="player" controls height="320" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      ALL_FORMATS,
+      UrlSource,
+      VideoSampleSink,
+      Output,
+      Mp4OutputFormat,
+      VideoSampleSource,
+      BufferTarget
+    } from "../js/mediabunny.1.42.mjs";
+
+    const outputEl = document.getElementById('output');
+    const log = (msg) => outputEl.textContent += msg + '\n';
+
+    // 测试视频
+    const VIDEO_URL = "../media/01.mp4";
+
+    (async () => {
+      try {
+        log("1. 创建 编码器");
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
+        });
+
+        log("2. 添加轨道（全配置项 VideoEncodingConfig）");
+        
+        // ==============================================
+        // 官方文档所有配置项 完整使用
+        // ==============================================
+        const videoSampleSource = new VideoSampleSource({
+          // 必选
+          codec: "avc",
+          bitrate: 1_000_000, // 1Mbps
+
+          // 透明通道
+          alpha: 'discard',
+
+          // 码率模式
+          bitrateMode: 'variable',
+
+          // 延迟模式：画质优先 / 实时低延迟
+          latencyMode: 'quality',
+
+          // 关键帧间隔（秒）
+          keyFrameInterval: 2,
+
+          // 完整编码字符串（自动生成可不填，这里显式示例）
+          fullCodecString: 'avc1.42001f',
+
+          // 硬件加速偏好 无、硬件、软件优先
+          // 'no-preference' | 'prefer-hardware' | 'prefer-software';
+          hardwareAcceleration: 'prefer-software',
+
+          // 可扩展模式（SVC），avc 支持
+          scalabilityMode: 'L1T3',
+
+          // 内容提示：屏幕共享/摄像头等
+          contentHint: 'motion', 
+
+          // 分辨率变化行为 拒绝、透传、填充、包含、覆盖
+          // 'deny' | 'passThrough' | 'fill' | 'contain' | 'cover';
+          sizeChangeBehavior: 'contain',
+
+          // 变换：缩放、旋转、裁剪、帧率、处理函数
+          transform: {
+            width: 500,           // 输出宽度
+            height: 500,          // 输出高度
+            // fit: 'contain',     // 等比适配 transform.fit与sizeChangeBehavior 互斥
+            rotate: 0,             // 旋转角度
+            crop: {                // 裁剪（可选）
+              left: 0,
+              top: 100,
+              width: 720,
+              height: 720
+            },
+            frameRate: 30,         // 强制输出帧率
+            force: true            // 强制应用变换
+          },
+
+          // 编码后数据包回调
+          onEncodedPacket: (packet, meta) => {
+            // console.log('已编码数据包:', packet, meta);
+          },
+
+          // 编码器底层配置回调
+          onEncoderConfig: (config) => {
+            // console.log('编码器最终配置:', config);
+          }
+        });
+
+        // 添加视频轨道
+        output.addVideoTrack(videoSampleSource);
+
+        log("3. 启动编码器...");
+        await output.start();
+
+        log("4. 写入数据包（使用 add() 方法）");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+        const videoTrack = await input.getPrimaryVideoTrack();
+        const videoSink = new VideoSampleSink(videoTrack);
+
+        // 循环读取帧并 add 到编码器
+        for await (const sample of videoSink.samples()) {
+          await videoSampleSource.add(sample);
+          sample.close();
+        }
+
+        log("5. 完成编码...");
+        await output.finalize();
+
+        log("6. 生成视频预览");
+        const arrayBuffer = output.target.buffer;
+        const blobResult = new Blob([arrayBuffer], { type: "video/mp4" });
+        const url = URL.createObjectURL(blobResult);
+        player.src = url;
+
+        player.addEventListener("loadedmetadata", () => {
+          log(`视频加载成功！时长: ${player.duration.toFixed(2)}s`);
+          log(`所有 VideoEncodingConfig 配置项已启用`);
+        });
+
+        log("\n全部流程执行完成！");
+        input.dispose();
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>TwistFilter 漩涡扭曲滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 130px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>radius 漩涡半径</label>
+        <input type="range" min="0" max="800" step="1" id="inpRadius">
+        <span class="val">200.00</span>
+      </div>
+      <div class="row">
+        <label>angle 扭曲角度</label>
+        <input type="range" min="-12" max="12" step="0.05" id="inpAngle">
+        <span class="val">4.00</span>
+      </div>
+      <div class="row">
+        <label>offsetX 中心X</label>
+        <input type="range" min="0" max="345" step="1" id="inpOffsetX">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>offsetY 中心Y</label>
+        <input type="range" min="0" max="460" step="1" id="inpOffsetY">
+        <span class="val">0.00</span>
+      </div>
+      <div class="row">
+        <label>padding 边距</label>
+        <input type="range" min="0" max="100" step="1" id="inpPadding">
+        <span class="val">20.00</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        TwistFilter：漩涡扭曲；正数顺时针，负数逆时针；仅变形，不改变色彩
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0x000000
+    });
+    document.querySelector("#canvasWrap").appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load("./image/01.jpg");
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const twistFilter = new PIXI.filters.TwistFilter({
+      radius:100,
+      angle:4,
+      offset:new PIXI.Point(172.5,230),
+      padding:20
+    });
+    sprite.filters = [twistFilter];
+
+    const inpRadius = document.getElementById("inpRadius");
+    const inpAngle = document.getElementById("inpAngle");
+    const inpOffsetX = document.getElementById("inpOffsetX");
+    const inpOffsetY = document.getElementById("inpOffsetY");
+    const inpPadding = document.getElementById("inpPadding");
+
+    const valRadius = inpRadius.nextElementSibling;
+    const valAngle = inpAngle.nextElementSibling;
+    const valOffsetX = inpOffsetX.nextElementSibling;
+    const valOffsetY = inpOffsetY.nextElementSibling;
+    const valPadding = inpPadding.nextElementSibling;
+
+    inpRadius.value = twistFilter.radius;
+    valRadius.textContent = twistFilter.radius.toFixed(2);
+
+    inpAngle.value = twistFilter.angle;
+    valAngle.textContent = twistFilter.angle.toFixed(2);
+
+    inpOffsetX.value = twistFilter.offset.x;
+    valOffsetX.textContent = twistFilter.offset.x.toFixed(2);
+
+    inpOffsetY.value = twistFilter.offset.y;
+    valOffsetY.textContent = twistFilter.offset.y.toFixed(2);
+
+    inpPadding.value = twistFilter.padding;
+    valPadding.textContent = twistFilter.padding.toFixed(2);
+
+    inpRadius.oninput = () => {
+      twistFilter.radius = Number(inpRadius.value);
+      valRadius.textContent = Number(inpRadius.value).toFixed(2);
+    };
+
+    inpAngle.oninput = () => {
+      twistFilter.angle = Number(inpAngle.value);
+      valAngle.textContent = Number(inpAngle.value).toFixed(2);
+    };
+
+    inpOffsetX.oninput = () => {
+      twistFilter.offset.x = Number(inpOffsetX.value);
+      valOffsetX.textContent = Number(inpOffsetX.value).toFixed(2);
+    };
+
+    inpOffsetY.oninput = () => {
+      twistFilter.offset.y = Number(inpOffsetY.value);
+      valOffsetY.textContent = Number(inpOffsetY.value).toFixed(2);
+    };
+
+    inpPadding.oninput = () => {
+      twistFilter.padding = Number(inpPadding.value);
+      valPadding.textContent = Number(inpPadding.value).toFixed(2);
+    };
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>外环柱状图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="barCanvas" width="400" height="400"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const barCanvas = document.getElementById('barCanvas');
+    const barCtx = barCanvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const BAR_COUNT = 128;
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8;
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isAudioContextReady = true;
+      }
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. 计算 RMS 分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 绘制环形频谱
+      const centerX = barCanvas.width / 2;
+      const centerY = barCanvas.height / 2;
+      const radius = 100;
+
+      barCtx.fillStyle = '#000';
+      barCtx.fillRect(0, 0, barCanvas.width, barCanvas.height);
+
+      // 【核心修复】绘制渐变内圆
+      // 1. 将渐变起点旋转 -Math.PI / 2，使其与柱子的起点（正上方）对齐
+      const conicGrad = barCtx.createConicGradient(-Math.PI / 2, centerX, centerY);
+
+      // 2. 让起点(0)和终点(1)的颜色完全一致，确保首尾无缝衔接
+      conicGrad.addColorStop(0, 'hsla(120, 100%, 50%, 0.5)');   // 起点：绿色
+      conicGrad.addColorStop(0.5, 'hsla(60, 100%, 50%, 0.5)');  // 中间：黄色
+      conicGrad.addColorStop(1, 'hsla(0, 100%, 50%, 1.5)');     // 终点：红色（与起点颜色同属暖色过渡，视觉无缝）
+
+
+      barCtx.beginPath();
+      barCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      barCtx.strokeStyle = conicGrad;
+      barCtx.lineWidth = 1;
+      barCtx.stroke();
+
+      const step = Math.floor(fftBinCount / BAR_COUNT);
+      const angleStep = (Math.PI * 2) / BAR_COUNT;
+      const startOffset = -Math.PI / 2;
+
+      for (let i = 0; i < BAR_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < step; j++) {
+          sum += dataArray[i * step + j];
+        }
+        const avgVal = sum / step;
+        const barLength = (avgVal / 255) * 80;
+
+        const hue = 120 - (i / BAR_COUNT) * 120;
+        barCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+
+        const startAngle = startOffset + (i * angleStep);
+        const endAngle = startAngle + angleStep;
+
+        barCtx.beginPath();
+        barCtx.moveTo(centerX + radius * Math.cos(startAngle), centerY + radius * Math.sin(startAngle));
+        barCtx.lineTo(centerX + (radius + barLength) * Math.cos(startAngle), centerY + (radius + barLength) * Math.sin(startAngle));
+        barCtx.arc(centerX, centerY, radius + barLength, startAngle, endAngle);
+        barCtx.lineTo(centerX + radius * Math.cos(endAngle), centerY + radius * Math.sin(endAngle));
+        barCtx.arc(centerX, centerY, radius, endAngle, startAngle, true);
+        barCtx.closePath();
+        barCtx.fill();
+      }
+
+      // 4. 画中心实心黑圆
+      barCtx.beginPath();
+      barCtx.arc(centerX, centerY, radius - 3, 0, Math.PI * 2);
+      barCtx.fillStyle = '#000';
+      barCtx.fill();
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

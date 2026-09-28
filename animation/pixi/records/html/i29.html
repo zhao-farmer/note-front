@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>HslAdjustmentFilter HSL调色滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>hue 色相</label>
+        <input type="range" min="0" max="360" step="0.1" id="inpHue">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>saturation 饱和度</label>
+        <input type="range" min="-1" max="2" step="0.001" id="inpSaturation">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>lightness 亮度</label>
+        <input type="range" min="-1" max="1" step="0.001" id="inpLightness">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>colorize 单色着色</label>
+        <input type="checkbox" id="chkColorize">
+      </div>
+      <div class="row">
+        <label>alpha 滤镜透明度</label>
+        <input type="range" min="0" max="1" step="0.001" id="inpAlpha">
+        <span class="val">1</span>
+      </div>
+
+      <div style="font-size:12px;color:#555;">
+        HslAdjustmentFilter：HSL调色滤镜<br />
+        colorize开启整张图单色染色；alpha控制滤镜混合透明度
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const hslFilter = new PIXI.filters.HslAdjustmentFilter({
+      hue: 0,
+      saturation: 0,
+      lightness: 0,
+      colorize: false,
+      alpha: 1
+    });
+    sprite.filters = [hslFilter];
+
+    const inpHue = document.getElementById('inpHue');
+    const inpSaturation = document.getElementById('inpSaturation');
+    const inpLightness = document.getElementById('inpLightness');
+    const chkColorize = document.getElementById('chkColorize');
+    const inpAlpha = document.getElementById('inpAlpha');
+
+    const valHue = inpHue.nextElementSibling;
+    const valSaturation = inpSaturation.nextElementSibling;
+    const valLightness = inpLightness.nextElementSibling;
+    const valAlpha = inpAlpha.nextElementSibling;
+
+    //初始化控件
+    inpHue.value = hslFilter.hue;
+    valHue.textContent = hslFilter.hue.toFixed(1);
+    inpSaturation.value = hslFilter.saturation;
+    valSaturation.textContent = hslFilter.saturation.toFixed(3);
+    inpLightness.value = hslFilter.lightness;
+    valLightness.textContent = hslFilter.lightness.toFixed(3);
+    chkColorize.checked = hslFilter.colorize;
+    inpAlpha.value = hslFilter.alpha;
+    valAlpha.textContent = hslFilter.alpha.toFixed(3);
+
+    inpHue.oninput = () => {
+      hslFilter.hue = Number(inpHue.value);
+      valHue.textContent = hslFilter.hue.toFixed(1);
+    };
+    inpSaturation.oninput = () => {
+      hslFilter.saturation = Number(inpSaturation.value);
+      valSaturation.textContent = hslFilter.saturation.toFixed(3);
+    };
+    inpLightness.oninput = () => {
+      hslFilter.lightness = Number(inpLightness.value);
+      valLightness.textContent = hslFilter.lightness.toFixed(3);
+    };
+    chkColorize.onchange = () => {
+      hslFilter.colorize = chkColorize.checked;
+    };
+    inpAlpha.oninput = () => {
+      hslFilter.alpha = Number(inpAlpha.value);
+      valAlpha.textContent = hslFilter.alpha.toFixed(3);
+    };
+  </script>
+</body>
+</html>

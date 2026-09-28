@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny 自动转换（视频大小）</title>
+</head>
+
+<body>
+  <video id="player" controls height="300" style="margin-top:20px"></video>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import {
+      Input,
+      Output,
+      WebMOutputFormat,
+      BufferTarget,
+      Conversion,
+      UrlSource,
+      ALL_FORMATS,
+      QUALITY_HIGH
+    } from "../js/mediabunny.1.42.mjs";
+
+    // 页面元素
+    const outputEl = document.getElementById('output');
+    const player = document.getElementById('player');
+
+    // 视频源（原视频：720x1080 竖屏）
+    const VIDEO_URL = "../media/01.mp4";
+
+    // 文件大小
+    let currentFileSize = 0;
+    let lastProgressLine = -1;
+
+    // 普通日志
+    function log(msg) {
+      outputEl.textContent += msg + '\n';
+    }
+
+    // 进度覆盖日志（只替换最后一行）
+    function updateProgress(p) {
+      const mb = (currentFileSize / 1024 / 1024).toFixed(2);
+      const text = outputEl.textContent;
+      const lines = text.split('\n');
+
+      const info = `进度：${p}%  | 已输出：${mb} MB`;
+
+      if (lastProgressLine === -1) {
+        lastProgressLine = lines.length;
+        lines.push(info);
+      } else {
+        lines[lastProgressLine] = info;
+      }
+
+      outputEl.textContent = lines.join('\n');
+    }
+
+    // 自动执行
+    (async () => {
+      try {
+        log("=== 自动开始媒体转换 ===");
+
+        log("1. 创建输入源...");
+        const input = new Input({
+          formats: ALL_FORMATS,
+          source: new UrlSource(VIDEO_URL)
+        });
+
+        log("2. 创建输出（WebM）...");
+        const output = new Output({
+          format: new WebMOutputFormat(),
+          target: new BufferTarget()
+        });
+
+        // 监听输出文件大小
+        output.target.on('write', ({ end }) => {
+          currentFileSize = Math.max(currentFileSize, end);
+        });
+
+        log("3. 初始化转换任务（转换视频）...");
+
+        // 缩放 + 旋转 + 裁剪 + 帧率 + 编码
+        const conversion = await Conversion.init({
+          input,
+          output,
+          video: {
+
+            // 1. 旋转（顺时针） 变为竖着的了 
+            // 此时视频大小为  1080x720
+            rotate: 90,
+
+            // 2. 裁剪（旋转后、缩放前
+            // 裁剪区域为  720x720  从 400,0 开始）
+            crop: {
+              left: 400,
+              top: 0,
+              width: 720,
+              height: 720
+            },
+
+            // 3. 缩放
+            // 缩放比例为  480x480
+            width: 480,
+            height: 480,
+            fit: "cover",
+
+            // 4. 帧率（通用流畅）
+            frameRate: 30,
+
+            // 5. 编码：VP9 + 高质量（WebM 最佳）
+            codec: "vp9",
+            bitrate: QUALITY_HIGH,
+            forceTranscode: true,
+            hardwareAcceleration: "no-preference"
+          }
+        });
+
+        if (!conversion.isValid) {
+          log("转换无效：" + conversion.discardedTracks.length);
+          return;
+        }
+
+        log("4. 正在转换...");
+        conversion.onProgress = (progress) => {
+          const p = (progress * 100).toFixed(1);
+          updateProgress(p);
+        };
+
+        await conversion.execute();
+        updateProgress("100");
+        log("转换完成！");
+
+        log("5. 加载webm效果...");
+        const blob = new Blob([output.target.buffer], { type: 'video/webm' });
+        player.src = URL.createObjectURL(blob);
+
+      } catch (err) {
+        log("错误：" + err.message);
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+
+</html>

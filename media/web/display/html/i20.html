@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>纯音频波形 + Pixi拖拽视口容器</title>
+  <script src="./js/pixi.js"></script>
+</head>
+<body>
+
+  <span>请点击页面触发音频加载</span>
+  <script type="module">
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({
+        width: 800,
+        height: 220,
+        backgroundColor: 0x222222,
+        antialias: true
+      });
+      document.body.appendChild(app.canvas);
+
+      const clipContainer = new PIXI.Container();
+      clipContainer.y = 30;
+      app.stage.addChild(clipContainer);
+
+      let isResizing = false;
+      let viewWidth = 600;
+      let totalWaveWidth = 0;
+      let waveOffsetX = 0; // 波形横向滚动偏移
+
+      const TRACK_CONFIG = {
+        waveTrackHeight: 120
+      };
+      const { waveTrackHeight } = TRACK_CONFIG;
+
+      // -------- 波形查表配置 --------
+      const dbToTopPctTable = [
+        { db: 0, topPct: 0 },
+        { db: -6, topPct: 22 },
+        { db: -12, topPct: 40 },
+        { db: -20, topPct: 58 },
+        { db: -30, topPct: 76 },
+        { db: -50, topPct: 94 },
+        { db: -60, topPct: 100 }
+      ];
+
+      function getTopPctFromDb(db) {
+        const table = dbToTopPctTable;
+        if (db >= table[0].db) return table[0].topPct;
+        if (db <= table[table.length - 1].db) return table[table.length - 1].topPct;
+        for (let i = 0; i < table.length - 1; i++) {
+          const a = table[i];
+          const b = table[i + 1];
+          if (db <= a.db && db >= b.db) {
+            const t = (db - a.db) / (b.db - a.db);
+            return a.topPct + t * (b.topPct - a.topPct);
+          }
+        }
+        return 100;
+      }
+
+      function ampToDb(amp) {
+        const v = Math.max(amp, 0.00001);
+        return 20 * Math.log10(v);
+      }
+
+      function waveformConfig() {
+        return {
+          bgColor: 0x0a3d91,
+          waveColor: 0x00b4ff,
+          warnColor: 0xff7e2f,
+          warnDbThreshold: -6
+        };
+      }
+
+      const waveformGenerator = (audioBuffer, width, height, dbGain = 0) => {
+        if (!(audioBuffer instanceof AudioBuffer)) {
+          throw new Error('传入参数必须为 AudioBuffer 实例');
+        }
+        console.log('生成波形，buffer时长：', audioBuffer.duration, "渲染宽：", width, "渲染高：", height);
+        const cfg = waveformConfig();
+        const channelData = audioBuffer.getChannelData(0);
+        const gain = Math.pow(10, dbGain / 20);
+        const step = Math.ceil(channelData.length / width);
+        const graphics = new PIXI.Graphics();
+        const normalWaveRects = [];
+        const warnWaveRects = [];
+
+        const waveOffsetY = height * 0.3;
+        const waveAvailableHeight = height * 0.7;
+
+        const warnPct = getTopPctFromDb(cfg.warnDbThreshold);
+        const warnSplitYLocal = waveAvailableHeight * warnPct / 100;
+        const warnSplitY = waveOffsetY + warnSplitYLocal;
+
+        for (let x = 0; x < width; x++) {
+          let maxAmp = 0;
+          const startIndex = x * step;
+          const endIndex = Math.min(startIndex + step, channelData.length);
+          for (let i = startIndex; i < endIndex; i++) {
+            const val = Math.abs(channelData[i]);
+            if (val > maxAmp) maxAmp = val;
+          }
+          maxAmp = Math.min(1, maxAmp * gain);
+
+          const ampDb = ampToDb(maxAmp);
+          const topPct = getTopPctFromDb(ampDb);
+          const waveTopYLocal = waveAvailableHeight * topPct / 100;
+          const waveTopY = waveOffsetY + waveTopYLocal;
+
+          if (waveTopY < warnSplitY) {
+            const orangeHeight = warnSplitY - waveTopY;
+            warnWaveRects.push(new PIXI.Rectangle(x, waveTopY, 1, orangeHeight));
+            const blueY = warnSplitY;
+            const blueHeight = (waveOffsetY + waveAvailableHeight) - blueY;
+            normalWaveRects.push(new PIXI.Rectangle(x, blueY, 1, blueHeight));
+          } else {
+            const blueHeight = (waveOffsetY + waveAvailableHeight) - waveTopY;
+            if (blueHeight > 0) {
+              normalWaveRects.push(new PIXI.Rectangle(x, waveTopY, 1, blueHeight));
+            }
+          }
+        }
+
+        graphics.rect(0, 0, width, height).fill(cfg.bgColor);
+        if (normalWaveRects.length) {
+          normalWaveRects.forEach(rect => graphics.rect(rect.x, rect.y, rect.width, rect.height));
+          graphics.fill(cfg.waveColor);
+        }
+        if (warnWaveRects.length) {
+          warnWaveRects.forEach(rect => graphics.rect(rect.x, rect.y, rect.width, rect.height));
+          graphics.fill(cfg.warnColor);
+        }
+        console.log("normalWaveRects数量", normalWaveRects.length, "warnWaveRects数量", warnWaveRects.length);
+        return graphics;
+      };
+
+      // 顺序：背景 -> 波形容器 -> mask -> 拖拽手柄
+      const bgGraphics = new PIXI.Graphics();
+      clipContainer.addChild(bgGraphics);
+
+      const waveContainer = new PIXI.Container();
+      clipContainer.addChild(waveContainer);
+
+      const waveMaskGfx = new PIXI.Graphics();
+      clipContainer.addChild(waveMaskGfx);
+      waveContainer.mask = waveMaskGfx;
+
+      const handle = new PIXI.Graphics();
+      clipContainer.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      let waveGfx = null;
+
+      async function loadAudioWave(renderTotalWidth) {
+        const AUDIO_URL = "./audio/01.mp3";
+        console.log("开始拉取音频", AUDIO_URL);
+        const res = await fetch(AUDIO_URL);
+        if(!res.ok){
+          throw new Error(`音频文件请求失败 status:${res.status}`);
+        }
+        const buf = await res.arrayBuffer();
+        console.log("拿到音频二进制大小", buf.byteLength);
+        const ac = new (window.AudioContext || window.webkitAudioContext)();
+        const audioBuf = await ac.decodeAudioData(buf);
+
+        if(!audioBuf || audioBuf.length === 0){
+          throw new Error("decodeAudioData得到空AudioBuffer");
+        }
+        totalWaveWidth = renderTotalWidth;
+
+        if(waveGfx) waveGfx.destroy();
+        waveGfx = waveformGenerator(audioBuf, totalWaveWidth, waveTrackHeight, 0);
+        waveGfx.x = waveOffsetX;
+        waveContainer.addChild(waveGfx);
+        console.log("波形对象创建完成", waveGfx);
+      }
+
+      function updateView() {
+        bgGraphics.clear();
+        bgGraphics.rect(0, 0, viewWidth, waveTrackHeight).fill(0x333355);
+
+        waveMaskGfx.clear();
+        waveMaskGfx.rect(0,0, viewWidth, waveTrackHeight).fill(0xffffff);
+
+        const handleH = 30;
+        const handleY = (waveTrackHeight - handleH) / 2;
+        handle.clear();
+        handle.rect(viewWidth - 10, handleY, 10, handleH).fill(0xffffff);
+      }
+
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+        const localX = clipContainer.toLocal(global).x;
+        viewWidth = Math.max(100, Math.min(totalWaveWidth, localX));
+        updateView();
+      });
+
+      // 注意：浏览器限制，部分环境需要用户点击后再执行音频解码
+      document.body.addEventListener('click', async ()=>{
+        await loadAudioWave(1400);
+        updateView();
+      }, {once:true});
+    })();
+  </script>
+</body>
+</html>

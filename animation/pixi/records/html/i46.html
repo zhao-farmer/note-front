@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/spine-pixi-v8.js"></script>
+</head>
+
+<body>
+  <script>
+    // 角色的Spine动画映射表
+    // name：动画轨道对应的键名
+    // loop：动画是否无限循环，false则只播放一次
+    const animationMap = {
+      idle: { // 待机
+        name: 'idle',
+        loop: true,
+      },
+      walk: { // 行走
+        name: 'walk',
+        loop: true,
+      },
+      run: { // 奔跑
+        name: 'run',
+        loop: true,
+      },
+      jump: { // 跳跃
+        name: 'jump',
+        timeScale: 1.5,
+      },
+      hover: { // 悬浮/滑板
+        name: 'hoverboard',
+        loop: true,
+      },
+      spawn: { // 生成入场（传送门动画）
+        name: 'portal',
+      },
+    };
+
+    // 用于管理角色Spine实例与动画逻辑的类
+    class SpineBoy {
+      constructor() {
+        // 角色状态
+        this.state = {
+          walk: false,
+          run: false,
+          hover: false,
+          jump: false,
+        };
+
+        // 创建主容器，以及用于控制水平翻转的子容器
+        this.view = new PIXI.Container();
+        this.directionalView = new PIXI.Container();
+
+        // 使用预加载好资源别名创建Spine实例
+        this.spine = spine.Spine.from({
+          skeleton: 'spineSkeleton',
+          atlas: 'spineAtlas',
+        });
+
+        // 将Spine实例加入方向控制容器
+        this.directionalView.addChild(this.spine);
+        // 将方向容器加入主容器
+        this.view.addChild(this.directionalView);
+
+        // 设置所有动画的默认过渡混合时长
+        // 代表从上一个动画平滑混合过渡到下一个动画的时间（秒）
+        this.spine.state.data.defaultMix = 0.2;
+      }
+
+      // 播放传送门入场生成动画
+      spawn() {
+        this.spine.state.setAnimation(0, animationMap.spawn.name);
+      }
+
+      // 播放Spine动画
+      playAnimation({ name, loop = false, timeScale = 1 }) {
+        // 如果当前正在播放该动画，则跳过，避免重复播放
+        if (this.currentAnimationName === name) return;
+
+        // 在0号主轨道立刻播放动画
+        const trackEntry = this.spine.state.setAnimation(0, name, loop);
+        // 设置动画播放速率
+        trackEntry.timeScale = timeScale;
+      }
+
+      update() {
+        if (this.state.jump) this.playAnimation(animationMap.jump);
+        // 如果跳跃动画还在播放，则直接返回，不切换其他动画
+        if (this.isAnimationPlaying(animationMap.jump)) return;
+
+        if (this.state.hover) this.playAnimation(animationMap.hover);
+        else if (this.state.run) this.playAnimation(animationMap.run);
+        else if (this.state.walk) this.playAnimation(animationMap.walk);
+        else this.playAnimation(animationMap.idle);
+      }
+
+      // 判断是否正在播放入场动画
+      isSpawning() {
+        return this.isAnimationPlaying(animationMap.spawn);
+      }
+
+      // 判断指定动画是否正在播放
+      isAnimationPlaying({ name }) {
+        // 检查主轨道当前动画名称是否匹配，并且动画还未播放完成
+        return this.currentAnimationName === name && !this.spine.state.getTrack(0).isComplete();
+      }
+
+      // 获取主轨道当前正在播放的动画名称
+      get currentAnimationName() {
+        return this.spine.state.getTrack(0)?.animation.name;
+      }
+
+      // 获取角色朝向
+      get direction() {
+        return this.directionalView.scale.x > 0 ? 1 : -1;
+      }
+
+      // 设置角色朝向，1朝右，-1朝左（水平翻转）
+      set direction(value) {
+        this.directionalView.scale.x = value;
+      }
+    }
+
+    // 将键盘按键编码映射到控制器状态键
+    const keyMap = {
+      Space: 'space',
+      KeyW: 'up',
+      ArrowUp: 'up',
+      KeyA: 'left',
+      ArrowLeft: 'left',
+      KeyS: 'down',
+      ArrowDown: 'down',
+      KeyD: 'right',
+      ArrowRight: 'right',
+    };
+
+    // 处理键盘输入的控制器类
+    class Controller {
+      constructor() {
+        // 控制器状态
+        this.keys = {
+          up: { pressed: false, doubleTap: false, timestamp: 0 },
+          left: { pressed: false, doubleTap: false, timestamp: 0 },
+          down: { pressed: false, doubleTap: false, timestamp: 0 },
+          right: { pressed: false, doubleTap: false, timestamp: 0 },
+          space: { pressed: false, doubleTap: false, timestamp: 0 },
+        };
+        // 注册键盘按下、抬起事件监听
+        window.addEventListener('keydown', (event) => this.keydownHandler(event));
+        window.addEventListener('keyup', (event) => this.keyupHandler(event));
+      }
+
+      // 键盘按下事件处理函数
+      keydownHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = true;
+        this.keys[key].doubleTap = this.keys[key].doubleTap || now - this.keys[key].timestamp < 300;
+      }
+
+      // 键盘抬起事件处理函数
+      keyupHandler(event) {
+        const key = keyMap[event.code];
+        if (!key) return;
+        const now = Date.now();
+        this.keys[key].pressed = false;
+        if (this.keys[key].doubleTap) this.keys[key].doubleTap = false;
+        else this.keys[key].timestamp = now;
+      }
+    }
+
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({ background: '#1099bb', resizeTo: window });
+      document.body.appendChild(app.canvas);
+
+      await PIXI.Assets.load([
+        {
+          alias: 'spineSkeleton',
+          src: './assets/spineboy-pro.skel',
+        },
+        {
+          alias: 'spineAtlas',
+          src: './assets/spineboy-pma.atlas',
+        },
+        {
+          alias: 'sky',
+          src: './assets/sky.png',
+        },
+        {
+          alias: 'background',
+          src: './assets/background.png',
+        },
+        {
+          alias: 'midground',
+          src: './assets/midground.png',
+        },
+        {
+          alias: 'platform',
+          src: './assets/platform.png',
+        },
+      ]);
+
+      // 创建一个处理键盘输入的控制器
+      const controller = new Controller();
+
+      // 创建角色
+      const spineBoy = new SpineBoy();
+      spineBoy.view.x = app.screen.width / 2;
+      spineBoy.view.y = app.screen.height - 80;
+      spineBoy.spine.scale.set(0.5);
+      app.stage.addChild(spineBoy.view);
+
+      // 触发角色的生成动画
+      spineBoy.spawn();
+
+      // 根据控制器的输入为角色设置动画
+      app.ticker.add(() => {
+        if (spineBoy.isSpawning()) return;
+
+        spineBoy.state.walk = controller.keys.left.pressed || controller.keys.right.pressed;
+        if (spineBoy.state.run && spineBoy.state.walk) spineBoy.state.run = true;
+        else spineBoy.state.run = controller.keys.left.doubleTap || controller.keys.right.doubleTap;
+        spineBoy.state.hover = controller.keys.down.pressed;
+        if (controller.keys.left.pressed) spineBoy.direction = -1;
+        else if (controller.keys.right.pressed) spineBoy.direction = 1;
+        spineBoy.state.jump = controller.keys.space.pressed;
+
+        spineBoy.update();
+      });
+    })();
+  </script>
+</body>
+
+</html>

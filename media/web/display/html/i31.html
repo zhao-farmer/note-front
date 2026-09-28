@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>无缝极细频谱图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      border-radius: 6px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="barCanvas" width="600" height="200"></canvas>
+
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const barCanvas = document.getElementById('barCanvas');
+    const barCtx = barCanvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source;
+    let isAudioContextReady = false;
+
+    const bufferLength = 2048;
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+
+    // 【核心修改】将柱子数量直接设为 Canvas 的宽度（600）
+    // 这样每个柱子刚好占 1 像素，完美铺满画布
+    const BAR_COUNT = barCanvas.width;
+
+    audioEl.onplay = async () => {
+      if (!isAudioContextReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.8;
+
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isAudioContextReady = true;
+      }
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. 计算 RMS 分贝
+      analyser.getByteTimeDomainData(dataArray);
+      let sumSq = 0;
+      for (let v of dataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      let instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 绘制无缝极细柱状图
+      barCtx.fillStyle = '#000';
+      barCtx.fillRect(0, 0, barCanvas.width, barCanvas.height);
+
+      // 每个柱子的宽度固定为 1 像素
+      const barWidth = 1;
+      // 计算每个 1px 柱子对应多少个 FFT 频点
+      const step = fftBinCount / BAR_COUNT;
+
+      for (let i = 0; i < BAR_COUNT; i++) {
+        // 获取对应频点的值（这里直接取整索引，保证每个像素都有数据）
+        const val = dataArray[Math.floor(i * step)];
+        const barHeight = (val / 255) * barCanvas.height;
+
+        // 渐变色：低频绿 -> 高频红
+        const hue = 120 - (i / BAR_COUNT) * 120;
+        barCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+
+        // 【核心修改】绘制 1px 宽的柱子，X 坐标直接用 i，不留任何间隙
+        const x = i;
+        const y = barCanvas.height - barHeight;
+        barCtx.fillRect(x, y, barWidth, barHeight);
+      }
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

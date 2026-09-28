@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <button id="restartBtn">重新播放动画</button>
+  <script>
+    const box = document.querySelector(".box");
+    let tween;
+
+    function playAnim() {
+      if (tween) tween.kill();
+      tween = gsap.fromTo(box,
+        { opacity: 0, x: -120, scale: 0.6 },
+        { opacity: 1, x: 0, scale: 1, duration: 1, ease: "power2.out" }
+      );
+    }
+    playAnim();
+    document.querySelector("#restartBtn").onclick = playAnim;
+  </script>
+</body>
+
+</html>

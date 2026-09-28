@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    .box {
+        width: 80px;
+        height: 80px;
+        background: #4285f4;
+        margin: 10px;
+    }
+    </style>
+    <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+    <div class="box"></div>
+    <div>动画状态：<span id="status">空闲</span></div>
+    <button id="animBtn">播放动画</button>
+    <script>
+    const box = document.querySelector(".box");
+    const statusText = document.querySelector("#status");
+
+    document.querySelector("#animBtn").onclick = () => {
+        // 判断动画状态，避免重复触发
+        if(gsap.isTweening(box)) return;
+
+        statusText.textContent = "动画播放中";
+        gsap.to(box, {
+        x: 250,
+        duration: 2,
+        onComplete: () => {
+            statusText.textContent = "空闲";
+        }
+        });
+    }
+    </script>
+</body>
+</html>

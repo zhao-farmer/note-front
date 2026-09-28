@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pixi 视频抽帧</title>
+  <script src="./js/pixi.js"></script>
+</head>
+
+<body>
+
+  <script>
+    (async () => {
+      // 1. 初始化 Pixi 应用
+      const app = new PIXI.Application();
+      await app.init({ width: 800, height: 600, backgroundColor: 0x222222 });
+      document.body.appendChild(app.canvas);
+
+      // 2. 加载视频
+      const videoTexture = await PIXI.Assets.load('./video/demo.mp4');
+      const video = videoTexture.source.resource;
+      video.loop = true;
+      video.muted = true;
+      video.play();
+
+      // 3. 创建视频精灵
+      const sprite = new PIXI.Sprite(videoTexture);
+      sprite.anchor.set(0.5);
+      sprite.x = app.screen.width * 0.5;
+      sprite.y = app.screen.height * 0.5;
+      sprite.scale.set(0.5);
+      app.stage.addChild(sprite);
+
+
+      function captureFrame() {
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+
+        // 1. 创建临时容器 + 临时精灵（不修改原精灵）
+        const tempContainer = new PIXI.Container();
+        const tempSprite = new PIXI.Sprite(videoTexture);
+        tempContainer.addChild(tempSprite);
+
+        // 2. 渲染到纹理
+        const frameTex = PIXI.RenderTexture.create({ width: w, height: h });
+        app.renderer.render(tempContainer, { renderTexture: frameTex });
+
+        // 3. 清理临时对象
+        tempSprite.destroy();
+        tempContainer.destroy();
+
+        console.log("成功截取一帧");
+        return frameTex;
+      }
+
+      // 4.点击抽帧
+      document.onclick = () => {
+        const oneFrame = captureFrame();
+        const frameSprite = new PIXI.Sprite(oneFrame);
+        frameSprite.scale.set(0.15);
+        frameSprite.x = 10;
+        frameSprite.y = 10;
+        app.stage.addChild(frameSprite);
+      };
+
+    })();
+  </script>
+</body>
+
+</html>

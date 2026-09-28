@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GSAP SVG transformOrigin vs svgOrigin Demo</title>
+  <style>
+    body {
+      background: #0e100f;
+      font-family: Signika Negative, sans-serif;
+      color: white;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    svg {
+      height: 300px;
+      overflow: visible;
+    }
+
+    code {
+      width: 300px;
+      display: block;
+      color: #ccc;
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    h1 {
+      margin: 5px 0;
+    }
+
+    p {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    .box {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      margin-bottom: 2px;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .blue {
+      background-color: blue;
+    }
+
+    .nav {
+      width: 600px;
+      background-color: #ccc;
+      text-align: right;
+    }
+
+    button {
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .club-demo-button {
+      font-weight: 400;
+      margin: 10px 10px 10px 0;
+      text-transform: none;
+      font-size: 18px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <p>每个绿色方块都是 SVG 内 class="box" 的 &lt;rect&gt; 元素</p>
+  <div>
+    <button class="dark-grey-button club-demo-button" id="svgOrigin">绕 SVG 画布中心旋转每个方块</button>
+    <button class="dark-grey-button club-demo-button" id="transformOrigin">绕方块自身中心旋转</button>
+  </div>
+  <code id="tweenCode">//示例代码</code>
+  <svg id="container" viewBox="0 0 600 400">
+    <rect style="fill:#000;stroke:#fffce1;stroke-miterlimit:10;" width="600" height="400" />
+    <g fill="#0ae448">
+      <rect class="box" x="44" y="110" width="65" height="65" />
+      <rect class="box" x="270" y="51" width="55" height="55" />
+      <rect class="box" x="491" y="98.5" width="53.5" height="53.5" />
+      <rect class="box" x="430" y="290" width="96.5" height="96.5" />
+      <rect class="box" x="302" y="190" width="80" height="80" />
+      <rect class="box" x="140" y="259" width="64" height="64" />
+    </g>
+  </svg>
+
+  <script>
+    var svgOriginButton = document.getElementById("svgOrigin"),
+      transformOriginButton = document.getElementById("transformOrigin"),
+      tweenCode = document.getElementById("tweenCode"),
+      boxes = document.querySelectorAll(".box"),
+      tween = gsap.to({}, {});
+
+    function svgOriginRotation() {
+      tween.seek(0).kill(); //重置动画
+      tween = gsap.to(boxes, { duration: 1, rotation: 360, svgOrigin: "300 200" });
+      tweenCode.innerHTML = 'svgOrigin: "300 200"';
+    }
+
+    function transformOriginRotation() {
+      tween.seek(0).kill(); //重置动画
+      tween = gsap.to(boxes, { duration: 1, rotation: 360, transformOrigin: "50% 50%" });
+      tweenCode.innerHTML = 'transformOrigin: "50% 50%"'
+    }
+
+    svgOriginButton.onclick = svgOriginRotation;
+    transformOriginButton.onclick = transformOriginRotation;
+  </script>
+</body>
+
+</html>

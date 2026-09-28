@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        .box {
+            width: 80px;
+            height: 80px;
+            background: #4285f4;
+            margin: 10px;
+        }
+    </style>
+    <script src="../js/gsap.min.js"></script>
+</head>
+<body>
+    <div class="box"></div>
+    <button id="pauseBtn">暂停延时</button>
+    <button id="resumeBtn">恢复延时</button>
+    <script>
+        const box = document.querySelector(".box");
+        // 延时任务，2秒后移动方块
+        const delayTask = gsap.delayedCall(2, () => {
+            gsap.to(box, { x: 250, duration: 1 });
+        });
+
+        document.querySelector("#pauseBtn").onclick = () => {
+            delayTask.pause();
+        };
+        document.querySelector("#resumeBtn").onclick = () => {
+            delayTask.resume();
+        };
+    </script>
+</body>
+</html>

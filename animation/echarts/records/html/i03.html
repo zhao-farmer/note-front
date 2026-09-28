@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>十字准星 cross + tooltip</title>
+  <script src="../js/echarts-5.5.js"></script>
+</head>
+<body>
+  <div id="chart" style="width:800px;height:600px;"></div>
+  <script>
+    const myChart = echarts.init(document.getElementById('chart'));
+    const option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        position: function (pos, params, el, elRect, size) {
+          var obj = { top: 10 };
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+          return obj;
+        },
+        extraCssText: 'width: 170px'
+      },
+      axisPointer: {
+        link: { xAxisIndex: 'all' },
+        label: {
+          backgroundColor: '#777'
+        }
+      },
+      grid: [
+        {
+          left: '80px',
+          right: '80px',
+          top: '60px',
+          height: '300px'
+        },
+        {
+          left: '80px',
+          right: '80px',
+          top: '380px',
+          height: '180px'
+        }
+      ],
+      xAxis: [
+        {
+          type: 'category',
+          data: ['周一','周二','周三','周四','周五','周六','周日'],
+          gridIndex:0
+        },
+        {
+          type: 'category',
+          data: ['周一','周二','周三','周四','周五','周六','周日'],
+          gridIndex:1
+        }
+      ],
+      yAxis:[
+        {type:'value',gridIndex:0},
+        {type:'value',gridIndex:1}
+      ],
+      series:[
+        {
+          name:'数据A',
+          type:'line',
+          xAxisIndex:0,
+          yAxisIndex:0,
+          data:[120,200,150,80,70,110,130]
+        },
+        {
+          name:'数据B',
+          type:'line',
+          xAxisIndex:1,
+          yAxisIndex:1,
+          data:[20,40,30,15,10,28,35]
+        }
+      ]
+    };
+    myChart.setOption(option);
+  </script>
+</body>
+</html>

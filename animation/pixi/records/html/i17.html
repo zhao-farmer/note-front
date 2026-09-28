@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ColorOverlayFilter 纯色叠加滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    input[type="color"] {
+      width: 80px;
+      height: 28px;
+      border: none;
+      cursor: pointer;
+    }
+    .val {
+      width: 50px;
+      text-align: right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>叠加颜色</label>
+        <input type="color" id="inpColor" value="#ff3333">
+      </div>
+      <div class="row">
+        <label>alpha 叠加强度</label>
+        <input type="range" min="0" max="1" step="0.02" id="inpAlpha">
+        <span class="val">0.60</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        color：叠加纯色；alpha控制蒙层不透明度<br/>
+        保留原图亮度与alpha通道，只替换色彩<br/>
+        alpha=0 原图；alpha=1 完整纯色剪影
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const overlayFilter = new PIXI.filters.ColorOverlayFilter({
+      color: 0xff3333,
+      alpha: 0.6
+    });
+    sprite.filters = [overlayFilter];
+
+    const inpColor = document.getElementById('inpColor');
+    const inpAlpha = document.getElementById('inpAlpha');
+    inpAlpha.value = 0.60;
+
+    // hex字符串转pixi数字颜色
+    function hexToPixi(hexStr) {
+      return parseInt(hexStr.replace('#',''), 16);
+    }
+
+    inpColor.oninput = ()=>{
+      overlayFilter.color = hexToPixi(inpColor.value);
+    };
+
+    inpAlpha.oninput = ()=>{
+      const v = Number(inpAlpha.value);
+      overlayFilter.alpha = v;
+      inpAlpha.nextElementSibling.textContent = v.toFixed(2);
+    };
+  </script>
+</body>
+</html>

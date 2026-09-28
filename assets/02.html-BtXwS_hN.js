@@ -1,0 +1,106 @@
+import{ar as s,as as a,at as t,au as e}from"./app-CUiZF7NJ.js";const o={};function c(d,n){return e(),a("div",null,[...n[0]||(n[0]=[t(`<h1 id="二、数据定义" tabindex="-1"><a class="header-anchor" href="#二、数据定义"><span>二、数据定义</span></a></h1><h2 id="_2-1-变量与字面量" tabindex="-1"><a class="header-anchor" href="#_2-1-变量与字面量"><span>2.1 变量与字面量</span></a></h2><h3 id="_2-1-1-字面量" tabindex="-1"><a class="header-anchor" href="#_2-1-1-字面量"><span>2.1.1 字面量</span></a></h3><p><strong>字面量</strong>（Literal）是JavaScript中最基本的单位，它就是一个直接使用的值，其所代表的含义就是它字面的意思。</p><p>常见的字面量类型：</p><table><thead><tr><th>字面量类型</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td>数字字面量</td><td><code>1</code>、<code>2</code>、<code>3</code>、<code>4</code>、<code>100</code></td><td>整数值</td></tr><tr><td>字符串字面量</td><td><code>&#39;hello&#39;</code>、<code>&quot;world&quot;</code></td><td>文本内容</td></tr><tr><td>布尔字面量</td><td><code>true</code>、<code>false</code></td><td>逻辑值</td></tr><tr><td>空值字面量</td><td><code>null</code>、<code>undefined</code></td><td>表示&quot;无&quot;</td></tr><tr><td>对象字面量</td><td><code>{}</code>、<code>{name: &#39;张三&#39;}</code></td><td>对象</td></tr><tr><td>数组字面量</td><td><code>[]</code>、<code>[1, 2, 3]</code></td><td>数组</td></tr></tbody></table><p>在JavaScript中，所有的字面量都可以直接使用：</p><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token comment">// 直接使用字面量</span></span>
+<span class="line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 字符串字面量</span></span>
+<span class="line"><span class="token function">alert</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                <span class="token comment">// 数字字面量</span></span>
+<span class="line">document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 布尔字面量</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote><p><strong>问题</strong>：虽然字面量可以直接使用，但每次都重新书写同一个值非常不便。例如，如果有多处使用了 <code>&quot;hello&quot;</code>，后期需要统一修改时，每处都要逐一更改，维护成本很高。因此，我们通常使用<strong>变量</strong>来存储字面量。</p></blockquote><h3 id="_2-1-2-变量" tabindex="-1"><a class="header-anchor" href="#_2-1-2-变量"><span>2.1.2 变量</span></a></h3><p><strong>变量</strong>（Variable）可以理解为&quot;存储字面量的容器&quot;，它让数据有了名称和描述，便于复用和修改。</p><p>变量的核心特点：</p><ul><li>变量中可以存储字面量（值）</li><li>变量中存储的值可以随时修改</li><li>通过变量名可以描述数据的含义，使代码更具可读性</li></ul><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token comment">// 变量声明与赋值</span></span>
+<span class="line"><span class="token keyword">let</span> x<span class="token punctuation">;</span>          <span class="token comment">// 声明变量 x</span></span>
+<span class="line">x <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span>         <span class="token comment">// 存入数字 80</span></span>
+<span class="line">x <span class="token operator">=</span> <span class="token string">&#39;哈哈&#39;</span><span class="token punctuation">;</span>     <span class="token comment">// 修改变量的值为字符串（变量可以存储不同类型的值）</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 有意义的变量名</span></span>
+<span class="line"><span class="token keyword">let</span> age<span class="token punctuation">;</span>        <span class="token comment">// 用 age 描述&quot;年龄&quot;</span></span>
+<span class="line">age <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span></span>
+<span class="line">age <span class="token operator">=</span> <span class="token number">81</span><span class="token punctuation">;</span>       <span class="token comment">// 年龄修改为81</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="_2-1-3-变量的使用" tabindex="-1"><a class="header-anchor" href="#_2-1-3-变量的使用"><span>2.1.3 变量的使用</span></a></h3><p>变量的使用分为三个步骤：</p><table><thead><tr><th>步骤</th><th>语法</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td><strong>声明变量</strong></td><td><code>let 变量名</code></td><td><code>let abc;</code></td><td>告诉JS引擎要创建一个变量</td></tr><tr><td><strong>变量赋值</strong></td><td><code>变量名 = 值</code></td><td><code>abc = &quot;黄金&quot;;</code></td><td>将值存入变量中</td></tr><tr><td><strong>声明+赋值</strong></td><td><code>let 变量名 = 值</code></td><td><code>let i = 100;</code></td><td>一步完成声明和赋值</td></tr></tbody></table><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token comment">// 1. 先声明，再赋值</span></span>
+<span class="line"><span class="token keyword">let</span> abc<span class="token punctuation">;</span>            <span class="token comment">// 声明变量 abc</span></span>
+<span class="line">abc <span class="token operator">=</span> <span class="token string">&quot;黄金&quot;</span><span class="token punctuation">;</span>       <span class="token comment">// 赋值</span></span>
+<span class="line">abc <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>         <span class="token comment">// 重新赋值（类型可以改变）</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 2. 声明与赋值同时进行（推荐写法）</span></span>
+<span class="line"><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>        <span class="token comment">// 声明变量 i 并初始化为 100</span></span>
+<span class="line"><span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">&quot;张三&quot;</span><span class="token punctuation">;</span>   <span class="token comment">// 声明变量 name 并初始化为 &quot;张三&quot;</span></span>
+<span class="line"><span class="token keyword">let</span> isStudent <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// 声明变量 isStudent 并初始化为 true</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><blockquote><p><strong>注意</strong>：在JavaScript中，变量可以存储任意类型的值，并且可以在赋值时改变类型（这被称为&quot;动态类型&quot;）。</p></blockquote><h3 id="_2-1-4-变量声明方式的演进" tabindex="-1"><a class="header-anchor" href="#_2-1-4-变量声明方式的演进"><span>2.1.4 变量声明方式的演进</span></a></h3><table><thead><tr><th>关键字</th><th>引入版本</th><th>特点</th><th>使用建议</th></tr></thead><tbody><tr><td><code>var</code></td><td>ES5</td><td>函数作用域，存在变量提升</td><td>现代开发中已逐渐被淘汰</td></tr><tr><td><code>let</code></td><td>ES6（ES2015）</td><td>块级作用域，不存在变量提升</td><td><strong>推荐使用</strong></td></tr><tr><td><code>const</code></td><td>ES6（ES2015）</td><td>块级作用域，声明后不可重新赋值</td><td>用于声明常量</td></tr></tbody></table><blockquote><p><strong>建议</strong>：在日常开发中，优先使用 <code>let</code> 和 <code>const</code>，避免使用 <code>var</code>。</p></blockquote><h2 id="_2-2-变量的内存结构" tabindex="-1"><a class="header-anchor" href="#_2-2-变量的内存结构"><span>2.2 变量的内存结构</span></a></h2><p>理解变量在内存中的存储方式，对于后续学习引用类型和函数传参非常重要。</p><p><strong>核心概念</strong>：变量中并不直接存储值本身，而是存储值在内存中的地址（引用）。</p><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token keyword">let</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>          <span class="token comment">// 基本类型：变量中直接存储值</span></span>
+<span class="line"><span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 引用类型：变量中存储的是数组在内存中的地址</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div></div></div><table><thead><tr><th>变量名</th><th>存储内容</th><th>说明</th></tr></thead><tbody><tr><td><code>x</code>（基本类型）</td><td><code>10</code>（值本身）</td><td>基本类型直接存储在变量中</td></tr><tr><td><code>arr</code>（引用类型）</td><td><code>0x00A1</code>（内存地址）</td><td>引用类型存储的是指向实际数据的地址</td></tr></tbody></table><p><strong>基本类型-内存结构图</strong></p><code><pre class="mermaid" id="mermaid-qa267va">            graph LR
+    subgraph Code[&quot;JavaScript 代码&quot;]
+        direction LR
+        C1[&quot;let num = 100;&quot;]
+        C2[&quot;let str = &#39;hello&#39;;&quot;]
+        C3[&quot;let flag = true;&quot;]
+    end
+
+    subgraph Stack[&quot;栈内存（Stack）&quot;]
+        direction LR
+        S1[&quot;变量 num ➜ 100&quot;]
+        S2[&quot;变量 str ➜ &#39;hello&#39;&quot;]
+        S3[&quot;变量 flag ➜ true&quot;]
+    end
+
+    C1 -.-&gt; S1
+    C2 -.-&gt; S2
+    C3 -.-&gt; S3
+
+    style Code fill:#f5f5f5,stroke:#999,stroke-dasharray:5
+    style Stack fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style S1 fill:#bbdefb,stroke:#1565c0
+    style S2 fill:#bbdefb,stroke:#1565c0
+    style S3 fill:#bbdefb,stroke:#1565c0
+
+          </pre></code><p><strong>引用类型-内存结构图</strong></p><code><pre class="mermaid" id="mermaid-89wxa6j">            graph LR
+    subgraph Code[&quot;JavaScript 代码&quot;]
+        direction LR
+        C1[&quot;let arr1 = [10, 20, 30];&quot;]
+        C2[&quot;let arr2 = arr1;&quot;]
+    end
+
+    subgraph Stack[&quot;栈内存（Stack）&quot;]
+        direction LR
+        S1[&quot;变量 arr1 ➜ 0x11&quot;]
+        S2[&quot;变量 arr2 ➜ 0x11&quot;]
+    end
+
+    subgraph Heap[&quot;堆内存（Heap）&quot;]
+        direction LR
+        H[&quot;0x11 ➜ [10, 20, 30]&quot;]
+    end
+
+    C1 -.-&gt; S1
+    C2 -.-&gt; S2
+    S1 --&gt; H
+    S2 --&gt; H
+
+    style Code fill:#f5f5f5,stroke:#999,stroke-dasharray:5
+    style Stack fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Heap fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style H fill:#fff8e1,stroke:#f9a825,stroke-width:2px
+    style S1 fill:#bbdefb,stroke:#1565c0
+    style S2 fill:#bbdefb,stroke:#1565c0
+
+          </pre></code><blockquote><p><strong>引申知识</strong>：</p><ul><li><strong>基本类型</strong>（Number、String、Boolean、null、undefined）：变量直接存储值，赋值时复制值本身。</li><li><strong>引用类型</strong>（Object、Array、Function）：变量存储内存地址，赋值时复制地址（多个变量可以指向同一份数据）。</li></ul></blockquote><h2 id="_2-3-常量" tabindex="-1"><a class="header-anchor" href="#_2-3-常量"><span>2.3 常量</span></a></h2><p><strong>常量</strong>（Constant）是值不可变的变量，一旦声明并赋值后，不能再重新赋值。</p><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token comment">// 使用 const 声明常量</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token constant">PI</span> <span class="token operator">=</span> <span class="token number">3.1415926</span><span class="token punctuation">;</span>   <span class="token comment">// 声明常量 PI</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 重复赋值会报错</span></span>
+<span class="line"><span class="token comment">// PI = 3.14;           // TypeError: Assignment to constant variable</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>常量的命名规范</strong>：</p><table><thead><tr><th>规范</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td>全部大写</td><td><code>const MAX_SIZE = 100;</code></td><td>多个单词用下划线分隔</td></tr><tr><td>单词间用下划线</td><td><code>const MAX_LENGTH = 50;</code></td><td>提高可读性</td></tr></tbody></table><blockquote><p><strong>使用建议</strong>：</p><ul><li>对于不会改变的值（如数学常数、配置参数），应优先使用 <code>const</code></li><li>使用 <code>const</code> 可以让代码意图更清晰，减少意外修改的风险</li><li>注意：<code>const</code> 保证的是<strong>变量指向的地址不可变</strong>，如果指向的是对象，对象内部的属性仍然可以修改</li></ul></blockquote><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token keyword">const</span> <span class="token constant">PERSON</span> <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&#39;张三&#39;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token constant">PERSON</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">&#39;李四&#39;</span><span class="token punctuation">;</span>   <span class="token comment">// 允许：对象内容可以修改</span></span>
+<span class="line"><span class="token comment">// PERSON = {};         // 报错：不能重新赋值给常量</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="_2-4-标识符" tabindex="-1"><a class="header-anchor" href="#_2-4-标识符"><span>2.4 标识符</span></a></h2><p><strong>标识符</strong>（Identifier）是JavaScript中所有可以由开发者自主命名的名称，包括：</p><ul><li>变量名：<code>let userName;</code></li><li>函数名：<code>function getUser() {}</code></li><li>类名：<code>class Person {}</code></li><li>属性名：<code>obj.propertyName</code></li><li>参数名：<code>function foo(param) {}</code></li></ul><ol><li><p>标识符的命名规则（必须遵守）</p><table><thead><tr><th>规则</th><th>说明</th><th>正确示例</th><th>错误示例</th></tr></thead><tbody><tr><td>只能包含字母、数字、下划线、<code>$</code></td><td>不能包含空格、特殊字符</td><td><code>name</code>、<code>_age</code>、<code>$price</code></td><td><code>user-name</code>、<code>@home</code></td></tr><tr><td>不能以数字开头</td><td>首字符不能是数字</td><td><code>a1</code>、<code>_1</code>、<code>$1</code></td><td><code>1a</code>、<code>2_name</code></td></tr><tr><td>不能是关键字或保留字</td><td>如 <code>let</code>、<code>const</code>、<code>if</code>、<code>for</code> 等</td><td><code>myLet</code>、<code>_if</code></td><td><code>let</code>、<code>const</code></td></tr><tr><td>不建议使用内置函数/类名</td><td>避免覆盖原生功能</td><td><code>userName</code></td><td><code>String</code>、<code>Array</code>、<code>console</code></td></tr></tbody></table></li><li><p>标识符的命名规范（建议遵守）</p><p><strong>命名规范</strong>是行业约定俗成的写法，虽然不是强制要求，但遵守规范能让代码更具可读性和团队协作性。</p><table><thead><tr><th>命名方式</th><th>规则</th><th>示例</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>小驼峰命名法</strong>（camelCase）</td><td>首字母小写，后续单词首字母大写</td><td><code>maxLength</code>、<code>borderLeftWidth</code></td><td>变量名、函数名、参数名</td></tr><tr><td><strong>大驼峰命名法</strong>（PascalCase）</td><td>所有单词首字母大写</td><td><code>MaxLength</code>、<code>BorderLeftWidth</code></td><td>类名、构造函数</td></tr><tr><td><strong>全大写+下划线</strong>（SCREAMING_SNAKE_CASE）</td><td>全部大写，单词间用下划线</td><td><code>MAX_LENGTH</code>、<code>PI</code>、<code>API_BASE_URL</code></td><td>常量</td></tr></tbody></table><div class="language-javascript line-numbers-mode" data-highlighter="prismjs" data-ext="js"><pre><code class="language-javascript"><span class="line"><span class="token comment">// 小驼峰命名法（变量、函数）</span></span>
+<span class="line"><span class="token keyword">let</span> userName <span class="token operator">=</span> <span class="token string">&#39;张三&#39;</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">let</span> maxFileSize <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span></span>
+<span class="line"></span>
+<span class="line"><span class="token keyword">function</span> <span class="token function">getUserInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token comment">// ...</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 大驼峰命名法（类）</span></span>
+<span class="line"><span class="token keyword">class</span> <span class="token class-name">PersonInfo</span> <span class="token punctuation">{</span></span>
+<span class="line">    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
+<span class="line">        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span></span>
+<span class="line">    <span class="token punctuation">}</span></span>
+<span class="line"><span class="token punctuation">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">// 全大写+下划线（常量）</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token constant">MAX_FILE_SIZE</span> <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">const</span> <span class="token constant">API_BASE_URL</span> <span class="token operator">=</span> <span class="token string">&#39;https://api.example.com&#39;</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></li><li><p>关键字与保留字</p><p>JavaScript中有一些保留字（Reserved Words）不能用作标识符，主要包括：</p><table><thead><tr><th>类别</th><th>示例</th></tr></thead><tbody><tr><td>控制语句</td><td><code>if</code>、<code>else</code>、<code>for</code>、<code>while</code>、<code>switch</code>、<code>break</code>、<code>continue</code></td></tr><tr><td>变量声明</td><td><code>let</code>、<code>const</code>、<code>var</code></td></tr><tr><td>函数/类</td><td><code>function</code>、<code>class</code>、<code>return</code>、<code>new</code>、<code>this</code>、<code>super</code></td></tr><tr><td>其他</td><td><code>try</code>、<code>catch</code>、<code>finally</code>、<code>typeof</code>、<code>instanceof</code>、<code>void</code></td></tr></tbody></table><blockquote><p><strong>提示</strong>：如果不确定某个词是否为关键字，可以在代码中尝试声明，编辑器会给出提示。</p></blockquote></li></ol>`,43)])])}const l=s(o,[["render",c]]),r=JSON.parse('{"path":"/script/JavaScript/base/02.html","title":"二、数据定义","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1790564252000,"contributors":[{"name":"zhao-farmer","username":"zhao-farmer","email":"857899180@qq.com","commits":2,"url":"https://github.com/zhao-farmer"}],"changelog":[{"hash":"cfbbc7f726ec8e4db66fff0788f0c77d25bef9b8","time":1790564252000,"email":"857899180@qq.com","author":"zhao-farmer","message":"前端代码记录"},{"hash":"c70b07d347b059fbe78c7770e7fa611a62f92633","time":1744806830000,"email":"857899180@qq.com","author":"zhao-farmer","message":"前端笔记提交"}]},"filePathRelative":"script/JavaScript/base/02.md"}');export{l as comp,r as data};

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>上下交替描边频谱图</title>
+  <style>
+    #db {
+      font-size: 20px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .warn {
+      color: #f44;
+    }
+
+    canvas {
+      background: #000;
+      border-radius: 6px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .audio-content {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="altCanvas" width="600" height="300"></canvas>
+  <div class="audio-content">
+    <audio id="audioPlayer" controls src="./audio/01.mp3"></audio>
+    <div>当前分贝：<span id="db">0</span> dB</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('altCanvas');
+    const ctx = canvas.getContext('2d');
+    const dbEl = document.getElementById('db');
+    const audioEl = document.getElementById('audioPlayer');
+
+    let audioContext, analyser, source, isReady = false;
+
+    // ========== RMS 相关参数 ==========
+    const bufferLength = 2048;
+    const AVG_FRAME = 60;
+    let dbHistory = [];
+    const timeDataArray = new Uint8Array(bufferLength);
+
+    // ========== 频谱相关参数 ==========
+    const fftBinCount = 1024;
+    const dataArray = new Uint8Array(fftBinCount);
+    const BAR_COUNT = 64; // 交替点数量（建议偶数，保证首尾衔接）
+
+    audioEl.onplay = async () => {
+      if (!isReady) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = bufferLength;
+        analyser.smoothingTimeConstant = 0.85; // 描边线条建议稍高平滑度
+        source = audioContext.createMediaElementSource(audioEl);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        isReady = true;
+      }
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      loop();
+    };
+
+    function loop() {
+      if (audioEl.paused) return;
+
+      // 1. RMS 分贝计算
+      analyser.getByteTimeDomainData(timeDataArray);
+      let sumSq = 0;
+      for (let v of timeDataArray) {
+        const n = (v / 128.0) - 1.0;
+        sumSq += n * n;
+      }
+      const rms = Math.sqrt(sumSq / bufferLength);
+      const instantDb = 20 * Math.log10(Math.max(rms, 0.00001));
+      dbHistory.push(instantDb);
+      if (dbHistory.length > AVG_FRAME) dbHistory.shift();
+      const avgDb = dbHistory.reduce((s, v) => s + v, 0) / dbHistory.length;
+      dbEl.textContent = avgDb.toFixed(1);
+      dbEl.classList.toggle('warn', avgDb > -20);
+
+      // 2. 获取频域数据
+      analyser.getByteFrequencyData(dataArray);
+
+      // 3. 绘制交替描边
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const centerY = canvas.height / 2;
+      const step = Math.floor(fftBinCount / BAR_COUNT);
+      const sliceWidth = canvas.width / BAR_COUNT;
+
+      // 创建线性渐变（从左到右：绿 -> 黄 -> 红）
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
+      grad.addColorStop(0, 'hsl(120, 100%, 50%)');
+      grad.addColorStop(0.5, 'hsl(60, 100%, 50%)');
+      grad.addColorStop(1, 'hsl(0, 100%, 50%)');
+
+      ctx.beginPath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 4; // 描边粗细
+      ctx.lineJoin = 'round'; // 让拐角更圆润
+      ctx.lineCap = 'round';
+
+      // 预计算所有点，方便做平滑处理
+      const points = [];
+      for (let i = 0; i < BAR_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < step; j++) sum += dataArray[i * step + j];
+        const avgVal = sum / step;
+
+        const maxH = centerY - 10;
+        const h = (avgVal / 255) * maxH;
+
+        // 【核心】交替逻辑：偶数向上，奇数向下
+        const y = (i % 2 === 0) ? (centerY - h) : (centerY + h);
+        const x = i * sliceWidth + sliceWidth / 2; // 取柱子中心点
+
+        points.push({ x, y });
+      }
+
+      // 绘制平滑的交替连线
+      if (points.length > 0) {
+        ctx.moveTo(points[0].x, points[0].y);
+
+        for (let i = 0; i < points.length - 1; i++) {
+          const curr = points[i];
+          const next = points[i + 1];
+
+          // 计算控制点，让线条在交替拐角处更圆润
+          const cpx = (curr.x + next.x) / 2;
+          const cpy1 = curr.y;
+          const cpy2 = next.y;
+
+          // 使用贝塞尔曲线连接，形成类似“胶囊描边”的过渡
+          ctx.bezierCurveTo(cpx, cpy1, cpx, cpy2, next.x, next.y);
+        }
+      }
+
+      ctx.stroke();
+
+      // 可选：在中心画一条极淡的参考线
+      ctx.beginPath();
+      ctx.moveTo(0, centerY);
+      ctx.lineTo(canvas.width, centerY);
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+
+</html>

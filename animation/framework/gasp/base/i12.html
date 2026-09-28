@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+    }
+
+    .modal {
+      width: 100px;
+      height: 100px;
+      background: #ea4335;
+      margin: 10px;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="modal"></div>
+  <button id="slowGameBtn">游戏动画慢放</button>
+  <button id="globalPauseBtn">全局暂停globalTimeline</button>
+  <script>
+    const box = document.querySelector(".box");
+    const modal = document.querySelector(".modal");
+
+    // 先创建游戏动画（exportRoot之前）
+    gsap.to(box, { x: 250, duration: 2, repeat: -1, yoyo: true });
+
+    // 打包当前所有动画
+    const gameTl = gsap.exportRoot();
+
+    // exportRoot之后创建弹窗动画，不会被gameTl控制
+    gsap.from(modal, { scale: 0, duration: 1, repeat: -1, yoyo: true });
+
+    document.querySelector("#slowGameBtn").onclick = () => {
+      // 仅打包出来的box动画会变慢，modal不受影响
+      gsap.to(gameTl, { timeScale: 0.1, duration: 0.5 });
+    }
+    document.querySelector("#globalPauseBtn").onclick = () => {
+      // globalTimeline暂停，box 和 modal 全部动画都会暂停
+      gsap.globalTimeline.pause();
+    }
+  </script>
+</body>
+
+</html>

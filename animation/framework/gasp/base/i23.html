@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div>移动鼠标，方块跟随鼠标（quickSetter高频更新）</div>
+  <script>
+    const box = document.querySelector(".box");
+    // 创建快速设置器
+    const setX = gsap.quickSetter(box, "x", "px");
+    const setY = gsap.quickSetter(box, "y", "px");
+
+    document.addEventListener("mousemove", (e) => {
+      setX(e.clientX - 40);
+      setY(e.clientY - 40);
+    });
+  </script>
+</body>
+
+</html>

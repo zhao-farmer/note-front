@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>MotionBlurFilter 运动模糊滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    .val {
+      width: 60px;
+      text-align: right;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>velocity.x X速度</label>
+        <input type="range" min="-100" max="100" step="0.1" id="inpVelX">
+        <span class="val">40</span>
+      </div>
+      <div class="row">
+        <label>velocity.y Y速度</label>
+        <input type="range" min="-100" max="100" step="0.1" id="inpVelY">
+        <span class="val">40</span>
+      </div>
+      <div class="row">
+        <label>kernelSize 采样核</label>
+        <input type="range" min="3" max="21" step="2" id="inpKernelSize">
+        <span class="val">15</span>
+      </div>
+      <div class="row">
+        <label>offset 拖影偏移</label>
+        <input type="range" min="-1" max="1" step="0.01" id="inpOffset">
+        <span class="val">0</span>
+      </div>
+
+      <div style="font-size:12px;color:#555;">
+        MotionBlurFilter：矢量运动模糊<br />
+        velocity.x/y控制双向拖影；kernelSize为奇数；offset调整残影重心
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    const motionBlurFilter = new PIXI.filters.MotionBlurFilter({
+      velocity: { x:40, y:40 },
+      kernelSize: 15,
+      offset: 0
+    });
+    sprite.filters = [motionBlurFilter];
+
+    const inpVelX = document.getElementById('inpVelX');
+    const inpVelY = document.getElementById('inpVelY');
+    const inpKernelSize = document.getElementById('inpKernelSize');
+    const inpOffset = document.getElementById('inpOffset');
+
+    const valVelX = inpVelX.nextElementSibling;
+    const valVelY = inpVelY.nextElementSibling;
+    const valKernelSize = inpKernelSize.nextElementSibling;
+    const valOffset = inpOffset.nextElementSibling;
+
+    //初始化控件
+    inpVelX.value = motionBlurFilter.velocity.x;
+    valVelX.textContent = motionBlurFilter.velocity.x.toFixed(1);
+    inpVelY.value = motionBlurFilter.velocity.y;
+    valVelY.textContent = motionBlurFilter.velocity.y.toFixed(1);
+    inpKernelSize.value = motionBlurFilter.kernelSize;
+    valKernelSize.textContent = motionBlurFilter.kernelSize;
+    inpOffset.value = motionBlurFilter.offset;
+    valOffset.textContent = motionBlurFilter.offset.toFixed(2);
+
+    inpVelX.oninput = () => {
+      motionBlurFilter.velocity.x = Number(inpVelX.value);
+      valVelX.textContent = motionBlurFilter.velocity.x.toFixed(1);
+    };
+    inpVelY.oninput = () => {
+      motionBlurFilter.velocity.y = Number(inpVelY.value);
+      valVelY.textContent = motionBlurFilter.velocity.y.toFixed(1);
+    };
+    inpKernelSize.oninput = () => {
+      motionBlurFilter.kernelSize = Number(inpKernelSize.value);
+      valKernelSize.textContent = motionBlurFilter.kernelSize;
+    };
+    inpOffset.oninput = () => {
+      motionBlurFilter.offset = Number(inpOffset.value);
+      valOffset.textContent = motionBlurFilter.offset.toFixed(2);
+    };
+  </script>
+</body>
+</html>

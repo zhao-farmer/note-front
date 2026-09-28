@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>GlowFilter 辉光滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    canvas{
+      border: 1px solid #ccc;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex:1;
+    }
+    .val{
+      width:60px;
+      text-align:right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>glowColor 发光颜色</label>
+        <input type="color" id="inpGlowColor" value="#000000">
+      </div>
+      <div class="row">
+        <label>distance 发光距离</label>
+        <input type="range" min="0" max="30" step="1" id="inpDistance">
+        <span class="val">10</span>
+      </div>
+      <div class="row">
+        <label>outerStrength 外发光</label>
+        <input type="range" min="0" max="10" step="0.2" id="inpOuterStrength">
+        <span class="val">4</span>
+      </div>
+      <div class="row">
+        <label>innerStrength 内发光</label>
+        <input type="range" min="0" max="10" step="0.2" id="inpInnerStrength">
+        <span class="val">0</span>
+      </div>
+      <div class="row">
+        <label>alpha 发光透明度</label>
+        <input type="range" min="0" max="1" step="0.05" id="inpAlpha">
+        <span class="val">1</span>
+      </div>
+      <div class="row">
+        <label>quality 模糊质量</label>
+        <input type="range" min="0" max="1" step="0.05" id="inpQuality">
+        <span class="val">0.1</span>
+      </div>
+      <div class="row">
+        <label>knockout 抠除原图</label>
+        <input type="checkbox" id="chkKnockout">
+      </div>
+      <div style="font-size:12px;color:#555;">
+        GlowFilter：辉光发光滤镜<br/>
+        distance控制光晕扩散范围，outerStrength外发光亮度，innerStrength向内辉光，alpha控制光晕整体透明度；使用基础图形：矩形、圆形、三角形、五角星
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({
+      width: 345,
+      height: 460,
+      backgroundColor: 0xffffff
+    });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const container = new PIXI.Container();
+    app.stage.addChild(container);
+
+    //绘制基础图形：矩形、圆形、三角形、五角星
+    const rectGfx = new PIXI.Graphics();
+    rectGfx.rect(0,0,80,60).fill(0x3388dd);
+    rectGfx.position.set(40,40);
+    container.addChild(rectGfx);
+
+    const circleGfx = new PIXI.Graphics();
+    circleGfx.circle(0,0,35).fill(0xdd6644);
+    circleGfx.position.set(180,70);
+    container.addChild(circleGfx);
+
+    const triGfx = new PIXI.Graphics();
+    triGfx.moveTo(0,-40).lineTo(35,32).lineTo(-35,32).closePath().fill(0x22bb66);
+    triGfx.position.set(70,180);
+    container.addChild(triGfx);
+
+    const starGfx = new PIXI.Graphics();
+    const starR = 40;
+    starGfx.moveTo(0,-starR);
+    for(let i=1;i<10;i++){
+      const r = i%2===1 ? starR : starR*0.4;
+      const angle = (Math.PI*2*i)/10 - Math.PI/2;
+      starGfx.lineTo(Math.cos(angle)*r, Math.sin(angle)*r);
+    }
+    starGfx.closePath().fill(0xccaa22);
+    starGfx.position.set(200,220);
+    container.addChild(starGfx);
+
+    const glowFilter = new PIXI.filters.GlowFilter({
+      distance:10,
+      outerStrength:4,
+      innerStrength:0,
+      alpha:1,
+      color:0x000000,
+      quality:0.1,
+      knockout:false
+    });
+    container.filters = [glowFilter];
+
+    const inpGlowColor = document.getElementById('inpGlowColor');
+    const inpDistance = document.getElementById('inpDistance');
+    const inpOuterStrength = document.getElementById('inpOuterStrength');
+    const inpInnerStrength = document.getElementById('inpInnerStrength');
+    const inpAlpha = document.getElementById('inpAlpha');
+    const inpQuality = document.getElementById('inpQuality');
+    const chkKnockout = document.getElementById('chkKnockout');
+
+    const valDistance = inpDistance.nextElementSibling;
+    const valOuterStrength = inpOuterStrength.nextElementSibling;
+    const valInnerStrength = inpInnerStrength.nextElementSibling;
+    const valAlpha = inpAlpha.nextElementSibling;
+    const valQuality = inpQuality.nextElementSibling;
+
+    //初始化控件
+    inpGlowColor.value = '#' + glowFilter.color.toString(16).padStart(6,'0');
+    inpDistance.value = glowFilter.distance;
+    valDistance.textContent = glowFilter.distance;
+    inpOuterStrength.value = glowFilter.outerStrength;
+    valOuterStrength.textContent = glowFilter.outerStrength.toFixed(1);
+    inpInnerStrength.value = glowFilter.innerStrength;
+    valInnerStrength.textContent = glowFilter.innerStrength.toFixed(1);
+    inpAlpha.value = glowFilter.alpha;
+    valAlpha.textContent = glowFilter.alpha.toFixed(2);
+    inpQuality.value = glowFilter.quality;
+    valQuality.textContent = glowFilter.quality.toFixed(2);
+    chkKnockout.checked = glowFilter.knockout;
+
+    inpGlowColor.oninput = ()=>{
+      const hex = inpGlowColor.value.replace('#','');
+      glowFilter.color = parseInt(hex,16);
+    };
+    inpDistance.oninput = ()=>{
+      glowFilter.distance = Number(inpDistance.value);
+      valDistance.textContent = glowFilter.distance;
+    };
+    inpOuterStrength.oninput = ()=>{
+      glowFilter.outerStrength = Number(inpOuterStrength.value);
+      valOuterStrength.textContent = glowFilter.outerStrength.toFixed(1);
+    };
+    inpInnerStrength.oninput = ()=>{
+      glowFilter.innerStrength = Number(inpInnerStrength.value);
+      valInnerStrength.textContent = glowFilter.innerStrength.toFixed(1);
+    };
+    inpAlpha.oninput = ()=>{
+      glowFilter.alpha = Number(inpAlpha.value);
+      valAlpha.textContent = glowFilter.alpha.toFixed(2);
+    };
+    inpQuality.oninput = ()=>{
+      glowFilter.quality = Number(inpQuality.value);
+      valQuality.textContent = glowFilter.quality.toFixed(2);
+    };
+    chkKnockout.onchange = ()=>{
+      glowFilter.knockout = chkKnockout.checked;
+    };
+  </script>
+</body>
+</html>

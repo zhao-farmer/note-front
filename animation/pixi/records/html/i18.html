@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ColorReplaceFilter 颜色替换滤镜</title>
+  <script src="./js/pixi.js"></script>
+  <script src="./js/pixi-filters.js"></script>
+  <style>
+    .wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .panel {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid #ccc;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    label {
+      width: 140px;
+      font-size: 14px;
+    }
+    input[type="range"] {
+      flex: 1;
+    }
+    input[type="color"] {
+      width: 80px;
+      height: 28px;
+      border: none;
+      cursor: pointer;
+    }
+    .val {
+      width: 50px;
+      text-align: right;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="canvasWrap"></div>
+    <div class="panel">
+      <div class="row">
+        <label>被替换源颜色</label>
+        <input type="color" id="inpOriginal" value="#ff0000">
+      </div>
+      <div class="row">
+        <label>替换目标颜色</label>
+        <input type="color" id="inpNew" value="#00ff00">
+      </div>
+      <div class="row">
+        <label>tolerance 颜色容差</label>
+        <input type="range" min="0" max="1" step="0.01" id="inpTolerance">
+        <span class="val">0.20</span>
+      </div>
+      <div style="font-size:12px;color:#555;">
+        originalColor：要抠除/替换的原色<br/>
+        targetColor：输出新颜色<br/>
+        tolerance：容差越大，相近颜色也会被替换
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const app = new PIXI.Application();
+    await app.init({ width: 345, height: 460 });
+    document.querySelector('#canvasWrap').appendChild(app.canvas);
+
+    const tex = await PIXI.Assets.load('./image/01.jpg');
+    const sprite = PIXI.Sprite.from(tex);
+    sprite.scale.set(0.5);
+    app.stage.addChild(sprite);
+
+    function hexToPixi(hexStr) {
+      return parseInt(hexStr.replace('#',''), 16);
+    }
+
+    const replaceFilter = new PIXI.filters.ColorReplaceFilter({
+      originalColor: 0xff0000,
+      targetColor: 0x00ff00,
+      tolerance: 0.2
+    });
+    sprite.filters = [replaceFilter];
+
+    const inpOriginal = document.getElementById('inpOriginal');
+    const inpNew = document.getElementById('inpNew');
+    const inpTolerance = document.getElementById('inpTolerance');
+    inpTolerance.value = 0.20;
+
+    inpOriginal.oninput = ()=>{
+      replaceFilter.originalColor = hexToPixi(inpOriginal.value);
+    };
+    inpNew.oninput = ()=>{
+      replaceFilter.targetColor = hexToPixi(inpNew.value);
+    };
+    inpTolerance.oninput = ()=>{
+      const v = Number(inpTolerance.value);
+      replaceFilter.tolerance = v;
+      inpTolerance.nextElementSibling.textContent = v.toFixed(2);
+    };
+  </script>
+</body>
+</html>

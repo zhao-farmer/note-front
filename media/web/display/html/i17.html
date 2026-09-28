@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>MediaBunny cover模式缩略图</title>
+  <script src="./js/pixi.js"></script>
+</head>
+
+<body>
+  <script type="module">
+    import { Input, UrlSource, VideoSampleSink, ALL_FORMATS } from './js/mediabunny.1.42.mjs';
+
+
+    (async () => {
+      const app = new PIXI.Application();
+      await app.init({
+        width: 800,
+        height: 220,
+        backgroundColor: 0x222222,
+        antialias: true
+      });
+      document.body.appendChild(app.canvas);
+
+
+      const clipContainer = new PIXI.Container();
+      clipContainer.y = 50;
+      app.stage.addChild(clipContainer);
+
+
+      let isResizing = false;
+      let viewWidth = 600;
+      let totalThumbWidth = 0;
+
+
+      // ========= 新增 trackWidth 每个缩略单元格固定宽度 =========
+      const TRACK_CONFIG = {
+        trackHeight: 100,
+        trackWidth: 120,     // 每个缩略图容器固定宽度
+        spacing: 4,
+        paddingV: 8
+      };
+
+      const { trackWidth, trackHeight, spacing, paddingV } = TRACK_CONFIG;
+      const cellImgH = trackHeight - paddingV * 2; // 图片可用高度
+      const cellW = trackWidth;                    // 每个格子固定宽
+
+      const bgGraphics = new PIXI.Graphics();
+      clipContainer.addChild(bgGraphics);
+
+      const thumbContainer = new PIXI.Container();
+      clipContainer.addChild(thumbContainer);
+
+      const maskGraphics = new PIXI.Graphics();
+      maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+      thumbContainer.addChild(maskGraphics);
+      thumbContainer.mask = maskGraphics;
+
+
+      const handle = new PIXI.Graphics();
+      clipContainer.addChild(handle);
+      handle.eventMode = 'static';
+      handle.cursor = 'ew-resize';
+
+      /** @type {PIXI.Sprite[]} */
+      const thumbSprites = [];
+
+
+      function bakeFrameToSprite(frame) {
+        const tempTexture = PIXI.Texture.from(frame);
+        const tempSprite = new PIXI.Sprite(tempTexture);
+
+        const renderTexture = PIXI.RenderTexture.create({
+          width: frame.displayWidth,
+          height: frame.displayHeight
+        });
+        app.renderer.render({
+          container: tempSprite,
+          target: renderTexture
+        });
+
+        tempSprite.destroy();
+        tempTexture.destroy(true);
+        return new PIXI.Sprite(renderTexture);
+      }
+
+
+      /**
+       * @param {number} total 总共划分多少等分帧
+       * @param {number} frameStart 起始下标包含
+       * @param {number} frameEnd 结束下标包含
+       */
+      async function extractFrames(total, frameStart, frameEnd) {
+        if (frameStart < 0) frameStart = 0;
+        if (frameEnd >= total) frameEnd = total - 1;
+        if (frameStart > frameEnd) {
+          throw new Error(`参数错误 frameStart(${frameStart}) > frameEnd(${frameEnd})`);
+        }
+
+        const input = new Input({
+          source: new UrlSource('./video/demo.mp4'),
+          formats: ALL_FORMATS,
+        });
+        const duration = await input.computeDuration();
+        const videoTrack = await input.getPrimaryVideoTrack();
+        if (!videoTrack) throw new Error("无视频轨道");
+
+        const dw = await videoTrack.getDisplayWidth();
+        const dh = await videoTrack.getDisplayHeight();
+        console.log('视频原始比例 dw/dh', dw, dh);
+
+        // 使用 getSample，不需要手动 new VideoDecoder
+        const sink = new VideoSampleSink(videoTrack);
+        const stepTime = duration / total;
+
+        thumbSprites.length = 0;
+
+        // 循环取 [frameStart ~ frameEnd] 的样本
+        for (let i = frameStart; i <= frameEnd; i++) {
+          const targetTimeSec = i * stepTime;
+          const videoSample = await sink.getSample(targetTimeSec);
+          if (!videoSample) {
+            console.warn(`i=${i} 时间${targetTimeSec.toFixed(2)}s 获取sample失败`);
+            continue;
+          }
+          const videoFrame = videoSample.toVideoFrame();
+          const spr = bakeFrameToSprite(videoFrame);
+          thumbSprites[i] = spr;
+
+          // 立刻释放，防止内存暴涨
+          videoFrame.close();
+          videoSample.close();
+        }
+
+        // ---------- cover模式渲染核心（完全复用你原有渲染逻辑，不用改动） ----------
+        thumbContainer.removeChildren();
+        thumbContainer.addChild(maskGraphics); // mask要加回去
+
+        let offsetX = 0;
+
+        for (let i = frameStart; i <= frameEnd; i++) {
+          const spr = thumbSprites[i];
+          if (!spr) continue;
+
+          // 每个缩略单元格容器，固定宽高，做mask裁切实现cover
+          const cellContainer = new PIXI.Container();
+          cellContainer.width = cellW;
+          cellContainer.height = cellImgH;
+
+          // cell的mask，超出部分裁掉
+          const cellMask = new PIXI.Graphics();
+          cellMask.rect(0, 0, cellW, cellImgH).fill(0xffffff);
+          cellContainer.addChild(cellMask);
+          cellContainer.mask = cellMask;
+
+          // 计算 cover 的scale
+          const texW = spr.texture.width;
+          const texH = spr.texture.height;
+          const texAspect = texW / texH;
+          const cellAspect = cellW / cellImgH;
+
+          let coverScale;
+          if (texAspect > cellAspect) {
+            // 图片更宽：以高度对齐，左右裁切
+            coverScale = cellImgH / texH;
+          } else {
+            // 图片更高：以宽度对齐，上下裁切
+            coverScale = cellW / texW;
+          }
+          spr.scale.set(coverScale);
+
+          // 居中
+          spr.x = (cellW - spr.width) / 2;
+          spr.y = (cellImgH - spr.height) / 2;
+
+          cellContainer.addChild(spr);
+
+          // 单元格放到轨道上，垂直位置受paddingV控制
+          cellContainer.x = offsetX;
+          cellContainer.y = paddingV;
+
+          thumbContainer.addChild(cellContainer);
+
+          offsetX += cellW + spacing;
+        }
+
+        totalThumbWidth = offsetX;
+        console.log(`extractFrames完成 [${frameStart}-${frameEnd}] totalWidth`, totalThumbWidth);
+      }
+
+
+      function updateView() {
+        bgGraphics.clear();
+        bgGraphics.rect(0, 0, viewWidth, trackHeight).fill(0x333355);
+
+        maskGraphics.clear();
+        maskGraphics.rect(0, 0, viewWidth, trackHeight).fill(0xffffff);
+
+        const handleH = 30;
+        const handleY = (trackHeight - handleH) / 2;
+        handle.clear();
+        handle.rect(viewWidth - 10, handleY, 10, handleH).fill(0xffffff);
+      }
+
+
+      handle.onpointerdown = () => {
+        isResizing = true;
+      };
+      app.canvas.addEventListener('pointerup', () => {
+        isResizing = false;
+      });
+      app.canvas.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const rect = app.canvas.getBoundingClientRect();
+        const global = new PIXI.Point(e.clientX - rect.left, e.clientY - rect.top);
+        const localX = clipContainer.toLocal(global).x;
+        viewWidth = Math.max(100, Math.min(totalThumbWidth, localX));
+        updateView();
+      });
+
+
+      await extractFrames(20, 5, 15);
+      updateView();
+    })();
+  </script>
+</body>
+
+</html>

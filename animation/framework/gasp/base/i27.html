@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .box {
+      width: 80px;
+      height: 80px;
+      background: #4285f4;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .item {
+      width: 60px;
+      height: 60px;
+      background: #ea4335;
+      margin: 8px;
+      display: inline-block;
+    }
+  </style>
+  <script src="../js/gsap.min.js"></script>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+  <br>
+  <button id="playBtn">播放fadeInUp效果</button>
+  <script>
+    // 注册effect
+    gsap.registerEffect({
+      name: "fadeInUp",
+      defaults: { duration: 0.6, y: 30, stagger: 0.1 },
+      extendTimeline: true,
+      effect: (targets, config) => {
+        return gsap.from(targets, {
+          opacity: 0,
+          y: config.y,
+          duration: config.duration,
+          stagger: config.stagger
+        });
+      }
+    });
+
+    document.querySelector("#playBtn").onclick = () => {
+      gsap.killTweensOf([".box", ".item"]);
+      const tl = gsap.timeline();
+      tl.fadeInUp(".box")
+        .fadeInUp(".item", { y: 40 });
+    }
+  </script>
+</body>
+
+</html>
